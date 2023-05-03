@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from '../../../config/axios'
-const token = localStorage.getItem('adminKey')
 
 const initialState = {
     admin: null,
@@ -32,10 +31,10 @@ export const adminAuthSlice = createSlice({
             state.message = ''
         },
         setAdmin: (state, action) => {
-            console.log(action, 'hhh');
             state.admin = action.payload
         },
         logOut: (state) => {
+            localStorage.removeItem('adminData');
             state.admin = null
         }
     },
@@ -46,7 +45,7 @@ export const adminAuthSlice = createSlice({
         [loginAdmin.fulfilled]: (state, action) => {
             localStorage.setItem('adminData', JSON.stringify(action.payload.data.admin));
             state.isLoading = false
-            state.admin = action.payload.data
+            state.admin = action.payload.data.admin
 
         },
         [loginAdmin.rejected]: (state, action) => {

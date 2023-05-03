@@ -14,11 +14,10 @@ function Login() {
 
   useEffect(() => {
     if (isError) {
-      console.log('hiii');
       toast.error(message)
-      dispatch(reset)
+      dispatch(reset())
     }
-    if(!!loacl.token){
+    if(loacl?.token){
       navigate('/admin')
     }
   })

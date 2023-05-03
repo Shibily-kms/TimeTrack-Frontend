@@ -1,5 +1,7 @@
 import axios from 'axios'
-const token = false
+let token = JSON.parse(localStorage.getItem('adminData'))
+token = token?.token 
+
 
 const instance = axios.create({
     baseURL: 'http://localhost:8000/',

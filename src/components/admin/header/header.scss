@@ -1,0 +1,21 @@
+@import '../../../assets/scss/color.scss';
+@import '../../../assets/scss/model.scss';
+
+.header {
+    .boader {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 5%;
+        background-color: $blue_color;
+        color: white;
+        align-items: center;
+
+        .right {
+            button {
+                @include normalButton();
+                background-color: white;
+                color: black;
+            }
+        }
+    }
+}

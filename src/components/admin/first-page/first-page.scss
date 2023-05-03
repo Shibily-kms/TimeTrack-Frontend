@@ -1,0 +1,94 @@
+@import '../../../assets/scss/model.scss';
+
+.first-page {
+    position: relative;
+
+    .container {
+        .top {
+            width: 100%;
+            text-align: center;
+            padding: 5px 10px;
+            border-bottom: solid 1px gray;
+        }
+
+        .bottom {
+            margin-top: 20px;
+
+            .boader {
+                display: grid;
+                grid-template-columns: 25% 25% 25% 25%;
+                gap: 12px;
+                box-sizing: border-box;
+
+                .button-div {
+                    button {
+                        @include normalButton();
+                        width: 100%;
+                        padding-top: 20px;
+                        padding-bottom: 20px;
+                        font-size: 12px;
+                    }
+                }
+            }
+        }
+    }
+
+
+    .shadow {
+        background-color: rgba(187, 187, 187, 0.274);
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: calc(100vh);
+        backdrop-filter: blur(3px);
+        z-index: 1;
+    }
+
+    .model {
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        position: fixed;
+        z-index: 2;
+        display: grid;
+        place-content: center;
+        background: none;
+
+        .box {
+            background-color: white;
+            width: 350px;
+            max-width: 100%;
+            height: auto;
+            max-height: 80vh;
+            border-radius: 15px;
+            //overflow-y: auto;
+            -webkit-border-radius: 15px;
+            -moz-border-radius: 15px;
+            -ms-border-radius: 15px;
+            -o-border-radius: 15px;
+            .header{
+                padding: 10px 15px;
+                display: flex;
+                justify-content: space-between;
+                border-bottom: 1px solid gray;
+                align-items: center;
+            }
+            .content{
+                padding: 10px 15px;
+            }
+        }
+    }
+
+
+    @media screen and (max-width:700px) {
+        .container {
+            .bottom {
+                .boader {
+                    grid-template-columns: 50% 50%;
+                }
+            }
+        }
+    }
+}
