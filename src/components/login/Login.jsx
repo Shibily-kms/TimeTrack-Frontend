@@ -47,7 +47,7 @@ function Login({ url, admin }) {
                   </div>
                 </div>
                 <div className="button-div">
-                  <button type='submit'>Submit</button>
+                  <button type='submit'>LogIn</button>
                 </div>
               </form>
             </div>

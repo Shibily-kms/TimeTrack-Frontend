@@ -1,23 +1,23 @@
 import React, { useState } from 'react'
 import './add-designation.scss';
-import axios from '../../../config/axios'
+import { adminAxios } from '../../../config/axios'
 import { toast } from 'react-toastify'
 
-function Add_designation({setModel}) {
+function Add_designation({ setModel }) {
     const [form, setForm] = useState({ user_name: null, password: null })
     const handleChange = (e) => {
-      setForm({
-        ...form,
-        [e.target.name]: e.target.value
-      })
+        setForm({
+            ...form,
+            [e.target.name]: e.target.value
+        })
     }
 
-    const handleSubmit = (e)=>{
+    const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post('/admin/designation',form).then((response)=>{
+        adminAxios.post('/admin/designation', form).then((response) => {
             toast.success(response.data.message)
             setModel(null)
-        }).catch((error)=>{
+        }).catch((error) => {
             toast.error(error.response.data.message)
         })
 

@@ -27,10 +27,24 @@
 
             .inputs {
                 .input-div {
-                    margin-bottom: 15px;
+                    margin-bottom: 10px;
                     position: relative;
 
                     input {
+                        width: 100%;
+                        padding: 10px 15px;
+                        border-radius: 5px;
+                        -webkit-border-radius: 5px;
+                        -moz-border-radius: 5px;
+                        -ms-border-radius: 5px;
+                        -o-border-radius: 5px;
+                        outline: none;
+                        border: 1px solid black;
+                        margin-top: 5px;
+                        font-weight: 500;
+                        font-size: 14px;
+                    }
+                    select {
                         width: 100%;
                         padding: 10px 15px;
                         border-radius: 5px;

@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { adminAxios } from '../../../config/axios'
+import {userAxios} from '../../../config/axios'
 
 const initialState = {
-    admin: null,
+    user: null,
     isLoading: false,
     isSuccess: false,
     isError: false,
@@ -10,18 +10,18 @@ const initialState = {
 }
 
 
-export const loginAdmin = createAsyncThunk('admin/login', async (formData, thunkAPI) => {
+export const loginUser = createAsyncThunk('admin/login', async (formData, thunkAPI) => {
 
     try {
-        return await adminAxios.post('/admin/login', formData)
+        return await userAxios.post('/admin/login', formData)
     } catch (error) {
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
         return thunkAPI.rejectWithValue(message)
     }
 })
 
-export const adminAuthSlice = createSlice({
-    name: 'adminAuth',
+export const userAuthSlice = createSlice({
+    name: 'userAuth',
     initialState,
     reducers: {
         reset: (state) => {
@@ -30,25 +30,25 @@ export const adminAuthSlice = createSlice({
             state.isSuccess = false
             state.message = ''
         },
-        setAdmin: (state, action) => {
-            state.admin = action.payload
+        setUser: (state, action) => {
+            state.user = action.payload
         },
         logOut: (state) => {
-            localStorage.removeItem('adminData');
-            state.admin = null
+            localStorage.removeItem('userData');
+            state.user = null
         }
     },
     extraReducers: {
-        [loginAdmin.pending]: (state) => {
+        [loginUser.pending]: (state) => {
             state.isLoading = true
         },
-        [loginAdmin.fulfilled]: (state, action) => {
-            localStorage.setItem('adminData', JSON.stringify(action.payload.data.admin));
+        [loginUser.fulfilled]: (state, action) => {
+            localStorage.setItem('userData', JSON.stringify(action.payload.data.user));
             state.isLoading = false
-            state.admin = action.payload.data.admin
+            state.user = action.payload.data.user
 
         },
-        [loginAdmin.rejected]: (state, action) => {
+        [loginUser.rejected]: (state, action) => {
             state.isLoading = false
             state.isError = true
             state.message = action.payload
@@ -57,5 +57,5 @@ export const adminAuthSlice = createSlice({
 })
 
 
-export const { reset, logOut, setAdmin } = adminAuthSlice.actions;
-export default adminAuthSlice.reducer
+export const { reset, logOut, setUser } = userAuthSlice.actions;
+export default userAuthSlice.reducer
