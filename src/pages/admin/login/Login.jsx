@@ -17,13 +17,13 @@ function Login() {
       toast.error(message)
       dispatch(reset())
     }
-    if(loacl?.token){
+    if (loacl?.token) {
       navigate('/admin')
     }
   })
   return (
     <div>
-      <LoginComp url={'/admin/login'} admin={true} />
+      <LoginComp admin={true} />
     </div>
   )
 }

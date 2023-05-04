@@ -2,10 +2,11 @@ import React, { useState } from 'react'
 import './login.scss'
 import { RxEyeClosed, RxEyeOpen } from 'react-icons/rx';
 import { loginAdmin } from '../../redux/features/admin/authSlice';
+import { loginUser } from '../../redux/features/user/authSlice';
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-function Login({ url, admin }) {
+function Login({ admin }) {
   const dispatch = useDispatch()
   const navigate = useNavigate();
   const [show, setShow] = useState(false)
@@ -22,7 +23,8 @@ function Login({ url, admin }) {
       dispatch(loginAdmin(form))
       navigate('/admin')
     } else {
-      alert('no admin')
+      dispatch(loginUser(form))
+      navigate('/')
     }
   }
   return (
@@ -31,7 +33,7 @@ function Login({ url, admin }) {
         <div className="boader">
           <div className="box">
             <div className="header">
-              <h4>Login</h4>
+              <h4>{admin ? "Admin Login" : "Login"}</h4>
             </div>
             <div className="inputs">
               <form onSubmit={onSubmit}>

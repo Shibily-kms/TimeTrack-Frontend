@@ -10,10 +10,10 @@ const initialState = {
 }
 
 
-export const loginUser = createAsyncThunk('admin/login', async (formData, thunkAPI) => {
+export const loginUser = createAsyncThunk('user/login', async (formData, thunkAPI) => {
 
     try {
-        return await userAxios.post('/admin/login', formData)
+        return await userAxios.post('/login', formData)
     } catch (error) {
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
         return thunkAPI.rejectWithValue(message)

@@ -3,6 +3,8 @@ import Sing_up from '../../pages/user/sign-up/Sing_up'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { setUser } from '../../redux/features/user/authSlice'
+import Login from '../../pages/user/login/Login'
+import Home from '../../pages/user/home/Home'
 
 
 function User() {
@@ -19,9 +21,9 @@ function User() {
   }
   return (
     <Routes>
-    {/* <Route path='/' element={<PrivateRoute element={<Home />} isAuthenticated={isAuthenticated} />} /> */}
+    <Route path='/' element={<PrivateRoute element={<Home />} isAuthenticated={isAuthenticated} />} />
     <Route path='/sign-up' element={<Sing_up />} />
-    {/* <Route path='/login' element={<Login />} /> */}
+    <Route path='/login' element={<Login />} />
   </Routes>
   )
 }
