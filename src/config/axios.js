@@ -13,7 +13,7 @@ const baseSetup = {
         }
     }),
     adminAxios: axios.create({
-        baseURL: 'http://localhost:8000/',
+        baseURL: 'http://localhost:8000/admin/',
         headers: {
             'Authorization': `Bearer ${admin}`,
             'Content-Type': 'application/json'

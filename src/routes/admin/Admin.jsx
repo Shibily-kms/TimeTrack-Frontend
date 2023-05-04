@@ -2,6 +2,7 @@ import React from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import Login from '../../pages/admin/login/Login'
 import Home from '../../pages/admin/home/Home'
+import Add_work from '../../pages/admin/add-work/Add_work'
 import { useDispatch, useSelector } from 'react-redux'
 import { setAdmin } from '../../redux/features/admin/authSlice'
 
@@ -23,6 +24,7 @@ function Admin() {
   return (
     <Routes>
       <Route path='/' element={<PrivateRoute element={<Home />} isAuthenticated={isAuthenticated} />} />
+      <Route path='/add-work' element={<PrivateRoute element={<Add_work />} isAuthenticated={isAuthenticated} />} />
       <Route path='/login' element={<Login />} />
     </Routes>
   )

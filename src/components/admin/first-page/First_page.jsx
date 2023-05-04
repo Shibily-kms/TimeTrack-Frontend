@@ -3,6 +3,7 @@ import './first-page.scss'
 import { useSelector } from 'react-redux'
 import { IoCloseCircleOutline } from 'react-icons/io5'
 import Add_designation from '../designation/Add_designation'
+import Select_designation from '../designation/Select_designation'
 
 function First_page() {
   const { admin } = useSelector((state) => state.adminAuth)
@@ -19,8 +20,8 @@ function First_page() {
               <button onClick={() => setModel('ADD NEW DESIGNATION')}>ADD NEW DESIGNATION</button>
             </div>
             <div className="button-div">
-              <button>ADD NEW WORK TO A DESIGNATION
-              </button>
+              <button onClick={() => setModel('SELECT DESIGNATION')}>
+                ADD NEW WORK TO A DESIGNATION</button>
             </div>
             <div className="button-div">
               <button>VIEW STAFF WORK DETAILS
@@ -31,19 +32,22 @@ function First_page() {
       </div>
       {model ?
         <>
-          <div className="shadow" onClick={() => setModel(null)}></div>
-          <div className="model">
-            <div className="box">
-              <div className="header">
-                <div className="title">
-                  <h5>{model}</h5>
+          <div className="model" >
+            <div className="boader">
+              <div className="shadow" onClick={() => setModel(null)}></div>
+              <div className="box">
+                <div className="header">
+                  <div className="title">
+                    <h5>{model}</h5>
+                  </div>
+                  <div className="close-icon" onClick={() => setModel(null)}>
+                    <IoCloseCircleOutline />
+                  </div>
                 </div>
-                <div className="close-icon" onClick={() => setModel(null)}>
-                  <IoCloseCircleOutline />
+                <div className="content">
+                  {model === 'ADD NEW DESIGNATION' ? <Add_designation setModel={setModel} /> : ""}
+                  {model === 'SELECT DESIGNATION' ? <Select_designation setModel={setModel} /> : ""}
                 </div>
-              </div>
-              <div className="content">
-                {model === 'ADD NEW DESIGNATION' ? <Add_designation setModel={setModel} /> : ""}
               </div>
             </div>
           </div>

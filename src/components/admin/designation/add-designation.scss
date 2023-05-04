@@ -1,13 +1,14 @@
 @import '../../../assets/scss/color.scss';
 @import '../../../assets/scss/model.scss';
 
-.add-design{
+.add-design {
     .inputs {
         .input-div {
             margin-bottom: 15px;
             position: relative;
 
-            input {
+            input,
+            select {
                 width: 100%;
                 padding: 10px 15px;
                 border-radius: 5px;

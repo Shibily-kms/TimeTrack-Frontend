@@ -13,7 +13,7 @@ const initialState = {
 export const loginAdmin = createAsyncThunk('admin/login', async (formData, thunkAPI) => {
 
     try {
-        return await adminAxios.post('/admin/login', formData)
+        return await adminAxios.post('/login', formData)
     } catch (error) {
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
         return thunkAPI.rejectWithValue(message)

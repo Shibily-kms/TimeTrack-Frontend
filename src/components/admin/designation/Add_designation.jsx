@@ -14,7 +14,7 @@ function Add_designation({ setModel }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        adminAxios.post('/admin/designation', form).then((response) => {
+        adminAxios.post('/designation', form).then((response) => {
             toast.success(response.data.message)
             setModel(null)
         }).catch((error) => {
