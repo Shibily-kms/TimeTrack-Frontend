@@ -1,0 +1,14 @@
+
+.work-details-page {
+    .content {
+        display: grid;
+        grid-template-columns: 40% 60%;
+        width: 100%;
+        padding-top: 20px;
+        
+    }
+
+    @media screen and (max-width:900px) {
+        
+    }
+}

@@ -18,14 +18,12 @@ function Add_work() {
     const onSubmit = (e) => {
         e.preventDefault();
         adminAxios.post('/regular_work', form).then((response) => {
-            console.log(response);
             toast.success(response.data.message)
             setForm({
                 ...form,
                 regular_work: ''
             })
         }).catch((error) => {
-            console.log(error);
             toast.error(error.response.data.message)
             setForm({
                 ...form,

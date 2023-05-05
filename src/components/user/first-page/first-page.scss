@@ -1,0 +1,47 @@
+@import '../../../assets/scss/model.scss';
+
+.first-page-user {
+    position: relative;
+
+    .container {
+        .top {
+            width: 100%;
+            padding: 5px 10px;
+            border-bottom: solid 1px gray;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .bottom {
+            margin-top: 20px;
+
+            .boader {
+                display: grid;
+                grid-template-columns: 25% 25% 25% 25%;
+                gap: 12px;
+                box-sizing: border-box;
+
+                .button-div {
+                    button {
+                        @include normalButton();
+                        width: 100%;
+                        padding-top: 20px;
+                        padding-bottom: 20px;
+                        font-size: 12px;
+                    }
+                }
+            }
+        }
+    }
+
+
+    @media screen and (max-width:700px) {
+        .container {
+            .bottom {
+                .boader {
+                    grid-template-columns: 50% 50%;
+                }
+            }
+        }
+    }
+}

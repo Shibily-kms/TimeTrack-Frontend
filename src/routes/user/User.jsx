@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setUser } from '../../redux/features/user/authSlice'
 import Login from '../../pages/user/login/Login'
 import Home from '../../pages/user/home/Home'
+import Work_details from '../../pages/user/work-details/Work_details'
 
 
 function User() {
@@ -22,6 +23,7 @@ function User() {
   return (
     <Routes>
     <Route path='/' element={<PrivateRoute element={<Home />} isAuthenticated={isAuthenticated} />} />
+    <Route path='/enter-work-details' element={<PrivateRoute element={<Work_details />} isAuthenticated={isAuthenticated} />} />
     <Route path='/sign-up' element={<Sing_up />} />
     <Route path='/login' element={<Login />} />
   </Routes>
