@@ -1,0 +1,36 @@
+@import '../../../assets/scss/model.scss';
+
+.punching {
+    .boader {
+        padding: 10px;
+        display: grid;
+        grid-template-columns: 250px;
+        justify-content: center;
+
+        button {
+            @include normalButton();
+            margin: 5px 0;
+            background-color: rgb(255, 102, 0);
+
+            &:first-child {
+                background-color: seagreen;
+                margin-bottom: 30px;
+            }
+
+            &:last-child {
+                background-color: seagreen;
+                margin-top: 30px;
+            }
+        }
+
+        .opacity {
+            opacity: .5;
+            cursor: not-allowed;
+        }
+    }
+    @media screen and (max-width:900px) {
+        .boader{
+            grid-template-columns: 150px;
+        }
+    }
+}

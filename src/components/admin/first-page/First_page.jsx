@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import './first-page.scss'
 import { useSelector } from 'react-redux'
 import { IoCloseCircleOutline } from 'react-icons/io5'
-import Add_designation from '../designation/Add_designation'
-import Select_designation from '../designation/Select_designation'
+import Add_designation from '../models/Add_designation'
+import Select_designation from '../models/Select_designation'
+import Choose_dates from '../models/Choose_dates'
 
 function First_page() {
   const { admin } = useSelector((state) => state.adminAuth)
@@ -23,8 +24,8 @@ function First_page() {
               <button onClick={() => setModel('SELECT DESIGNATION')}>
                 ADD NEW WORK TO A DESIGNATION</button>
             </div>
-            <div className="button-div">
-              <button>VIEW STAFF WORK DETAILS
+            <div className="button-div" >
+              <button onClick={() => setModel('SELECT DATES')} >VIEW STAFF WORK DETAILS
               </button>
             </div>
           </div>
@@ -47,6 +48,7 @@ function First_page() {
                 <div className="content">
                   {model === 'ADD NEW DESIGNATION' ? <Add_designation setModel={setModel} /> : ""}
                   {model === 'SELECT DESIGNATION' ? <Select_designation setModel={setModel} /> : ""}
+                  {model === 'SELECT DATES' ? <Choose_dates setModel={setModel} /> : ""}
                 </div>
               </div>
             </div>
