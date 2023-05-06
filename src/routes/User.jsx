@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Sing_up from '../pages/user/sign-up/Sing_up'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -14,12 +14,15 @@ function User() {
   const { user } = useSelector((state) => state.userAuth)
   let loacl = JSON.parse(localStorage.getItem('userData'))
 
-  if (user && loacl?.token) {
-    setIsAuthenticated(true)
-  } else if (!user && loacl?.token) {
-    dispatch(setUser(loacl))
-    setIsAuthenticated(true)
-  }
+  useEffect(() => {
+    if (user && loacl?.token) {
+      setIsAuthenticated(true)
+    } else if (!user && loacl?.token) {
+      dispatch(setUser(loacl))
+      setIsAuthenticated(true)
+    }
+  }, [])
+
   return (
     <Routes>
       <Route path='/' element={<PrivateRoute element={<Home />} isAuthenticated={isAuthenticated} />} />
