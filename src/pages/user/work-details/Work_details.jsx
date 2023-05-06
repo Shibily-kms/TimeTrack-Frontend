@@ -13,7 +13,6 @@ function Work_details() {
   const [punchOut, setPunchOut] = useState(false)
   const [startBreak, setStartBreak] = useState(false)
   const [endBreak, setEndBreak] = useState(false)
-  const { user } = useSelector((state) => state.userAuth)
 
   useEffect(() => {
     userAxios.get('/punch-details').then((response) => {

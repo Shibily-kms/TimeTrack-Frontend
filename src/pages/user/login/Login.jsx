@@ -20,7 +20,8 @@ function Login() {
         if (loacl?.token) {
             navigate('/')
         }
-    })
+    }, [])
+    
     return (
         <div>
             <LoginComp />

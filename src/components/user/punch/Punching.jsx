@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import './punching.scss'
 import { userAxios } from '../../../config/axios'
 import { toast } from 'react-toastify'
@@ -16,7 +16,7 @@ function Punching({ punchDetails, setPunchDetails, punchIn, punchOut, startBreak
             })
         }
     }
-
+    // Handle PunchOut
     const handlePunchOut = () => {
         if (!punchOut) {
             userAxios.post('/punch-out', { id: punchDetails._id }).then((response) => {
@@ -30,7 +30,7 @@ function Punching({ punchDetails, setPunchDetails, punchIn, punchOut, startBreak
             })
         }
     }
-
+    // Handle Start break
     const handleStartBreak = () => {
         if (punchIn && !punchOut) {
             userAxios.post('/start-break', { id: punchDetails._id }).then((response) => {
@@ -45,6 +45,7 @@ function Punching({ punchDetails, setPunchDetails, punchIn, punchOut, startBreak
         }
     }
 
+    // Handle End Break
     const handleEndBreak = () => {
         if (punchIn && startBreak) {
             userAxios.post('/end-break', { id: punchDetails._id, break_id: punchDetails.break._id }).then((response) => {
@@ -58,7 +59,7 @@ function Punching({ punchDetails, setPunchDetails, punchIn, punchOut, startBreak
             })
         }
     }
-    
+
     return (
         <div className='punching' >
             <div className="boader">

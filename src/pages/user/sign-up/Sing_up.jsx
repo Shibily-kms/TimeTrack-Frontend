@@ -11,7 +11,7 @@ function Sing_up() {
         if (loacl?.token) {
             navigate('/')
         }
-    })  
+    },[])  
     return (
         <div>
             <Sign_upComp />

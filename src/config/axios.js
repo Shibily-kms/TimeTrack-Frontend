@@ -1,4 +1,5 @@
 import axios from 'axios'
+
 let admin = JSON.parse(localStorage.getItem('adminData'))
 admin = admin?.token
 let user = JSON.parse(localStorage.getItem('userData'))

@@ -3,7 +3,7 @@ import './login.scss'
 import { RxEyeClosed, RxEyeOpen } from 'react-icons/rx';
 import { loginAdmin } from '../../redux/features/admin/authSlice';
 import { loginUser } from '../../redux/features/user/authSlice';
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 function Login({ admin }) {
@@ -11,12 +11,14 @@ function Login({ admin }) {
   const navigate = useNavigate();
   const [show, setShow] = useState(false)
   const [form, setForm] = useState({ user_name: null, password: null })
+
   const handleChange = (e) => {
     setForm({
       ...form,
       [e.target.name]: e.target.value
     })
   }
+
   const onSubmit = (e) => {
     e.preventDefault();
     if (admin) {
@@ -27,6 +29,7 @@ function Login({ admin }) {
       navigate('/')
     }
   }
+
   return (
     <div>
       <div className="login-comp">

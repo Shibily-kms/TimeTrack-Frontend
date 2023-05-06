@@ -12,7 +12,7 @@ function Work({ punchDetails, punchIn, punchOut, startBreak, endBreak }) {
     const handleWork = (e) => {
         userAxios.post('/regular-work', { work: e.target.value, punch_id: punchDetails._id }).then((response) => {
             setWorks((state) => {
-                return state.map((value, index) => {
+                return state.map((value) => {
                     if (value.works === e.target.value) {
                         return {
                             ...value,
@@ -37,12 +37,13 @@ function Work({ punchDetails, punchIn, punchOut, startBreak, endBreak }) {
         })
     }
 
-
     useEffect(() => {
         userAxios.get('/works/' + user?.designation?.id).then((response) => {
             setWorks(response.data.works)
         })
     }, [])
+
+
     return (
         <div className='work'>
             <div className="boader">

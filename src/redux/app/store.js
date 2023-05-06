@@ -8,7 +8,6 @@ export const store = configureStore({
         // admin
         adminAuth: adminAuthReducer,
 
-
         // user
         userAuth: userAuthSlice
     }

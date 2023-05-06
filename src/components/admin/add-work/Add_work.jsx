@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
 import './add-work.scss'
 import { adminAxios } from '../../../config/axios';
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 function Add_work() {
     const location = useLocation()
-    const navigate = useNavigate();
     const designation = location.state && location.state
     const [form, setForm] = useState({ designation: designation?._id, regular_work: '' })
+
+    
     const handleChange = (e) => {
         setForm({
             ...form,
