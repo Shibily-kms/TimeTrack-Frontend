@@ -40,10 +40,11 @@ function Staff_work_table() {
   }
 
   const exportToExcel = (datas) => {
+    console.log(datas,'datas')
     const workbook = XLSX.utils.book_new();
     datas.forEach((staff, index) => {
       const sheetName = staff.staff_name;
-      const workSheetData = staff.dates.map((date) => {
+      const workSheetData = staff.dates.flatMap((date) => {
         const regular = date.regular_work.map((workObj) => ({
           date: date.date,
           type: 'regular_work  ',
