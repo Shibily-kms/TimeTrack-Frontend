@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import XLSX from 'xlsx';
+import * as XLSX from 'xlsx';
 import { useLocation } from 'react-router-dom'
 import './staff_work_table.scss'
 import { RiFileExcel2Fill } from 'react-icons/ri';
@@ -43,7 +43,7 @@ function Staff_work_table() {
     const workbook = XLSX.utils.book_new();
     datas.forEach((staff, index) => {
       const sheetName = staff.staff_name;
-      const workSheetData = staff.dates.flatMap((date) => {
+      const workSheetData = staff.dates.map((date) => {
         const regular = date.regular_work.map((workObj) => ({
           date: date.date,
           type: 'regular_work  ',
@@ -109,7 +109,7 @@ function Staff_work_table() {
                                     <td>Time end</td>
                                     <td>Duration</td>
                                   </tr>
-                                  {date.regular_work[0] ?
+                                  {date.regular_work?.[0] ?
                                     <>
                                       {date.regular_work.map((regular, index) => {
                                         return <tr >
@@ -122,7 +122,7 @@ function Staff_work_table() {
                                       })}
                                     </>
                                     : ""}
-                                  {date.extra_work[0] ?
+                                  {date.extra_work?.[0] ?
                                     <>
                                       {date.extra_work.map((extra, index) => {
                                         return <tr >
