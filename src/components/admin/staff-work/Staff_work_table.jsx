@@ -40,7 +40,7 @@ function Staff_work_table() {
   }
 
   const exportToExcel = (datas) => {
-    console.log(datas,'datas')
+
     const workbook = XLSX.utils.book_new();
     datas.forEach((staff, index) => {
       const sheetName = staff.staff_name;
@@ -81,18 +81,18 @@ function Staff_work_table() {
               </div>
               <div className="bottom">
                 {staff_works.map((staff) => {
-                  return <div className="collapse-div" key={staff._id}>
-                    <div className={collapse === staff._id ? "collapse-header boader" : "collapse-header"}
-                      onClick={() => handleCollapse(staff._id)}>
+                  return <div className="collapse-div" key={staff.name}>
+                    <div className={collapse === staff.name ? "collapse-header boader" : "collapse-header"}
+                      onClick={() => handleCollapse(staff.name)}>
                       <div className="left">
                         <h5>{staff.staff_name}</h5>
                       </div>
                       <div className="right">
                         <h5>{staff.designation}</h5>
-                        {collapse === staff._id ? <SlArrowUp /> : <SlArrowDown />}
+                        {collapse === staff.name ? <SlArrowUp /> : <SlArrowDown />}
                       </div>
                     </div>
-                    {collapse === staff._id ?
+                    {collapse === staff.name ?
                       <div className="collapse-body">
                         <div className="table-div">
                           <table>

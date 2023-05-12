@@ -22,11 +22,13 @@ function Login({ admin }) {
   const onSubmit = (e) => {
     e.preventDefault();
     if (admin) {
-      dispatch(loginAdmin(form))
-      navigate('/admin')
+      dispatch(loginAdmin(form)).then(() => {
+        navigate('/admin')
+      })
     } else {
-      dispatch(loginUser(form))
-      navigate('/')
+      dispatch(loginUser(form)).then(() => {
+        navigate('/')
+      })
     }
   }
 

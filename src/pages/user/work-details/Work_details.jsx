@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import './work-details.scss'
 import { userAxios } from '../../../config/axios'
-import { useSelector } from 'react-redux'
 import Header from '../../../components/user/header/Header'
 import Punching from '../../../components/user/punch/Punching'
 import Work from '../../../components/user/work/Work'
@@ -26,7 +25,7 @@ function Work_details() {
       setPunchIn(true)
       setPunchOut(false)
       setStartBreak(false)
-      setEndBreak(false)
+      setEndBreak(true)
     } else {
       setPunchOut(true)
       setStartBreak(true)
@@ -38,11 +37,12 @@ function Work_details() {
       setStartBreak(true)
       setEndBreak(true)
     }
-    if (!punchDetails?.break?.start) {
-      setEndBreak(true)
-    } else if (punchDetails?.break?.start && !punchDetails?.break?.end) {
+    if (punchDetails?.break?.start && punchDetails?.break?.end && !punchDetails?.punch_out) {
+      setStartBreak(false)
+    }else if (punchDetails?.break?.start && !punchDetails?.break?.end) {
       setPunchOut(true)
       setStartBreak(true)
+      setEndBreak(false)
     }
   }, [punchDetails])
 
