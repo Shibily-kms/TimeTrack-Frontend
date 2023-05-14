@@ -10,19 +10,22 @@ function Work({ punchDetails, punchIn, punchOut, startBreak, endBreak }) {
     const { user } = useSelector((state) => state.userAuth)
 
     const handleWork = (e) => {
-        userAxios.post('/regular-work', { work: e.target.value, punch_id: punchDetails._id }).then((response) => {
-            setWorks((state) => {
-                return state.map((value) => {
-                    if (value.works === e.target.value) {
-                        return {
-                            ...value,
-                            finished: true
+        let confirm = window.confirm('This work completed')
+        if (confirm) {
+            userAxios.post('/regular-work', { work: e.target.value, punch_id: punchDetails._id }).then((response) => {
+                setWorks((state) => {
+                    return state.map((value) => {
+                        if (value.works === e.target.value) {
+                            return {
+                                ...value,
+                                finished: true
+                            }
                         }
-                    }
-                    return value
+                        return value
+                    })
                 })
             })
-        })
+        }
     }
 
     const handleChange = (e) => {

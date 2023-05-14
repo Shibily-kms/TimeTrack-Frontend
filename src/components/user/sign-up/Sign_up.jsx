@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import '../../login/login.scss'
+import './sign-up.scss'
 import { RxEyeClosed, RxEyeOpen } from 'react-icons/rx';
 import { userAxios } from '../../../config/axios'
 import { useNavigate } from 'react-router-dom'
@@ -39,7 +39,7 @@ function Sign_up() {
     }, [])
     return (
         <div>
-            <div className="login-comp">
+            <div className="signup-comp">
                 <div className="boader">
                     <div className="box">
                         <div className="header">

@@ -58,6 +58,11 @@ function Login({ admin }) {
                 </div>
               </form>
             </div>
+            {!admin &&
+              <div style={{ width: '100%', display: 'flex', justifyContent: "center", marginTop: '10px' }}>
+                <small style={{ cursor: 'pointer' }} onClick={() => navigate('/sign-up')}>Create Account</small>
+              </div>
+            }
           </div>
         </div>
       </div>
