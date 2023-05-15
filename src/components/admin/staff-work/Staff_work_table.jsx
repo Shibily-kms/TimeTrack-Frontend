@@ -18,6 +18,7 @@ function Staff_work_table() {
     }
   }
 
+  // Convert to Excel Start
   const downloadXl = () => {
     const workbook = exportToExcel(staff_works);
     const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
@@ -45,9 +46,17 @@ function Staff_work_table() {
     datas.forEach((staff, index) => {
       const sheetName = staff.staff_name;
       const workSheetData = staff.dates.flatMap((date) => {
+        const punch = {
+          date: date.date,
+          type: 'punch',
+          work: '',
+          start: date.punch_in,
+          end: date.punch_out,
+          duration: date.duration
+        }
         const regular = date.regular_work.map((workObj) => ({
           date: date.date,
-          type: 'regular_work  ',
+          type: 'regular work',
           work: workObj.work,
           start: workObj.start,
           end: workObj.end,
@@ -55,13 +64,21 @@ function Staff_work_table() {
         }));
         const extra = date.extra_work.map((workObj) => ({
           date: date.date,
-          type: 'extra_work  ',
+          type: 'extra work',
           work: workObj.work,
           start: workObj.start,
           end: workObj.end,
           duration: workObj.duration
         }));
-        return [...regular, ...extra]
+        const breaks = date.break.map((obj) => ({
+          date: date.date,
+          type: 'break',
+          work: '',
+          start: obj.start,
+          end: obj.end,
+          duration: obj.duration
+        }));
+        return [punch, ...regular, ...extra, ...breaks]
       })
 
       const worksheet = XLSX.utils.json_to_sheet(workSheetData);
@@ -69,6 +86,8 @@ function Staff_work_table() {
     })
     return workbook;
   };
+
+  // Convert to Excel End
 
   return (
     <div className='staff-table'>
@@ -108,8 +127,17 @@ function Staff_work_table() {
                                     <td>Regular works :</td>
                                     <td>Time start</td>
                                     <td>Time end</td>
-                                    <td>Duration</td>
+                                    <td>Duration (sec)</td>
                                   </tr>
+
+                                  <tr style={{ color: 'gray' }}>
+                                    <td>Punch</td>
+                                    <td></td>
+                                    <td>{date.punch_in}</td>
+                                    <td>{date.punch_out ? date.punch_out : '-'}</td>
+                                    <td>{date.duration ? date.duration : '-'}</td>
+                                  </tr>
+
                                   {date.regular_work?.[0] ?
                                     <>
                                       {date.regular_work.map((regular, index) => {
@@ -132,6 +160,19 @@ function Staff_work_table() {
                                           <td>{extra.start}</td>
                                           <td>{extra.end}</td>
                                           <td>{extra.duration}</td>
+                                        </tr>
+                                      })}
+                                    </>
+                                    : ""}
+                                  {date.break?.[0] ?
+                                    <>
+                                      {date.break.map((breaks, index) => {
+                                        return <tr >
+                                          <td>{index === 0 ? "Breaks :" : ""}</td>
+                                          <td></td>
+                                          <td>{breaks.start}</td>
+                                          <td>{breaks.end}</td>
+                                          <td>{breaks.duration}</td>
                                         </tr>
                                       })}
                                     </>
