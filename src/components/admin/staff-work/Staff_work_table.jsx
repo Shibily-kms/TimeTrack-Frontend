@@ -127,7 +127,7 @@ function Staff_work_table() {
                                     <td>Regular works :</td>
                                     <td>Time start</td>
                                     <td>Time end</td>
-                                    <td>Duration (sec)</td>
+                                    <td>Duration (min)</td>
                                   </tr>
 
                                   <tr style={{ color: 'gray' }}>
