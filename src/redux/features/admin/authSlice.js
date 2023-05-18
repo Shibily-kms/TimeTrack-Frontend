@@ -34,25 +34,25 @@ export const adminAuthSlice = createSlice({
             state.admin = action.payload
         },
         logOut: (state) => {
-            localStorage.removeItem('adminData');
             state.admin = null
+            localStorage.removeItem('_tkn_adn')
         }
     },
-    extraReducers: {
-        [loginAdmin.pending]: (state) => {
-            state.isLoading = true
-        },
-        [loginAdmin.fulfilled]: (state, action) => {
-            localStorage.setItem('adminData', JSON.stringify(action.payload.data.admin));
-            state.isLoading = false
-            state.admin = action.payload.data.admin
-
-        },
-        [loginAdmin.rejected]: (state, action) => {
-            state.isLoading = false
-            state.isError = true
-            state.message = action.payload
-        },
+    extraReducers: (builder) => {
+        builder
+            .addCase(loginAdmin.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(loginAdmin.fulfilled, (state, action) => {
+                state.isLoading = false;
+                localStorage.setItem('_tkn_adn', action.payload.data.admin.token)
+                state.admin = action.payload.data.admin;
+            })
+            .addCase(loginAdmin.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload;
+            });
     }
 })
 

@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import {userAxios} from '../../../config/axios'
+import { userAxios } from '../../../config/axios'
 
 const initialState = {
     user: null,
@@ -34,26 +34,29 @@ export const userAuthSlice = createSlice({
             state.user = action.payload
         },
         logOut: (state) => {
-            localStorage.removeItem('userData');
+            localStorage.removeItem('_tkn_stf');
             state.user = null
         }
     },
-    extraReducers: {
-        [loginUser.pending]: (state) => {
-            state.isLoading = true
-        },
-        [loginUser.fulfilled]: (state, action) => {
-            localStorage.setItem('userData', JSON.stringify(action.payload.data.user));
-            state.isLoading = false
-            state.user = action.payload.data.user
-
-        },
-        [loginUser.rejected]: (state, action) => {
-            state.isLoading = false
-            state.isError = true
-            state.message = action.payload
-        },
-    }
+    extraReducers: (builder) => {
+        builder
+            .addCase(loginUser.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(loginUser.fulfilled, (state, action) => {
+                localStorage.setItem(
+                    '_tkn_stf',
+                    JSON.stringify(action.payload.data.user.token)
+                );
+                state.isLoading = false;
+                state.user = action.payload.data.user;
+            })
+            .addCase(loginUser.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload;
+            });
+    },
 })
 
 

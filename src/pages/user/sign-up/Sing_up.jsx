@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react'
 import Sign_upComp from '../../../components/user/sign-up/Sign_up'
 import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 function Sing_up() {
     const navigate = useNavigate()
-
-    let loacl = JSON.parse(localStorage.getItem('userData'))
+    const { user } = useSelector((state) => state.userAuth)
 
     useEffect(() => {
-        if (loacl?.token) {
+        if (user?.token) {
             navigate('/')
         }
-    },[])  
+    }, [])
     return (
         <div>
             <Sign_upComp />

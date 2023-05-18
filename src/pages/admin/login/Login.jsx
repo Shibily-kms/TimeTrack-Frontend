@@ -6,18 +6,16 @@ import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 
 function Login() {
-  const { isError, message } = useSelector((state) => state.adminAuth)
+  const { admin, isError, message } = useSelector((state) => state.adminAuth)
   const dispatch = useDispatch()
   const navigate = useNavigate()
-
-  let loacl = JSON.parse(localStorage.getItem('adminData'))
 
   useEffect(() => {
     if (isError) {
       toast.error(message)
       dispatch(reset())
     }
-    if (loacl?.token) {
+    if (admin?.token) {
       navigate('/admin')
     }
   })
