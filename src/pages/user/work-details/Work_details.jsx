@@ -5,23 +5,28 @@ import Header from '../../../components/user/header/Header'
 import Punching from '../../../components/user/punch/Punching'
 import Work from '../../../components/user/work/Work'
 import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { setWorkData } from '../../../redux/features/user/workdataSlice'
 
 function Work_details() {
-  const [punchDetails, setPunchDetails] = useState([])
+  const dispatch = useDispatch()
+  const { workDetails } = useSelector((state) => state.workData)
   const [punchIn, setPunchIn] = useState(false)
   const [punchOut, setPunchOut] = useState(false)
   const [startBreak, setStartBreak] = useState(false)
   const [endBreak, setEndBreak] = useState(false)
 
   useEffect(() => {
-    userAxios.get('/punch-details').then((response) => {
-      setPunchDetails(response.data.work_details)
-    })
+    if (!workDetails) {
+      userAxios.get('/punch-details').then((response) => {
+        dispatch(setWorkData({ ...response.data.work_details, offBreak: [] }))
+      })
+    }
   }, [])
 
 
   useEffect(() => {
-    if (punchDetails?.punch_in) {
+    if (workDetails?.punch_in) {
       setPunchIn(true)
       setPunchOut(false)
       setStartBreak(false)
@@ -31,20 +36,20 @@ function Work_details() {
       setStartBreak(true)
       setEndBreak(true)
     }
-    if (punchDetails?.punch_out) {
+    if (workDetails?.punch_out) {
       setPunchIn(true)
       setPunchOut(true)
       setStartBreak(true)
       setEndBreak(true)
     }
-    if (punchDetails?.break?.start && punchDetails?.break?.end && !punchDetails?.punch_out) {
+    if (workDetails?.break?.start && workDetails?.break?.end && !workDetails?.punch_out) {
       setStartBreak(false)
-    }else if (punchDetails?.break?.start && !punchDetails?.break?.end) {
+    } else if (workDetails?.break?.start && !workDetails?.break?.end) {
       setPunchOut(true)
       setStartBreak(true)
       setEndBreak(false)
     }
-  }, [punchDetails])
+  }, [workDetails])
 
 
 
@@ -55,11 +60,11 @@ function Work_details() {
       </div>
       <div className="container content">
         <div className="left">
-          <Punching punchDetails={punchDetails} setPunchDetails={setPunchDetails} punchIn={punchIn}
+          <Punching punchIn={punchIn}
             punchOut={punchOut} startBreak={startBreak} endBreak={endBreak} />
         </div>
         <div className="right">
-          <Work punchDetails={punchDetails} punchIn={punchIn}
+          <Work punchIn={punchIn}
             punchOut={punchOut} startBreak={startBreak} endBreak={endBreak} />
         </div>
       </div>

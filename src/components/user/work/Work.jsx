@@ -41,10 +41,9 @@ function Work({ punchDetails, punchIn, punchOut, startBreak, endBreak }) {
     }
 
     useEffect(() => {
-        userAxios.get('/works/' + user?.designation?.id).then((response) => {
-            setWorks(response.data.works)
-        })
-    }, [])
+        let work = localStorage.getItem('day_works');
+        setWorks(JSON.parse(work))
+    }, [punchIn])
 
 
     return (
@@ -55,7 +54,7 @@ function Work({ punchDetails, punchIn, punchOut, startBreak, endBreak }) {
                         <h4>Regular Works</h4>
                     </div>
                     <div className="regular">
-                        {works[0] ?
+                        {works?.[0] ?
                             works.map((work) => {
                                 return <div className="input-div" key={work.work} >
                                     {work?.finished ? "" :
@@ -64,7 +63,7 @@ function Work({ punchDetails, punchIn, punchOut, startBreak, endBreak }) {
                                             <label htmlFor={work.work}>{work.works}</label>
                                         </>}
                                 </div>
-                            }) : 'null'}
+                            }) : 'no works'}
                     </div>
 
                     <div className="title">

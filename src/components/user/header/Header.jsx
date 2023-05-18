@@ -4,12 +4,14 @@ import { RiLogoutCircleLine } from 'react-icons/ri';
 import { useDispatch } from 'react-redux';
 import { logOut } from '../../../redux/features/user/authSlice'
 import { useNavigate } from 'react-router-dom';
+import { clearWorkData } from '../../../redux/features/user/workdataSlice';
 
 function Header() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
     const handleLogOut = () => {
+        dispatch(clearWorkData())
         dispatch(logOut())
         navigate('/login')
     }

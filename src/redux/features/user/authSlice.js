@@ -45,8 +45,7 @@ export const userAuthSlice = createSlice({
             })
             .addCase(loginUser.fulfilled, (state, action) => {
                 localStorage.setItem(
-                    '_tkn_stf',
-                    JSON.stringify(action.payload.data.user.token)
+                    '_tkn_stf', action.payload.data.user.token
                 );
                 state.isLoading = false;
                 state.user = action.payload.data.user;
