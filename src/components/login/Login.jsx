@@ -57,7 +57,7 @@ function Login({ admin }) {
                   <button type='submit'>LogIn</button>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  <small style={{ color: 'gray', fontSize: '8px', }}>V1.5</small>
+                  <small style={{ color: 'gray', fontSize: '8px', }}>V1.6</small>
                 </div>
               </form>
             </div>
