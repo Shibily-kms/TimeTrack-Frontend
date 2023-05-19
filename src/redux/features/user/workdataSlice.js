@@ -6,7 +6,7 @@ const initialState = {
 }
 
 export const workDataSlice = createSlice({
-    name: 'network',
+    name: 'workdata',
     initialState,
     reducers: {
         setWorkData: (state, action) => {
@@ -39,10 +39,18 @@ export const workDataSlice = createSlice({
                 }
             }
             state.workDetails.break = action.payload
+        },
+        addRegularWork: (state, action) => {
+            state.workDetails.regular_work.push(action.payload)
+        },
+        addExtraWork: (state, action) => {
+            state.workDetails.extra_work.push(action.payload)
         }
     }
 })
 
 
-export const { setWorkData, doStartBreak, clearWorkData, resetWorkData, doEndBreak } = workDataSlice.actions;
+export const {
+    setWorkData, doStartBreak, clearWorkData, resetWorkData, doEndBreak, addRegularWork,
+    addExtraWork } = workDataSlice.actions;
 export default workDataSlice.reducer

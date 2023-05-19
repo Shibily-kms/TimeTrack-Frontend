@@ -7,10 +7,12 @@ import Work from '../../../components/user/work/Work'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setWorkData } from '../../../redux/features/user/workdataSlice'
+import { setRegularWork } from '../../../redux/features/user/dayWorksSlice'
 
 function Work_details() {
   const dispatch = useDispatch()
   const { workDetails } = useSelector((state) => state.workData)
+  const { user } = useSelector((state) => state.userAuth)
   const [punchIn, setPunchIn] = useState(false)
   const [punchOut, setPunchOut] = useState(false)
   const [startBreak, setStartBreak] = useState(false)
@@ -19,7 +21,10 @@ function Work_details() {
   useEffect(() => {
     if (!workDetails) {
       userAxios.get('/punch-details').then((response) => {
-        dispatch(setWorkData({ ...response.data.work_details, offBreak: [] }))
+        userAxios.get('/works/' + user?.designation?.id).then((works) => {
+          dispatch(setRegularWork(works.data.works))
+          dispatch(setWorkData({ ...response.data.work_details, offBreak: [] }))
+        })
       })
     }
   }, [])

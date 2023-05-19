@@ -17,8 +17,26 @@ function offlineEndBreak(oneBreak) {
     aBreak.duration = parseInt((aBreak.end - new Date(aBreak.start)) / 1000);
     aBreak.offline = true
     return aBreak;
-
-
 }
 
-export { offlineStartBreak, offlineEndBreak }
+function offlineRegularWork(work) {
+    let oneWork = {
+        work,
+        start: new Date(),
+        end: new Date(),
+        duration: 0,
+    }
+    return oneWork;
+}
+
+function offlineExtraWork(work) {
+    let oneWork = {
+        work,
+        start: new Date(),
+        end: new Date(),
+        duration: 0,
+    }
+    return oneWork;
+}
+
+export { offlineStartBreak, offlineEndBreak, offlineRegularWork, offlineExtraWork }

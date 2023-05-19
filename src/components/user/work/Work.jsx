@@ -1,30 +1,31 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import './work.scss'
 import { userAxios } from '../../../config/axios'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
+import { completeWork } from '../../../redux/features/user/dayWorksSlice'
+import { offlineRegularWork, offlineExtraWork } from '../../../assets/javascript/offline-helper'
+import { addRegularWork, addExtraWork } from '../../../redux/features/user/workdataSlice'
 
-function Work({ punchDetails, punchIn, punchOut, startBreak, endBreak }) {
-    const [works, setWorks] = useState([])
+function Work({ punchIn, punchOut, startBreak, endBreak }) {
+    const dispatch = useDispatch()
     const [extraWork, setExtraWork] = useState('')
-    const { user } = useSelector((state) => state.userAuth)
+    const { workDetails } = useSelector((state) => state.workData)
+    const { internet } = useSelector((state) => state.network)
+    const { regular } = useSelector((state) => state.dayWorks)
 
     const handleWork = (e) => {
         let confirm = window.confirm('This work completed')
         if (confirm) {
-            userAxios.post('/regular-work', { work: e.target.value, punch_id: punchDetails._id }).then((response) => {
-                setWorks((state) => {
-                    return state.map((value) => {
-                        if (value.works === e.target.value) {
-                            return {
-                                ...value,
-                                finished: true
-                            }
-                        }
-                        return value
-                    })
+            if (internet) {
+                userAxios.post('/regular-work', { work: e.target.value, punch_id: workDetails._id }).then((response) => {
+                    dispatch(completeWork({ thisWork: e.target.value }))
                 })
-            })
+            } else {
+                const oneRegularWork = offlineRegularWork(e.target.value)
+                dispatch(addRegularWork(oneRegularWork))
+                dispatch(completeWork({ thisWork: e.target.value }))
+            }
         }
     }
 
@@ -35,16 +36,16 @@ function Work({ punchDetails, punchIn, punchOut, startBreak, endBreak }) {
     const handleSubmit = (e) => {
         e.preventDefault()
         setExtraWork('')
-        userAxios.post('/extra-work', { work: extraWork, punch_id: punchDetails._id }).then((response) => {
-            toast.success(response.data.message)
-        })
+        if (internet) {
+            userAxios.post('/extra-work', { work: extraWork, punch_id: workDetails._id }).then((response) => {
+                toast.success(response.data.message)
+            })
+        } else {
+            const oneExtraWork = offlineExtraWork(extraWork)
+            dispatch(addExtraWork(oneExtraWork))
+            toast.success('Extra work added')
+        }
     }
-
-    useEffect(() => {
-        let work = localStorage.getItem('day_works');
-        setWorks(JSON.parse(work))
-    }, [punchIn])
-
 
     return (
         <div className='work'>
@@ -54,8 +55,8 @@ function Work({ punchDetails, punchIn, punchOut, startBreak, endBreak }) {
                         <h4>Regular Works</h4>
                     </div>
                     <div className="regular">
-                        {works?.[0] ?
-                            works.map((work) => {
+                        {regular?.[0] ?
+                            regular.map((work) => {
                                 return <div className="input-div" key={work.work} >
                                     {work?.finished ? "" :
                                         <>

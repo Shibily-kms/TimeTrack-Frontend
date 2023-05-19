@@ -5,6 +5,7 @@ import adminAuthReducer from '../features/admin/authSlice'
 import userAuthSlice from '../features/user/authSlice'
 import networkSlice from '../features/user/networkSlice'
 import workdataSlice from '../features/user/workdataSlice';
+import dayWorksSlice from '../features/user/dayWorksSlice';
 
 const persistConfig = {
     key: 'root',
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
     // user
     userAuth: userAuthSlice,
     network: networkSlice,
-    workData: workdataSlice
+    workData: workdataSlice,
+    dayWorks: dayWorksSlice
 });
 
 

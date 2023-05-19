@@ -23,17 +23,11 @@ function User() {
 
   useEffect(() => {
     if (internet) {
-
-      console.log('online');
       if (workDetails?.offBreak?.[0] || workDetails?.regular_work?.[0] || workDetails?.extra_work?.[0]) {
         userAxios.post('/offline-recollect', workDetails).then((response) => {
           dispatch(resetWorkData(response.data.lastBreak))
         })
-      } else {
-        console.log('no offline data');
       }
-    } else {
-      console.log('offline');
     }
   }, [internet])
 

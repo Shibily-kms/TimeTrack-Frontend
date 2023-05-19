@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { logOut } from '../../../redux/features/user/authSlice'
 import { useNavigate } from 'react-router-dom';
 import { clearWorkData } from '../../../redux/features/user/workdataSlice';
+import { clearRegularWork } from '../../../redux/features/user/dayWorksSlice';
 
 function Header() {
     const dispatch = useDispatch()
@@ -12,6 +13,7 @@ function Header() {
 
     const handleLogOut = () => {
         dispatch(clearWorkData())
+        dispatch(clearRegularWork())
         dispatch(logOut())
         navigate('/login')
     }

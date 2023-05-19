@@ -5,8 +5,9 @@ import { toast } from 'react-toastify'
 import { useDispatch, useSelector } from 'react-redux'
 import { offlineStartBreak, offlineEndBreak } from '../../../assets/javascript/offline-helper'
 import { setWorkData, doStartBreak, doEndBreak, clearWorkData } from '../../../redux/features/user/workdataSlice'
+import { setRegularWork } from '../../../redux/features/user/dayWorksSlice'
 
-function Punching({ punchDetails, setPunchDetails, punchIn, punchOut, startBreak, endBreak }) {
+function Punching({ punchIn, punchOut, startBreak, endBreak }) {
     const dispatch = useDispatch()
     const { user } = useSelector((state) => state.userAuth)
     const { internet } = useSelector((state) => state.network)
@@ -16,10 +17,9 @@ function Punching({ punchDetails, setPunchDetails, punchIn, punchOut, startBreak
         if (!punchIn) {
             userAxios.post('/punch-in').then((response) => {
                 userAxios.get('/works/' + user?.designation?.id).then((works) => {
-                    localStorage.setItem('day_works', JSON.stringify(works.data.works));
                     response.data.work_details.offBreak = []
+                    dispatch(setRegularWork(works.data.works))
                     dispatch(setWorkData(response.data.work_details))
-                    // setPunchDetails(response.data.work_details)
                     toast.success(response.data.message)
                 })
             }).catch((error) => {
