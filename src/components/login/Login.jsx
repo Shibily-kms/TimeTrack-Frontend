@@ -56,6 +56,9 @@ function Login({ admin }) {
                 <div className="button-div">
                   <button type='submit'>LogIn</button>
                 </div>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  <small style={{ color: 'gray', fontSize: '8px', }}>V1.5</small>
+                </div>
               </form>
             </div>
             {!admin &&
