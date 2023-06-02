@@ -3,12 +3,13 @@ import LoginComp from '../../../components/login/Login'
 import { reset } from '../../../redux/features/user/authSlice'
 import { useSelector, useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 function Login() {
     const { user, isError, message } = useSelector((state) => state.userAuth)
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const [searchParams] = useSearchParams();
 
     useEffect(() => {
         if (isError) {
@@ -16,7 +17,11 @@ function Login() {
             dispatch(reset())
         }
         if (user?.token) {
-            navigate('/')
+            if (searchParams.get('to')) {
+                window.location.href = searchParams.get('to')
+            } else {
+                navigate('/')
+            }
         }
     })
 
