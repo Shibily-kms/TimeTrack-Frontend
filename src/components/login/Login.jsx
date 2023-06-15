@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import './login.scss'
 import { RxEyeClosed, RxEyeOpen } from 'react-icons/rx';
 import { loginAdmin } from '../../redux/features/admin/authSlice';
 import { loginUser } from '../../redux/features/user/authSlice';
 import { useDispatch } from 'react-redux'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 function Login({ admin }) {
   const dispatch = useDispatch()
   const navigate = useNavigate();
   const [show, setShow] = useState(false)
   const [form, setForm] = useState({ user_name: null, password: null })
-  const [searchParams] = useSearchParams();
 
   const handleChange = (e) => {
     setForm({
@@ -28,11 +27,7 @@ function Login({ admin }) {
       })
     } else {
       dispatch(loginUser(form)).then(() => {
-        if (searchParams.get('to')) {
-          window.location.href = searchParams.get('to')
-        } else {
-          navigate('/')
-        }
+        navigate('/')
       })
     }
   }

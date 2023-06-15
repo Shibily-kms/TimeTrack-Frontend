@@ -1,0 +1,60 @@
+@import '../../../assets/scss/model.scss';
+
+.table-div {
+    width: 100%;
+    overflow: auto;
+
+    #list {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 10px;
+
+        td,
+        th {
+            border: 1px solid #ddd;
+            padding: 5px 8px;
+            font-size: 14px;
+        }
+
+        tr {
+            &:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+
+            &:hover {
+                background-color: #ddd;
+            }
+        }
+
+        th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #272727;
+            color: white;
+            text-align: center;
+        }
+
+        td {
+            div {
+                display: flex;
+                justify-content: center;
+
+                button {
+                    @include normalButton();
+
+                }
+
+                .allow {
+                    background-color: rgb(9, 158, 76);
+                }
+
+                .dont {
+                    background-color: rgb(216, 61, 0);
+                }
+
+
+            }
+        }
+    }
+}

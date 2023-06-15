@@ -2,13 +2,15 @@ import React, { useState } from 'react'
 import './first-page.scss'
 import { useSelector } from 'react-redux'
 import { IoCloseCircleOutline } from 'react-icons/io5'
-import Add_designation from '../models/Add_designation'
-import Select_designation from '../models/Select_designation'
-import Choose_dates from '../models/Choose_dates'
+import AddDesignation from '../models/Add_designation'
+import SelectDesignation from '../models/Select_designation'
+import ChooseDates from '../models/Choose_dates'
+import { useNavigate } from 'react-router-dom'
 
 function First_page() {
   const { admin } = useSelector((state) => state.adminAuth)
   const [model, setModel] = useState(null)
+  const navigate = useNavigate()
   return (
     <div className='first-page'>
       <div className="container">
@@ -26,6 +28,10 @@ function First_page() {
             </div>
             <div className="button-div" >
               <button onClick={() => setModel('SELECT DATES')} >VIEW STAFF WORK DETAILS
+              </button>
+            </div>
+            <div className="button-div" >
+              <button onClick={() => navigate('/admin/allow-access-to-sales')} >ALLOW ACCESS TO SALES
               </button>
             </div>
           </div>
@@ -46,9 +52,9 @@ function First_page() {
                   </div>
                 </div>
                 <div className="content">
-                  {model === 'ADD NEW DESIGNATION' ? <Add_designation setModel={setModel} /> : ""}
-                  {model === 'SELECT DESIGNATION' ? <Select_designation setModel={setModel} /> : ""}
-                  {model === 'SELECT DATES' ? <Choose_dates setModel={setModel} /> : ""}
+                  {model === 'ADD NEW DESIGNATION' ? <AddDesignation setModel={setModel} /> : ""}
+                  {model === 'SELECT DESIGNATION' ? <SelectDesignation setModel={setModel} /> : ""}
+                  {model === 'SELECT DATES' ? <ChooseDates setModel={setModel} /> : ""}
                 </div>
               </div>
             </div>
