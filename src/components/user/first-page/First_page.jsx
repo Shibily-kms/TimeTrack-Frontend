@@ -34,8 +34,8 @@ function First_page() {
                         </div>
                         {sales ?
                             <div className="button-div">
-                                <button onClick={() => window.open(`https://www.sales.alliancewatersolutions.com?id=${user._id}`, '_blank')}>SALES</button>
-                                {/* <button onClick={() => window.open(`http://localhost:3000/?id=${user._id}`, '_blank')}>SALES</button> */}
+                                {/* <button onClick={() => window.open(`https://www.sales.alliancewatersolutions.com?id=${user._id}`, '_blank')}>SALES</button> */}
+                                <button onClick={() => window.open(`http://localhost:3000/?id=${user._id}`, '_blank')}>SALES</button>
                             </div>
                             : ""}
                     </div>

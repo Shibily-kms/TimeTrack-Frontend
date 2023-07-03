@@ -3,15 +3,15 @@ import axios from 'axios'
 
 const baseSetup = {
     userAxios: axios.create({
-        // baseURL: 'http://localhost:8000/',
-        baseURL: 'https://staffbackend.alliancewatersolutions.com/',
+        baseURL: 'http://localhost:8000/',
+        // baseURL: 'https://staffbackend.alliancewatersolutions.com/',
         headers: {
             'Content-Type': 'application/json'
         }
     }),
     adminAxios: axios.create({
-        // baseURL: 'http://localhost:8000/admin/',
-        baseURL: 'https://staffbackend.alliancewatersolutions.com/admin/',
+        baseURL: 'http://localhost:8000/admin/',
+        // baseURL: 'https://staffbackend.alliancewatersolutions.com/admin/',
         headers: {
             'Content-Type': 'application/json'
         }
