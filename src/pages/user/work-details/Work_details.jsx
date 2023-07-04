@@ -17,11 +17,14 @@ function Work_details() {
   const [punchOut, setPunchOut] = useState(false)
   const [startBreak, setStartBreak] = useState(false)
   const [endBreak, setEndBreak] = useState(false)
+  const [startLunchBreak, setStartLunchBreak] = useState(false)
+  const [endLunchBreak, setEndLunchBreak] = useState(false)
 
   useEffect(() => {
     if (!workDetails || workDetails?.punch_out) {
       userAxios.get('/punch-details').then((response) => {
         userAxios.get('/works/' + user?.designation?.id).then((works) => {
+          response.data.work_details.lunch_break = response.data.work_details?.lunch_break || {}
           dispatch(setRegularWork(works.data.works))
           dispatch(setWorkData({ ...response.data.work_details, offBreak: [] }))
         })
@@ -36,24 +39,44 @@ function Work_details() {
       setPunchOut(false)
       setStartBreak(false)
       setEndBreak(true)
+      setStartLunchBreak(false)
+      setEndLunchBreak(true)
     } else {
       setPunchOut(true)
       setStartBreak(true)
       setEndBreak(true)
+      setStartLunchBreak(true)
+      setEndLunchBreak(true)
     }
     if (workDetails?.punch_out) {
       setPunchIn(true)
       setPunchOut(true)
       setStartBreak(true)
       setEndBreak(true)
+      setStartLunchBreak(true)
+      setEndLunchBreak(true)
     }
     if (workDetails?.break?.start && workDetails?.break?.end && !workDetails?.punch_out) {
       setStartBreak(false)
     } else if (workDetails?.break?.start && !workDetails?.break?.end) {
+      setStartLunchBreak(true)
+      setEndLunchBreak(true)
       setPunchOut(true)
       setStartBreak(true)
       setEndBreak(false)
     }
+
+    if (workDetails?.lunch_break?.start && !workDetails?.lunch_break?.end) {
+      setStartLunchBreak(true)
+      setPunchOut(true)
+      setStartBreak(true)
+      setEndBreak(true)
+      setEndLunchBreak(false)
+    }
+    if(workDetails?.lunch_break?.end){
+      setStartLunchBreak(true)
+    }
+
   }, [workDetails])
 
 
@@ -66,12 +89,12 @@ function Work_details() {
       </div>
       <div className="container content">
         <div className="left">
-          <Punching punchIn={punchIn}
-            punchOut={punchOut} startBreak={startBreak} endBreak={endBreak} />
+          <Punching punchIn={punchIn} punchOut={punchOut} startBreak={startBreak} endBreak={endBreak}
+            startLunchBreak={startLunchBreak} endLunchBreak={endLunchBreak} />
         </div>
         <div className="right">
-          <Work punchIn={punchIn}
-            punchOut={punchOut} startBreak={startBreak} endBreak={endBreak} />
+          <Work punchIn={punchIn} punchOut={punchOut} startBreak={startBreak} endBreak={endBreak}
+            startLunchBreak={startLunchBreak} endLunchBreak={endLunchBreak} />
         </div>
       </div>
 

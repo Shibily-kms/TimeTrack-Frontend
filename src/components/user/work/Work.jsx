@@ -7,7 +7,7 @@ import { completeWork } from '../../../redux/features/user/dayWorksSlice'
 import { offlineRegularWork, offlineExtraWork } from '../../../assets/javascript/offline-helper'
 import { addRegularWork, addExtraWork } from '../../../redux/features/user/workdataSlice'
 
-function Work({ punchIn, punchOut, startBreak, endBreak }) {
+function Work({ punchIn, punchOut, startBreak, endBreak, startLunchBreak, endLunchBreak }) {
     const dispatch = useDispatch()
     const [extraWork, setExtraWork] = useState('')
     const { workDetails } = useSelector((state) => state.workData)
@@ -87,8 +87,9 @@ function Work({ punchIn, punchOut, startBreak, endBreak }) {
                     <div>
                         <div className="box">
                             {!punchIn && <h5>Punch In to Work</h5>}
-                            {endBreak && punchIn && punchOut && <h5>Punched Out</h5>}
+                            {endBreak && punchIn && punchOut && endLunchBreak && <h5>Punched Out</h5>}
                             {startBreak && !endBreak && <h5>You are on break</h5>}
+                            {startLunchBreak && !endLunchBreak && <h5>You are on lunch break</h5>}
                         </div>
                     </div>
                 }

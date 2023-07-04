@@ -39,4 +39,23 @@ function offlineExtraWork(work) {
     return oneWork;
 }
 
-export { offlineStartBreak, offlineEndBreak, offlineRegularWork, offlineExtraWork }
+function offlineStartLunchBreak() {
+    let oneBreak = {
+        start: new Date(),
+        end: null,
+        duration: 0
+    }
+    return oneBreak;
+}
+
+function offlineEndLunchBreak(oneBreak) {
+    let aBreak = JSON.parse(JSON.stringify(oneBreak))
+    aBreak.end = new Date()
+    aBreak.duration = parseInt((aBreak.end - new Date(aBreak.start)) / 1000);
+    return aBreak;
+}
+
+export {
+    offlineStartBreak, offlineEndBreak, offlineRegularWork, offlineExtraWork, offlineStartLunchBreak,
+    offlineEndLunchBreak
+}

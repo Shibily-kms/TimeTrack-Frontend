@@ -7,7 +7,6 @@ import Home from '../pages/user/home/Home'
 import WorkDetails from '../pages/user/work-details/Work_details'
 import { userAxios } from '../config/axios'
 import { resetOfflineData } from '../redux/features/user/workdataSlice'
-import { toast } from 'react-toastify'
 
 
 function User() {
@@ -24,12 +23,12 @@ function User() {
 
   useEffect(() => {
     if (internet) {
-      if (workDetails?.offBreak?.[0] || workDetails?.regular_work?.[0] || workDetails?.extra_work?.[0]) {
+      if (workDetails?.offBreak?.[0] || workDetails?.regular_work?.[0] || workDetails?.extra_work?.[0] ||
+        workDetails?.lunch_break?.start) {
         userAxios.post('/offline-recollect', workDetails).then((response) => {
           dispatch(resetOfflineData(response.data.lastBreak))
         }).catch((error) => {
           dispatch(resetOfflineData(error.response.data.lastBreak))
-          toast.error(error.response.data.message)
         })
       }
     }
