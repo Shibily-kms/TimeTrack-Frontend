@@ -15,16 +15,18 @@ function Work({ punchIn, punchOut, startBreak, endBreak }) {
     const { regular } = useSelector((state) => state.dayWorks)
 
     const handleWork = (e) => {
-        let confirm = window.confirm('This work completed')
+        let confirm = window.confirm('Are you completing this work ?')
         if (confirm) {
             if (internet) {
                 userAxios.post('/regular-work', { work: e.target.value, punch_id: workDetails._id }).then((response) => {
                     dispatch(completeWork({ thisWork: e.target.value }))
+                    toast.success('Work Completed')
                 })
             } else {
                 const oneRegularWork = offlineRegularWork(e.target.value)
                 dispatch(addRegularWork(oneRegularWork))
                 dispatch(completeWork({ thisWork: e.target.value }))
+                toast.success('Work Completed')
             }
         }
     }
@@ -57,12 +59,10 @@ function Work({ punchIn, punchOut, startBreak, endBreak }) {
                     <div className="regular">
                         {regular?.[0] ?
                             regular.map((work) => {
-                                return <div className="input-div" key={work.work} >
-                                    {work?.finished ? "" :
-                                        <>
-                                            <input type="checkbox" name='work' id={work.work} value={work.works} onChange={handleWork} />
-                                            <label htmlFor={work.work}>{work.works}</label>
-                                        </>}
+                                return <div className="input-div" key={work.works} >
+                                    <input type="checkbox" name='work' checked={work.finished ? true : false}
+                                        id={work.works} value={work.works} onChange={(e) => work.finished ? null : handleWork(e)} />
+                                    <label htmlFor={work.works}>{work.works}</label>
                                 </div>
                             }) : 'no works'}
                     </div>
@@ -88,7 +88,7 @@ function Work({ punchIn, punchOut, startBreak, endBreak }) {
                         <div className="box">
                             {!punchIn && <h5>Punch In to Work</h5>}
                             {endBreak && punchIn && punchOut && <h5>Punched Out</h5>}
-                            {startBreak && !endBreak && <h5>Your Break Started</h5>}
+                            {startBreak && !endBreak && <h5>You are on break</h5>}
                         </div>
                     </div>
                 }

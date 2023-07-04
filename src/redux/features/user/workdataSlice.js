@@ -15,8 +15,8 @@ export const workDataSlice = createSlice({
         clearWorkData: (state) => {
             state.workDetails = null
         },
-        resetWorkData: (state, action) => {
-            state.workDetails.break = action?.payload
+        resetOfflineData: (state, action) => {
+            state.workDetails.break = action.payload
             state.workDetails.offBreak = []
             state.workDetails.regular_work = []
             state.workDetails.extra_work = []
@@ -51,6 +51,6 @@ export const workDataSlice = createSlice({
 
 
 export const {
-    setWorkData, doStartBreak, clearWorkData, resetWorkData, doEndBreak, addRegularWork,
+    setWorkData, doStartBreak, clearWorkData, resetOfflineData, doEndBreak, addRegularWork,
     addExtraWork } = workDataSlice.actions;
 export default workDataSlice.reducer

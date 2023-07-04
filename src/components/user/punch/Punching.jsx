@@ -15,61 +15,74 @@ function Punching({ punchIn, punchOut, startBreak, endBreak }) {
     // Handle PunchIn
     const handlePunchIn = () => {
         if (!punchIn) {
-            userAxios.post('/punch-in').then((response) => {
-                userAxios.get('/works/' + user?.designation?.id).then((works) => {
-                    response.data.work_details.offBreak = []
-                    dispatch(setRegularWork(works.data.works))
-                    dispatch(setWorkData(response.data.work_details))
-                    toast.success(response.data.message)
+            let confirm = window.confirm('Are you punching?')
+            if (confirm) {
+                userAxios.post('/punch-in').then((response) => {
+                    userAxios.get('/works/' + user?.designation?.id).then((works) => {
+                        response.data.work_details.offBreak = []
+                        response.data.work_details.lunchBreak = {}
+                        dispatch(setRegularWork(works.data.works))
+                        dispatch(setWorkData(response.data.work_details))
+                        toast.success(response.data.message)
+                    })
+                }).catch((error) => {
+                    toast.error(error.response.data.message)
                 })
-            }).catch((error) => {
-                toast.error(error.response.data.message)
-            })
+            }
         }
     }
     // Handle PunchOut
     const handlePunchOut = () => {
         if (!punchOut) {
-            userAxios.post('/punch-out', { id: workDetails._id }).then((response) => {
-                dispatch(clearWorkData())
-                toast.success(response.data.message)
-            }).catch((error) => {
-                toast.error(error.response.data.message)
-            })
-        }
-    }
-    // Handle Start break
-    const handleStartBreak = () => {
-        if (internet) {
-            if (punchIn && !punchOut) {
-                userAxios.post('/start-break', { id: workDetails._id }).then((response) => {
-                    dispatch(doStartBreak(response.data.break))
+            let confirm = window.confirm('Are you Punching out?')
+            if (confirm) {
+                userAxios.post('/punch-out', { id: workDetails._id }).then((response) => {
+                    dispatch(clearWorkData())
                     toast.success(response.data.message)
                 }).catch((error) => {
                     toast.error(error.response.data.message)
                 })
             }
-        } else {
-            const oneBreak = offlineStartBreak()
-            dispatch(doStartBreak(oneBreak))
-            toast.success('Break Started')
+        }
+    }
+    // Handle Start break
+    const handleStartBreak = () => {
+        if (punchIn && !punchOut) {
+            let confirm = window.confirm('Are you starting a break?')
+            if (confirm) {
+                if (internet) {
+                    userAxios.post('/start-break', { id: workDetails._id }).then((response) => {
+                        dispatch(doStartBreak(response.data.break))
+                        toast.success(response.data.message)
+                    }).catch((error) => {
+                        toast.error(error.response.data.message)
+                    })
+                } else {
+                    const oneBreak = offlineStartBreak()
+                    dispatch(doStartBreak(oneBreak))
+                    toast.success('Break Started')
+                }
+            }
         }
     }
 
     // Handle End Break
     const handleEndBreak = () => {
-        if (punchIn && startBreak) {
-            if (internet) {
-                userAxios.post('/end-break', { id: workDetails._id, break_id: workDetails.break._id }).then((response) => {
-                    dispatch(doEndBreak(response.data.break))
-                    toast.success(response.data.message)
-                }).catch((error) => {
-                    toast.error(error.response.data.message)
-                })
-            } else {
-                const oneBreak = offlineEndBreak(workDetails.break)
-                dispatch(doEndBreak(oneBreak))
-                toast.success('Break Ended')
+        if (punchIn && startBreak && !endBreak) {
+            let confirm = window.confirm('Are you ending a break?')
+            if (confirm) {
+                if (internet) {
+                    userAxios.post('/end-break', { id: workDetails._id, break_id: workDetails.break._id }).then((response) => {
+                        dispatch(doEndBreak(response.data.break))
+                        toast.success(response.data.message)
+                    }).catch((error) => {
+                        toast.error(error.response.data.message)
+                    })
+                } else {
+                    const oneBreak = offlineEndBreak(workDetails.break)
+                    dispatch(doEndBreak(oneBreak))
+                    toast.success('Break Ended')
+                }
             }
         }
     }
@@ -77,17 +90,25 @@ function Punching({ punchIn, punchOut, startBreak, endBreak }) {
     return (
         <div className='punching' >
             <div className="boader">
-                <button className={punchIn ? "opacity" : ""} onClick={handlePunchIn}>
+                <button className={punchIn ? "opacity punch" : "punch"} onClick={handlePunchIn}>
                     PUNCH IN</button>
 
-                <button className={startBreak ? "opacity" : ""} onClick={handleStartBreak}>
+                <button className={punchOut ? "opacity punch" : "punch"} onClick={handlePunchOut}>
+                    PUNCH OUT</button>
+
+                <button className={startBreak ? "opacity break" : "break"} onClick={handleStartBreak}>
                     START BREAK</button>
 
-                <button className={endBreak ? "opacity" : ""} onClick={handleEndBreak}>
+                <button className={endBreak ? "opacity break" : "break"} onClick={handleEndBreak}>
                     END BREAK</button>
 
-                <button className={punchOut ? "opacity" : ""} onClick={handlePunchOut}>
-                    PUNCH OUT</button>
+                {/* <button className={startLunchBreak ? "opacity break" : "break"} onClick={handleStartLunchBreak}>
+                    START BREAK</button>
+
+                <button className={endLunchBreak ? "opacity break" : "break"} onClick={handleEndLunchBreak}>
+                    END BREAK</button> */}
+
+
             </div>
         </div >
     )

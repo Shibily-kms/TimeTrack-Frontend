@@ -19,7 +19,7 @@ function Work_details() {
   const [endBreak, setEndBreak] = useState(false)
 
   useEffect(() => {
-    if (!workDetails) {
+    if (!workDetails || workDetails?.punch_out) {
       userAxios.get('/punch-details').then((response) => {
         userAxios.get('/works/' + user?.designation?.id).then((works) => {
           dispatch(setRegularWork(works.data.works))
@@ -55,6 +55,7 @@ function Work_details() {
       setEndBreak(false)
     }
   }, [workDetails])
+
 
 
 
