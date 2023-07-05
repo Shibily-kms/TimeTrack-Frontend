@@ -1,24 +1,29 @@
 import React, { useEffect, useState } from 'react'
 import './first-page.scss'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { userAxios } from '../../../config/axios'
+import { setUser } from '../../../redux/features/user/authSlice'
 
 function First_page() {
     const { user } = useSelector((state) => state.userAuth)
     const navigate = useNavigate()
-    const [sales, setSales] = useState(false)
+    const dispatch = useDispatch()
 
     useEffect(() => {
         userAxios.get(`/designations?id=${user?.designation?.id}`).then((response) => {
-
-            if (response?.data?.designation?.allow_sales) {
-                setSales(true)
-            } else {
-                setSales(false)
+            if (user && !user?.designation?.allow_sales) {
+                dispatch(setUser({
+                    ...user,
+                    designation: {
+                        ...user.designation,
+                        allow_sales: response.data.designation?.allow_sales || false,
+                        auto_punch_out: response.data.designation?.auto_punch_out || '17:30',
+                    }
+                }))
             }
         })
-    }, [user])
+    }, [])
 
     return (
         <div className='first-page-user'>
@@ -32,7 +37,7 @@ function First_page() {
                         <div className="button-div">
                             <button onClick={() => navigate('/enter-work-details')}>ENTER WORK DETAILS</button>
                         </div>
-                        {sales ?
+                        {user?.designation?.allow_sales ?
                             <div className="button-div">
                                 <button onClick={() => window.open(`http://localhost:3000/?id=${user._id}`, '_blank')}>SALES</button>
                             </div>

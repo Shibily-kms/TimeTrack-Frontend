@@ -6,8 +6,9 @@ import Punching from '../../../components/user/punch/Punching'
 import Work from '../../../components/user/work/Work'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { setWorkData } from '../../../redux/features/user/workdataSlice'
+import { setWorkData, clearWorkData } from '../../../redux/features/user/workdataSlice'
 import { setRegularWork } from '../../../redux/features/user/dayWorksSlice'
+import { toast } from 'react-toastify'
 
 function Work_details() {
   const dispatch = useDispatch()
@@ -19,9 +20,10 @@ function Work_details() {
   const [endBreak, setEndBreak] = useState(false)
   const [startLunchBreak, setStartLunchBreak] = useState(false)
   const [endLunchBreak, setEndLunchBreak] = useState(false)
+  const [autoPunchOut, setAutoPunchOut] = useState(false)
 
   useEffect(() => {
-    if (!workDetails || workDetails?.punch_out) {
+    if (!workDetails || workDetails?.punch_out || new Date(workDetails?.punch_in).getDate() !== new Date().getDate()) {
       userAxios.get('/punch-details').then((response) => {
         userAxios.get('/works/' + user?.designation?.id).then((works) => {
           response.data.work_details.lunch_break = response.data.work_details?.lunch_break || {}
@@ -31,7 +33,6 @@ function Work_details() {
       })
     }
   }, [])
-
 
   useEffect(() => {
     if (workDetails?.punch_in) {
@@ -73,13 +74,30 @@ function Work_details() {
       setEndBreak(true)
       setEndLunchBreak(false)
     }
-    if(workDetails?.lunch_break?.end){
+    if (workDetails?.lunch_break?.end) {
       setStartLunchBreak(true)
     }
 
+     // Check If Auto PunchOut
+     const checkIfAutoPunchOut = setInterval(() => {
+      const [punchOutHour, punchOutMinute] = user?.designation?.auto_punch_out.split(':');
+      const [nowHour, nowMinute] = new Date().toTimeString().split(':');
+      if ((nowHour + nowMinute) >= (punchOutHour + punchOutMinute) && workDetails?.punch_out === null
+        && workDetails?.punch_in) {
+        userAxios.get('/punch-details').then((response) => {
+          if (response.data?.work_details?.punch_out) {
+            dispatch(clearWorkData())
+            clearInterval(checkIfAutoPunchOut);
+            setAutoPunchOut(true)
+          }
+        })
+      }
+    }, 10000)
+    return () => {
+      clearInterval(checkIfAutoPunchOut);
+    };
+
   }, [workDetails])
-
-
 
 
   return (
@@ -94,10 +112,9 @@ function Work_details() {
         </div>
         <div className="right">
           <Work punchIn={punchIn} punchOut={punchOut} startBreak={startBreak} endBreak={endBreak}
-            startLunchBreak={startLunchBreak} endLunchBreak={endLunchBreak} />
+            startLunchBreak={startLunchBreak} endLunchBreak={endLunchBreak} autoPunchOut={autoPunchOut} />
         </div>
       </div>
-
     </div>
   )
 }

@@ -119,7 +119,7 @@ function Punching({ punchIn, punchOut, startBreak, endBreak, startLunchBreak, en
             }
         }
     }
-
+    // Handle End Lunch break
     const handleEndLunchBreak = () => {
         if (punchIn && startLunchBreak && !endLunchBreak) {
             let confirm = window.confirm('Are you ending lunch break?')
