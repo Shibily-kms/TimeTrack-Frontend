@@ -9,8 +9,11 @@ function AccessSales() {
     const [data, setData] = useState([])
     const [model, setModel] = useState(null)
     const [settings, setSettings] = useState({ id: null, allow_sales: false, auto_punch_out: '17:30' })
+    const [loading, setLoading] = useState(false)
     useEffect(() => {
+        setLoading(true)
         adminAxios.get('/designations').then((response) => {
+            setLoading(false)
             setData(response.data.designations)
         })
     }, [])
@@ -91,7 +94,7 @@ function AccessSales() {
                         </>
                             : <>
                                 <tr>
-                                    <td style={{ textAlign: 'center' }}>no data</td>
+                                    <td style={{ textAlign: 'center' }}>{loading ? 'loading...' : 'no data'}</td>
                                 </tr>
                             </>}
                     </table>

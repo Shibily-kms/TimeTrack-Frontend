@@ -103,23 +103,26 @@ function Work_details() {
 
     // Check If Auto PunchOut
     const checkIfAutoPunchOut = setInterval(() => {
-      const [punchOutHour, punchOutMinute] = user?.designation?.auto_punch_out.split(':');
-      const [nowHour, nowMinute] = new Date().toTimeString().split(':');
-      if ((nowHour + nowMinute) >= (punchOutHour + punchOutMinute) && workDetails?.punch_out === null
-        && workDetails?.punch_in) {
+      if (workDetails?.punch_in) {
+        const [punchOutHour, punchOutMinute] = user?.designation?.auto_punch_out.split(':');
+        const [nowHour, nowMinute] = new Date().toTimeString().split(':');
+        if ((nowHour + nowMinute) >= (punchOutHour + punchOutMinute) && workDetails?.punch_out === null
+          && workDetails?.punch_in) {
 
-        userAxios.get('/punch-details').then((response) => {
-          if (response.data?.work_details?.punch_out) {
-            dispatch(setWorkData({
-              ...workDetails,
-              punch_out: new Date()
-          }))
-            clearInterval(checkIfAutoPunchOut);
-            setAutoPunchOut(true)
-          }
-        })
+          userAxios.get('/punch-details').then((response) => {
+            if (response.data?.work_details?.punch_out) {
+              dispatch(setWorkData({
+                ...workDetails,
+                punch_out: new Date()
+              }))
+              clearInterval(checkIfAutoPunchOut);
+              setAutoPunchOut(true)
+            }
+          })
+        }
       }
     }, 10000)
+    
     return () => {
       clearInterval(checkIfAutoPunchOut);
     };
