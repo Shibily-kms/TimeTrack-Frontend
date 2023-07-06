@@ -6,7 +6,7 @@ import Punching from '../../../components/user/punch/Punching'
 import Work from '../../../components/user/work/Work'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { setWorkData, clearWorkData } from '../../../redux/features/user/workdataSlice'
+import { setWorkData } from '../../../redux/features/user/workdataSlice'
 import { setRegularWork } from '../../../redux/features/user/dayWorksSlice'
 import { toast } from 'react-toastify'
 
@@ -14,16 +14,17 @@ function Work_details() {
   const dispatch = useDispatch()
   const { workDetails } = useSelector((state) => state.workData)
   const { user } = useSelector((state) => state.userAuth)
-  const [punchIn, setPunchIn] = useState(false)
-  const [punchOut, setPunchOut] = useState(false)
-  const [startBreak, setStartBreak] = useState(false)
-  const [endBreak, setEndBreak] = useState(false)
-  const [startLunchBreak, setStartLunchBreak] = useState(false)
-  const [endLunchBreak, setEndLunchBreak] = useState(false)
+  const { internet } = useSelector((state) => state.network)
+
+  // Button Show & hide Status : false = hide , true : show
+  const [punch, setPunch] = useState({ in: false, out: false })
+  const [theBreak, setTheBreak] = useState({ start: false, end: false })
+  const [lunchBreak, setLunchBreak] = useState({ start: false, end: false })
   const [autoPunchOut, setAutoPunchOut] = useState(false)
+  const [overTime, setOverTime] = useState({ in: false, out: false })
 
   useEffect(() => {
-    if (!workDetails || workDetails?.punch_out || new Date(workDetails?.punch_in).getDate() !== new Date().getDate()) {
+    if (internet) {
       userAxios.get('/punch-details').then((response) => {
         userAxios.get('/works/' + user?.designation?.id).then((works) => {
           response.data.work_details.lunch_break = response.data.work_details?.lunch_break || {}
@@ -35,58 +36,84 @@ function Work_details() {
   }, [])
 
   useEffect(() => {
-    if (workDetails?.punch_in) {
-      setPunchIn(true)
-      setPunchOut(false)
-      setStartBreak(false)
-      setEndBreak(true)
-      setStartLunchBreak(false)
-      setEndLunchBreak(true)
-    } else {
-      setPunchOut(true)
-      setStartBreak(true)
-      setEndBreak(true)
-      setStartLunchBreak(true)
-      setEndLunchBreak(true)
-    }
-    if (workDetails?.punch_out) {
-      setPunchIn(true)
-      setPunchOut(true)
-      setStartBreak(true)
-      setEndBreak(true)
-      setStartLunchBreak(true)
-      setEndLunchBreak(true)
-    }
-    if (workDetails?.break?.start && workDetails?.break?.end && !workDetails?.punch_out) {
-      setStartBreak(false)
-    } else if (workDetails?.break?.start && !workDetails?.break?.end) {
-      setStartLunchBreak(true)
-      setEndLunchBreak(true)
-      setPunchOut(true)
-      setStartBreak(true)
-      setEndBreak(false)
+
+    if (workDetails?.punch_in && workDetails?.punch_out) {
+      setPunch({ in: false, out: false })
+      setTheBreak({ start: false, end: false })
+      setLunchBreak({ start: false, end: false })
+    } else if (!workDetails?.punch_in && !workDetails?.punch_out) {
+      setPunch({ in: true, out: false })
+      setTheBreak({ start: false, end: false })
+      setLunchBreak({ start: false, end: false })
+      setOverTime({ in: false, out: false })
+    } else if (workDetails?.punch_in && !workDetails?.punch_out) {
+      setPunch({ in: false, out: true })
+      setTheBreak({ start: true, end: false })
+      setLunchBreak({ start: true, end: false })
+
+      // Lunch Break
+      if (workDetails?.lunch_break?.start && workDetails?.lunch_break?.end) {
+        setLunchBreak({ start: false, end: false })
+      } else if (workDetails?.lunch_break?.start && !workDetails?.lunch_break?.end) {
+        setLunchBreak({ start: false, end: true })
+        setPunch({ in: false, out: false })
+        setTheBreak({ start: false, end: false })
+      }
+      // Break
+      if (workDetails?.break?.start && workDetails?.break?.end && !workDetails?.lunch_break?.start) {
+        setTheBreak({ start: true, end: false })
+      } else if (workDetails?.break?.start && !workDetails?.break?.end) {
+        setPunch({ in: false, out: false })
+        setTheBreak({ start: false, end: true })
+        setLunchBreak({ start: false, end: false })
+      }
     }
 
-    if (workDetails?.lunch_break?.start && !workDetails?.lunch_break?.end) {
-      setStartLunchBreak(true)
-      setPunchOut(true)
-      setStartBreak(true)
-      setEndBreak(true)
-      setEndLunchBreak(false)
-    }
-    if (workDetails?.lunch_break?.end) {
-      setStartLunchBreak(true)
+    if (workDetails?.over_time?.in && workDetails?.over_time?.out) {
+      setOverTime({ in: false, out: false })
+      setTheBreak({ start: false, end: false })
+      setLunchBreak({ start: false, end: false })
+    } else if (!workDetails?.over_time?.in && !workDetails?.over_time?.out && workDetails?.punch_out) {
+      setOverTime({ in: true, out: false })
+      setTheBreak({ start: false, end: false })
+      setLunchBreak({ start: false, end: false })
+    } else if (workDetails?.over_time?.in && !workDetails?.over_time?.out) {
+      setOverTime({ in: false, out: true })
+      setTheBreak({ start: true, end: false })
+      setLunchBreak({ start: true, end: false })
+
+      // Lunch Break
+      if (workDetails?.lunch_break?.start && workDetails?.lunch_break?.end) {
+        setLunchBreak({ start: false, end: false })
+      } else if (workDetails?.lunch_break?.start && !workDetails?.lunch_break?.end) {
+        setLunchBreak({ start: false, end: true })
+        setOverTime({ in: false, out: false })
+        setTheBreak({ start: false, end: false })
+      }
+      // Break
+      if (workDetails?.break?.start && workDetails?.break?.end && !workDetails?.lunch_break?.start) {
+        setTheBreak({ start: true, end: false })
+      } else if (workDetails?.break?.start && !workDetails?.break?.end) {
+        setOverTime({ in: false, out: false })
+        setTheBreak({ start: false, end: true })
+        setLunchBreak({ start: false, end: false })
+      }
     }
 
-     // Check If Auto PunchOut
-     const checkIfAutoPunchOut = setInterval(() => {
+
+    // Check If Auto PunchOut
+    const checkIfAutoPunchOut = setInterval(() => {
       const [punchOutHour, punchOutMinute] = user?.designation?.auto_punch_out.split(':');
       const [nowHour, nowMinute] = new Date().toTimeString().split(':');
       if ((nowHour + nowMinute) >= (punchOutHour + punchOutMinute) && workDetails?.punch_out === null
         && workDetails?.punch_in) {
+
         userAxios.get('/punch-details').then((response) => {
           if (response.data?.work_details?.punch_out) {
-            dispatch(clearWorkData())
+            dispatch(setWorkData({
+              ...workDetails,
+              punch_out: new Date()
+          }))
             clearInterval(checkIfAutoPunchOut);
             setAutoPunchOut(true)
           }
@@ -107,12 +134,10 @@ function Work_details() {
       </div>
       <div className="container content">
         <div className="left">
-          <Punching punchIn={punchIn} punchOut={punchOut} startBreak={startBreak} endBreak={endBreak}
-            startLunchBreak={startLunchBreak} endLunchBreak={endLunchBreak} />
+          <Punching punch={punch} theBreak={theBreak} lunchBreak={lunchBreak} overTime={overTime} />
         </div>
         <div className="right">
-          <Work punchIn={punchIn} punchOut={punchOut} startBreak={startBreak} endBreak={endBreak}
-            startLunchBreak={startLunchBreak} endLunchBreak={endLunchBreak} autoPunchOut={autoPunchOut} />
+          <Work punch={punch} theBreak={theBreak} lunchBreak={lunchBreak} autoPunchOut={autoPunchOut} overTime={overTime} />
         </div>
       </div>
     </div>

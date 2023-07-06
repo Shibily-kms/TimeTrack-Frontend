@@ -7,6 +7,7 @@ import Home from '../pages/user/home/Home'
 import WorkDetails from '../pages/user/work-details/Work_details'
 import { userAxios } from '../config/axios'
 import { resetOfflineData } from '../redux/features/user/workdataSlice'
+import { setUser } from '../redux/features/user/authSlice'
 
 
 function User() {
@@ -33,6 +34,21 @@ function User() {
       }
     }
   }, [internet])
+
+  useEffect(() => {
+    userAxios.get(`/designations?id=${user?.designation?.id}`).then((response) => {
+      if (user) {
+        dispatch(setUser({
+          ...user,
+          designation: {
+            ...user.designation,
+            allow_sales: response.data.designation?.allow_sales || false,
+            auto_punch_out: response.data.designation?.auto_punch_out || '17:30',
+          }
+        }))
+      }
+    })
+  }, [])
 
 
 

@@ -48,6 +48,14 @@ export const workDataSlice = createSlice({
         },
         doLunchBreak: (state, action) => {
             state.workDetails.lunch_break = action.payload
+        },
+        doStartOverTime: (state) => {
+            state.workDetails.over_time = {
+                in: new Date(), out: null
+            }
+        },
+        doStopOverTime: (state) => {
+            state.workDetails.over_time.out = new Date()
         }
     }
 })
@@ -55,5 +63,5 @@ export const workDataSlice = createSlice({
 
 export const {
     setWorkData, doStartBreak, clearWorkData, resetOfflineData, doEndBreak, addRegularWork,
-    addExtraWork, doLunchBreak } = workDataSlice.actions;
+    addExtraWork, doLunchBreak, doStartOverTime, doStopOverTime } = workDataSlice.actions;
 export default workDataSlice.reducer

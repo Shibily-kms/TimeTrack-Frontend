@@ -7,7 +7,7 @@ import { completeWork } from '../../../redux/features/user/dayWorksSlice'
 import { offlineRegularWork, offlineExtraWork } from '../../../assets/javascript/offline-helper'
 import { addRegularWork, addExtraWork } from '../../../redux/features/user/workdataSlice'
 
-function Work({ punchIn, punchOut, startBreak, endBreak, startLunchBreak, endLunchBreak, autoPunchOut }) {
+function Work({ punch, theBreak, lunchBreak, autoPunchOut, overTime }) {
     const dispatch = useDispatch()
     const [extraWork, setExtraWork] = useState('')
     const { workDetails } = useSelector((state) => state.workData)
@@ -52,7 +52,7 @@ function Work({ punchIn, punchOut, startBreak, endBreak, startLunchBreak, endLun
     return (
         <div className='work'>
             <div className="boader">
-                {punchIn && !startBreak && !punchOut ? <div>
+                {(!punch?.in && punch?.out) || (!overTime?.in && overTime?.out) ? <div>
                     <div className="title">
                         <h4>Regular Works</h4>
                     </div>
@@ -86,10 +86,12 @@ function Work({ punchIn, punchOut, startBreak, endBreak, startLunchBreak, endLun
                     :
                     <div>
                         <div className="box">
-                            {!punchIn && <h5>Punch In to Work</h5>}
-                            {endBreak && punchIn && punchOut && endLunchBreak && <h5>{autoPunchOut ? 'Auto punched Out' : 'Punched Out'}</h5>}
-                            {startBreak && !endBreak && <h5>You are on break</h5>}
-                            {startLunchBreak && !endLunchBreak && <h5>You are on lunch break</h5>}
+                            {punch?.in && <h5>Punch In to Work</h5>}
+                            {!theBreak?.end && !punch?.in && !punch?.out && !lunchBreak?.end &&
+                                !workDetails?.over_time?.in && <h5>{autoPunchOut ? 'Auto punched Out' : 'Punched Out'}</h5>}
+                            {!theBreak?.start && theBreak?.end && <h5>You are on break</h5>}
+                            {!lunchBreak?.start && lunchBreak?.end && <h5>You are on lunch break</h5>}
+                            {workDetails?.over_time?.out && <h5>Over Time Ended</h5>}
                         </div>
                     </div>
                 }
