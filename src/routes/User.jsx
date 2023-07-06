@@ -37,13 +37,16 @@ function User() {
 
   useEffect(() => {
     userAxios.get(`/designations?id=${user?.designation?.id}`).then((response) => {
+      let [hour, minute] = new Date().toTimeString().split(':');
+      let nowTime = `${hour}:${minute}`
       if (user) {
         dispatch(setUser({
           ...user,
           designation: {
             ...user.designation,
             allow_sales: response.data.designation?.allow_sales || false,
-            auto_punch_out: response.data.designation?.auto_punch_out || '17:30',
+            auto_punch_out: nowTime > '13:29' ? user?.designation?.auto_punch_out || response.data.designation?.auto_punch_out :
+              response.data.designation?.auto_punch_out || '17:30',
           }
         }))
       }
