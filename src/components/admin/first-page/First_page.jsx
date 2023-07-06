@@ -31,7 +31,7 @@ function First_page() {
               </button>
             </div>
             <div className="button-div" >
-              <button onClick={() => navigate('/admin/allow-access-to-sales')} >ALLOW ACCESS TO SALES
+              <button onClick={() => navigate('/admin/all-designations')} >ALL DESIGNATIONS
               </button>
             </div>
           </div>

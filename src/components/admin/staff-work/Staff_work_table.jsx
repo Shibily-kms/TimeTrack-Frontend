@@ -54,6 +54,24 @@ function Staff_work_table() {
           end: date.punch_out,
           duration: date.duration
         }
+        let overTime = {
+          date: date.date,
+          type: 'over time',
+          work: '',
+          start: date.over_time.in,
+          end: date.over_time.out,
+          duration: date.over_time.duration
+        }
+        overTime = date?.over_time?.in ? [overTime] : []
+        let lunchBreak = {
+          date: date.date,
+          type: 'lunch break',
+          work: '',
+          start: date.lunch_break.start,
+          end: date.lunch_break.end,
+          duration: date.lunch_break.duration
+        }
+        lunchBreak = date?.lunch_break?.start ? [lunchBreak] : []
         const regular = date.regular_work.map((workObj) => ({
           date: date.date,
           type: 'regular work',
@@ -78,7 +96,7 @@ function Staff_work_table() {
           end: obj.end,
           duration: obj.duration
         }));
-        return [punch, ...regular, ...extra, ...breaks]
+        return [punch, ...regular, ...extra, ...breaks, ...overTime, ...lunchBreak, '']
       })
 
       const worksheet = XLSX.utils.json_to_sheet(workSheetData);
@@ -121,6 +139,9 @@ function Staff_work_table() {
                                   <tr className='tr-date'>
                                     <td>DATE :</td>
                                     <td>{date.date}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>{date.auto_punch_out ? <h5>Auto Punched</h5> : ''}</td>
                                   </tr>
                                   <tr className='tr-head'>
                                     <td>Type</td>
@@ -137,6 +158,15 @@ function Staff_work_table() {
                                     <td>{date.punch_out ? date.punch_out : '-'}</td>
                                     <td>{date.duration ? date.duration : '-'}</td>
                                   </tr>
+                                  {date.over_time.in ?
+                                    <tr style={{ color: 'gray' }}>
+                                      <td>Over Time</td>
+                                      <td></td>
+                                      <td>{date.over_time.in}</td>
+                                      <td>{date.over_time.out ? date.over_time.out : '-'}</td>
+                                      <td>{date.over_time.duration ? date.over_time.duration : '-'}</td>
+                                    </tr>
+                                    : ""}
 
                                   {date.regular_work?.[0] ?
                                     <>
@@ -177,6 +207,16 @@ function Staff_work_table() {
                                       })}
                                     </>
                                     : ""}
+                                  {date.lunch_break.start ?
+                                    <tr >
+                                      <td>Lunch Break :</td>
+                                      <td></td>
+                                      <td>{date.lunch_break.start}</td>
+                                      <td>{date.lunch_break.end}</td>
+                                      <td>{date.lunch_break.duration}</td>
+                                    </tr>
+                                    : ""}
+
                                   <tr>
                                     <td></td>
                                   </tr>

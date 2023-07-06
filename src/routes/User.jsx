@@ -6,7 +6,8 @@ import Login from '../pages/user/login/Login'
 import Home from '../pages/user/home/Home'
 import WorkDetails from '../pages/user/work-details/Work_details'
 import { userAxios } from '../config/axios'
-import { resetWorkData } from '../redux/features/user/workdataSlice'
+import { resetOfflineData } from '../redux/features/user/workdataSlice'
+import { setUser } from '../redux/features/user/authSlice'
 
 
 function User() {
@@ -23,13 +24,34 @@ function User() {
 
   useEffect(() => {
     if (internet) {
-      if (workDetails?.offBreak?.[0] || workDetails?.regular_work?.[0] || workDetails?.extra_work?.[0]) {
+      if (workDetails?.offBreak?.[0] || workDetails?.regular_work?.[0] || workDetails?.extra_work?.[0] ||
+        workDetails?.lunch_break?.start) {
         userAxios.post('/offline-recollect', workDetails).then((response) => {
-          dispatch(resetWorkData(response.data.lastBreak))
+          dispatch(resetOfflineData(response.data.lastBreak))
+        }).catch((error) => {
+          dispatch(resetOfflineData(error.response.data.lastBreak))
         })
       }
     }
   }, [internet])
+
+  useEffect(() => {
+    userAxios.get(`/designations?id=${user?.designation?.id}`).then((response) => {
+      let [hour, minute] = new Date().toTimeString().split(':');
+      let nowTime = `${hour}:${minute}`
+      if (user) {
+        dispatch(setUser({
+          ...user,
+          designation: {
+            ...user.designation,
+            allow_sales: response.data.designation?.allow_sales || false,
+            auto_punch_out: nowTime > '21:00' ? user?.designation?.auto_punch_out || response.data.designation?.auto_punch_out :
+              response.data.designation?.auto_punch_out || '17:30',
+          }
+        }))
+      }
+    })
+  }, [])
 
 
 

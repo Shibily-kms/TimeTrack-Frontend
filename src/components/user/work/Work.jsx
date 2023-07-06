@@ -7,7 +7,7 @@ import { completeWork } from '../../../redux/features/user/dayWorksSlice'
 import { offlineRegularWork, offlineExtraWork } from '../../../assets/javascript/offline-helper'
 import { addRegularWork, addExtraWork } from '../../../redux/features/user/workdataSlice'
 
-function Work({ punchIn, punchOut, startBreak, endBreak }) {
+function Work({ punch, theBreak, lunchBreak, autoPunchOut, overTime }) {
     const dispatch = useDispatch()
     const [extraWork, setExtraWork] = useState('')
     const { workDetails } = useSelector((state) => state.workData)
@@ -15,16 +15,18 @@ function Work({ punchIn, punchOut, startBreak, endBreak }) {
     const { regular } = useSelector((state) => state.dayWorks)
 
     const handleWork = (e) => {
-        let confirm = window.confirm('This work completed')
+        let confirm = window.confirm('Are you completing this work ?')
         if (confirm) {
             if (internet) {
                 userAxios.post('/regular-work', { work: e.target.value, punch_id: workDetails._id }).then((response) => {
                     dispatch(completeWork({ thisWork: e.target.value }))
+                    toast.success('Work Completed')
                 })
             } else {
                 const oneRegularWork = offlineRegularWork(e.target.value)
                 dispatch(addRegularWork(oneRegularWork))
                 dispatch(completeWork({ thisWork: e.target.value }))
+                toast.success('Work Completed')
             }
         }
     }
@@ -50,19 +52,17 @@ function Work({ punchIn, punchOut, startBreak, endBreak }) {
     return (
         <div className='work'>
             <div className="boader">
-                {punchIn && !startBreak && !punchOut ? <div>
+                {(!punch?.in && punch?.out) || (!overTime?.in && overTime?.out) ? <div>
                     <div className="title">
                         <h4>Regular Works</h4>
                     </div>
                     <div className="regular">
                         {regular?.[0] ?
                             regular.map((work) => {
-                                return <div className="input-div" key={work.work} >
-                                    {work?.finished ? "" :
-                                        <>
-                                            <input type="checkbox" name='work' id={work.work} value={work.works} onChange={handleWork} />
-                                            <label htmlFor={work.work}>{work.works}</label>
-                                        </>}
+                                return <div className="input-div" key={work.works} >
+                                    <input type="checkbox" name='work' checked={work.finished ? true : false}
+                                        id={work.works} value={work.works} onChange={(e) => work.finished ? null : handleWork(e)} />
+                                    <label htmlFor={work.works}>{work.works}</label>
                                 </div>
                             }) : 'no works'}
                     </div>
@@ -86,9 +86,12 @@ function Work({ punchIn, punchOut, startBreak, endBreak }) {
                     :
                     <div>
                         <div className="box">
-                            {!punchIn && <h5>Punch In to Work</h5>}
-                            {endBreak && punchIn && punchOut && <h5>Punched Out</h5>}
-                            {startBreak && !endBreak && <h5>Your Break Started</h5>}
+                            {punch?.in && <h5>Punch In to Work</h5>}
+                            {!theBreak?.end && !punch?.in && !punch?.out && !lunchBreak?.end &&
+                                !workDetails?.over_time?.in && <h5>{autoPunchOut ? 'Auto punched Out' : 'Punched Out'}</h5>}
+                            {!theBreak?.start && theBreak?.end && <h5>You are on break</h5>}
+                            {!lunchBreak?.start && lunchBreak?.end && <h5>You are on lunch break</h5>}
+                            {workDetails?.over_time?.out && <h5>Over Time Ended</h5>}
                         </div>
                     </div>
                 }

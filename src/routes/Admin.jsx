@@ -20,7 +20,7 @@ function Admin() {
       <Route path='/' element={<PrivateRoute element={<Home />} isAuthenticated={isAuthenticated} />} />
       <Route path='/add-work' element={<PrivateRoute element={<AddWork />} isAuthenticated={isAuthenticated} />} />
       <Route path='/staff-work-details' element={<PrivateRoute element={<StaffWorks />} isAuthenticated={isAuthenticated} />} />
-      <Route path='/allow-access-to-sales' element={<PrivateRoute element={<AccessSales />} isAuthenticated={isAuthenticated} />} />
+      <Route path='/all-designations' element={<PrivateRoute element={<AccessSales />} isAuthenticated={isAuthenticated} />} />
       <Route path='/login' element={<Login />} />
     </Routes>
   )
