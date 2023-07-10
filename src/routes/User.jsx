@@ -36,6 +36,9 @@ function User() {
   }, [internet])
 
   useEffect(() => {
+    // Change Title
+    document.title = `Staff Works`;
+
     userAxios.get(`/designations?id=${user?.designation?.id}`).then((response) => {
       let [hour, minute] = new Date().toTimeString().split(':');
       let nowTime = `${hour}:${minute}`

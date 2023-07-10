@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import Login from '../pages/admin/login/Login'
 import Home from '../pages/admin/home/Home'
@@ -14,6 +14,11 @@ function Admin() {
   if (admin?.token) {
     isAuthenticated = true
   }
+
+  useEffect(() => {
+    // Change Title
+    document.title = `Staff Works | Admin Panel`;
+  }, [])
 
   return (
     <Routes>

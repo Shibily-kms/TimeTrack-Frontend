@@ -22,7 +22,7 @@ function Header() {
         <div className='header'>
             <div className="boader">
                 <div className="left">
-                    <h3>Company</h3>
+                    <h3 style={{ cursor: 'pointer' }} onClick={() => navigate('/')} >Staff Works</h3>
                 </div>
                 <div className="right">
                     <button onClick={handleLogOut}><RiLogoutCircleLine /> LogOut</button>
