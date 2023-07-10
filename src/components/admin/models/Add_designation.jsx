@@ -3,7 +3,7 @@ import './add-designation.scss';
 import { adminAxios } from '../../../config/axios'
 import { toast } from 'react-toastify'
 
-function Add_designation({ setModel }) {
+function Add_designation({ setModel, setData }) {
     const [form, setForm] = useState({ user_name: null, password: null })
     const handleChange = (e) => {
         setForm({
@@ -16,6 +16,9 @@ function Add_designation({ setModel }) {
         e.preventDefault();
         adminAxios.post('/designation', form).then((response) => {
             toast.success(response.data.message)
+            setData((state) => {
+                return [...state, response.data.data]
+            })
             setModel(null)
         }).catch((error) => {
             toast.error(error.response.data.message)

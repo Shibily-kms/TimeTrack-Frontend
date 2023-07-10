@@ -33,6 +33,7 @@ function User() {
         })
       }
     }
+    // eslint-disable-next-line
   }, [internet])
 
   useEffect(() => {
@@ -54,6 +55,7 @@ function User() {
         }))
       }
     })
+    // eslint-disable-next-line
   }, [])
 
 

@@ -6,10 +6,8 @@ import { toast } from 'react-toastify'
 
 function Add_work() {
     const location = useLocation()
-    const designation = location.state && location.state
-    const [form, setForm] = useState({ designation: designation?._id, regular_work: '' })
+    const [form, setForm] = useState({ designation: location?.state?.id, regular_work: '' })
 
-    
     const handleChange = (e) => {
         setForm({
             ...form,
@@ -45,7 +43,7 @@ function Add_work() {
                             <form onSubmit={onSubmit}>
                                 <div className="input-div">
                                     <label htmlFor="designation">Designation</label>
-                                    <input type="text" id='designation' required readOnly value={designation?.designation} />
+                                    <input type="text" id='designation' required readOnly value={location?.state?.designation} />
                                 </div>
                                 <div className="input-div">
                                     <label htmlFor="regular_work">Regular work</label>
