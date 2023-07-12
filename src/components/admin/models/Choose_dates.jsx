@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import './add-designation.scss';
+import React, { useState } from 'react'
+import './style.scss';
 import { adminAxios } from '../../../config/axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';

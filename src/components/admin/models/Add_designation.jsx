@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import './add-designation.scss';
+import './style.scss';
 import { adminAxios } from '../../../config/axios'
 import { toast } from 'react-toastify'
 

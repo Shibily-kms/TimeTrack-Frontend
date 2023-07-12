@@ -96,9 +96,11 @@
         position: fixed;
         z-index: 1;
 
-        .boader {
-            display: grid;
-            place-content: center;
+        .border {
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
             width: 100%;
             height: 100vh;
             padding: 15px;
@@ -126,6 +128,7 @@
                 -ms-border-radius: 15px;
                 -o-border-radius: 15px;
                 z-index: 6;
+                padding-bottom: 15px;
 
                 .header {
                     padding: 10px 15px;
@@ -134,7 +137,7 @@
                     border-bottom: 1px solid gray;
                     align-items: center;
 
-                    .close-icon{
+                    .close-icon {
                         cursor: pointer;
                     }
 
@@ -142,6 +145,11 @@
 
                 .content {
                     padding: 10px 15px;
+                    overflow-y: auto;
+                    height: auto;
+                    // height: 80vh;
+                    // background-color: salmon;
+                    max-height: calc(80vh - 50px);
 
                     .new-input-div {
                         position: relative;
@@ -220,6 +228,11 @@
                         opacity: .5;
                     }
                 }
+            }
+
+            .large-box {
+                width: 600px;
+                max-width: 100%;
             }
         }
     }

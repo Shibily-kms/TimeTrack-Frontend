@@ -2,21 +2,22 @@ import React, { useEffect, useState } from 'react'
 import Header from '../../../components/admin/header/Header'
 import AddDesignation from '../../../components/admin/models/Add_designation'
 import EditDesignation from '../../../components/admin/models/EditDesignation'
+import EditWorkList from '../../../components/admin/models/EditWorkList'
 import './designations.scss'
 import { adminAxios } from '../../../config/axios'
 import { IoCloseCircleOutline } from 'react-icons/io5'
 import { FiEdit2 } from 'react-icons/fi'
 import { BsTrash3Fill, BsListUl } from 'react-icons/bs'
 import { AiOutlinePlus } from 'react-icons/ai'
-import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 
 function Designations() {
-    const navigate = useNavigate()
+
     const [data, setData] = useState([])
     const [model, setModel] = useState(null)
     const [editData, setEditData] = useState({})
+    const [workId, setWorkId] = useState('')
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {
@@ -27,8 +28,13 @@ function Designations() {
         })
     }, [])
 
-    const openModel = (header, value) => {
+    const openEdit = (header, value) => {
         setEditData({ ...value, allow_sales: value.allow_sales || false, auto_punch_out: value.auto_punch_out || '17:30' })
+        setModel(header)
+    }
+
+    const openWorksList = (header, id) => {
+        setWorkId(id)
         setModel(header)
     }
 
@@ -75,9 +81,9 @@ function Designations() {
                                     <td>{value.auto_punch_out ? value.auto_punch_out : '17:30'}</td>
                                     <td>
                                         <div className='buttons'>
-                                            <button title='Add works' onClick={() => navigate('/admin/add-work', { state: { id: value._id, designation: value.designation } })}
+                                            <button title='Works list' onClick={() => openWorksList('WORKS LIST', value._id)}
                                                 className='button-small-icon '><BsListUl /></button>
-                                            <button title='Edit' onClick={() => openModel('EDIT DESIGNATION', value)} className='button-small-icon edit'><FiEdit2 /></button>
+                                            <button title='Edit' onClick={() => openEdit('EDIT DESIGNATION', value)} className='button-small-icon edit'><FiEdit2 /></button>
                                             <button title='Remove' onClick={() => handleDelete(value._id)} className='button-small-icon delete'><BsTrash3Fill /></button>
                                         </div>
                                     </td>
@@ -94,31 +100,33 @@ function Designations() {
                 </div>
             </div>
 
-            {model ?
-                <>
-                    <div className="model" >
-                        <div className="boader">
-                            <div className="shadow" onClick={() => setModel('')}></div>
-                            <div className="box">
-                                <div className="header">
-                                    <div className="title">
-                                        <h5>{model}</h5>
+            {
+                model ?
+                    <>
+                        <div className="model" >
+                            <div className="border">
+                                <div className="shadow" onClick={() => setModel('')}></div>
+                                <div className={model === 'WORKS LIST' ? "box large-box" : 'box'}>
+                                    <div className="header">
+                                        <div className="title">
+                                            <h5>{model}</h5>
+                                        </div>
+                                        <div className="close-icon" onClick={() => setModel('')}>
+                                            <IoCloseCircleOutline />
+                                        </div>
                                     </div>
-                                    <div className="close-icon" onClick={() => setModel('')}>
-                                        <IoCloseCircleOutline />
+                                    <div className="content">
+                                        {model === 'ADD NEW DESIGNATION' && <AddDesignation setModel={setModel} setData={setData} />}
+                                        {model === 'EDIT DESIGNATION' &&
+                                            <EditDesignation setModel={setModel} editData={editData} setEditData={setEditData} setData={setData} />}
+                                        {model === 'WORKS LIST' && <EditWorkList setModel={setModel} designationId={workId} />}
                                     </div>
-                                </div>
-                                <div className="content">
-                                    {model === 'ADD NEW DESIGNATION' ? <AddDesignation setModel={setModel} setData={setData} /> : ""}
-                                    {model === 'EDIT DESIGNATION' ?
-                                        <EditDesignation setModel={setModel} editData={editData} setEditData={setEditData} setData={setData} />
-                                        : ""}
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </> : ''}
-        </div>
+                    </> : ''
+            }
+        </div >
     )
 }
 
