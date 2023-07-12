@@ -10,6 +10,7 @@ import { FiEdit2 } from 'react-icons/fi'
 import { BsTrash3Fill, BsListUl } from 'react-icons/bs'
 import { AiOutlinePlus } from 'react-icons/ai'
 import { toast } from 'react-toastify'
+import { stringToLocalTime } from '../../../assets/javascript/date-helper'
 
 
 function Designations() {
@@ -78,7 +79,7 @@ function Designations() {
                                     <td>{++index}</td>
                                     <td>{value.designation}</td>
                                     <td>{value.allow_sales ? 'Yes' : 'No'}</td>
-                                    <td>{value.auto_punch_out ? value.auto_punch_out : '17:30'}</td>
+                                    <td>{stringToLocalTime(value.auto_punch_out ? value.auto_punch_out : '17:30')}</td>
                                     <td>
                                         <div className='buttons'>
                                             <button title='Works list' onClick={() => openWorksList('WORKS LIST', value._id)}

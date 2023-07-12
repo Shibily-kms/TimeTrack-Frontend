@@ -13,15 +13,19 @@ function AddTextInput({ setWorks, designationId }) {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        adminAxios.post('/regular-work', { designationId, regular_work: work }).then((response) => {
-            setWorks((state) => {
-                return [...state, response.data.work]
+        if (work.length >= 3) {
+            adminAxios.post('/regular-work', { designationId, regular_work: work }).then((response) => {
+                setWorks((state) => {
+                    return [...state, response.data.work]
+                })
+                setWork('')
+            }).catch((error) => {
+                toast.error(error.response.data.message)
+                setWork('')
             })
-            setWork('')
-        }).catch((error) => {
-            toast.error(error.response.data.message)
-            setWork('')
-        })
+        } else {
+            toast.error('Must have 3 letters')
+        }
     }
 
     return (

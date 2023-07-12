@@ -59,10 +59,10 @@ function Work({ punch, theBreak, lunchBreak, autoPunchOut, overTime }) {
                     <div className="regular">
                         {regular?.[0] ?
                             regular.map((work) => {
-                                return <div className="input-div" key={work.works} >
+                                return <div className="input-div" key={work.work} >
                                     <input type="checkbox" name='work' checked={work.finished ? true : false}
-                                        id={work.works} value={work.works} onChange={(e) => work.finished ? null : handleWork(e)} />
-                                    <label htmlFor={work.works}>{work.works}</label>
+                                        id={work.work} value={work.work} onChange={(e) => work.finished ? null : handleWork(e)} />
+                                    <label htmlFor={work.work}>{work.work}</label>
                                 </div>
                             }) : 'no works'}
                     </div>
