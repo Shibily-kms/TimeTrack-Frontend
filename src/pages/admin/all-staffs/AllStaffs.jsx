@@ -52,7 +52,7 @@ function AllStaffs() {
                                 return <tr key={value._id}>
                                     <td>{++index}</td>
                                     <td>{value.user_name}</td>
-                                    <td>{value.designation}</td>
+                                    <td>{value.designation.designation}</td>
                                     <td>{value.contact}</td>
                                     <td>
                                         <div className='buttons'>
