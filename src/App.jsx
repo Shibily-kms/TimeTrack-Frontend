@@ -10,6 +10,7 @@ function App() {
   const dispatch = useDispatch()
 
   useEffect(() => {
+    dispatch(connection(navigator.onLine))
     const handleOnline = () => {
       dispatch(connection(true))
     };
@@ -25,7 +26,9 @@ function App() {
       window.removeEventListener('online', handleOnline);
       window.removeEventListener('offline', handleOffline);
     };
+    // eslint-disable-next-line
   }, []);
+
   return (
     <div className="App">
       <Routes>

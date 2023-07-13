@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import './punching.scss'
 import { userAxios } from '../../../config/axios'
 import { toast } from 'react-toastify'
@@ -10,6 +10,8 @@ import {
     setWorkData, doStartBreak, doEndBreak, doLunchBreak, doStartOverTime, doStopOverTime
 } from '../../../redux/features/user/workdataSlice'
 import { setRegularWork } from '../../../redux/features/user/dayWorksSlice'
+import { TbClockStop } from 'react-icons/tb'
+import { MdLogin,MdLogout ,MdLunchDining,MdMoreTime, MdOutlineTimerOff } from 'react-icons/md'
 
 function Punching({ punch, theBreak, lunchBreak, overTime }) {
     const dispatch = useDispatch()
@@ -155,7 +157,7 @@ function Punching({ punch, theBreak, lunchBreak, overTime }) {
                         toast.error(error.response.data.message)
                     })
                 } else {
-                    toast.error('Must have Internet')
+                    toast.warning('Must have Internet')
                 }
             }
         }
@@ -172,7 +174,7 @@ function Punching({ punch, theBreak, lunchBreak, overTime }) {
                     toast.error(error.response.data.message)
                 })
             } else {
-                toast.error('Must have internet')
+                toast.warning('Must have internet')
             }
         }
     }
@@ -182,28 +184,28 @@ function Punching({ punch, theBreak, lunchBreak, overTime }) {
             <div className="boader">
                 {/* Punch */}
                 <button className={punch?.in ? "punch" : "opacity punch"} onClick={handlePunchIn}>
-                    PUNCH IN</button>
+                    <span><MdLogin /></span> <span>PUNCH IN </span></button>
                 <button className={punch?.out ? "punch" : "opacity punch"} onClick={handlePunchOut}>
-                    PUNCH OUT</button>
+                    <span><MdLogout /></span> <span>PUNCH OUT </span></button>
 
                 {/* Over Time */}
                 <button className={overTime?.in ? "punch" : "opacity punch"} onClick={handleOverTimeIn}>
-                    OVER TIME IN</button>
+                    <span><MdMoreTime /></span> <span>OVER TIME IN </span></button>
                 <button className={overTime?.out ? "punch" : "opacity punch"} onClick={handleOverTimeOut}>
-                    OVER TIME OUT</button>
+                    <span><MdOutlineTimerOff /></span> <span>OVER TIME OUT </span></button>
 
                 {/* Break */}
                 <button className={theBreak?.start ? "break" : "opacity break"} onClick={handleStartBreak}>
-                    START BREAK</button>
+                    <span><TbClockStop /></span> <span>START BREAK </span></button>
 
                 <button className={theBreak?.end ? "break" : "opacity break"} onClick={handleEndBreak}>
-                    END BREAK</button>
+                    <span><TbClockStop /></span> <span>END BREAK </span></button>
 
                 {/* Lunch Break */}
                 <button className={lunchBreak?.start ? "break" : "opacity break"} onClick={handleStartLunchBreak}>
-                    START LUNCH BREAK</button>
+                    <span><MdLunchDining /></span> <span>START LUNCH BREAK </span></button>
                 <button className={lunchBreak?.end ? "break" : "opacity break"} onClick={handleEndLunchBreak}>
-                    END LUNCH BREAK</button>
+                    <span><MdLunchDining /></span> <span>END LUNCH BREAK </span></button>
 
 
             </div>

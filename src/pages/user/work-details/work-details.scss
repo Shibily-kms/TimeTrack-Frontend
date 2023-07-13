@@ -1,17 +1,42 @@
+@import '../../../assets/scss/color.scss';
 
 .work-details-page {
     .content {
-        display: grid;
-        grid-template-columns: 40% 60%;
         width: 100%;
         padding-top: 20px;
+
+        .section-one {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            padding: 15px;
+            background-color: $light_blue_color;
+            border-radius: 10px;
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            -ms-border-radius: 10px;
+            -o-border-radius: 10px;
+        }
+
+        .section-two {
+            margin-top: 20px;
+        }
+
     }
 
-    @media screen and (max-width:500px) {
+    @media screen and (max-width:600px) {
         .content {
-            grid-template-columns: 100% ;
-            .right{
-                margin-top: 25px;
+            .section-one {
+                grid-template-columns: 1fr 2fr;
+            }
+
+        }
+    }
+
+    @media screen and (max-width:490px) {
+        .content {
+            .section-one {
+                grid-template-columns: 1fr;
             }
         }
     }
