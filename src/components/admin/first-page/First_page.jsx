@@ -25,6 +25,10 @@ function First_page() {
               <button onClick={() => setModel('SELECT DATES')} >STAFF WORK DETAILS
               </button>
             </div>
+            <div className="button-div" >
+              <button onClick={() => navigate('/admin/all-staffs')} >ALL STAFFS
+              </button>
+            </div>
           </div>
         </div>
       </div>

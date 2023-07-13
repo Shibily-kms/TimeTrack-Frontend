@@ -81,7 +81,7 @@ function EditTextInput({ work, nowEdit, setNowEdit, setWorks }) {
                             <button type='button' onClick={() => setNowEdit('')} className='close'><IoMdClose /></button>
                             <button type='submit' className='add' ><BsCheckLg /></button>
                         </> : <>
-                            <button type='button' className='edit' onClick={handleEdit}><FiEdit2 /></button>
+                            {/* <button type='button' className='edit' onClick={handleEdit}><FiEdit2 /></button> */}
                             <button type='button' className='delete' onClick={handleDelete}><BsTrash3Fill /></button>
                         </>}
                     </div>
