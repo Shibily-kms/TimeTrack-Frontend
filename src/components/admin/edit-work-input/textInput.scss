@@ -1,0 +1,75 @@
+@import '../../../assets/scss/color.scss';
+@import '../../../assets/scss/model.scss';
+
+
+
+.edit-text-input {
+    width: 100%;
+
+    div {
+
+        display: flex;
+        align-items: flex-end;
+
+        .item-div {
+            width: 100%;
+            // max-width: calc(100% - 70px);
+            max-width: calc(100% - 30px);
+
+            textarea {
+                border: none;
+                background: none;
+                outline: none;
+                resize: none;
+                padding: 0;
+                background-color: rgba(219, 242, 255, 0.678);
+                border-radius: 5px;
+                -webkit-border-radius: 5px;
+                -moz-border-radius: 5px;
+                -ms-border-radius: 5px;
+                -o-border-radius: 5px;
+                padding: 3px;
+            }
+            p{
+                word-wrap: break-word;
+
+            }
+
+            .text-input {
+                width: 100%;
+                font-size: 13px;
+            }
+        }
+
+        .actions {
+            button {
+                -webkit-border-radius: 100px;
+                -moz-border-radius: 100px;
+                -ms-border-radius: 100px;
+                -o-border-radius: 100px;
+                @include smallButton();
+                @include iconInButton();
+                font-size: 15px;
+                border-radius: 100px;
+                margin: 0 2px;
+                width: 30px;
+                height: 30px;
+            }
+
+            .edit {
+                background-color: $edit_color;
+            }
+
+            .delete {
+                background-color: $red_color;
+            }
+
+            .add{
+                background-color: $green_color;
+            }
+            .close{
+                background-color: gray;
+            }
+        }
+    }
+}

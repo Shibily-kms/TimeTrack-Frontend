@@ -17,7 +17,7 @@ export const dayWorksSlice = createSlice({
         },
         completeWork: (state, action) => {
             state.regular.forEach(element => {
-                if (element.works === action.payload.thisWork) {
+                if (element.work === action.payload.thisWork) {
                     element.finished = true
                 }
             });

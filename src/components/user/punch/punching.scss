@@ -2,15 +2,24 @@
 
 .punching {
     .boader {
-        padding: 10px;
+
         display: grid;
-        grid-template-columns: 250px;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 10px;
         justify-content: center;
 
         button {
             @include normalButton();
-            margin: 5px 0;
             background-color: rgb(255, 102, 0);
+            display: grid;
+            grid-template-columns: 1fr;
+            justify-content: center;
+            font-size: 12px;
+            span{
+                &:first-child{
+                    font-size: 30px;
+                }
+            }
         }
 
         .punch {
@@ -25,13 +34,30 @@
 
     @media screen and (max-width:900px) {
         .boader {
-            grid-template-columns: 150px;
+            grid-template-columns: 1fr 1fr;
         }
     }
 
-    @media screen and (max-width:500px) {
+    @media screen and (max-width:600px) {
         .boader {
-            grid-template-columns: 100%;
+            grid-template-columns: 1fr;
+        }
+    }
+    @media screen and (max-width:490px) {
+        .boader {
+            button{
+                display: flex;
+                align-items: center;
+                span{
+                    &:first-child{
+                        margin-right: 10px;
+                        font-size: 25px;
+                    }
+                    &:last-child{
+                        font-size: 14px;
+                    }
+                }
+            }
         }
     }
 }

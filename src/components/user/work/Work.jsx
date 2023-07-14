@@ -52,34 +52,37 @@ function Work({ punch, theBreak, lunchBreak, autoPunchOut, overTime }) {
     return (
         <div className='work'>
             <div className="boader">
-                {(!punch?.in && punch?.out) || (!overTime?.in && overTime?.out) ? <div>
-                    <div className="title">
-                        <h4>Regular Works</h4>
+                {(!punch?.in && punch?.out) || (!overTime?.in && overTime?.out) ? <div className='main-div'>
+                    <div className="left">
+                        <div className="title">
+                            <h4>Regular Works</h4>
+                        </div>
+                        <div className="regular">
+                            {regular?.[0] ?
+                                regular.map((work) => {
+                                    return <div className="input-div" key={work.work} >
+                                        <input type="checkbox" name='work' checked={work.finished ? true : false}
+                                            id={work.work} value={work.work} onChange={(e) => work.finished ? null : handleWork(e)} />
+                                        <label htmlFor={work.work}>{work.work}</label>
+                                    </div>
+                                }) : 'no works'}
+                        </div>
                     </div>
-                    <div className="regular">
-                        {regular?.[0] ?
-                            regular.map((work) => {
-                                return <div className="input-div" key={work.works} >
-                                    <input type="checkbox" name='work' checked={work.finished ? true : false}
-                                        id={work.works} value={work.works} onChange={(e) => work.finished ? null : handleWork(e)} />
-                                    <label htmlFor={work.works}>{work.works}</label>
-                                </div>
-                            }) : 'no works'}
-                    </div>
-
-                    <div className="title">
-                        <h4>Extra works</h4>
-                    </div>
-                    <div className="extra">
-                        <div className="inputs">
-                            <form onSubmit={handleSubmit}>
-                                <div className="input-div">
-                                    <input type="text" placeholder='type...' value={extraWork} name='work' required onChange={handleChange} />
-                                </div>
-                                <div className="button-div">
-                                    <button type='submit'>Add</button>
-                                </div>
-                            </form>
+                    <div className="right">
+                        <div className="title">
+                            <h4>Extra works</h4>
+                        </div>
+                        <div className="extra">
+                            <div className="inputs">
+                                <form onSubmit={handleSubmit}>
+                                    <div className="input-div">
+                                        <input type="text" placeholder='Enter extra work...' value={extraWork} name='work' required onChange={handleChange} />
+                                    </div>
+                                    <div className="button-div">
+                                        <button type='submit'>Add</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>

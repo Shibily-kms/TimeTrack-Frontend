@@ -1,0 +1,48 @@
+@import '../../../assets/scss/color.scss';
+
+.semi-work-details {
+    width: 100%;
+
+    .border {
+        width: 100%;
+        background-color: $light_blue_color;
+        padding: 15px;
+        border-radius: 8px;
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        -ms-border-radius: 8px;
+        -o-border-radius: 8px;
+        font-size: 12px;
+        font-weight: 600;
+
+        .list-head,
+        .list-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            border-bottom: 1px solid rgba(193, 230, 255, 0.692);
+            padding-bottom: 3px;
+         
+
+            span {
+                text-align: center;
+
+                &:first-child {
+                    text-align: start;
+                }
+            }
+        }
+
+        .list-head {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .list-item{
+            margin: 5px 0;
+            &:last-child{
+                border: none;
+            }
+        }
+    }
+
+
+}

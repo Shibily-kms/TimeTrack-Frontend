@@ -12,9 +12,33 @@
     padding: 10px 15px;
     background-color: black;
     cursor: pointer;
+
+    &:hover{
+        opacity: .8;
+    }
 }
 
-.container{
+@mixin smallButton() {
+    @include normalButton();
+    font-size: 11px;
+    padding: 5px 8px;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+}
+
+@mixin iconInButton(){
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    svg{
+        margin-bottom: -1px;
+    }
+}
+
+.container {
     padding-left: 5%;
     padding-right: 5%;
 }

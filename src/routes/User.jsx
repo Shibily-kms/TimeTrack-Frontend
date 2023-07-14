@@ -33,9 +33,13 @@ function User() {
         })
       }
     }
+    // eslint-disable-next-line
   }, [internet])
 
   useEffect(() => {
+    // Change Title
+    document.title = `Staff Works`;
+
     userAxios.get(`/designations?id=${user?.designation?.id}`).then((response) => {
       let [hour, minute] = new Date().toTimeString().split(':');
       let nowTime = `${hour}:${minute}`
@@ -51,6 +55,7 @@ function User() {
         }))
       }
     })
+    // eslint-disable-next-line
   }, [])
 
 

@@ -1,0 +1,25 @@
+@import '../../../assets/scss/color.scss';
+@import '../../../assets/scss/model.scss';
+
+.edit-works-list {
+    .list-div {
+        ol {
+
+            padding: 0 0 0 20px;
+            font-size: 13px;
+
+            li {
+                margin: 10px 0;
+
+            }
+
+            .no-work {
+                text-align: center;
+            }
+        }
+    }
+
+    .add-box {
+        margin-top: 25px;
+    }
+}
