@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import './style.scss';
 import { adminAxios } from '../../../config/axios';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 
 function Choose_dates({ setModel }) {
     const [form, setForm] = useState({ from_date: "", to_date: "" })

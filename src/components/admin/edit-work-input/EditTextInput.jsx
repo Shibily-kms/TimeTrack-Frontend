@@ -5,7 +5,7 @@ import { FiEdit2 } from 'react-icons/fi'
 import { BsTrash3Fill, BsCheckLg } from 'react-icons/bs'
 import { IoMdClose } from 'react-icons/io'
 import { adminAxios } from '../../../config/axios'
-import { toast } from 'react-toastify'
+import { toast } from 'react-hot-toast'
 
 function EditTextInput({ work, nowEdit, setNowEdit, setWorks }) {
     const textareaRef = useRef(null);

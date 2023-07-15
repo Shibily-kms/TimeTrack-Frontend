@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import './textInput.scss'
 import { AiOutlinePlus } from 'react-icons/ai'
 import { adminAxios } from '../../../config/axios'
-import { toast } from 'react-toastify'
+import { toast } from 'react-hot-toast'
 
 function AddTextInput({ setWorks, designationId }) {
     const [work, setWork] = useState('')
