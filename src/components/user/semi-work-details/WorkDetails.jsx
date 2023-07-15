@@ -18,7 +18,7 @@ function WorkDetails() {
                         <div className="list-item">
                             <span>Punch</span>
                             <span>{new Date(workDetails.punch_in).toLocaleTimeString()}</span>
-                            <span>{workDetails.punch_out ? new Date(workDetails.punch_in).toLocaleTimeString() : '-'}</span>
+                            <span>{workDetails.punch_out ? new Date(workDetails.punch_out).toLocaleTimeString() : '-'}</span>
                         </div>
                     </>}
                     {workDetails?.break?.start && <>
