@@ -3,7 +3,7 @@ import Header from '../../../components/admin/header/Header'
 import './all-staffs.scss'
 import { adminAxios } from '../../../config/axios'
 import { BsTrash3Fill } from 'react-icons/bs'
-import { toast } from 'react-toastify'
+import { toast } from 'react-hot-toast'
 
 function AllStaffs() {
     const [loading, setLoading] = useState(false)
@@ -15,7 +15,6 @@ function AllStaffs() {
             setData(response.data.staffs)
             setLoading(false)
         })
-        setLoading(false)
     }, [])
 
     const handleDelete = (id) => {

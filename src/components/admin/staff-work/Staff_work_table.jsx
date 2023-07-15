@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom'
 import './staff_work_table.scss'
 import { RiFileExcel2Fill } from 'react-icons/ri';
 import { SlArrowDown, SlArrowUp } from 'react-icons/sl';
+import { stringToLocalTime } from '../../../assets/javascript/date-helper'
 
 function Staff_work_table() {
   const location = useLocation()
@@ -154,16 +155,16 @@ function Staff_work_table() {
                                   <tr style={{ color: 'gray' }}>
                                     <td>Punch</td>
                                     <td></td>
-                                    <td>{date.punch_in}</td>
-                                    <td>{date.punch_out ? date.punch_out : '-'}</td>
+                                    <td>{stringToLocalTime(date.punch_in,true)}</td>
+                                    <td>{date.punch_out ? stringToLocalTime(date.punch_out,true) : '-'}</td>
                                     <td>{date.duration ? date.duration : '-'}</td>
                                   </tr>
                                   {date.over_time.in ?
                                     <tr style={{ color: 'gray' }}>
                                       <td>Over Time</td>
                                       <td></td>
-                                      <td>{date.over_time.in}</td>
-                                      <td>{date.over_time.out ? date.over_time.out : '-'}</td>
+                                      <td>{stringToLocalTime(date.over_time.in,true)}</td>
+                                      <td>{date.over_time.out ? stringToLocalTime(date.over_time.out,true) : '-'}</td>
                                       <td>{date.over_time.duration ? date.over_time.duration : '-'}</td>
                                     </tr>
                                     : ""}
@@ -174,8 +175,8 @@ function Staff_work_table() {
                                         return <tr >
                                           <td>{index === 0 ? "Regular works :" : ""}</td>
                                           <td>{regular.work}</td>
-                                          <td>{regular.start}</td>
-                                          <td>{regular.end}</td>
+                                          <td>{stringToLocalTime(regular.start,true)}</td>
+                                          <td>{stringToLocalTime(regular.end,true)}</td>
                                           <td>{regular.duration}</td>
                                         </tr>
                                       })}
@@ -187,8 +188,8 @@ function Staff_work_table() {
                                         return <tr >
                                           <td>{index === 0 ? "Extra works :" : ""}</td>
                                           <td>{extra.work}</td>
-                                          <td>{extra.start}</td>
-                                          <td>{extra.end}</td>
+                                          <td>{stringToLocalTime(extra.start,true)}</td>
+                                          <td>{stringToLocalTime(extra.end,true)}</td>
                                           <td>{extra.duration}</td>
                                         </tr>
                                       })}
@@ -200,8 +201,8 @@ function Staff_work_table() {
                                         return <tr >
                                           <td>{index === 0 ? "Breaks :" : ""}</td>
                                           <td></td>
-                                          <td>{breaks.start}</td>
-                                          <td>{breaks.end}</td>
+                                          <td>{stringToLocalTime(breaks.start,true)}</td>
+                                          <td>{stringToLocalTime(breaks.end,true)}</td>
                                           <td>{breaks.duration}</td>
                                         </tr>
                                       })}
@@ -211,8 +212,8 @@ function Staff_work_table() {
                                     <tr >
                                       <td>Lunch Break :</td>
                                       <td></td>
-                                      <td>{date.lunch_break.start}</td>
-                                      <td>{date.lunch_break.end}</td>
+                                      <td>{stringToLocalTime(date.lunch_break.start,true)}</td>
+                                      <td>{stringToLocalTime(date.lunch_break.end,true)}</td>
                                       <td>{date.lunch_break.duration}</td>
                                     </tr>
                                     : ""}

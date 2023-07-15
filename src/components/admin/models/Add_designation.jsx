@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import './style.scss';
 import { adminAxios } from '../../../config/axios'
-import { toast } from 'react-toastify'
+import { toast } from 'react-hot-toast'
 
 function Add_designation({ setModel, setData }) {
     const [form, setForm] = useState({ user_name: null, password: null })

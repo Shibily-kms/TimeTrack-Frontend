@@ -13,6 +13,7 @@ function EditWorkList({ setModel, designationId }) {
         adminAxios.get(`/regular-work/${designationId}`).then((response) => {
             setWorks(response.data.works || [])
         })
+        // eslint-disable-next-line
     }, [])
 
 

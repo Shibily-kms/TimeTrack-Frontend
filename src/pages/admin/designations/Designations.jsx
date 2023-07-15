@@ -9,7 +9,7 @@ import { IoCloseCircleOutline } from 'react-icons/io5'
 import { FiEdit2 } from 'react-icons/fi'
 import { BsTrash3Fill, BsListUl } from 'react-icons/bs'
 import { AiOutlinePlus } from 'react-icons/ai'
-import { toast } from 'react-toastify'
+import { toast } from 'react-hot-toast'
 import { stringToLocalTime } from '../../../assets/javascript/date-helper'
 
 

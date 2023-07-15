@@ -1,7 +1,7 @@
 import React from 'react'
 import './style.scss'
 import { adminAxios } from '../../../config/axios'
-import { toast } from 'react-toastify'
+import { toast } from 'react-hot-toast'
 
 function EditDesignation({ setModel, editData, setEditData, setData }) {
 
@@ -27,9 +27,9 @@ function EditDesignation({ setModel, editData, setEditData, setData }) {
             adminAxios.put('/designation', editData).then(() => {
                 setData((prev) => prev.map((obj) => {
                     if (editData._id === obj._id) {
-                        if (editData.auto_punch_out !== obj.auto_punch_out && 14 <= new Date().getHours()) {
-                            toast.info('The time changes will only take effect tomorrow')
-                        }
+                        // if (editData.auto_punch_out !== obj.auto_punch_out && 14 <= new Date().getHours()) {
+                        //     toast.info('The time changes will only take effect tomorrow')
+                        // }
                         return {
                             ...obj,
                             designation: editData.designation,

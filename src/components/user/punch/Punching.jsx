@@ -1,7 +1,7 @@
 import React from 'react'
 import './punching.scss'
 import { userAxios } from '../../../config/axios'
-import { toast } from 'react-toastify'
+import { toast } from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
 import {
     offlineStartBreak, offlineEndBreak, offlineStartLunchBreak, offlineEndLunchBreak
@@ -37,7 +37,7 @@ function Punching({ punch, theBreak, lunchBreak, overTime }) {
                         toast.error(error.response.data.message)
                     })
                 } else {
-                    toast.warning('Must have Internet')
+                    toast.error('Must have Internet')
                 }
             }
         }
@@ -58,7 +58,7 @@ function Punching({ punch, theBreak, lunchBreak, overTime }) {
                         toast.error(error.response.data.message)
                     })
                 } else {
-                    toast.warning('Must have Internet')
+                    toast.error('Must have Internet')
                 }
             }
         }
@@ -157,7 +157,7 @@ function Punching({ punch, theBreak, lunchBreak, overTime }) {
                         toast.error(error.response.data.message)
                     })
                 } else {
-                    toast.warning('Must have Internet')
+                    toast.error('Must have Internet')
                 }
             }
         }
@@ -174,7 +174,7 @@ function Punching({ punch, theBreak, lunchBreak, overTime }) {
                     toast.error(error.response.data.message)
                 })
             } else {
-                toast.warning('Must have internet')
+                toast.error('Must have Internet')
             }
         }
     }

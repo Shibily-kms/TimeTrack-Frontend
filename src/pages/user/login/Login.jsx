@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import LoginComp from '../../../components/login/Login'
 import { reset } from '../../../redux/features/user/authSlice'
 import { useSelector, useDispatch } from 'react-redux'
-import { toast } from 'react-toastify'
+import { toast } from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 
 function Login() {

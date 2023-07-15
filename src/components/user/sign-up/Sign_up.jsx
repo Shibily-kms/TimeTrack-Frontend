@@ -3,7 +3,7 @@ import './sign-up.scss'
 import { RxEyeClosed, RxEyeOpen } from 'react-icons/rx';
 import { userAxios } from '../../../config/axios'
 import { useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
+import { toast } from 'react-hot-toast'
 
 function Sign_up() {
     const navigate = useNavigate();
