@@ -9,7 +9,6 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setWorkData } from '../../../redux/features/user/workdataSlice'
 import { setRegularWork } from '../../../redux/features/user/dayWorksSlice'
-import { toast } from 'react-toastify'
 
 function Work_details() {
   const dispatch = useDispatch()
@@ -34,6 +33,7 @@ function Work_details() {
         })
       })
     }
+    // eslint-disable-next-line
   }, [])
 
   useEffect(() => {
@@ -109,7 +109,6 @@ function Work_details() {
         const [nowHour, nowMinute] = new Date().toTimeString().split(':');
         if ((nowHour + nowMinute) >= (punchOutHour + punchOutMinute) && workDetails?.punch_out === null
           && workDetails?.punch_in) {
-
           userAxios.get('/punch-details').then((response) => {
             if (response.data?.work_details?.punch_out) {
               dispatch(setWorkData({
@@ -127,7 +126,7 @@ function Work_details() {
     return () => {
       clearInterval(checkIfAutoPunchOut);
     };
-
+    // eslint-disable-next-line
   }, [workDetails])
 
 

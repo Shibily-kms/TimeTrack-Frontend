@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import './textInput.scss'
+// eslint-disable-next-line
 import { FiEdit2 } from 'react-icons/fi'
 import { BsTrash3Fill, BsCheckLg } from 'react-icons/bs'
 import { IoMdClose } from 'react-icons/io'
@@ -23,6 +24,7 @@ function EditTextInput({ work, nowEdit, setNowEdit, setWorks }) {
         if (nowEdit === work?._id) {
             adjustTextareaHeight();
         }
+        // eslint-disable-next-line
     }, [nowEdit])
 
     const handleChange = (e) => {
@@ -58,7 +60,7 @@ function EditTextInput({ work, nowEdit, setNowEdit, setWorks }) {
         }
     }
 
-
+// eslint-disable-next-line
     const handleEdit = () => {
         setNowEdit(work._id)
     }

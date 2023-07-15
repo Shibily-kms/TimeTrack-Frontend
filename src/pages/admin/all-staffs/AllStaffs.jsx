@@ -15,7 +15,6 @@ function AllStaffs() {
             setData(response.data.staffs)
             setLoading(false)
         })
-        setLoading(false)
     }, [])
 
     const handleDelete = (id) => {
