@@ -20,7 +20,6 @@ function Work_details() {
   const [punch, setPunch] = useState({ in: false, out: false })
   const [theBreak, setTheBreak] = useState({ start: false, end: false })
   const [lunchBreak, setLunchBreak] = useState({ start: false, end: false })
-  const [autoPunchOut, setAutoPunchOut] = useState(false)
   const [overTime, setOverTime] = useState({ in: false, out: false })
 
   useEffect(() => {
@@ -113,10 +112,10 @@ function Work_details() {
             if (response.data?.work_details?.punch_out) {
               dispatch(setWorkData({
                 ...workDetails,
-                punch_out: new Date()
+                punch_out: new Date(),
+                auto_punch_out : true
               }))
               clearInterval(checkIfAutoPunchOut);
-              setAutoPunchOut(true)
             }
           })
         }
@@ -145,7 +144,7 @@ function Work_details() {
           </div>
         </div>
         <div className="section-two">
-          <Work punch={punch} theBreak={theBreak} lunchBreak={lunchBreak} autoPunchOut={autoPunchOut} overTime={overTime} />
+          <Work punch={punch} theBreak={theBreak} lunchBreak={lunchBreak} overTime={overTime} />
         </div>
       </div>
     </div>

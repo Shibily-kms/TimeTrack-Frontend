@@ -8,11 +8,15 @@ import { adminAxios } from '../../../config/axios'
 function EditWorkList({ setModel, designationId }) {
     const [works, setWorks] = useState([])
     const [nowEdit, setNowEdit] = useState('')
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
+        setLoading(true)
         adminAxios.get(`/regular-work/${designationId}`).then((response) => {
             setWorks(response.data.works || [])
+            setLoading(false)
         })
+        setLoading(false)
         // eslint-disable-next-line
     }, [])
 
@@ -26,7 +30,7 @@ function EditWorkList({ setModel, designationId }) {
                         works.map((obj, index) => <li key={index}>
                             <EditTextInput work={obj} nowEdit={nowEdit} setNowEdit={setNowEdit} setWorks={setWorks} />
                         </li>) :
-                        <p className='no-work'>No Works</p>}
+                        <p className='no-work'>{loading ? 'Loading...' : 'No works'}</p>}
                 </ol>
             </div>
             {/* Section Two */}

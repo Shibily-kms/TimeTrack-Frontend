@@ -142,7 +142,7 @@ function Staff_work_table() {
                                     <td>{date.date}</td>
                                     <td></td>
                                     <td></td>
-                                    <td>{date.auto_punch_out ? <h5>Auto Punched</h5> : ''}</td>
+                                    <td>{date.auto_punch_out ? <h5>Auto Punch out</h5> : ''}</td>
                                   </tr>
                                   <tr className='tr-head'>
                                     <td>Type</td>

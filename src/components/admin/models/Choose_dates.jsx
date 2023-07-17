@@ -5,7 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 
 function Choose_dates({ setModel }) {
-    const [form, setForm] = useState({ from_date: "", to_date: "" })
+    const [form, setForm] = useState({
+        from_date: new Date().toISOString().split('T')[0],
+        to_date: new Date().toISOString().split('T')[0]
+    })
     const navigate = useNavigate()
     const handleChange = (e) => {
         setForm({
