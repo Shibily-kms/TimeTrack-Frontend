@@ -25,7 +25,7 @@ function User() {
   useEffect(() => {
     if (internet) {
       if (workDetails?.offBreak?.[0] || workDetails?.regular_work?.[0] || workDetails?.extra_work?.[0] ||
-        workDetails?.lunch_break?.start) {
+        workDetails?.lunch_break?.save === false) {
         userAxios.post('/offline-recollect', workDetails).then((response) => {
           dispatch(resetOfflineData(response.data.lastBreak))
         }).catch((error) => {

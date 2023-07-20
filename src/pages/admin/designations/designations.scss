@@ -85,6 +85,12 @@
             }
         }
 
+        .no-data{
+            display: grid;
+            place-content: center;
+            height: 60vh;
+        }
+
     }
 
     // Model

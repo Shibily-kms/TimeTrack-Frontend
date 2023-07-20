@@ -5,6 +5,11 @@
     position: relative;
 
     .container {
+        .no-data{
+            display: grid;
+            place-content: center;
+            height: 60vh;
+        }
         .top {
             display: flex;
             justify-content: flex-end;

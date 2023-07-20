@@ -20,6 +20,9 @@
                 button {
                     @include normalButton();
                     background-color: rgb(15, 124, 82);
+                    span{
+                        font-size: 16px;
+                    }
                 }
             }
 

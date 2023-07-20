@@ -9,17 +9,17 @@ function Staff_works() {
     const staff_works = location?.state
 
     useEffect(() => {
-        if (!staff_works) navigate('/admin')
+        if (!staff_works && typeof staff_works !== "object") navigate('/admin')
     }, [])
     return (
         <div>
-        <div className="header-div">
-            <Header />
+            <div className="header-div">
+                <Header />
+            </div>
+            <div className="bottom-div">
+                <Staff_table />
+            </div>
         </div>
-        <div className="bottom-div">
-            <Staff_table />
-        </div>
-    </div>
     )
 }
 

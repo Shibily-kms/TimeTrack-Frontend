@@ -5,11 +5,13 @@ import './staff_work_table.scss'
 import { RiFileExcel2Fill } from 'react-icons/ri';
 import { SlArrowDown, SlArrowUp } from 'react-icons/sl';
 import { stringToLocalTime } from '../../../assets/javascript/date-helper'
+import { BiLoaderAlt } from 'react-icons/bi'
 
 function Staff_work_table() {
   const location = useLocation()
   const staff_works = location?.state
   const [collapse, setCollapse] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const handleCollapse = (id) => {
     if (collapse === id) {
@@ -21,6 +23,7 @@ function Staff_work_table() {
 
   // Convert to Excel Start
   const downloadXl = () => {
+    setLoading(true)
     const workbook = exportToExcel(staff_works);
     const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
 
@@ -30,6 +33,7 @@ function Staff_work_table() {
     if (window.navigator && window.navigator.msSaveOrOpenBlob) {
       // For IE browser
       window.navigator.msSaveOrOpenBlob(data, filename);
+      setLoading(false)
     } else {
       // For other browsers
       const url = window.URL.createObjectURL(data);
@@ -38,6 +42,7 @@ function Staff_work_table() {
       link.download = filename;
       link.click();
       window.URL.revokeObjectURL(url);
+      setLoading(false)
     }
   }
 
@@ -112,10 +117,10 @@ function Staff_work_table() {
     <div className='staff-table'>
       <div className="container">
         <div className="boader">
-          {staff_works[0] ?
+          {staff_works?.[0] ?
             <>
               <div className="top">
-                <button onClick={downloadXl}><RiFileExcel2Fill /> DOWNLOAD DATA TO EXCEL</button>
+                <button onClick={downloadXl}><span className={loading && 'loading-icon'}>{loading ? <BiLoaderAlt /> : <RiFileExcel2Fill />}</span>  Download Excel</button>
               </div>
               <div className="bottom">
                 {staff_works.map((staff) => {
@@ -142,7 +147,7 @@ function Staff_work_table() {
                                     <td>{date.date}</td>
                                     <td></td>
                                     <td></td>
-                                    <td>{date.auto_punch_out ? <h5>Auto Punched</h5> : ''}</td>
+                                    <td>{date.auto_punch_out ? <h5>Auto Punch out</h5> : ''}</td>
                                   </tr>
                                   <tr className='tr-head'>
                                     <td>Type</td>
@@ -155,16 +160,16 @@ function Staff_work_table() {
                                   <tr style={{ color: 'gray' }}>
                                     <td>Punch</td>
                                     <td></td>
-                                    <td>{stringToLocalTime(date.punch_in,true)}</td>
-                                    <td>{date.punch_out ? stringToLocalTime(date.punch_out,true) : '-'}</td>
+                                    <td>{stringToLocalTime(date.punch_in, true)}</td>
+                                    <td>{date.punch_out ? stringToLocalTime(date.punch_out, true) : '-'}</td>
                                     <td>{date.duration ? date.duration : '-'}</td>
                                   </tr>
                                   {date.over_time.in ?
                                     <tr style={{ color: 'gray' }}>
                                       <td>Over Time</td>
                                       <td></td>
-                                      <td>{stringToLocalTime(date.over_time.in,true)}</td>
-                                      <td>{date.over_time.out ? stringToLocalTime(date.over_time.out,true) : '-'}</td>
+                                      <td>{stringToLocalTime(date.over_time.in, true)}</td>
+                                      <td>{date.over_time.out ? stringToLocalTime(date.over_time.out, true) : '-'}</td>
                                       <td>{date.over_time.duration ? date.over_time.duration : '-'}</td>
                                     </tr>
                                     : ""}
@@ -175,8 +180,8 @@ function Staff_work_table() {
                                         return <tr >
                                           <td>{index === 0 ? "Regular works :" : ""}</td>
                                           <td>{regular.work}</td>
-                                          <td>{stringToLocalTime(regular.start,true)}</td>
-                                          <td>{stringToLocalTime(regular.end,true)}</td>
+                                          <td>{stringToLocalTime(regular.start, true)}</td>
+                                          <td>{stringToLocalTime(regular.end, true)}</td>
                                           <td>{regular.duration}</td>
                                         </tr>
                                       })}
@@ -188,8 +193,8 @@ function Staff_work_table() {
                                         return <tr >
                                           <td>{index === 0 ? "Extra works :" : ""}</td>
                                           <td>{extra.work}</td>
-                                          <td>{stringToLocalTime(extra.start,true)}</td>
-                                          <td>{stringToLocalTime(extra.end,true)}</td>
+                                          <td>{stringToLocalTime(extra.start, true)}</td>
+                                          <td>{stringToLocalTime(extra.end, true)}</td>
                                           <td>{extra.duration}</td>
                                         </tr>
                                       })}
@@ -201,8 +206,8 @@ function Staff_work_table() {
                                         return <tr >
                                           <td>{index === 0 ? "Breaks :" : ""}</td>
                                           <td></td>
-                                          <td>{stringToLocalTime(breaks.start,true)}</td>
-                                          <td>{stringToLocalTime(breaks.end,true)}</td>
+                                          <td>{stringToLocalTime(breaks.start, true)}</td>
+                                          <td>{stringToLocalTime(breaks.end, true)}</td>
                                           <td>{breaks.duration}</td>
                                         </tr>
                                       })}
@@ -212,8 +217,8 @@ function Staff_work_table() {
                                     <tr >
                                       <td>Lunch Break :</td>
                                       <td></td>
-                                      <td>{stringToLocalTime(date.lunch_break.start,true)}</td>
-                                      <td>{stringToLocalTime(date.lunch_break.end,true)}</td>
+                                      <td>{stringToLocalTime(date.lunch_break.start, true)}</td>
+                                      <td>{stringToLocalTime(date.lunch_break.end, true)}</td>
                                       <td>{date.lunch_break.duration}</td>
                                     </tr>
                                     : ""}

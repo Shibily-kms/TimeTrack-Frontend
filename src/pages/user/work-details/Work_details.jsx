@@ -5,14 +5,16 @@ import Header from '../../../components/user/header/Header'
 import Punching from '../../../components/user/punch/Punching'
 import Work from '../../../components/user/work/Work'
 import WorkDetails from '../../../components/user/semi-work-details/WorkDetails'
+import SpinWithMessage from '../../../components/common/spinners/SpinWithMessage'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { setWorkData } from '../../../redux/features/user/workdataSlice'
+import { setWorkData, getPunchDetails } from '../../../redux/features/user/workdataSlice'
 import { setRegularWork } from '../../../redux/features/user/dayWorksSlice'
+
 
 function Work_details() {
   const dispatch = useDispatch()
-  const { workDetails } = useSelector((state) => state.workData)
+  const { workDetails, isLoading } = useSelector((state) => state.workData)
   const { user } = useSelector((state) => state.userAuth)
   const { internet } = useSelector((state) => state.network)
 
@@ -20,17 +22,13 @@ function Work_details() {
   const [punch, setPunch] = useState({ in: false, out: false })
   const [theBreak, setTheBreak] = useState({ start: false, end: false })
   const [lunchBreak, setLunchBreak] = useState({ start: false, end: false })
-  const [autoPunchOut, setAutoPunchOut] = useState(false)
   const [overTime, setOverTime] = useState({ in: false, out: false })
 
   useEffect(() => {
     if (internet) {
-      userAxios.get('/punch-details').then((response) => {
-        userAxios.get('/works/' + user?.designation?.id).then((works) => {
-          response.data.work_details.lunch_break = response.data.work_details?.lunch_break || {}
-          dispatch(setRegularWork(works.data.works))
-          dispatch(setWorkData({ ...response.data.work_details, offBreak: [] }))
-        })
+      dispatch(getPunchDetails())
+      userAxios.get('/works/' + user?.designation?.id).then((works) => {
+        dispatch(setRegularWork(works.data.works))
       })
     }
     // eslint-disable-next-line
@@ -113,10 +111,20 @@ function Work_details() {
             if (response.data?.work_details?.punch_out) {
               dispatch(setWorkData({
                 ...workDetails,
-                punch_out: new Date()
+                punch_out: response.data?.work_details?.punch_out,
+                auto_punch_out: true,
+                break: {
+                  ...workDetails?.break,
+                  end: response.data?.work_details?.break?.end,
+                  duration: response.data?.work_details?.break?.duration,
+                },
+                lunch_break: {
+                  ...workDetails.lunch_break,
+                  end: response.data?.work_details?.lunch_break?.end,
+                  duration: response.data?.work_details?.lunch_break?.duration,
+                }
               }))
               clearInterval(checkIfAutoPunchOut);
-              setAutoPunchOut(true)
             }
           })
         }
@@ -136,17 +144,24 @@ function Work_details() {
         <Header />
       </div>
       <div className="container content">
-        <div className="section-one">
-          <div className="left">
-            <Punching punch={punch} theBreak={theBreak} lunchBreak={lunchBreak} overTime={overTime} />
+        {isLoading ? <>
+          <div className='no-data'>
+            <SpinWithMessage message={'Loading...'} />
           </div>
-          <div className="right">
-            <WorkDetails />
-          </div>
-        </div>
-        <div className="section-two">
-          <Work punch={punch} theBreak={theBreak} lunchBreak={lunchBreak} autoPunchOut={autoPunchOut} overTime={overTime} />
-        </div>
+        </>
+          : <>
+            <div className="section-one">
+              <div className="left">
+                <Punching punch={punch} theBreak={theBreak} lunchBreak={lunchBreak} overTime={overTime} />
+              </div>
+              <div className="right">
+                <WorkDetails />
+              </div>
+            </div>
+            <div className="section-two">
+              <Work punch={punch} theBreak={theBreak} lunchBreak={lunchBreak} overTime={overTime} />
+            </div>
+          </>}
       </div>
     </div>
   )

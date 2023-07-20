@@ -41,6 +41,12 @@
                 @include normalButton();
                 width: 100%;
                 background-color: $blue_color;
+                span{
+                    font-size: 17px;    
+                }
+                .hide{
+                    display: none;
+                }
             }
         }
     }

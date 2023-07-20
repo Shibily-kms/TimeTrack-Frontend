@@ -7,7 +7,7 @@ import { completeWork } from '../../../redux/features/user/dayWorksSlice'
 import { offlineRegularWork, offlineExtraWork } from '../../../assets/javascript/offline-helper'
 import { addRegularWork, addExtraWork } from '../../../redux/features/user/workdataSlice'
 
-function Work({ punch, theBreak, lunchBreak, autoPunchOut, overTime }) {
+function Work({ punch, theBreak, lunchBreak, overTime }) {
     const dispatch = useDispatch()
     const [extraWork, setExtraWork] = useState('')
     const { workDetails } = useSelector((state) => state.workData)
@@ -21,7 +21,9 @@ function Work({ punch, theBreak, lunchBreak, autoPunchOut, overTime }) {
                 userAxios.post('/regular-work', { work: e.target.value, punch_id: workDetails._id }).then((response) => {
                     dispatch(completeWork({ thisWork: e.target.value }))
                     toast.success('Work Completed')
-                })
+                }).catch((error) => {
+                toast.error(error.response.data.message)
+            })
             } else {
                 const oneRegularWork = offlineRegularWork(e.target.value)
                 dispatch(addRegularWork(oneRegularWork))
@@ -41,6 +43,8 @@ function Work({ punch, theBreak, lunchBreak, autoPunchOut, overTime }) {
         if (internet) {
             userAxios.post('/extra-work', { work: extraWork, punch_id: workDetails._id }).then((response) => {
                 toast.success(response.data.message)
+            }).catch((error) => {
+                toast.error(error.response.data.message)
             })
         } else {
             const oneExtraWork = offlineExtraWork(extraWork)
@@ -91,7 +95,7 @@ function Work({ punch, theBreak, lunchBreak, autoPunchOut, overTime }) {
                         <div className="box">
                             {punch?.in && <h5>Punch In to Work</h5>}
                             {!theBreak?.end && !punch?.in && !punch?.out && !lunchBreak?.end &&
-                                !workDetails?.over_time?.in && <h5>{autoPunchOut ? 'Auto punched Out' : 'Punched Out'}</h5>}
+                                !workDetails?.over_time?.in && <h5>{workDetails?.auto_punch_out ? 'Auto punched Out' : 'Punched Out'}</h5>}
                             {!theBreak?.start && theBreak?.end && <h5>You are on break</h5>}
                             {!lunchBreak?.start && lunchBreak?.end && <h5>You are on lunch break</h5>}
                             {workDetails?.over_time?.out && <h5>Over Time Ended</h5>}

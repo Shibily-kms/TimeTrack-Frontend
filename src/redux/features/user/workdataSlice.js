@@ -1,14 +1,35 @@
-import { createSlice } from '@reduxjs/toolkit'
-
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { userAxios } from '../../../config/axios'
 
 const initialState = {
-    workDetails: null
+    workDetails: null,
+    isLoading: false,
+    isSuccess: false,
+    isError: false,
+    message: ''
 }
+// Thunk
+export const getPunchDetails = createAsyncThunk('user/punch-details', async (body, thunkAPI) => {
+
+    try {
+        return await userAxios.get('/punch-details')
+    } catch (error) {
+        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+        return thunkAPI.rejectWithValue(message)
+    }
+})
 
 export const workDataSlice = createSlice({
     name: 'workdata',
     initialState,
     reducers: {
+        resetWorkData: (state) => {
+            state.workDetails = null
+            state.isLoading = false
+            state.isSuccess = false
+            state.isError = false
+            state.message = ''
+        },
         setWorkData: (state, action) => {
             state.workDetails = action.payload
         },
@@ -57,7 +78,23 @@ export const workDataSlice = createSlice({
         doStopOverTime: (state) => {
             state.workDetails.over_time.out = new Date()
         }
-    }
+    },
+    extraReducers: (builder) => {
+        builder
+            .addCase(getPunchDetails.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(getPunchDetails.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.workDetails = { ...action.payload.data.work_details, offBreak: [] }
+                state.workDetails.lunch_break = { ...action.payload.data.work_details?.lunch_break, save: true } || {}
+            })
+            .addCase(getPunchDetails.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload;
+            });
+    },
 })
 
 
