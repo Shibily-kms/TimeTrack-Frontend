@@ -13,7 +13,7 @@
     background-color: black;
     cursor: pointer;
 
-    &:hover{
+    &:hover {
         opacity: .8;
     }
 }
@@ -29,11 +29,12 @@
     -o-border-radius: 4px;
 }
 
-@mixin iconInButton(){
+@mixin iconInButton() {
     display: flex;
     justify-content: center;
     align-items: center;
-    svg{
+
+    svg {
         margin-bottom: -1px;
     }
 }
@@ -41,4 +42,22 @@
 .container {
     padding-left: 5%;
     padding-right: 5%;
+}
+
+.loading-icon {
+    svg {
+        margin-bottom: -1px;
+        animation: iconLoading 1.2s linear infinite;
+        -webkit-animation: iconLoading 1.2s linear infinite;
+    }
+
+    @keyframes iconLoading {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
 }

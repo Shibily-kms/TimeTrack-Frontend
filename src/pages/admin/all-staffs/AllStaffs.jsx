@@ -4,6 +4,8 @@ import './all-staffs.scss'
 import { adminAxios } from '../../../config/axios'
 import { BsTrash3Fill } from 'react-icons/bs'
 import { toast } from 'react-hot-toast'
+import IconWithMessage from '../../../components/common/spinners/SpinWithMessage'
+import {IoTrashBin} from 'react-icons/io5'
 
 function AllStaffs() {
     const [loading, setLoading] = useState(false)
@@ -38,8 +40,8 @@ function AllStaffs() {
             </div>
             <div className="container">
                 <div className="table-div">
-                    <table id="list">
-                        {data?.[0] ? <>
+                    {data?.[0] ? <>
+                        <table id="list">
                             <tr>
                                 <th>Sl no</th>
                                 <th>User name</th>
@@ -60,13 +62,13 @@ function AllStaffs() {
                                     </td>
                                 </tr>
                             })}
-                        </>
-                            : <>
-                                <tr>
-                                    <td style={{ textAlign: 'center' }}>{loading ? 'loading...' : 'No staffs'}</td>
-                                </tr>
-                            </>}
-                    </table>
+                        </table>
+                    </>
+                        :
+                        <div className='no-data'>
+                            <IconWithMessage icon={!loading && <IoTrashBin />} message={loading ? 'Loading...' : 'No Staffs'} spin={loading ? true : false} />
+                        </div>
+                    }
 
                 </div>
             </div>

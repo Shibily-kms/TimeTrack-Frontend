@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import './login.scss'
 import { RxEyeClosed, RxEyeOpen } from 'react-icons/rx';
-import { loginAdmin } from '../../redux/features/admin/authSlice';
-import { loginUser } from '../../redux/features/user/authSlice';
+import { loginAdmin } from '../../../redux/features/admin/authSlice';
+import { loginUser } from '../../../redux/features/user/authSlice';
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 

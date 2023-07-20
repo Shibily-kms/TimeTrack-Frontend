@@ -11,7 +11,7 @@ import {
 } from '../../../redux/features/user/workdataSlice'
 import { setRegularWork } from '../../../redux/features/user/dayWorksSlice'
 import { TbClockStop } from 'react-icons/tb'
-import { MdLogin,MdLogout ,MdLunchDining,MdMoreTime, MdOutlineTimerOff } from 'react-icons/md'
+import { MdLogin, MdLogout, MdLunchDining, MdMoreTime, MdOutlineTimerOff } from 'react-icons/md'
 
 function Punching({ punch, theBreak, lunchBreak, overTime }) {
     const dispatch = useDispatch()
@@ -111,14 +111,14 @@ function Punching({ punch, theBreak, lunchBreak, overTime }) {
             if (confirm) {
                 if (internet) {
                     userAxios.post('/start-lunch-break', { id: workDetails._id }).then((response) => {
-                        dispatch(doLunchBreak(response.data.lunch_break))
+                        dispatch(doLunchBreak({ ...response.data.lunch_break, save: true }))
                         toast.success(response.data.message)
                     }).catch((error) => {
                         toast.error(error.response.data.message)
                     })
                 } else {
                     const oneBreak = offlineStartLunchBreak()
-                    dispatch(doLunchBreak(oneBreak))
+                    dispatch(doLunchBreak({ ...oneBreak, save: false }))
                     toast.success('Break Started')
                 }
             }
@@ -184,7 +184,7 @@ function Punching({ punch, theBreak, lunchBreak, overTime }) {
             <div className="boader">
                 {/* Punch */}
                 <button className={punch?.in ? "punch" : "opacity punch"} onClick={handlePunchIn}>
-                    <span><MdLogin /></span> <span>PUNCH IN </span></button>
+                    <span ><MdLogin /></span> <span>PUNCH IN </span></button>
                 <button className={punch?.out ? "punch" : "opacity punch"} onClick={handlePunchOut}>
                     <span><MdLogout /></span> <span>PUNCH OUT </span></button>
 

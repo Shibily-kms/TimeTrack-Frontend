@@ -5,6 +5,12 @@
         width: 100%;
         padding-top: 20px;
 
+        .no-data {
+            display: grid;
+            place-content: center;
+            height: 60vh;
+        }
+
         .section-one {
             display: grid;
             grid-template-columns: 1fr 1fr;

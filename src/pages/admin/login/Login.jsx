@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import LoginComp from '../../../components/login/Login'
+import LoginComp from '../../../components/common/login/Login'
 import { reset } from '../../../redux/features/admin/authSlice'
 import { useSelector, useDispatch } from 'react-redux'
 import { toast } from 'react-hot-toast'

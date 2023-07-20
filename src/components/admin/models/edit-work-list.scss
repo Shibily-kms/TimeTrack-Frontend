@@ -7,18 +7,16 @@
         max-height: calc(80vh - 141px);
         overflow-y: auto;
         ol {
-
             padding: 0 0 0 20px;
             font-size: 13px;
-
             li {
                 margin: 10px 0;
-
             }
-
-            .no-work {
-                text-align: center;
-            }
+        }
+        .no-work {
+            display: flex;
+            justify-content: center;
+            width: 100%;
         }
     }
 

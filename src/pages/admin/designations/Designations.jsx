@@ -3,9 +3,10 @@ import Header from '../../../components/admin/header/Header'
 import AddDesignation from '../../../components/admin/models/Add_designation'
 import EditDesignation from '../../../components/admin/models/EditDesignation'
 import EditWorkList from '../../../components/admin/models/EditWorkList'
+import IconWithMessage from '../../../components/common/spinners/SpinWithMessage'
 import './designations.scss'
 import { adminAxios } from '../../../config/axios'
-import { IoCloseCircleOutline } from 'react-icons/io5'
+import { IoCloseCircleOutline, IoTrashBin } from 'react-icons/io5'
 import { FiEdit2 } from 'react-icons/fi'
 import { BsTrash3Fill, BsListUl } from 'react-icons/bs'
 import { AiOutlinePlus } from 'react-icons/ai'
@@ -65,8 +66,8 @@ function Designations() {
                     <button onClick={() => setModel('ADD NEW DESIGNATION')}><AiOutlinePlus /> Add Designation</button>
                 </div>
                 <div className="table-div">
-                    <table id="list">
-                        {data?.[0] ? <>
+                    {data?.[0] ?
+                        <table id="list">
                             <tr>
                                 <th>Sl no</th>
                                 <th>Designation</th>
@@ -90,14 +91,12 @@ function Designations() {
                                     </td>
                                 </tr>
                             })}
-                        </>
-                            : <>
-                                <tr>
-                                    <td style={{ textAlign: 'center' }}>{loading ? 'loading...' : 'no data'}</td>
-                                </tr>
-                            </>}
-                    </table>
-
+                        </table>
+                        : <>
+                            <div className='no-data'>
+                                <IconWithMessage icon={!loading && <IoTrashBin />} message={loading ? 'Loading...' : 'No Data'} spin={loading ? true : false} />
+                            </div>
+                        </>}
                 </div>
             </div>
 
