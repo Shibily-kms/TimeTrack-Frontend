@@ -4,6 +4,7 @@ import AddDesignation from '../../../components/admin/models/Add_designation'
 import EditDesignation from '../../../components/admin/models/EditDesignation'
 import EditWorkList from '../../../components/admin/models/EditWorkList'
 import IconWithMessage from '../../../components/common/spinners/SpinWithMessage'
+import Title from '../../../components/common/title/Title'
 import './designations.scss'
 import { adminAxios } from '../../../config/axios'
 import { IoCloseCircleOutline, IoTrashBin } from 'react-icons/io5'
@@ -56,15 +57,15 @@ function Designations() {
         }
     }
 
-
-
-
     return (
         <div className='designations'>
             <div className="header-div">
                 <Header />
             </div>
             <div className="container">
+                <div>
+                    <Title sub={'Designation list'}/>
+                </div>
                 <div className="top">
                     <button onClick={() => setModel('ADD NEW DESIGNATION')}><AiOutlinePlus /> Add Designation</button>
                 </div>

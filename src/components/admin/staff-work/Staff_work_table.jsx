@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import * as XLSX from 'xlsx';
 import { useLocation } from 'react-router-dom'
 import './staff_work_table.scss'
+import Title from '../../common/title/Title'
 import { RiFileExcel2Fill } from 'react-icons/ri';
 import { SlArrowDown, SlArrowUp } from 'react-icons/sl';
 import { stringToLocalTime } from '../../../assets/javascript/date-helper'
@@ -9,9 +10,10 @@ import { BiLoaderAlt } from 'react-icons/bi'
 
 function Staff_work_table() {
   const location = useLocation()
-  const staff_works = location?.state
+  const staff_works = location?.state?.data
   const [collapse, setCollapse] = useState('')
   const [loading, setLoading] = useState(false)
+
 
   const handleCollapse = (id) => {
     if (collapse === id) {
@@ -116,11 +118,25 @@ function Staff_work_table() {
   return (
     <div className='staff-table'>
       <div className="container">
+        <div>
+          <Title sub={'Staff work details'} />
+        </div>
         <div className="boader">
           {staff_works?.[0] ?
             <>
               <div className="top">
-                <button onClick={downloadXl}><span className={loading && 'loading-icon'}>{loading ? <BiLoaderAlt /> : <RiFileExcel2Fill />}</span>  Download Excel</button>
+                <div>
+                  {location?.state?.dates?.from_date === location?.state?.dates?.to_date ?
+                    <p>{`Date : ${location?.state?.dates?.from_date}`}</p>
+                    : <>
+                      <p>{`From : ${location?.state?.dates?.from_date}`}</p>
+                      <p>{`To : ${location?.state?.dates?.to_date}`}</p>
+                    </>
+                  }
+                </div>
+                <button title='Download xl file' onClick={downloadXl}><span
+                  className={loading && 'loading-icon'}>{loading ? <BiLoaderAlt /> : <RiFileExcel2Fill />}
+                </span> <span className='text'>Download Excel</span>  </button>
               </div>
               <div className="bottom">
                 {staff_works.map((staff) => {

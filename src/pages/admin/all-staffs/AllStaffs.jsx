@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Header from '../../../components/admin/header/Header'
+import Title from '../../../components/common/title/Title'
 import './all-staffs.scss'
 import { adminAxios } from '../../../config/axios'
 import { BsTrash3 } from 'react-icons/bs'
@@ -43,6 +44,9 @@ function AllStaffs() {
                 <Header />
             </div>
             <div className="container">
+                <div>
+                    <Title sub={'All staffs'}/>
+                </div>
                 <div className="table-div">
                     {data?.[0] ? <>
                         <table id="list">

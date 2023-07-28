@@ -23,10 +23,10 @@ function Choose_dates({ setModel }) {
         e.preventDefault();
         setLoading(true)
         adminAxios.get(`/works-data?from_date=${form.from_date}&to_date=${form.to_date}`).then((response) => {
-            navigate('/admin/staff-work-details', { state: response.data.data })
+            navigate('/admin/staff-work-details', { state: { data: response.data.data, dates: form } })
             setModel(null)
             setLoading(false)
-        }).then((error) => {
+        }).catch((error) => {
             setLoading(false)
             toast.error(error.response.data.message)
         })

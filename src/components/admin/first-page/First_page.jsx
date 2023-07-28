@@ -3,6 +3,7 @@ import './first-page.scss'
 import { useSelector } from 'react-redux'
 import { IoCloseCircleOutline } from 'react-icons/io5'
 import ChooseDates from '../models/Choose_dates'
+import Title from '../../common/title/Title'
 import { useNavigate } from 'react-router-dom'
 
 function First_page() {
@@ -13,11 +14,11 @@ function First_page() {
     <div className='first-page'>
       <div className="container">
         <div className="top">
-          <h5>User name : {admin?.user_name}</h5>
+          <Title userName={`User name: ${admin?.user_name}`} />
         </div>
         <div className="bottom">
           <div className="boader">
-          <div className="button-div" >
+            <div className="button-div" >
               <button onClick={() => navigate('/admin/designations')} >DESIGNATIONS
               </button>
             </div>

@@ -1,5 +1,6 @@
 import React from 'react'
 import './first-page.scss'
+import Title from '../../common/title/Title'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
@@ -11,9 +12,8 @@ function First_page() {
     return (
         <div className='first-page-user'>
             <div className="container">
-                <div className="top">
-                    <h5>Designation : {user?.designation?.designation}</h5>
-                    <h5>User name : {user?.user_name}</h5>
+                <div>
+                    <Title sub={`Designation : ${user?.designation?.designation}`}/>
                 </div>
                 <div className="bottom">
                     <div className="boader">

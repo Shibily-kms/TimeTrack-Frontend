@@ -6,6 +6,7 @@ import Punching from '../../../components/user/punch/Punching'
 import Work from '../../../components/user/work/Work'
 import WorkDetails from '../../../components/user/semi-work-details/WorkDetails'
 import SpinWithMessage from '../../../components/common/spinners/SpinWithMessage'
+import Title from '../../../components/common/title/Title'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setWorkData, getPunchDetails } from '../../../redux/features/user/workdataSlice'
@@ -143,6 +144,9 @@ function Work_details() {
       <div className="header-div">
         <Header />
       </div>
+        <div className='container'>
+          <Title sub={'Work details'} />
+        </div>
       <div className="container content">
         {isLoading ? <>
           <div className='no-data'>
