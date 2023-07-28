@@ -86,8 +86,8 @@ export const workDataSlice = createSlice({
             })
             .addCase(getPunchDetails.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.workDetails = { ...action.payload.data.work_details, offBreak: [] }
-                state.workDetails.lunch_break = { ...action.payload.data.work_details?.lunch_break, save: true } || {}
+                state.workDetails = { ...action.payload.data?.data, offBreak: [] }
+                state.workDetails.lunch_break = { ...action.payload.data?.data?.lunch_break, save: true } || {}
             })
             .addCase(getPunchDetails.rejected, (state, action) => {
                 state.isLoading = false;

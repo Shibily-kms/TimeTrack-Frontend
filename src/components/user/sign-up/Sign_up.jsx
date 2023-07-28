@@ -34,7 +34,7 @@ function Sign_up() {
 
     useEffect(() => {
         userAxios.get('/designations').then((response) => {
-            setDesignation(response.data.designations)
+            setDesignation(response.data?.data || [])
         })
     }, [])
     return (
@@ -62,7 +62,7 @@ function Sign_up() {
                                 <div className="input-div">
                                     <label htmlFor="designation">Designation</label>
                                     <select name='designation' id='designation' onChange={handleChange} >
-                                    <option>Select...</option>
+                                        <option>Select...</option>
                                         {designation.map((value, index) => {
                                             return <option key={index} value={value._id}>{value.designation}</option>
                                         })}

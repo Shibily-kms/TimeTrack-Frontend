@@ -28,7 +28,7 @@ function Work_details() {
     if (internet) {
       dispatch(getPunchDetails())
       userAxios.get('/works/' + user?.designation?.id).then((works) => {
-        dispatch(setRegularWork(works.data.works))
+        dispatch(setRegularWork(works.data.data))
       })
     }
     // eslint-disable-next-line
@@ -108,20 +108,20 @@ function Work_details() {
         if ((nowHour + nowMinute) >= (punchOutHour + punchOutMinute) && workDetails?.punch_out === null
           && workDetails?.punch_in) {
           userAxios.get('/punch-details').then((response) => {
-            if (response.data?.work_details?.punch_out) {
+            if (response?.data?.data?.punch_out) {
               dispatch(setWorkData({
                 ...workDetails,
-                punch_out: response.data?.work_details?.punch_out,
+                punch_out: response.data?.data?.punch_out,
                 auto_punch_out: true,
                 break: {
                   ...workDetails?.break,
-                  end: response.data?.work_details?.break?.end,
-                  duration: response.data?.work_details?.break?.duration,
+                  end: response.data?.data?.break?.end,
+                  duration: response.data?.data?.break?.duration,
                 },
                 lunch_break: {
                   ...workDetails.lunch_break,
-                  end: response.data?.work_details?.lunch_break?.end,
-                  duration: response.data?.work_details?.lunch_break?.duration,
+                  end: response.data?.data?.lunch_break?.end,
+                  duration: response.data?.data?.lunch_break?.duration,
                 }
               }))
               clearInterval(checkIfAutoPunchOut);

@@ -2,9 +2,11 @@ import React, { useState } from 'react'
 import './style.scss';
 import { adminAxios } from '../../../config/axios'
 import { toast } from 'react-hot-toast'
+import { BiLoaderAlt } from 'react-icons/bi'
 
 function Add_designation({ setModel, setData }) {
     const [form, setForm] = useState({ user_name: null, password: null })
+    const [loading, setLoading] = useState(false)
     const handleChange = (e) => {
         setForm({
             ...form,
@@ -14,14 +16,17 @@ function Add_designation({ setModel, setData }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setLoading(true)
         adminAxios.post('/designation', form).then((response) => {
             toast.success(response.data.message)
             setData((state) => {
                 return [...state, response.data.data]
             })
             setModel(null)
+            setLoading(false)
         }).catch((error) => {
             toast.error(error.response.data.message)
+            setLoading(false)
         })
 
     }
@@ -34,11 +39,11 @@ function Add_designation({ setModel, setData }) {
                         <input type="text" name='designation' id='designation' required onChange={handleChange} />
                     </div>
                     <div className="button-div">
-                        <button type='submit'>Submit</button>
+                        <button>  {loading ? <span className='loading-icon'><BiLoaderAlt /></span> : 'Create'}</button>
                     </div>
                 </form>
-            </div>
-        </div>
+            </div >
+        </div >
     )
 }
 

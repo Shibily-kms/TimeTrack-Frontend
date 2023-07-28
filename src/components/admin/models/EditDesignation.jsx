@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './style.scss'
 import { adminAxios } from '../../../config/axios'
 import { toast } from 'react-hot-toast'
+import { BiLoaderAlt } from 'react-icons/bi'
 
 function EditDesignation({ setModel, editData, setEditData, setData }) {
-
+    const [loading, setLoading] = useState(false)
 
     const handleChange = (e) => {
         setEditData({
@@ -24,12 +25,10 @@ function EditDesignation({ setModel, editData, setEditData, setData }) {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (editData._id) {
+            setLoading(true)
             adminAxios.put('/designation', editData).then(() => {
                 setData((prev) => prev.map((obj) => {
                     if (editData._id === obj._id) {
-                        // if (editData.auto_punch_out !== obj.auto_punch_out && 14 <= new Date().getHours()) {
-                        //     toast.info('The time changes will only take effect tomorrow')
-                        // }
                         return {
                             ...obj,
                             designation: editData.designation,
@@ -41,8 +40,10 @@ function EditDesignation({ setModel, editData, setEditData, setData }) {
                 }))
                 setModel('')
                 toast.success('Changes Applied')
+                setLoading(false)
             }).catch((error) => {
                 toast.error(error.response.data.message)
+                setLoading(false)
             })
         }
     }
@@ -72,7 +73,7 @@ function EditDesignation({ setModel, editData, setEditData, setData }) {
 
 
                     <div className="button-div">
-                        <button type='submit'>Submit</button>
+                        <button>  {loading ? <span className='loading-icon'><BiLoaderAlt /></span> : 'Update'}</button>
                     </div>
                 </form>
             </div>

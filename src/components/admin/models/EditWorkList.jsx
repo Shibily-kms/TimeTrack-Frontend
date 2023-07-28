@@ -13,8 +13,8 @@ function EditWorkList({ setModel, designationId }) {
 
     useEffect(() => {
         setLoading(true)
-        adminAxios.get(`/regular-work/${designationId}`).then((response) => {
-            setWorks(response.data.works || [])
+        adminAxios.get(`/regular-work?designation=${designationId}`).then((response) => {
+            setWorks(response.data.data || [])
             setLoading(false)
         })
         // eslint-disable-next-line

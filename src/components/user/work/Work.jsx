@@ -6,6 +6,7 @@ import { toast } from 'react-hot-toast'
 import { completeWork } from '../../../redux/features/user/dayWorksSlice'
 import { offlineRegularWork, offlineExtraWork } from '../../../assets/javascript/offline-helper'
 import { addRegularWork, addExtraWork } from '../../../redux/features/user/workdataSlice'
+import { BiLoaderAlt } from 'react-icons/bi'
 
 function Work({ punch, theBreak, lunchBreak, overTime }) {
     const dispatch = useDispatch()
@@ -13,22 +14,27 @@ function Work({ punch, theBreak, lunchBreak, overTime }) {
     const { workDetails } = useSelector((state) => state.workData)
     const { internet } = useSelector((state) => state.network)
     const { regular } = useSelector((state) => state.dayWorks)
+    const [loading, setLoading] = useState('')
 
     const handleWork = (e) => {
         let confirm = window.confirm('Are you completing this work ?')
         if (confirm) {
+            setLoading(e.target.value)
             if (internet) {
                 userAxios.post('/regular-work', { work: e.target.value, punch_id: workDetails._id }).then((response) => {
                     dispatch(completeWork({ thisWork: e.target.value }))
                     toast.success('Work Completed')
+                    setLoading('')
                 }).catch((error) => {
-                toast.error(error.response.data.message)
-            })
+                    toast.error(error.response.data.message)
+                    setLoading('')
+                })
             } else {
                 const oneRegularWork = offlineRegularWork(e.target.value)
                 dispatch(addRegularWork(oneRegularWork))
                 dispatch(completeWork({ thisWork: e.target.value }))
                 toast.success('Work Completed')
+                setLoading('')
             }
         }
     }
@@ -40,16 +46,20 @@ function Work({ punch, theBreak, lunchBreak, overTime }) {
     const handleSubmit = (e) => {
         e.preventDefault()
         setExtraWork('')
+        setLoading('extra-work-submit-loading')
         if (internet) {
             userAxios.post('/extra-work', { work: extraWork, punch_id: workDetails._id }).then((response) => {
                 toast.success(response.data.message)
+                setLoading('')
             }).catch((error) => {
+                setLoading('')
                 toast.error(error.response.data.message)
             })
         } else {
             const oneExtraWork = offlineExtraWork(extraWork)
             dispatch(addExtraWork(oneExtraWork))
             toast.success('Extra work added')
+            setLoading('')
         }
     }
 
@@ -65,8 +75,11 @@ function Work({ punch, theBreak, lunchBreak, overTime }) {
                             {regular?.[0] ?
                                 regular.map((work) => {
                                     return <div className="input-div" key={work.work} >
-                                        <input type="checkbox" name='work' checked={work.finished ? true : false}
-                                            id={work.work} value={work.work} onChange={(e) => work.finished ? null : handleWork(e)} />
+                                        {loading === work.work ?
+                                            <span className='loading-icon'><BiLoaderAlt /></span> :
+                                            <input type="checkbox" name='work' checked={work.finished ? true : false}
+                                                id={work.work} value={work.work} onChange={(e) => work.finished ? null : handleWork(e)} />
+                                        }
                                         <label htmlFor={work.work}>{work.work}</label>
                                     </div>
                                 }) : 'no works'}
@@ -83,7 +96,9 @@ function Work({ punch, theBreak, lunchBreak, overTime }) {
                                         <input type="text" placeholder='Enter extra work...' value={extraWork} name='work' required onChange={handleChange} />
                                     </div>
                                     <div className="button-div">
-                                        <button type='submit'>Add</button>
+                                        <button type={loading === 'extra-work-submit-loading' ? 'button' : 'submit'}>
+                                            {loading === 'extra-work-submit-loading' ?
+                                                <span className='loading-icon'><BiLoaderAlt /></span> : 'Add'}</button>
                                     </div>
                                 </form>
                             </div>

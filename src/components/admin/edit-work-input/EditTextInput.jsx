@@ -6,10 +6,12 @@ import { BsTrash3Fill, BsCheckLg } from 'react-icons/bs'
 import { IoMdClose } from 'react-icons/io'
 import { adminAxios } from '../../../config/axios'
 import { toast } from 'react-hot-toast'
+import { BiLoaderAlt } from 'react-icons/bi'
 
 function EditTextInput({ work, nowEdit, setNowEdit, setWorks }) {
     const textareaRef = useRef(null);
     const [text, setText] = useState(work?.work)
+    const [loading, setLoading] = useState('')
 
     const adjustTextareaHeight = () => {
         const { current } = textareaRef;
@@ -54,13 +56,15 @@ function EditTextInput({ work, nowEdit, setNowEdit, setWorks }) {
     const handleDelete = () => {
         const confirm = window.confirm('Are you delete this ?')
         if (confirm) {
-            adminAxios.delete(`/regular-work/${work._id}`).then(() => {
+            setLoading('delete')
+            adminAxios.delete(`/regular-work?work_id=${work._id}`).then(() => {
                 setWorks((state) => state.filter((value) => value._id !== work._id))
+                setLoading('')
             })
         }
     }
 
-// eslint-disable-next-line
+    // eslint-disable-next-line
     const handleEdit = () => {
         setNowEdit(work._id)
     }
@@ -84,7 +88,8 @@ function EditTextInput({ work, nowEdit, setNowEdit, setWorks }) {
                             <button type='submit' className='add' ><BsCheckLg /></button>
                         </> : <>
                             {/* <button type='button' className='edit' onClick={handleEdit}><FiEdit2 /></button> */}
-                            <button type='button' className='delete' onClick={handleDelete}><BsTrash3Fill /></button>
+                            <button type='button' className={loading ? 'delete loading-icon' : 'delete'}
+                                onClick={handleDelete}>{loading ? <BiLoaderAlt /> : <BsTrash3Fill />}</button>
                         </>}
                     </div>
                 </div>

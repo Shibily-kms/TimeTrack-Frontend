@@ -8,11 +8,11 @@ import './designations.scss'
 import { adminAxios } from '../../../config/axios'
 import { IoCloseCircleOutline, IoTrashBin } from 'react-icons/io5'
 import { FiEdit2 } from 'react-icons/fi'
-import { BsTrash3Fill, BsListUl } from 'react-icons/bs'
+import { BsTrash3, BsListUl } from 'react-icons/bs'
 import { AiOutlinePlus } from 'react-icons/ai'
 import { toast } from 'react-hot-toast'
 import { stringToLocalTime } from '../../../assets/javascript/date-helper'
-
+import { BiLoaderAlt } from 'react-icons/bi'
 
 function Designations() {
 
@@ -20,13 +20,13 @@ function Designations() {
     const [model, setModel] = useState(null)
     const [editData, setEditData] = useState({})
     const [workId, setWorkId] = useState('')
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState('')
 
     useEffect(() => {
-        setLoading(true)
+        setLoading('initialLoad')
         adminAxios.get('/designations').then((response) => {
-            setLoading(false)
-            setData(response.data.designations)
+            setLoading('')
+            setData(response.data?.data || [])
         })
     }, [])
 
@@ -43,12 +43,15 @@ function Designations() {
     const handleDelete = (id) => {
         let confirm = window.confirm('Are you delete this designation ?')
         if (confirm) {
-            adminAxios.delete(`/designation/${id}`).then((response) => {
+            setLoading(id)
+            adminAxios.delete(`/designation?id=${id}`).then((response) => {
                 setData((state) => {
                     return state.filter(obj => obj._id !== id)
                 })
+                setLoading('')
             }).catch((error) => {
                 toast.error(error.response.data.message)
+                setLoading('')
             })
         }
     }
@@ -85,8 +88,11 @@ function Designations() {
                                         <div className='buttons'>
                                             <button title='Works list' onClick={() => openWorksList('WORKS LIST', value._id)}
                                                 className='button-small-icon '><BsListUl /></button>
-                                            <button title='Edit' onClick={() => openEdit('EDIT DESIGNATION', value)} className='button-small-icon edit'><FiEdit2 /></button>
-                                            <button title='Remove' onClick={() => handleDelete(value._id)} className='button-small-icon delete'><BsTrash3Fill /></button>
+                                            <button title='Edit' onClick={() => openEdit('EDIT DESIGNATION', value)}
+                                                className='button-small-icon edit'><FiEdit2 /></button>
+                                            <button title='Remove' onClick={() => handleDelete(value._id)}
+                                                className={loading === value._id ? 'button-small-icon delete loading-icon' : 'button-small-icon delete'}>
+                                                {loading === value._id ? <BiLoaderAlt /> : <BsTrash3 />}</button>
                                         </div>
                                     </td>
                                 </tr>
@@ -94,7 +100,9 @@ function Designations() {
                         </table>
                         : <>
                             <div className='no-data'>
-                                <IconWithMessage icon={!loading && <IoTrashBin />} message={loading ? 'Loading...' : 'No Data'} spin={loading ? true : false} />
+                                <IconWithMessage icon={!loading === 'initialLoad' && <IoTrashBin />}
+                                    message={loading === 'initialLoad' ? 'Loading...' : 'No Data'}
+                                    spin={loading === 'initialLoad' ? true : false} />
                             </div>
                         </>}
                 </div>

@@ -13,7 +13,7 @@ function First_page() {
     <div className='first-page'>
       <div className="container">
         <div className="top">
-          <h5>User name : {admin?.USER_NAME}</h5>
+          <h5>User name : {admin?.user_name}</h5>
         </div>
         <div className="bottom">
           <div className="boader">

@@ -45,8 +45,8 @@ export const adminAuthSlice = createSlice({
             })
             .addCase(loginAdmin.fulfilled, (state, action) => {
                 state.isLoading = false;
-                localStorage.setItem('_tkn_adn', action.payload.data.admin.token)
-                state.admin = action.payload.data.admin;
+                localStorage.setItem('_tkn_adn', action.payload.data.data.token)
+                state.admin = action.payload.data.data;
             })
             .addCase(loginAdmin.rejected, (state, action) => {
                 state.isLoading = false;
