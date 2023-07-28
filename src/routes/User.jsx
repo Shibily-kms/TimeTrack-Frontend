@@ -48,9 +48,9 @@ function User() {
           ...user,
           designation: {
             ...user.designation,
-            allow_sales: response.data.designation?.allow_sales || false,
-            auto_punch_out: nowTime > '21:00' ? user?.designation?.auto_punch_out || response.data.designation?.auto_punch_out :
-              response.data.designation?.auto_punch_out || '17:30',
+            allow_sales: response.data.data?.allow_sales || false,
+            auto_punch_out: nowTime > '21:00' ? user?.designation?.auto_punch_out || response.data.data?.auto_punch_out :
+              response.data.data?.auto_punch_out || '17:30',
           }
         }))
       }
