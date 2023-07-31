@@ -163,30 +163,30 @@ function Staff_work_table() {
                                     <td>{date.date}</td>
                                     <td></td>
                                     <td></td>
-                                    <td>{date.auto_punch_out ? <h5>Auto Punch out</h5> : ''}</td>
+                                    <td></td>
                                   </tr>
                                   <tr className='tr-head'>
                                     <td>Type</td>
-                                    <td>Regular works :</td>
+                                    <td>Items</td>
                                     <td>Time start</td>
                                     <td>Time end</td>
-                                    <td>Duration (sec)</td>
+                                    <td>Duration (min)</td>
                                   </tr>
 
                                   <tr style={{ color: 'gray' }}>
                                     <td>Punch</td>
-                                    <td></td>
+                                    <td>{date.auto_punch_out ? <h5>Auto out</h5> : ''}</td>
                                     <td>{stringToLocalTime(date.punch_in, true)}</td>
                                     <td>{date.punch_out ? stringToLocalTime(date.punch_out, true) : '-'}</td>
-                                    <td>{date.duration ? date.duration : '-'}</td>
+                                    <td>{date.duration ? parseInt(date.duration / 60) || '<0' : '-'}</td>
                                   </tr>
                                   {date.over_time.in ?
                                     <tr style={{ color: 'gray' }}>
                                       <td>Over Time</td>
-                                      <td></td>
+                                      <td>{date.over_time?.auto ? <h5>Auto out</h5> : ''}</td>
                                       <td>{stringToLocalTime(date.over_time.in, true)}</td>
                                       <td>{date.over_time.out ? stringToLocalTime(date.over_time.out, true) : '-'}</td>
-                                      <td>{date.over_time.duration ? date.over_time.duration : '-'}</td>
+                                      <td>{date.over_time.duration ? parseInt(date.over_time.duration / 60) || '<0' : '-'}</td>
                                     </tr>
                                     : ""}
 
@@ -224,7 +224,7 @@ function Staff_work_table() {
                                           <td></td>
                                           <td>{stringToLocalTime(breaks.start, true)}</td>
                                           <td>{stringToLocalTime(breaks.end, true)}</td>
-                                          <td>{breaks.duration}</td>
+                                          <td>{parseInt(breaks.duration / 60) || '<0'}</td>
                                         </tr>
                                       })}
                                     </>
@@ -235,7 +235,7 @@ function Staff_work_table() {
                                       <td></td>
                                       <td>{stringToLocalTime(date.lunch_break.start, true)}</td>
                                       <td>{stringToLocalTime(date.lunch_break.end, true)}</td>
-                                      <td>{date.lunch_break.duration}</td>
+                                      <td>{parseInt(date.lunch_break.duration / 60) || '<0'}</td>
                                     </tr>
                                     : ""}
 

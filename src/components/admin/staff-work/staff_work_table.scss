@@ -21,7 +21,8 @@
                 p {
                     font-size: 13px;
                     font-weight: 600;
-                    &:last-child{
+
+                    &:last-child {
                         margin-top: 5px;
                     }
                 }
@@ -97,10 +98,19 @@
                                 border-collapse: collapse;
 
                                 tbody {
+
                                     .tr-date {
                                         font-weight: 800;
                                         color: rgb(80, 80, 80);
                                         border-top: solid rgb(153, 153, 153) 1px;
+                                    }
+
+                                    .tr-head {
+                                        font-weight: 600;
+                                    }
+
+                                    td {
+                                        padding: 3px 0;
 
                                         h5 {
                                             background-color: $blue_color;
@@ -115,14 +125,6 @@
                                             -o-border-radius: 50px;
                                             font-size: 10px;
                                         }
-                                    }
-
-                                    .tr-head {
-                                        font-weight: 600;
-                                    }
-
-                                    td {
-                                        padding: 3px 0;
                                     }
                                 }
                             }
