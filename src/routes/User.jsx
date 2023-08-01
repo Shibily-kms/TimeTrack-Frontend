@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import SingUp from '../pages/user/sign-up/Sing_up'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Login from '../pages/user/login/Login'
@@ -64,7 +63,6 @@ function User() {
     <Routes>
       <Route path='/' element={<PrivateRoute element={<Home />} isAuthenticated={isAuthenticated} />} />
       <Route path='/enter-work-details' element={<PrivateRoute element={<WorkDetails />} isAuthenticated={isAuthenticated} />} />
-      <Route path='/sign-up' element={<SingUp />} />
       <Route path='/login' element={<Login />} />
     </Routes>
   )
