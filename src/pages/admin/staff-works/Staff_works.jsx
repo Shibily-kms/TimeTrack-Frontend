@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import Header from '../../../components/admin/header/Header'
-import Staff_table from '../../../components/admin/staff-work/Staff_work_table'
+import StaffTable from '../../../components/admin/staff-work/Staff_work_table'
 
 function Staff_works() {
     const location = useLocation()
@@ -10,6 +10,7 @@ function Staff_works() {
 
     useEffect(() => {
         if (!staff_works && typeof staff_works !== "object") navigate('/admin')
+        // eslint-disable-next-line
     }, [])
     return (
         <div>
@@ -17,7 +18,7 @@ function Staff_works() {
                 <Header />
             </div>
             <div className="bottom-div">
-                <Staff_table />
+                <StaffTable />
             </div>
         </div>
     )

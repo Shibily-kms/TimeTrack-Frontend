@@ -41,6 +41,9 @@ export const workDataSlice = createSlice({
             state.workDetails.offBreak = []
             state.workDetails.regular_work = []
             state.workDetails.extra_work = []
+            if (state.workDetails.lunch_break.duration) {
+                state.workDetails.lunch_break.save = true
+            }
         },
         doStartBreak: (state, action) => {
             state.workDetails.break = action.payload
@@ -70,6 +73,9 @@ export const workDataSlice = createSlice({
         doLunchBreak: (state, action) => {
             state.workDetails.lunch_break = action.payload
         },
+        doPunchOUt: (state, action) => {
+            state.workDetails.punch_out = action.payload
+        },
         doStartOverTime: (state) => {
             state.workDetails.over_time = {
                 in: new Date(), out: null
@@ -86,8 +92,8 @@ export const workDataSlice = createSlice({
             })
             .addCase(getPunchDetails.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.workDetails = { ...action.payload.data.work_details, offBreak: [] }
-                state.workDetails.lunch_break = { ...action.payload.data.work_details?.lunch_break, save: true } || {}
+                state.workDetails = { ...action.payload.data?.data, offBreak: [] }
+                state.workDetails.lunch_break = { ...action.payload.data?.data?.lunch_break, save: true } || {}
             })
             .addCase(getPunchDetails.rejected, (state, action) => {
                 state.isLoading = false;
@@ -100,5 +106,5 @@ export const workDataSlice = createSlice({
 
 export const {
     setWorkData, doStartBreak, clearWorkData, resetOfflineData, doEndBreak, addRegularWork,
-    addExtraWork, doLunchBreak, doStartOverTime, doStopOverTime } = workDataSlice.actions;
+    addExtraWork, doLunchBreak, doStartOverTime, doStopOverTime, doPunchOUt } = workDataSlice.actions;
 export default workDataSlice.reducer

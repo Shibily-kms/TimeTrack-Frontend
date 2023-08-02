@@ -1,0 +1,161 @@
+@import '../../../assets/scss/color.scss';
+@import '../../../assets/scss/model.scss';
+
+.add-staff-div {
+    .boarder {
+
+        .text-input-div {
+            position: relative;
+            width: 100%;
+            margin: 2px 0;
+
+            input,
+            select {
+                width: 100%;
+                font-size: 13px;
+                font-weight: 600;
+                padding: 10px 15px;
+                outline: none;
+                border: none;
+                border: 1px rgb(173, 173, 173) solid;
+                border-radius: 5px;
+                -webkit-border-radius: 5px;
+                -moz-border-radius: 5px;
+                -ms-border-radius: 5px;
+                -o-border-radius: 5px;
+
+                &:focus {
+                    outline: 1px solid $blue_color;
+                    border-color: $blue_color;
+                }
+
+                &:focus~label {
+                    color: $blue_color;
+
+
+                }
+
+                &:focus~label,
+                &:valid~label {
+                    top: -7px;
+                    left: 10px;
+                    font-size: 12px;
+                    font-weight: 500;
+                    max-width: 85%;
+                    padding: 0px 5px;
+                    width: auto;
+
+                }
+            }
+
+            label {
+                font-size: 13px;
+                font-weight: 600;
+                position: absolute;
+                top: 8px;
+                left: 15px;
+                color: rgb(85, 85, 85);
+                transition: 0.1s ease-in-out;
+                -webkit-transition: 0.1s ease-in-out;
+                -moz-transition: 0.1s ease-in-out;
+                -ms-transition: 0.1s ease-in-out;
+                -o-transition: 0.1s ease-in-out;
+                background-color: white;
+                width: 85%;
+                padding: 3px 0;
+                display: inline-block;
+                overflow: hidden;
+                white-space: nowrap;
+            }
+
+            .icon {
+                position: absolute;
+                right: 10px;
+                bottom: 9px;
+                cursor: pointer;
+            }
+        }
+
+        form {
+            .sections {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .actions {
+                display: flex;
+                justify-content: flex-end;
+
+                button {
+                    @include normalButton();
+                    margin-top: 15px;
+                    background-color: $blue_color;
+                    width: 150px;
+                }
+            }
+        }
+
+        .copy-div {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 300px;
+            place-content: center;
+            height: 200px;
+
+            >div {
+
+                .sections{
+                    .info{
+                        margin-bottom: 25px;
+                        p{
+                            font-size: 13px;
+                            font-style: italic;
+                            color: rgb(223, 171, 0);
+                            text-align: center;
+
+                        }
+                    }
+                }
+
+                .actions {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 10px;
+
+                    button {
+                        @include normalButton();
+                        margin-top: 5px;
+                        background-color: $blue_color;
+
+                        &:last-child {
+                            background-color: rgb(128, 128, 128);
+                        }
+                    }
+                }
+            }
+        }
+
+
+    }
+
+    @media screen and (max-width:550px) {
+        .boarder {
+            form {
+                .sections {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+        }
+    }
+
+    @media screen and (max-width:355px) {
+        .boarder {
+            .copy-div {
+                grid-template-columns: 1fr;
+            }
+
+        }
+    }
+}

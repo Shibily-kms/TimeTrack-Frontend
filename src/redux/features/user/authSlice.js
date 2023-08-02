@@ -45,10 +45,10 @@ export const userAuthSlice = createSlice({
             })
             .addCase(loginUser.fulfilled, (state, action) => {
                 localStorage.setItem(
-                    '_tkn_stf', action.payload.data.user.token
+                    '_tkn_stf', action.payload.data.data.token
                 );
                 state.isLoading = false;
-                state.user = action.payload.data.user;
+                state.user = action.payload.data.data;
             })
             .addCase(loginUser.rejected, (state, action) => {
                 state.isLoading = false;

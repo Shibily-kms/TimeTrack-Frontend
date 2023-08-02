@@ -6,9 +6,10 @@ import Punching from '../../../components/user/punch/Punching'
 import Work from '../../../components/user/work/Work'
 import WorkDetails from '../../../components/user/semi-work-details/WorkDetails'
 import SpinWithMessage from '../../../components/common/spinners/SpinWithMessage'
+import Title from '../../../components/common/title/Title'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { setWorkData, getPunchDetails } from '../../../redux/features/user/workdataSlice'
+import { getPunchDetails } from '../../../redux/features/user/workdataSlice'
 import { setRegularWork } from '../../../redux/features/user/dayWorksSlice'
 
 
@@ -28,7 +29,7 @@ function Work_details() {
     if (internet) {
       dispatch(getPunchDetails())
       userAxios.get('/works/' + user?.designation?.id).then((works) => {
-        dispatch(setRegularWork(works.data.works))
+        dispatch(setRegularWork(works.data.data))
       })
     }
     // eslint-disable-next-line
@@ -99,49 +100,39 @@ function Work_details() {
       }
     }
 
-
-    // Check If Auto PunchOut
-    const checkIfAutoPunchOut = setInterval(() => {
-      if (workDetails?.punch_in) {
-        const [punchOutHour, punchOutMinute] = user?.designation?.auto_punch_out.split(':');
-        const [nowHour, nowMinute] = new Date().toTimeString().split(':');
-        if ((nowHour + nowMinute) >= (punchOutHour + punchOutMinute) && workDetails?.punch_out === null
-          && workDetails?.punch_in) {
-          userAxios.get('/punch-details').then((response) => {
-            if (response.data?.work_details?.punch_out) {
-              dispatch(setWorkData({
-                ...workDetails,
-                punch_out: response.data?.work_details?.punch_out,
-                auto_punch_out: true,
-                break: {
-                  ...workDetails?.break,
-                  end: response.data?.work_details?.break?.end,
-                  duration: response.data?.work_details?.break?.duration,
-                },
-                lunch_break: {
-                  ...workDetails.lunch_break,
-                  end: response.data?.work_details?.lunch_break?.end,
-                  duration: response.data?.work_details?.lunch_break?.duration,
-                }
-              }))
-              clearInterval(checkIfAutoPunchOut);
-            }
-          })
+    let checkIfAutoPunchOut = null
+    
+    if (!workDetails?.punch_out && workDetails?.punch_in) {
+      // Check If Auto PunchOut
+      checkIfAutoPunchOut = setInterval(() => {
+        if (workDetails?.punch_in) {
+          const [punchOutHour, punchOutMinute] = user?.designation?.auto_punch_out.split(':');
+          const [nowHour, nowMinute] = new Date().toTimeString().split(':');
+          if ((nowHour + nowMinute) >= (punchOutHour + punchOutMinute) && workDetails?.punch_out === null
+            && workDetails?.punch_in) {
+            dispatch(getPunchDetails())
+            clearInterval(checkIfAutoPunchOut);
+          }
         }
-      }
-    }, 10000)
+      }, 10000)
+    }
 
     return () => {
-      clearInterval(checkIfAutoPunchOut);
+      if (checkIfAutoPunchOut) clearInterval(checkIfAutoPunchOut);
     };
     // eslint-disable-next-line
   }, [workDetails])
+
+
 
 
   return (
     <div className='work-details-page'>
       <div className="header-div">
         <Header />
+      </div>
+      <div className='container'>
+        <Title sub={'Work details'} />
       </div>
       <div className="container content">
         {isLoading ? <>

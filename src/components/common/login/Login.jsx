@@ -38,12 +38,12 @@ function Login({ admin }) {
         <div className="boader">
           <div className="box">
             <div className="header">
-              <h4>{admin ? "Admin Login" : "Login"}</h4>
+              <h4>{admin ? "Admin Login" : "Staff Login"}</h4>
             </div>
             <div className="inputs">
               <form onSubmit={onSubmit}>
                 <div className="input-div">
-                  <label htmlFor="user-name">User name</label>
+                  <label htmlFor="user-name">User name {!admin && 'Or Mobile'}</label>
                   <input type="text" name='user_name' id='user-name' required onChange={handleChange} />
                 </div>
                 <div className="input-div">
@@ -56,16 +56,8 @@ function Login({ admin }) {
                 <div className="button-div">
                   <button type='submit'>LogIn</button>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  <small style={{ color: 'gray', fontSize: '8px', }}>V1.6</small>
-                </div>
               </form>
             </div>
-            {!admin &&
-              <div style={{ width: '100%', display: 'flex', justifyContent: "center", marginTop: '10px' }}>
-                <small style={{ cursor: 'pointer' }} onClick={() => navigate('/sign-up')}>Create Account</small>
-              </div>
-            }
           </div>
         </div>
       </div>
