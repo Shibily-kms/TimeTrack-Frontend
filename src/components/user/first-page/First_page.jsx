@@ -24,7 +24,7 @@ function First_page() {
                         </div>
                         {user?.designation?.allow_sales ?
                             <div className="button-div">
-                                <button onClick={() => window.open(`https://www.sales.alliancewatersolutions.com?id=${user._id}`, '_blank')}>SALES</button>
+                                <button onClick={() => window.location.href = `https://www.sales.alliancewatersolutions.com?id=${user._id}`}>SALES</button>
                             </div>
                             : ""}
                         <div className="button-div">
