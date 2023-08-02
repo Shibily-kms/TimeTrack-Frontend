@@ -178,7 +178,7 @@ function Staff_work_table() {
                                     <td>{date.auto_punch_out ? <h5>Auto out</h5> : ''}</td>
                                     <td>{stringToLocalTime(date.punch_in, true)}</td>
                                     <td>{date.punch_out ? stringToLocalTime(date.punch_out, true) : '-'}</td>
-                                    <td>{date.duration ? parseInt(date.duration / 60) || '<0' : '-'}</td>
+                                    <td>{date.duration ? parseInt(date.duration / 60) || '<1' : '-'}</td>
                                   </tr>
                                   {date.over_time.in ?
                                     <tr style={{ color: 'gray' }}>
@@ -186,7 +186,7 @@ function Staff_work_table() {
                                       <td>{date.over_time?.auto ? <h5>Auto out</h5> : ''}</td>
                                       <td>{stringToLocalTime(date.over_time.in, true)}</td>
                                       <td>{date.over_time.out ? stringToLocalTime(date.over_time.out, true) : '-'}</td>
-                                      <td>{date.over_time.duration ? parseInt(date.over_time.duration / 60) || '<0' : '-'}</td>
+                                      <td>{date.over_time.duration ? parseInt(date.over_time.duration / 60) || '<1' : '-'}</td>
                                     </tr>
                                     : ""}
 
@@ -224,7 +224,7 @@ function Staff_work_table() {
                                           <td></td>
                                           <td>{stringToLocalTime(breaks.start, true)}</td>
                                           <td>{stringToLocalTime(breaks.end, true)}</td>
-                                          <td>{parseInt(breaks.duration / 60) || '<0'}</td>
+                                          <td>{parseInt(breaks.duration / 60) || '<1'}</td>
                                         </tr>
                                       })}
                                     </>
@@ -235,7 +235,7 @@ function Staff_work_table() {
                                       <td></td>
                                       <td>{stringToLocalTime(date.lunch_break.start, true)}</td>
                                       <td>{stringToLocalTime(date.lunch_break.end, true)}</td>
-                                      <td>{parseInt(date.lunch_break.duration / 60) || '<0'}</td>
+                                      <td>{parseInt(date.lunch_break.duration / 60) || '<1'}</td>
                                     </tr>
                                     : ""}
 

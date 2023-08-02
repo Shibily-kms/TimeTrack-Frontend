@@ -5,8 +5,9 @@ import Login from '../pages/user/login/Login'
 import Home from '../pages/user/home/Home'
 import WorkDetails from '../pages/user/work-details/Work_details'
 import { userAxios } from '../config/axios'
-import { resetOfflineData } from '../redux/features/user/workdataSlice'
+import { resetOfflineData, doPunchOUt } from '../redux/features/user/workdataSlice'
 import { setUser } from '../redux/features/user/authSlice'
+import { toast } from 'react-hot-toast'
 
 
 function User() {
@@ -26,14 +27,19 @@ function User() {
       if (workDetails?.offBreak?.[0] || workDetails?.regular_work?.[0] || workDetails?.extra_work?.[0] ||
         workDetails?.lunch_break?.save === false) {
         userAxios.post('/offline-recollect', workDetails).then((response) => {
-          dispatch(resetOfflineData(response.data.lastBreak))
+          dispatch(resetOfflineData(response.data.data))
         }).catch((error) => {
-          dispatch(resetOfflineData(error.response.data.lastBreak))
+          toast.error(error.response.data.message)
+          if (error.response.data.statusCode !== 409) {
+            dispatch(resetOfflineData(error.response.data.data))
+          } else {
+            dispatch(doPunchOUt(error.response.data.data.punch_out))
+          }
         })
       }
     }
     // eslint-disable-next-line
-  }, [internet])
+  }, [internet, workDetails?.over_time?.in])
 
   useEffect(() => {
     // Change Title
