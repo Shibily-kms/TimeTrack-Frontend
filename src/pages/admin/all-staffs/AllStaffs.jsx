@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react'
 import Header from '../../../components/admin/header/Header'
 import Title from '../../../components/common/title/Title'
 import AddStaff from '../../../components/admin/add-staff/AddStaff'
+import EditStaff from '../../../components/admin/edit-staff/EditStaff'
 import './all-staffs.scss'
 import { adminAxios } from '../../../config/axios'
 import { BsTrash3 } from 'react-icons/bs'
 import { AiOutlinePlus } from 'react-icons/ai'
+import { FiEdit2 } from 'react-icons/fi'
 import { IoCloseCircleOutline } from 'react-icons/io5'
 import { toast } from 'react-hot-toast'
 import IconWithMessage from '../../../components/common/spinners/SpinWithMessage'
@@ -17,6 +19,7 @@ function AllStaffs() {
     const [data, setData] = useState([])
     const [modal, setModal] = useState(null)
     const [password, setPassword] = useState({ text: null, copied: false })
+    const [editId, setEditId] = useState(null)
 
     useEffect(() => {
         setLoading('initialData')
@@ -47,6 +50,11 @@ function AllStaffs() {
         }
         setModal()
         setPassword({ text: null, copied: false })
+    }
+
+    const openEditModal = (id) => {
+        setModal('EDIT STAFF')
+        setEditId(id)
     }
 
 
@@ -80,6 +88,8 @@ function AllStaffs() {
                                     <td>{value.contact}</td>
                                     <td>
                                         <div className='buttons'>
+                                            <button title='Edit' onClick={() => openEditModal(value._id)}
+                                                className='button-small-icon edit'> <FiEdit2 /></button>
                                             <button title='Remove' onClick={() => handleDelete(value._id)}
                                                 className={loading === value._id ? 'button-small-icon delete loading-icon' : 'button-small-icon delete'}>
                                                 {loading === value._id ? <BiLoaderAlt /> : <BsTrash3 />}</button>
@@ -103,7 +113,7 @@ function AllStaffs() {
                         <div className="modal" >
                             <div className="border">
                                 <div className="shadow" onClick={() => closeModel()}></div>
-                                <div className={modal === 'ADD NEW STAFF' ? "box large-box" : 'box'}>
+                                <div className={modal === 'ADD NEW STAFF' || modal === 'EDIT STAFF' ? "box large-box" : 'box'}>
                                     <div className="header">
                                         <div className="title">
                                             <h5>{modal}</h5>
@@ -115,6 +125,7 @@ function AllStaffs() {
                                     <div className="content">
                                         {modal === 'ADD NEW STAFF' && <AddStaff closeModel={closeModel} setData={setData}
                                             password={password.text} setPassword={setPassword} />}
+                                        {modal === 'EDIT STAFF' && <EditStaff setModal={setModal} setData={setData} editId={editId} />}
                                     </div>
                                 </div>
                             </div>
