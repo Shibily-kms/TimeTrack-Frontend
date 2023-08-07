@@ -44,22 +44,11 @@ function User() {
   useEffect(() => {
     // Change Title
     document.title = `Staff Works`;
-
-    userAxios.get(`/designations?id=${user?.designation?.id}`).then((response) => {
-      let [hour, minute] = new Date().toTimeString().split(':');
-      let nowTime = `${hour}:${minute}`
-      if (user) {
-        dispatch(setUser({
-          ...user,
-          designation: {
-            ...user.designation,
-            allow_sales: response.data.data?.allow_sales || false,
-            auto_punch_out: nowTime > '21:00' ? user?.designation?.auto_punch_out || response.data.data?.auto_punch_out :
-              response.data.data?.auto_punch_out || '17:30',
-          }
-        }))
-      }
-    })
+    if (user) {
+      userAxios.get(`/profile?staffId=${user?._id}`).then((response) => {
+        dispatch(setUser({ ...user, ...response.data.data }))
+      })
+    }
     // eslint-disable-next-line
   }, [])
 

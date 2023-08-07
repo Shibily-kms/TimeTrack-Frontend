@@ -29,7 +29,7 @@ function Punching({ punch, theBreak, lunchBreak, overTime }) {
                 if (internet) {
                     setLoading('punchIn')
                     userAxios.post('/punch-in').then((response) => {
-                        userAxios.get('/works/' + user?.designation?.id).then((works) => {
+                        userAxios.get('/works/' + user?.designation?._id).then((works) => {
                             response.data.data.offBreak = []
                             response.data.data.lunch_break = {}
                             dispatch(setRegularWork(works.data.data))

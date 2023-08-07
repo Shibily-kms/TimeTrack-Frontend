@@ -48,7 +48,7 @@ function Login({ admin }) {
                 </div>
                 <div className="input-div">
                   <label htmlFor="password">Password</label>
-                  <input type={show ? 'text' : 'password'} name='password' id='password' required onChange={handleChange} />
+                  <input type={show ? 'text' : 'password'} name='password' id='password' autocomplete="current-password" required onChange={handleChange} />
                   <div className="icon" onClick={() => setShow(!show)}>
                     {show ? <RxEyeOpen /> : <RxEyeClosed />}
                   </div>

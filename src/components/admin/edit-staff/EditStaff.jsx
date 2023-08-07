@@ -1,26 +1,28 @@
 import React, { useEffect, useState } from 'react'
-import './add-staff.scss'
+import './edit-staff.scss'
 import { adminAxios } from '../../../config/axios'
+import SpinWithMessage from '../../common/spinners/SpinWithMessage'
 import { toast } from 'react-hot-toast'
-import { RxEyeClosed, RxEyeOpen } from 'react-icons/rx';
 import { BiLoaderAlt } from 'react-icons/bi'
-import { FaInfo } from 'react-icons/fa'
 
-function AddStaff({ closeModel, setData, password, setPassword }) {
-    const [form, setFrom] = useState({
-        first_name: null, last_name: null, email_id: null, contact: null,
-        designation: null, dob: null, place: null, pin_code: null
-    })
+function EditStaff({ setModal, setData, editId }) {
+    const [form, setFrom] = useState({})
     const [designations, setDesignations] = useState([])
-    const [loading, setLoading] = useState('')
-    const [show, setShow] = useState(false)
-    const [text, setText] = useState('Copy Now')
-
+    const [loading, setLoading] = useState('getData')
 
     const handleChange = (e) => {
         setFrom({
             ...form,
             [e.target.name]: e.target.value
+        })
+    }
+
+    const handleDesignationChange = (e) => {
+        let desi = designations.filter((obj) => obj._id === e.target.value)
+        setFrom({
+            ...form,
+            designation: e.target.value,
+            designationName: desi[0]?.designation || null
         })
     }
 
@@ -30,35 +32,43 @@ function AddStaff({ closeModel, setData, password, setPassword }) {
         if (form.first_name[0] === ' ' || form.last_name[0] === ' ' || form.place[0] === ' ') {
             toast.error('Space is not accepted as the first character')
             setLoading('')
-            return 
+            return
         }
-        adminAxios.post('/staff', form).then((response) => {
-            toast.success('Success, Now copy password ')
-            setData((state) => [...state, response.data.data])
-            setPassword((state) => ({ ...state, text: response.data.data.password }))
+        adminAxios.put('/staff', form).then(() => {
+            toast.success('Updated!')
+            setData((state) => state.map((value) => {
+                if (value._id === form._id) {
+                    return {
+                        _id: form._id,
+                        first_name: form.first_name,
+                        last_name: form.last_name,
+                        designation: { _id: form.designation, designation: form.designationName },
+                        contact: form.contact
+                    }
+                }
+                return value
+            }))
             setLoading('')
+            setModal('')
         }).catch((error) => {
             toast.error(error.response.data.message)
             setLoading('')
         })
     }
 
-    const handleCopy = () => {
-        if (password) {
-            navigator.clipboard.writeText(password)
-                .then(() => {
-                    setText('Copied!');
-                    setPassword((state) => ({ ...state, copied: true }))
-                    setTimeout(() => setText('Copy'), 5000);
-                })
-                .catch(() => toast.error('Try now !'));
-        }
-    }
+
 
     useEffect(() => {
-        setLoading('getDesignation')
-        adminAxios.get('/designations').then((response) => {
+        setLoading('getData')
+        adminAxios.get(`/staff/${editId}`).then((response) => {
+            const data = response.data.data
+            setFrom({
+                _id: data?._id, first_name: data?.first_name, last_name: data?.last_name, email_id: data?.email_id, contact: data?.contact,
+                designation: data?.designation?._id, designationName: data?.designation?.designation, dob: data?.dob, place: data?.address?.place, pin_code: data?.address?.pin_code
+            })
             setLoading('')
+        })
+        adminAxios.get('/designations').then((response) => {
             setDesignations(response.data?.data || [])
         })
         // eslint-disable-next-line
@@ -67,28 +77,13 @@ function AddStaff({ closeModel, setData, password, setPassword }) {
     return (
         <div className='add-staff-div'>
             <div className="boarder">
-                {password ?
-                    <div className="copy-div">
-                        <div>
-                            <div className="sections">
-                                <div className='info'>
-                                    <p><FaInfo /> Save the password to a notepad</p>
-                                </div>
-                                <div className="text-input-div">
-                                    <input type={show ? 'text' : 'password'} id='password' value={password} required />
-                                    <label htmlFor="password">Password</label>
-                                    <div className="icon" onClick={() => setShow(!show)}>
-                                        {show ? <RxEyeOpen /> : <RxEyeClosed />}
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="actions">
-                                <button type='button' onClick={handleCopy}>{text}</button>
-                                <button type='button' onClick={() => closeModel()}>Close</button>
-                            </div>
-                        </div>
+                {loading === 'getData' ? <>
+                    <div style={{ display: 'grid', placeContent: 'center', width: '100%' }}>
+                        <SpinWithMessage message='fetch data...' />
                     </div>
-                    : <form action="" onSubmit={handleSubmit}>
+                </>
+                    :
+                    <form action="" onSubmit={handleSubmit}>
                         <div className="sections">
                             <div className="text-input-div">
                                 <input type="text" id='first_name' name='first_name' value={form?.first_name} required onChange={handleChange} />
@@ -107,10 +102,10 @@ function AddStaff({ closeModel, setData, password, setPassword }) {
                                 <label htmlFor="contact">Mobile no</label>
                             </div>
                             <div className="text-input-div">
-                                <select id="designation" name="designation" required onChange={handleChange}>
+                                <select id="designation" name="designation" required onChange={handleDesignationChange}>
                                     <option value={''}>{designations?.[0] ? "Choose" : 'Loading...'}</option>
                                     {designations.map((option, index) => {
-                                        return <option key={index} value={option._id} >{option.designation}</option>
+                                        return <option selected={option._id === form?.designation} key={index} value={option._id} >{option?.designation}</option>
                                     })}
 
                                 </select>
@@ -131,7 +126,7 @@ function AddStaff({ closeModel, setData, password, setPassword }) {
                         </div>
                         <div className="actions">
                             <button type={loading === 'submit' ? 'button' : 'submit'} >
-                                {loading === 'submit' ? <span className='loading-icon'><BiLoaderAlt /></span> : 'Submit'}</button>
+                                {loading === 'submit' ? <span className='loading-icon'><BiLoaderAlt /></span> : 'Update'}</button>
                         </div>
                     </form>}
             </div>
@@ -139,4 +134,4 @@ function AddStaff({ closeModel, setData, password, setPassword }) {
     )
 }
 
-export default AddStaff
+export default EditStaff
