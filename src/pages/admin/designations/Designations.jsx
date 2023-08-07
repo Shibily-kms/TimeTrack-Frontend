@@ -32,7 +32,7 @@ function Designations() {
     }, [])
 
     const openEdit = (header, value) => {
-        setEditData({ ...value, allow_sales: value.allow_sales || false, auto_punch_out: value.auto_punch_out || '17:30' })
+        setEditData({ ...value, allow_origins: value.allow_origins, auto_punch_out: value.auto_punch_out || '17:30' })
         setModel(header)
     }
 
@@ -64,7 +64,7 @@ function Designations() {
             </div>
             <div className="container">
                 <div>
-                    <Title sub={'Designation list'}/>
+                    <Title sub={'Designation list'} />
                 </div>
                 <div className="top">
                     <button onClick={() => setModel('ADD NEW DESIGNATION')}><AiOutlinePlus /> Add Designation</button>
@@ -75,7 +75,8 @@ function Designations() {
                             <tr>
                                 <th>Sl no</th>
                                 <th>Designation</th>
-                                <th>Access Sales</th>
+                                <th>Staff</th>
+                                <th>Access</th>
                                 <th>Auto Punch Out</th>
                                 <th>Control</th>
                             </tr>
@@ -83,10 +84,11 @@ function Designations() {
                                 return <tr key={value._id}>
                                     <td>{++index}</td>
                                     <td>{value.designation}</td>
-                                    <td>{value.allow_sales ? 'Yes' : 'No'}</td>
-                                    <td>{stringToLocalTime(value.auto_punch_out ? value.auto_punch_out : '17:30')}</td>
-                                    <td>
-                                        <div className='buttons'>
+                                    <td style={{ textAlign: 'center' }}>{value.name.length}</td>
+                                    <td style={{ textAlign: 'center' }}>{value?.allow_origins.map((origin) => <span key={origin} className={`text-badge ${origin}-text`}>{origin}</span>)}</td>
+                                    <td style={{ textAlign: 'center' }}>{stringToLocalTime(value.auto_punch_out ? value.auto_punch_out : '17:30')}</td>
+                                    <td style={{ textAlign: 'center' }}>
+                                        <div className='buttons' >
                                             <button title='Works list' onClick={() => openWorksList('WORKS LIST', value._id)}
                                                 className='button-small-icon '><BsListUl /></button>
                                             <button title='Edit' onClick={() => openEdit('EDIT DESIGNATION', value)}

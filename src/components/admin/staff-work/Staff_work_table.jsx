@@ -35,7 +35,6 @@ function Staff_work_table() {
     if (window.navigator && window.navigator.msSaveOrOpenBlob) {
       // For IE browser
       window.navigator.msSaveOrOpenBlob(data, filename);
-      setLoading(false)
     } else {
       // For other browsers
       const url = window.URL.createObjectURL(data);
@@ -52,7 +51,7 @@ function Staff_work_table() {
 
     const workbook = XLSX.utils.book_new();
     datas.forEach((staff, index) => {
-      const sheetName = staff.staff_name;
+      const sheetName = staff.full_name || staff.staff_name;
       const workSheetData = staff.dates.flatMap((date) => {
         const punch = {
           date: date.date,
@@ -60,7 +59,7 @@ function Staff_work_table() {
           work: '',
           start: date.punch_in,
           end: date.punch_out,
-          duration: date.duration
+          duration: `${parseInt(date.duration / 60) || '< 1'} min`
         }
         let overTime = {
           date: date.date,
@@ -68,7 +67,7 @@ function Staff_work_table() {
           work: '',
           start: date.over_time.in,
           end: date.over_time.out,
-          duration: date.over_time.duration
+          duration: `${parseInt(date.over_time.duration / 60) || '< 1'} min`
         }
         overTime = date?.over_time?.in ? [overTime] : []
         let lunchBreak = {
@@ -77,7 +76,7 @@ function Staff_work_table() {
           work: '',
           start: date.lunch_break.start,
           end: date.lunch_break.end,
-          duration: date.lunch_break.duration
+          duration: `${parseInt(date.lunch_break.duration / 60) || '< 1'} min`
         }
         lunchBreak = date?.lunch_break?.start ? [lunchBreak] : []
         const regular = date.regular_work.map((workObj) => ({
@@ -102,7 +101,7 @@ function Staff_work_table() {
           work: '',
           start: obj.start,
           end: obj.end,
-          duration: obj.duration
+          duration: `${parseInt(obj.duration / 60) || '< 1'} min`
         }));
         return [punch, ...regular, ...extra, ...breaks, ...overTime, ...lunchBreak, '']
       })
@@ -110,6 +109,7 @@ function Staff_work_table() {
       const worksheet = XLSX.utils.json_to_sheet(workSheetData);
       XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
     })
+    setLoading(false)
     return workbook;
   };
 
@@ -144,7 +144,7 @@ function Staff_work_table() {
                     <div className={collapse === staff.name ? "collapse-header boader" : "collapse-header"}
                       onClick={() => handleCollapse(staff.name)}>
                       <div className="left">
-                        <h5>{staff.staff_name}</h5>
+                        <h5>{staff.full_name || staff.staff_name}</h5>
                       </div>
                       <div className="right">
                         <h5>{staff.designation}</h5>

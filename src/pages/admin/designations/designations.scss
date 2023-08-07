@@ -61,10 +61,11 @@
 
                 td {
                     .buttons {
-                        display: flex;
-                        justify-content: center;
-                        gap: 10px;
-
+                        display: inline-block;
+                        button{
+                            margin: 3px 3px;
+                        }
+                        
                         .button-small-icon {
                             @include normalButton();
                             font-size: 16px;

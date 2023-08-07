@@ -8,7 +8,7 @@ import { BiLoaderAlt } from 'react-icons/bi'
 function EditStaff({ setModal, setData, editId }) {
     const [form, setFrom] = useState({})
     const [designations, setDesignations] = useState([])
-    const [loading, setLoading] = useState('')
+    const [loading, setLoading] = useState('getData')
 
     const handleChange = (e) => {
         setFrom({
@@ -22,7 +22,7 @@ function EditStaff({ setModal, setData, editId }) {
         setFrom({
             ...form,
             designation: e.target.value,
-            designationName: desi[0].designation
+            designationName: desi[0]?.designation || null
         })
     }
 
@@ -100,7 +100,7 @@ function EditStaff({ setModal, setData, editId }) {
                                 <select id="designation" name="designation" required onChange={handleDesignationChange}>
                                     <option value={''}>{designations?.[0] ? "Choose" : 'Loading...'}</option>
                                     {designations.map((option, index) => {
-                                        return <option selected={option._id === form?.designation} key={index} value={option._id} >{option.designation}</option>
+                                        return <option selected={option._id === form?.designation} key={index} value={option._id} >{option?.designation}</option>
                                     })}
 
                                 </select>

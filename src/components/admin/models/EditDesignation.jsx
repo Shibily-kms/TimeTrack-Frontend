@@ -14,12 +14,19 @@ function EditDesignation({ setModel, editData, setEditData, setData }) {
         })
     }
 
-    const handleAllow = (e) => {
-        setEditData({
-            ...editData,
-            allow_sales: e.target.value === 'true'
+    const handleAllow = (e, type) => {
 
-        })
+        if (e.target.value === 'true') {
+            setEditData({
+                ...editData,
+                allow_origins: [...editData.allow_origins, type]
+            })
+        } else {
+            setEditData({
+                ...editData,
+                allow_origins: editData.allow_origins.filter((elem) => elem !== type)
+            })
+        }
     }
 
     const handleSubmit = (e) => {
@@ -32,7 +39,7 @@ function EditDesignation({ setModel, editData, setEditData, setData }) {
                         return {
                             ...obj,
                             designation: editData.designation,
-                            allow_sales: editData.allow_sales,
+                            allow_origins: editData.allow_origins,
                             auto_punch_out: editData.auto_punch_out
                         }
                     }
@@ -59,9 +66,9 @@ function EditDesignation({ setModel, editData, setEditData, setData }) {
                     </div>
 
                     <div className="new-input-div">
-                        <select id="source" name="source" required onChange={handleAllow} >
-                            <option selected={editData.allow_sales ? true : false} value={true} defaultValue={true}>Yes</option>
-                            <option selected={editData.allow_sales ? false : true} value={false} defaultValue={false}>No</option>
+                        <select id="source" name="source" required onChange={(e) => handleAllow(e, 'Sales')} >
+                            <option selected={editData?.allow_origins.includes('Sales')} value={true} defaultValue={true}>Yes</option>
+                            <option selected={!editData?.allow_origins.includes('Sales')} value={false} defaultValue={false}>No</option>
                         </select>
                         <label htmlFor="source">Access to Sales Page</label>
                     </div>
