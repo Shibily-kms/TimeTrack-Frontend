@@ -29,6 +29,11 @@ function EditStaff({ setModal, setData, editId }) {
     const handleSubmit = (e) => {
         e.preventDefault()
         setLoading('submit')
+        if (form.first_name[0] === ' ' || form.last_name[0] === ' ' || form.place[0] === ' ') {
+            toast.error('Space is not accepted as the first character')
+            setLoading('')
+            return
+        }
         adminAxios.put('/staff', form).then(() => {
             toast.success('Updated!')
             setData((state) => state.map((value) => {

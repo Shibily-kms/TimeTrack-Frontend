@@ -27,6 +27,11 @@ function AddStaff({ closeModel, setData, password, setPassword }) {
     const handleSubmit = (e) => {
         e.preventDefault()
         setLoading('submit')
+        if (form.first_name[0] === ' ' || form.last_name[0] === ' ' || form.place[0] === ' ') {
+            toast.error('Space is not accepted as the first character')
+            setLoading('')
+            return 
+        }
         adminAxios.post('/staff', form).then((response) => {
             toast.success('Success, Now copy password ')
             setData((state) => [...state, response.data.data])
