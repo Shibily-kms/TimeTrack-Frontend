@@ -25,8 +25,7 @@ function First_page() {
                         {user?.designation?.allow_origins.includes('Sales') &&
                             <div className="button-div">
                                 <button onClick={() => window.location.href = `https://www.sales.alliancewatersolutions.com?id=${user._id}`}>SALES</button>
-                            </div>
-                            : ""}
+                            </div>}
                         <div className="button-div">
                             <button onClick={() => setModal('CHANGE PASSWORD')}>CHANGE PASSWORD</button>
                         </div>
