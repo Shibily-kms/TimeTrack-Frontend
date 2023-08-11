@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import Header from '../../../components/admin/header/Header'
-import StaffTable from '../../../components/admin/staff-work/Staff_work_table'
+import TopBar from '../../../components/admin/staff-work/TopBar'
+import WorkAnalyze from '../../../components/admin/staff-work/WorkAnalyze'
 
 function Staff_works() {
     const location = useLocation()
@@ -17,8 +18,11 @@ function Staff_works() {
             <div className="header-div">
                 <Header />
             </div>
-            <div className="bottom-div">
-                <StaffTable />
+            <div >
+                <TopBar />
+            </div>
+            <div >
+                <WorkAnalyze />
             </div>
         </div>
     )

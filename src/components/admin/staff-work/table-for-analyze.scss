@@ -1,0 +1,78 @@
+@import '../../../assets/scss/model.scss';
+
+.table-for-analyze {
+    .boarder {
+        margin-top: 20px;
+        overflow-x: auto;
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            font-weight: 500;
+
+            thead {
+                background-color: black;
+                color: white;
+
+                tr {
+                    th {
+                        padding: 5px;
+                        border: 1px gray dotted;
+                        font-weight: 500;
+                        font-size: 12px;
+                    }
+                }
+            }
+
+            tbody {
+                tr {
+                    td {
+                        padding: 8px 6px;
+                        border-bottom: 1px solid #DDD;
+                        text-align: center;
+
+                        .gray {
+                            background-color: rgb(172, 172, 172);
+                        }
+
+                        .blue {
+                            background-color: rgb(26, 132, 194);
+                        }
+
+                        .orange {
+                            background-color: orange;
+                        }
+
+                        .red {
+                            background-color: rgb(202, 31, 1);
+                        }
+
+                        button {
+                            @include normalButton();
+                            background-color : gray;
+                        }
+                    }
+
+                    &:hover {
+                        background-color: #D6EEEE;
+                    }
+
+                    .name {
+                        text-align: left;
+                    }
+
+                    .text-badge {
+                        border-radius: 5px;
+                        -webkit-border-radius: 5px;
+                        -moz-border-radius: 5px;
+                        -ms-border-radius: 5px;
+                        -o-border-radius: 5px;
+                        font-size: 11px;
+                    }
+                }
+            }
+
+        }
+    }
+}

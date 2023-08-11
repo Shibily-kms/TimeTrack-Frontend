@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import * as XLSX from 'xlsx';
+
 import { useLocation } from 'react-router-dom'
 import './staff_work_table.scss'
 import Title from '../../common/title/Title'
@@ -23,97 +23,7 @@ function Staff_work_table() {
     }
   }
 
-  // Convert to Excel Start
-  const downloadXl = () => {
-    setLoading(true)
-    const workbook = exportToExcel(staff_works);
-    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
 
-    const data = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-    const filename = 'staff_works.xlsx';
-
-    if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-      // For IE browser
-      window.navigator.msSaveOrOpenBlob(data, filename);
-    } else {
-      // For other browsers
-      const url = window.URL.createObjectURL(data);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = filename;
-      link.click();
-      window.URL.revokeObjectURL(url);
-      setLoading(false)
-    }
-  }
-
-  const exportToExcel = (datas) => {
-
-    const workbook = XLSX.utils.book_new();
-    datas.forEach((staff, index) => {
-      const sheetName = staff.full_name || staff.staff_name;
-      const workSheetData = staff.dates.flatMap((date) => {
-        const punch = {
-          date: date.date,
-          type: 'punch',
-          work: '',
-          start: date.punch_in,
-          end: date.punch_out,
-          duration: `${parseInt(date.duration / 60) || '< 1'} min`
-        }
-        let overTime = {
-          date: date.date,
-          type: 'over time',
-          work: '',
-          start: date.over_time.in,
-          end: date.over_time.out,
-          duration: `${parseInt(date.over_time.duration / 60) || '< 1'} min`
-        }
-        overTime = date?.over_time?.in ? [overTime] : []
-        let lunchBreak = {
-          date: date.date,
-          type: 'lunch break',
-          work: '',
-          start: date.lunch_break.start,
-          end: date.lunch_break.end,
-          duration: `${parseInt(date.lunch_break.duration / 60) || '< 1'} min`
-        }
-        lunchBreak = date?.lunch_break?.start ? [lunchBreak] : []
-        const regular = date.regular_work.map((workObj) => ({
-          date: date.date,
-          type: 'regular work',
-          work: workObj.work,
-          start: workObj.start,
-          end: workObj.end,
-          duration: workObj.duration
-        }));
-        const extra = date.extra_work.map((workObj) => ({
-          date: date.date,
-          type: 'extra work',
-          work: workObj.work,
-          start: workObj.start,
-          end: workObj.end,
-          duration: workObj.duration
-        }));
-        const breaks = date.break.map((obj) => ({
-          date: date.date,
-          type: 'break',
-          work: '',
-          start: obj.start,
-          end: obj.end,
-          duration: `${parseInt(obj.duration / 60) || '< 1'} min`
-        }));
-        return [punch, ...regular, ...extra, ...breaks, ...overTime, ...lunchBreak, '']
-      })
-
-      const worksheet = XLSX.utils.json_to_sheet(workSheetData);
-      XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
-    })
-    setLoading(false)
-    return workbook;
-  };
-
-  // Convert to Excel End
 
   return (
     <div className='staff-table'>
@@ -134,7 +44,7 @@ function Staff_work_table() {
                     </>
                   }
                 </div>
-                <button title='Download xl file' onClick={downloadXl}><span
+                <button title='Download xl file' ><span
                   className={loading && 'loading-icon'}>{loading ? <BiLoaderAlt /> : <RiFileExcel2Fill />}
                 </span> <span className='text'>Download Excel</span>  </button>
               </div>
