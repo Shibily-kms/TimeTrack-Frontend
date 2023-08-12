@@ -34,7 +34,7 @@ function Staff_works() {
                     <div className="border">
                         <div className="modal-shadow" onClick={() => closeViewModal()}></div>
                         <div className="modal-place-div">
-                            <ViewModal data={viewModal.data}   info={viewModal.info}
+                            <ViewModal data={viewModal.data} info={viewModal.info}
                                 type={viewModal.type} closeModal={closeViewModal} />
                         </div>
                     </div>

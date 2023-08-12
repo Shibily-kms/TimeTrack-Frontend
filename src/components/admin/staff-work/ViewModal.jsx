@@ -64,7 +64,7 @@ function ViewModal({ data, info, type, closeModal }) {
                                     <div className="td">Over time</div>
                                     <div className="td"></div>
                                     <div className="td">{stringToLocalTime(data?.over_time?.in)}</div>
-                                    <div className="td">{stringToLocalTime(data?.over_time?.out)}{data?.over_time?.in && !data?.over_time?.out &&
+                                    <div className="td">{stringToLocalTime(data?.over_time?.out)}{!today && data?.over_time?.in && !data?.over_time?.out &&
                                         <span className='text-badge desi-text orange'>Skipped</span>}</div>
                                     <div className="td">{getTimeFromSecond(data?.over_time?.duration) || '0m'}</div>
                                 </div>}
@@ -134,7 +134,7 @@ function ViewModal({ data, info, type, closeModal }) {
                                 <div className="icon-div">
                                     {info?.day === 'SUN' ? <FcPlanner /> : today ? <FcCancel /> : <FcLeave />}
                                 </div>
-                                <h4>{info?.day === 'SUN' ? 'Today holiday' : today ? 'Unpunched' : 'On leave'} </h4>
+                                <h4>{info?.day === 'SUN' ? 'Today holiday' : today ? 'Unpunched' : 'Took leave'} </h4>
                             </div>
                         </div>
                     </>}

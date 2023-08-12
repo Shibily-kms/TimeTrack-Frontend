@@ -50,7 +50,7 @@ function TableForAnalyze({ tableData, openModal }) {
 
                                 <td><div>{stringToLocalTime(staff?.punch?.in)}</div>{!staff?.punch &&
                                     <span className={`text-badge Sales-text ${tableData?.day === "SUN" ? 'red' : today ? 'gray' : 'orange'}`}>
-                                        {tableData?.day === "SUN" ? "Holiday" : today ? "Unpunched" : "On Leave"}</span>}</td>
+                                        {tableData?.day === "SUN" ? "Holiday" : today ? "" : "Leave"}</span>}</td>
 
                                 <td><div>{stringToLocalTime(staff?.punch?.out)}</div>{staff?.auto_punch_out &&
                                     <span title='Auto punch outed' className='text-badge Sales-text blue'>Auto</span>}
