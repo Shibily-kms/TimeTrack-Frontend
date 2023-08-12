@@ -1,0 +1,142 @@
+.view-modal {
+
+    .box-div {
+        background-color: white;
+        border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        -ms-border-radius: 10px;
+        -o-border-radius: 10px;
+
+        .head {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 7px 15px;
+            border-bottom: solid 1px rgb(199, 199, 199);
+
+            .icon-div {
+                width: 25px;
+                height: 25px;
+                display: grid;
+                place-content: center;
+                border-radius: 50px;
+                -webkit-border-radius: 50px;
+                -moz-border-radius: 50px;
+                -ms-border-radius: 50px;
+                -o-border-radius: 50px;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: rgb(233, 233, 233);
+                }
+            }
+        }
+
+        .body-content {
+            padding: 10px 15px;
+            overflow: auto;
+            height: auto;
+            max-height: 80vh;
+
+            .top {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                .desi-text {
+
+                    color: white;
+                    font-size: 11px;
+                    border-radius: 5px;
+                    -webkit-border-radius: 5px;
+                    -moz-border-radius: 5px;
+                    -ms-border-radius: 5px;
+                    -o-border-radius: 5px;
+                }
+            }
+
+            .content {
+                margin-top: 15px;
+
+
+                .table-head,
+                .table-body {
+                    font-size: 12px;
+
+                    .row {
+                        display: grid;
+                        grid-template-columns: 2fr 3fr 2fr 2fr 1fr;
+                        gap: 3px;
+                        padding-bottom: 5px;
+                        padding-top: 5px;
+                        font-weight: 500;
+                        border-bottom: 1px dashed rgb(235, 235, 235);
+
+                        .th,
+                        .td {
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+
+                            .desi-text {
+                                color: white;
+                                border-radius: 5px;
+                                -webkit-border-radius: 5px;
+                                -moz-border-radius: 5px;
+                                -ms-border-radius: 5px;
+                                -o-border-radius: 5px;
+                                font-size: 10px;
+                            }
+
+
+                        }
+
+                    }
+
+
+                }
+
+
+
+                .table-head {
+                    .row {
+                        font-weight: 700;
+                    }
+                }
+            }
+
+            .info-box {
+                width: 100%;
+                padding: 60px 0;
+                display: grid;
+                place-content: center;
+
+                .info-content {
+                    text-align: center;
+
+                    .icon-div {
+                        font-size: 45px;
+                    }
+                }
+            }
+
+            .gray {
+                background-color: rgb(172, 172, 172);
+            }
+
+            .blue {
+                background-color: rgb(26, 132, 194);
+            }
+
+            .orange {
+                background-color: orange;
+            }
+
+            .red {
+                background-color: rgb(202, 31, 1);
+            }
+        }
+    }
+}

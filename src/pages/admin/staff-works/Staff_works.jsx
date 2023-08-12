@@ -1,29 +1,45 @@
-import React, { useEffect } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import React, { useState } from 'react'
 import Header from '../../../components/admin/header/Header'
 import TopBar from '../../../components/admin/staff-work/TopBar'
-import WorkAnalyze from '../../../components/admin/staff-work/WorkAnalyze'
+import './staff-works.scss'
+import DateWorkAnalyze from '../../../components/admin/staff-work/DateWorkAnalyze'
+import ViewModal from '../../../components/admin/staff-work/ViewModal'
 
 function Staff_works() {
-    const location = useLocation()
-    const navigate = useNavigate()
-    const staff_works = location?.state
+    const [viewModal, setViewModal] = useState({ open: false })
 
-    useEffect(() => {
-        if (!staff_works && typeof staff_works !== "object") navigate('/admin')
-        // eslint-disable-next-line
-    }, [])
+    const closeViewModal = () => {
+        setViewModal(false)
+    }
+
+    const openViewModal = (data, info, type) => {
+        setViewModal({ data, info, type, open: true })
+    }
+
     return (
-        <div>
-            <div className="header-div">
-                <Header />
+        <div className='staff-works'>
+            <div className='main'>
+                <div className="header-div">
+                    <Header />
+                </div>
+                <div >
+                    <TopBar />
+                </div>
+                <div >
+                    <DateWorkAnalyze openModal={openViewModal} />
+                </div>
             </div>
-            <div >
-                <TopBar />
-            </div>
-            <div >
-                <WorkAnalyze />
-            </div>
+            {viewModal.open &&
+                <div className="modal-border-div">
+                    <div className="border">
+                        <div className="modal-shadow" onClick={() => closeViewModal()}></div>
+                        <div className="modal-place-div">
+                            <ViewModal data={viewModal.data}   info={viewModal.info}
+                                type={viewModal.type} closeModal={closeViewModal} />
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
     )
 }

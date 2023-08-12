@@ -17,7 +17,7 @@ function Choose_dates({ setModel }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        navigate('/admin/staff-work-details', { state: { ...form, type: 'date-basie' } })
+        navigate('/admin/staff-work-details/date-basie', { state: { ...form, type: 'date-basie' } })
         setModel(null)
     }
 

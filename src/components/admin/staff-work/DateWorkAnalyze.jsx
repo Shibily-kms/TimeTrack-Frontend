@@ -10,7 +10,7 @@ import { analyzeDataHelper } from '../../../assets/javascript/work-helper'
 
 
 
-function WorkAnalyze() {
+function DateWorkAnalyze({ openModal }) {
     const [analyzeData, setAnalyzeData] = useState([])
     const [loading, setLoading] = useState(false)
     const [selected, setSelected] = useState({})
@@ -26,15 +26,12 @@ function WorkAnalyze() {
         })
     }, [selected])
 
-
-
     useEffect(() => {
         setLoading(true)
         adminAxios.get(`/analyze/staff-work-data?from_date=${form.from_date}&to_date=${form.to_date}&type=${form.type}`).then((response) => {
             adminAxios.get('/staff/all-list?all=yes').then((result) => {
                 const analyzedData = analyzeDataHelper(response?.data?.data, result.data.data,
                     new Date(form.from_date), new Date(form.to_date))
-                    console.log(analyzedData);
                 setSelected({ date: analyzedData[0]?.date, month: analyzedData[0]?.month })
                 setAnalyzeData(analyzedData)
                 setLoading(false)
@@ -58,7 +55,7 @@ function WorkAnalyze() {
                         <DateBar data={analyzeData} selected={selected} setSelected={setSelected} />
                     </div>
                     <div className="table-list">
-                        <TableForAnalyze tableData={tableData} />
+                        <TableForAnalyze tableData={tableData} openModal={openModal} />
                     </div>
                 </>}
             </>}
@@ -66,4 +63,4 @@ function WorkAnalyze() {
     )
 }
 
-export default WorkAnalyze
+export default DateWorkAnalyze
