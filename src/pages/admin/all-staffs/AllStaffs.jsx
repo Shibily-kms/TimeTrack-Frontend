@@ -3,6 +3,7 @@ import Header from '../../../components/admin/header/Header'
 import Title from '../../../components/common/title/Title'
 import AddStaff from '../../../components/admin/add-staff/AddStaff'
 import EditStaff from '../../../components/admin/edit-staff/EditStaff'
+import DeleteStaff from '../../../components/admin/models/DeleteStaff'
 import './all-staffs.scss'
 import { adminAxios } from '../../../config/axios'
 import { BsTrash3 } from 'react-icons/bs'
@@ -19,7 +20,7 @@ function AllStaffs() {
     const [data, setData] = useState([])
     const [modal, setModal] = useState(null)
     const [password, setPassword] = useState({ text: null, copied: false })
-    const [editId, setEditId] = useState(null)
+    const [doId, setDoId] = useState(null)
 
     useEffect(() => {
         setLoading('initialData')
@@ -54,7 +55,12 @@ function AllStaffs() {
 
     const openEditModal = (id) => {
         setModal('EDIT STAFF')
-        setEditId(id)
+        setDoId(id)
+    }
+
+    const openDeleteModel = (id) => {
+        setModal('DELETE STAFF')
+        setDoId(id)
     }
 
 
@@ -90,9 +96,8 @@ function AllStaffs() {
                                         <div className='buttons'>
                                             <button title='Edit' onClick={() => openEditModal(value._id)}
                                                 className='button-small-icon edit'> <FiEdit2 /></button>
-                                            <button title='Remove' onClick={() => handleDelete(value._id)}
-                                                className={loading === value._id ? 'button-small-icon delete loading-icon' : 'button-small-icon delete'}>
-                                                {loading === value._id ? <BiLoaderAlt /> : <BsTrash3 />}</button>
+                                            <button title='Remove' onClick={() => openDeleteModel(value._id)}
+                                                className={'button-small-icon delete'}>  <BsTrash3 /></button>
                                         </div>
                                     </td>
                                 </tr>
@@ -125,7 +130,8 @@ function AllStaffs() {
                                     <div className="content">
                                         {modal === 'ADD NEW STAFF' && <AddStaff closeModel={closeModel} setData={setData}
                                             password={password.text} setPassword={setPassword} />}
-                                        {modal === 'EDIT STAFF' && <EditStaff setModal={setModal} setData={setData} editId={editId} />}
+                                        {modal === 'EDIT STAFF' && <EditStaff setModal={setModal} setData={setData} editId={doId} />}
+                                        {modal === 'DELETE STAFF' && <DeleteStaff setModal={setModal} setData={setData} deleteId={doId} />}
                                     </div>
                                 </div>
                             </div>
