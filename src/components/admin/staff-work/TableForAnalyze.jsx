@@ -5,17 +5,20 @@ import SpinWithMessage from '../../common/spinners/SpinWithMessage';
 import { FcTimeline } from 'react-icons/fc'
 import { BsArrowsFullscreen } from 'react-icons/bs'
 
-function TableForAnalyze({ tableData, openModal }) {
+function TableForAnalyze({ tableData, details, openModal, staffBasie }) {
     const [today, setToday] = useState(false)
+    const months = ['Jun', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dev']
 
     useEffect(() => {
-        if (new Date().getDate() === tableData?.date && new Date().getMonth() === tableData?.month) {
-            setToday(true)
-        } else {
-            setToday(false)
+        if (!staffBasie) {
+            if (new Date().getDate() === details?.date && new Date().getMonth() === details?.month) {
+                setToday(true)
+            } else {
+                setToday(false)
+            }
         }
 
-    }, [tableData])
+    }, [details])
 
     return (
         <div className='table-for-analyze'>
@@ -23,7 +26,7 @@ function TableForAnalyze({ tableData, openModal }) {
                 <table>
                     <thead>
                         <tr>
-                            <th rowSpan={'2'}>Full name</th>
+                            <th rowSpan={'2'}>{staffBasie ? "Date" : 'Full name'}</th>
                             <th colSpan={'2'}>Punch</th>
                             <th colSpan={'2'}>Over time</th>
                             <th rowSpan={'2'}>Working <br></br>Time</th>
@@ -40,52 +43,59 @@ function TableForAnalyze({ tableData, openModal }) {
                         </tr>
                     </thead>
                     <tbody>
-                        {tableData?.staff && tableData.staff.map((staff) => {
+                        {tableData && tableData.map((obj) => {
                             return <tr>
                                 <td className='name'>
-                                    <div>{staff.full_name}</div>
-                                    <div><span title={!staff?.punch && 'Current designation'}
-                                        className={`text-badge Sales-text ${!staff?.punch ? 'blue' : 'gray'}`}>{staff.designation}</span></div>
+                                    <div>{staffBasie ? (obj.date + '-' + months[obj.month] + '-' + obj.year + ' | ' + obj.day)
+                                        : obj.full_name}</div>
+                                    <div>
+                                        {staffBasie ?
+                                            (obj.punch && <span title={'Designation'}
+                                                className={`text-badge Sales-text gray`}>{obj.designation}</span>) :
+                                            <span title={!obj?.punch && 'Current designation'}
+                                                className={`text-badge Sales-text ${!obj?.punch ? 'blue' : 'gray'}`}>{obj.designation}</span>}
+
+                                    </div>
                                 </td>
 
-                                <td><div>{stringToLocalTime(staff?.punch?.in)}</div>{!staff?.punch &&
-                                    <span className={`text-badge Sales-text ${tableData?.day === "SUN" ? 'red' : today ? 'gray' : 'orange'}`}>
-                                        {tableData?.day === "SUN" ? "Holiday" : today ? "" : "Leave"}</span>}</td>
+                                <td><div>{stringToLocalTime(obj?.punch?.in)}</div>{!obj?.punch &&
+                                    <span className={`text-badge Sales-text ${obj?.day === "SUN" ? 'red' : today ? 'gray' : 'orange'}`}>
+                                        {obj?.day === "SUN" ? "Holiday" : today ? "" : "Leave"}</span>}</td>
 
-                                <td><div>{stringToLocalTime(staff?.punch?.out)}</div>{staff?.auto_punch_out &&
+                                <td><div>{stringToLocalTime(obj?.punch?.out)}</div>{obj?.auto_punch_out &&
                                     <span title='Auto punch outed' className='text-badge Sales-text blue'>Auto</span>}
-                                    {!today && staff?.punch?.in && !staff?.punch?.out && <span title='Auto punch out not work / Punch in after auto punch out time'
+                                    {!today && obj?.punch?.in && !obj?.punch?.out && <span title='Auto punch out not work / Punch in after auto punch out time'
                                         className='text-badge Sales-text red'>Skipped</span>}</td>
 
-                                <td>{stringToLocalTime(staff?.over_time?.in)}</td>
+                                <td>{stringToLocalTime(obj?.over_time?.in)}</td>
 
-                                <td><div>{stringToLocalTime(staff?.over_time?.out)}</div>{!today && staff?.over_time?.in && !staff?.over_time?.out &&
+                                <td><div>{stringToLocalTime(obj?.over_time?.out)}</div>{!today && obj?.over_time?.in && !obj?.over_time?.out &&
                                     <span className='text-badge Sales-text orange'>Skipped</span>}</td>
 
-                                <td>{staff?.punch && (getTimeFromSecond(staff?.punch?.duration + staff?.over_time?.duration || 0) || '0m')}</td>
+                                <td>{obj?.punch && (getTimeFromSecond(obj?.punch?.duration + obj?.over_time?.duration || 0) || '0m')}</td>
 
                                 <td>
-                                    <div>{staff?.break?.[0] && `( ${staff?.break?.length} )`} {staff?.lunch_break?.start &&
+                                    <div>{obj?.break?.[0] && `( ${obj?.break?.length} )`} {obj?.lunch_break?.start &&
                                         <span title='Lunch break included' className='text-badge Sales-text '>L</span>}</div>
-                                    <div>{getTimeFromSecond(staff?.break_duration)}</div>
+                                    <div>{getTimeFromSecond(obj?.break_duration)}</div>
                                 </td>
 
-                                <td>{staff?.regular_work?.[0] && `( ${staff?.regular_work?.length} )`}</td>
+                                <td>{obj?.regular_work?.[0] && `( ${obj?.regular_work?.length} )`}</td>
 
-                                <td>{staff?.extra_work?.[0] && `( ${staff?.extra_work?.length} )`}</td>
+                                <td>{obj?.extra_work?.[0] && `( ${obj?.extra_work?.length} )`}</td>
 
-                                <td><button onClick={() => openModal(staff, {
-                                    day: tableData.day,
-                                    date: tableData.date,
-                                    month: tableData.month,
-                                    year: tableData.year
+                                <td><button onClick={() => openModal(obj, {
+                                    day: obj.day,
+                                    date: obj.date,
+                                    month: obj.month,
+                                    year: obj.year
                                 }, 'date')} className='button'><BsArrowsFullscreen /></button></td>
                             </tr>
                         })}
                     </tbody>
                 </table>
-                {!tableData?.staff?.[0] && <div className='no-data'>
-                    <SpinWithMessage message='No Staffs' icon={<FcTimeline />} spin={false} />
+                {!tableData?.[0] && <div className='no-data'>
+                    <SpinWithMessage message={staffBasie ? 'No work data' : 'No Staffs'} icon={<FcTimeline />} spin={false} />
                 </div>}
             </div>
         </div >

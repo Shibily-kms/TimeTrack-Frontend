@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
+import './date-basie.scss'
 import Header from '../../../components/admin/header/Header'
 import TopBar from '../../../components/admin/staff-work/TopBar'
-import './staff-works.scss'
-import DateWorkAnalyze from '../../../components/admin/staff-work/DateWorkAnalyze'
+import StaffWorkAnalyze from '../../../components/admin/staff-work/StaffWorkAnalyze'
 import ViewModal from '../../../components/admin/staff-work/ViewModal'
 
-function Staff_works() {
+
+function StaffBasie() {
     const [viewModal, setViewModal] = useState({ open: false })
 
     const closeViewModal = () => {
@@ -15,7 +16,6 @@ function Staff_works() {
     const openViewModal = (data, info, type) => {
         setViewModal({ data, info, type, open: true })
     }
-
     return (
         <div className='staff-works'>
             <div className='main'>
@@ -26,7 +26,7 @@ function Staff_works() {
                     <TopBar />
                 </div>
                 <div >
-                    <DateWorkAnalyze openModal={openViewModal} />
+                    <StaffWorkAnalyze openModal={openViewModal} />
                 </div>
             </div>
             {viewModal.open &&
@@ -44,4 +44,4 @@ function Staff_works() {
     )
 }
 
-export default Staff_works
+export default StaffBasie   

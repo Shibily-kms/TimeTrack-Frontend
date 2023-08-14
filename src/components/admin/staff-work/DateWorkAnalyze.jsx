@@ -6,7 +6,7 @@ import './work-analyze.scss'
 import { toast } from 'react-hot-toast'
 import { adminAxios } from '../../../config/axios'
 import { useLocation } from 'react-router-dom'
-import { analyzeDataHelper } from '../../../assets/javascript/work-helper'
+import { analyzeDateHelper } from '../../../assets/javascript/work-helper'
 
 
 
@@ -30,7 +30,7 @@ function DateWorkAnalyze({ openModal }) {
         setLoading(true)
         adminAxios.get(`/analyze/staff-work-data?from_date=${form.from_date}&to_date=${form.to_date}&type=${form.type}`).then((response) => {
             adminAxios.get('/staff/all-list?all=yes').then((result) => {
-                const analyzedData = analyzeDataHelper(response?.data?.data, result.data.data,
+                const analyzedData = analyzeDateHelper(response?.data?.data, result.data.data,
                     new Date(form.from_date), new Date(form.to_date))
                 setSelected({ date: analyzedData[0]?.date, month: analyzedData[0]?.month })
                 setAnalyzeData(analyzedData)
@@ -49,15 +49,17 @@ function DateWorkAnalyze({ openModal }) {
                     <SpinWithMessage message='Analyze data...' />
                 </div>
             </> : <>
-                {form?.single ? <>
-                </> : <>
-                    <div className="date-bar">
-                        <DateBar data={analyzeData} selected={selected} setSelected={setSelected} />
-                    </div>
-                    <div className="table-list">
-                        <TableForAnalyze tableData={tableData} openModal={openModal} />
-                    </div>
-                </>}
+                <div className="date-bar">
+                    <DateBar data={analyzeData} selected={selected} setSelected={setSelected} />
+                </div>
+                <div className="table-list">
+                    <TableForAnalyze tableData={tableData.staff} details={{
+                        day: tableData.day,
+                        date: tableData.date,
+                        month: tableData.month,
+                        year: tableData.year
+                    }} openModal={openModal} />
+                </div>
             </>}
         </div>
     )
