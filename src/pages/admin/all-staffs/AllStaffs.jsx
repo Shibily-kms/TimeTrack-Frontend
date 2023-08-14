@@ -13,7 +13,6 @@ import { IoCloseCircleOutline } from 'react-icons/io5'
 import { toast } from 'react-hot-toast'
 import IconWithMessage from '../../../components/common/spinners/SpinWithMessage'
 import { IoTrashBin } from 'react-icons/io5'
-import { BiLoaderAlt } from 'react-icons/bi'
 
 function AllStaffs() {
     const [loading, setLoading] = useState('')

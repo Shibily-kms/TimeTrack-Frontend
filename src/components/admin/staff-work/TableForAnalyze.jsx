@@ -54,8 +54,8 @@ function TableForAnalyze({ tableData, openModal }) {
 
                                 <td><div>{stringToLocalTime(staff?.punch?.out)}</div>{staff?.auto_punch_out &&
                                     <span title='Auto punch outed' className='text-badge Sales-text blue'>Auto</span>}
-                                    {!today && staff?.punch?.in && !staff?.punch?.out && <span title='Auto punch out not work'
-                                        className='text-badge Sales-text red'>Bug</span>}</td>
+                                    {!today && staff?.punch?.in && !staff?.punch?.out && <span title='Auto punch out not work / Punch in after auto punch out time'
+                                        className='text-badge Sales-text red'>Skipped</span>}</td>
 
                                 <td>{stringToLocalTime(staff?.over_time?.in)}</td>
 

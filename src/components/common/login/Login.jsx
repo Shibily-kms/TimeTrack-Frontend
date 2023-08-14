@@ -43,7 +43,7 @@ function Login({ admin }) {
             <div className="inputs">
               <form onSubmit={onSubmit}>
                 <div className="input-div">
-                  <label htmlFor="user-name">User name {!admin && 'Or Mobile'}</label>
+                  <label htmlFor="user-name">{admin ? 'User name' : 'Mobile number'}</label>
                   <input type="text" name='user_name' id='user-name' required onChange={handleChange} />
                 </div>
                 <div className="input-div">

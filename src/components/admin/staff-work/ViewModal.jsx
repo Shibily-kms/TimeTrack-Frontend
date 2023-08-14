@@ -56,7 +56,9 @@ function ViewModal({ data, info, type, closeModal }) {
                                     <div className="td">Punch</div>
                                     <div className="td">{data?.auto_punch_out && <span title='Auto punch outed' className='text-badge desi-text blue'>Auto</span>}</div>
                                     <div className="td">{stringToLocalTime(data.punch?.in)}</div>
-                                    <div className="td">{stringToLocalTime(data.punch?.out)}</div>
+                                    <div className="td">{stringToLocalTime(data.punch?.out)} {!today && data?.punch?.in && !data?.punch?.out &&
+                                        <span title='Auto punch out not work / Punch in after auto punch out time'
+                                            className='text-badge desi-text red'>Skipped</span>}</div>
                                     <div className="td">{getTimeFromSecond(data.punch.duration) || '0m'}</div>
                                 </div>
                                 {/* Over Time */}
