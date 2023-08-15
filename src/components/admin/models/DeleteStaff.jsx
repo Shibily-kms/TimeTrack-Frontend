@@ -52,7 +52,7 @@ function DeleteStaff({ setModal, setData, deleteId }) {
                     </div>
                     <div className="radio-input-div">
                         <input type="radio" id='soft' value={'soft'} name='reason' onChange={handleChoose} />
-                        <label htmlFor="soft">Resignation / Separation / Otherwise </label>
+                        <label htmlFor="soft">Leave the company</label>
                     </div>
                     {form.type === 'soft' && <div className="text-input-div">
                         <input type="text" id='message' name='message' value={form.message} required onChange={handleChange} />

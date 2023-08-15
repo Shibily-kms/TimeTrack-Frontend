@@ -8,7 +8,6 @@ import ViewModal from '../../../components/admin/staff-work/ViewModal'
 
 function StaffBasie() {
     const [viewModal, setViewModal] = useState({ open: false })
-
     const closeViewModal = () => {
         setViewModal(false)
     }
@@ -23,7 +22,7 @@ function StaffBasie() {
                     <Header />
                 </div>
                 <div >
-                    <TopBar />
+                    <TopBar staff={true} />
                 </div>
                 <div >
                     <StaffWorkAnalyze openModal={openViewModal} />

@@ -27,7 +27,7 @@ function DateBar({ data, selected, setSelected }) {
                     {data.map((day, index) => {
                         return <div key={index} className={`item-box ${day.day === 'SUN' && 'sunday'} 
                         ${selected.date === day.date && selected.month === day.month && 'active'}`}
-                            onClick={() => setSelected({ date: day.date, month: day.month })
+                            onClick={() => setSelected({ date: day.date, month: day.month, year: day.year, count: day.attendanceCount })
                             }>
                             <div className="content ">
                                 <h3>{day.date}</h3>

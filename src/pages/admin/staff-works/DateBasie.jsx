@@ -7,6 +7,7 @@ import ViewModal from '../../../components/admin/staff-work/ViewModal'
 
 function DateBasie() {
     const [viewModal, setViewModal] = useState({ open: false })
+    const [selected, setSelected] = useState({})
 
     const closeViewModal = () => {
         setViewModal(false)
@@ -23,10 +24,10 @@ function DateBasie() {
                     <Header />
                 </div>
                 <div >
-                    <TopBar />
+                    <TopBar oneDay={selected} />
                 </div>
                 <div >
-                    <DateWorkAnalyze openModal={openViewModal} />
+                    <DateWorkAnalyze openModal={openViewModal} selected={selected} setSelected={setSelected} />
                 </div>
             </div>
             {viewModal.open &&

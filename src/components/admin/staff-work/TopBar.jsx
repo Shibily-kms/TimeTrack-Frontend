@@ -1,39 +1,50 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import * as XLSX from 'xlsx';
 import './top-bar.scss'
 import Title from '../../common/title/Title'
 import { useLocation } from 'react-router-dom'
 import { BiLoaderAlt } from 'react-icons/bi'
-import { RiFileExcel2Fill } from 'react-icons/ri'
+import { BsFillCalendarCheckFill, BsFillCalendarEventFill } from 'react-icons/bs'
 import { adminAxios } from '../../../config/axios';
+import { toast } from 'react-hot-toast';
 
-function TopBar() {
+function TopBar({ oneDay, staff }) {
     const location = useLocation()
     const [loading, setLoading] = useState('')
-
     // Convert to Excel Start
-    const downloadXl = () => {
-        setLoading(true)
-
-        adminAxios.get(`/analyze/staff-work-data?from_date=${location?.state?.from_date}&to_date=${location?.state?.to_date}&type=${'staff-basie'}`).then((response) => {
+    const handleOneDayDownload = () => {
+        setLoading('one')
+        adminAxios.get('/analyze/staff-work-data', {
+            params: {
+                from_date: `${oneDay.year}-${(oneDay.month + 1).toString().padStart(2, '0')}-${oneDay.date.toString().padStart(2, '0')}`,
+                to_date: `${oneDay.year}-${(oneDay.month + 1).toString().padStart(2, '0')}-${oneDay.date.toString().padStart(2, '0')}`,
+                type: 'staff-basie'
+            }
+        }).then((response) => {
             const workbook = exportToExcel(response.data.data);
-            const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+            downloadFile(
+                workbook,
+                `staff_works ${oneDay.year}-${(oneDay.month + 1).toString().padStart(2, '0')}-${oneDay.date.toString().padStart(2, '0')}`
+            )
+        })
+    }
 
-            const data = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-            const filename = 'staff_works.xlsx';
-
-            if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-                // For IE browser
-                window.navigator.msSaveOrOpenBlob(data, filename);
+    const handleAllDayDownload = () => {
+        setLoading('all')
+        adminAxios.get('/analyze/staff-work-data', {
+            params: {
+                from_date: location?.state?.from_date,
+                to_date: location?.state?.to_date,
+                type: 'staff-basie',
+                staff_id: location?.state?.staff || null
+            }
+        }).then((response) => {
+            if (response.data.data?.[0]) {
+                const workbook = exportToExcel(response.data.data);
+                downloadFile(workbook, `${staff ? response.data.data?.[0]?.full_name + '-work' : 'staff_works'} ${location?.state?.from_date} to ${location?.state?.to_date}`)
             } else {
-                // For other browsers
-                const url = window.URL.createObjectURL(data);
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = filename;
-                link.click();
-                window.URL.revokeObjectURL(url);
-                setLoading(false)
+                setLoading('')
+                toast.error('No data!')
             }
         })
     }
@@ -100,9 +111,31 @@ function TopBar() {
             const worksheet = XLSX.utils.json_to_sheet(workSheetData);
             XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
         })
-        setLoading(false)
+        setLoading('')
         return workbook;
     };
+
+
+    const downloadFile = (workbook, filename) => {
+        const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+
+        const data = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        filename = filename + '.xlsx';
+
+        if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+            // For IE browser
+            window.navigator.msSaveOrOpenBlob(data, filename);
+        } else {
+            // For other browsers
+            const url = window.URL.createObjectURL(data);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            link.click();
+            window.URL.revokeObjectURL(url);
+            setLoading('')
+        }
+    }
 
     // Convert to Excel End
 
@@ -125,9 +158,23 @@ function TopBar() {
                                 </>
                             }
                         </div>
-                        <button title='Download xl file' onClick={downloadXl}><span
-                            className={loading && 'loading-icon'}>{loading ? <BiLoaderAlt /> : <RiFileExcel2Fill />}
-                        </span> <span className='text'>Download Excel</span>  </button>
+                        <div className="buttons-box">
+                            <p>Download Excel file</p>
+                            <div className="buttons">
+                                {!staff && <>
+                                    {oneDay?.count ? <button title='Download this day XL file' onClick={() => handleOneDayDownload()}><span
+                                        className={loading === 'one' ? 'loading-icon' : ''}>{loading === 'one' ? <BiLoaderAlt /> : <BsFillCalendarEventFill />}
+                                    </span> <span className='text'>This day</span>  </button> :
+                                        <button style={{ opacity: '.5', cursor: 'not-allowed' }} ><span> <BsFillCalendarEventFill />
+                                        </span> <span className='text'>This day</span>  </button>}
+                                </>
+                                }
+
+                                <button title='Download all days XL file' onClick={() => handleAllDayDownload()}><span
+                                    className={loading === 'all' ? 'loading-icon' : ''}>{loading === 'all' ? <BiLoaderAlt /> : <BsFillCalendarCheckFill />}
+                                </span> <span className='text'>All days</span>  </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

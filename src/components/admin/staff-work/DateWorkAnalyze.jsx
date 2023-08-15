@@ -10,10 +10,9 @@ import { analyzeDateHelper } from '../../../assets/javascript/work-helper'
 
 
 
-function DateWorkAnalyze({ openModal }) {
+function DateWorkAnalyze({ openModal, selected, setSelected }) {
     const [analyzeData, setAnalyzeData] = useState([])
     const [loading, setLoading] = useState(false)
-    const [selected, setSelected] = useState({})
     const [tableData, setTableData] = useState({})
     const location = useLocation()
     const form = location.state
@@ -32,7 +31,12 @@ function DateWorkAnalyze({ openModal }) {
             adminAxios.get('/staff/all-list?all=yes').then((result) => {
                 const analyzedData = analyzeDateHelper(response?.data?.data, result.data.data,
                     new Date(form.from_date), new Date(form.to_date))
-                setSelected({ date: analyzedData[0]?.date, month: analyzedData[0]?.month })
+                setSelected({
+                    date: analyzedData[0]?.date,
+                    month: analyzedData[0]?.month,
+                    year: analyzedData[0]?.year,
+                    count: analyzedData[0]?.attendanceCount
+                })
                 setAnalyzeData(analyzedData)
                 setLoading(false)
             })
