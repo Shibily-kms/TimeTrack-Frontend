@@ -50,10 +50,10 @@ function TableForAnalyze({ tableData, details, openModal, staffBasie }) {
                                         : obj.full_name}</div>
                                     <div>
                                         {staffBasie ?
-                                            (obj.punch && <span title={'Designation'}
+                                            (obj.punch && !obj?.current_designation && <span title={'Designation'}
                                                 className={`text-badge Sales-text gray`}>{obj.designation}</span>) :
-                                            <span title={!obj?.punch && 'Current designation'}
-                                                className={`text-badge Sales-text ${!obj?.punch ? 'blue' : 'gray'}`}>{obj.designation}</span>}
+                                            <span title={obj?.current_designation ? 'Current designation' : 'Designation of the day'}
+                                                className={`text-badge Sales-text ${obj?.current_designation ? 'blue' : 'gray'}`}>{obj.designation}</span>}
 
                                     </div>
                                 </td>

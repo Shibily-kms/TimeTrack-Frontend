@@ -39,6 +39,7 @@ const analyzeDateHelper = (data, staffs, start, end) => {
                             full_name: staffs[j].first_name + ' ' + staffs[j].last_name,
                             staff_id: staffs[j]._id,
                             designation: staffs[j].designation.designation,
+                            current_designation: true,
                             day: days[new Date(start).getDay()],
                             date: new Date(start).getDate(),
                             month: new Date(start).getMonth(),
@@ -50,6 +51,10 @@ const analyzeDateHelper = (data, staffs, start, end) => {
                         oneDay.staff[k].date = new Date(start).getDate()
                         oneDay.staff[k].month = new Date(start).getMonth()
                         oneDay.staff[k].year = new Date(start).getFullYear()
+                        if (!oneDay.staff[k].designation) {
+                            oneDay.staff[k].designation = staffs[j].designation.designation
+                            oneDay.staff[k].current_designation = true
+                        }
                     }
                     k++
                 }
@@ -86,6 +91,10 @@ const analyzeStaffHelper = (data, staffDetails, start, end) => {
                         staff_id: staff.staff_id,
                         full_name: staff.full_name
                     }
+                    if (!staff.dates?.[i].designation) {
+                        oneDay.designation = staffDetails?.designation.designation
+                        oneDay.current_designation = true
+                    }
                     staff.dates[i] = oneDay
                 } else {
                     oneDay = {
@@ -95,7 +104,8 @@ const analyzeStaffHelper = (data, staffDetails, start, end) => {
                         year: new Date(start).getFullYear(),
                         staff_id: staffDetails?._id,
                         full_name: `${staffDetails.first_name} ${staffDetails.last_name}`,
-                        designation: staffDetails?.designation.designation
+                        designation: staffDetails?.designation.designation,
+                        current_designation: true
                     }
                     if (staff?.dates?.[0]) {
                         staff?.dates.splice(i, 0, oneDay)

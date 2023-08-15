@@ -32,8 +32,8 @@ function ViewModal({ data, info, type, closeModal }) {
                     <div className="top">
                         <div className="name-section">
                             <h5>{data.full_name}</h5>
-                            <span title={!data?.punch && 'Current designation'}
-                                className={`text-badge desi-text ${!data?.punch ? 'blue' : 'gray'}`}>{data.designation}</span>
+                            <span title={data?.current_designation ? 'Current designation' : 'Designation of the day'}
+                                className={`text-badge desi-text ${data?.current_designation ? 'blue' : 'gray'}`}>{data.designation}</span>
                         </div>
                         <div className="date-sections">
                             <h5>{info.date + '-' + months[info.month] + '-' + info.year}</h5>

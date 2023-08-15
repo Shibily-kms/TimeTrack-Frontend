@@ -48,11 +48,11 @@ function DeleteStaff({ setModal, setData, deleteId }) {
                 <form action="" onSubmit={handleSubmit}>
                     <div className="radio-input-div">
                         <input type="radio" id='hard' value={'hard'} name='reason' onChange={handleChoose} />
-                        <label htmlFor="hard">Mistakes / Remove <span>( Hard )</span></label>
+                        <label htmlFor="hard">Rectification / Removal <span>( Hard delete )</span></label>
                     </div>
                     <div className="radio-input-div">
                         <input type="radio" id='soft' value={'soft'} name='reason' onChange={handleChoose} />
-                        <label htmlFor="soft">Service ended</label>
+                        <label htmlFor="soft">Resignation / Separation / Otherwise </label>
                     </div>
                     {form.type === 'soft' && <div className="text-input-div">
                         <input type="text" id='message' name='message' value={form.message} required onChange={handleChange} />
