@@ -6,6 +6,7 @@ import DateBasie from '../pages/admin/staff-works/DateBasie'
 import StaffBasie from '../pages/admin/staff-works/StaffBasie'
 import Designations from '../pages/admin/designations/Designations'
 import AllStaffs from '../pages/admin/all-staffs/AllStaffs'
+import NotFound from '../pages/admin/not-found/NotFound '
 import { useSelector } from 'react-redux'
 
 function Admin() {
@@ -29,6 +30,9 @@ function Admin() {
       <Route path='/designations' element={<PrivateRoute element={<Designations />} isAuthenticated={isAuthenticated} />} />
       <Route path='/all-staffs' element={<PrivateRoute element={<AllStaffs />} isAuthenticated={isAuthenticated} />} />
       <Route path='/login' element={<Login />} />
+
+      {/* 404 Route */}
+      <Route path="*" element={<NotFound />} />
     </Routes>
   )
 }

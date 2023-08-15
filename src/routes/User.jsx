@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Login from '../pages/user/login/Login'
 import Home from '../pages/user/home/Home'
 import WorkDetails from '../pages/user/work-details/Work_details'
+import NotFound from '../pages/user/not-found/NotFound '
 import { userAxios } from '../config/axios'
 import { resetOfflineData, doPunchOUt } from '../redux/features/user/workdataSlice'
 import { setUser } from '../redux/features/user/authSlice'
@@ -59,6 +60,9 @@ function User() {
       <Route path='/' element={<PrivateRoute element={<Home />} isAuthenticated={isAuthenticated} />} />
       <Route path='/enter-work-details' element={<PrivateRoute element={<WorkDetails />} isAuthenticated={isAuthenticated} />} />
       <Route path='/login' element={<Login />} />
+
+      {/* 404 Route */}
+      <Route path="*" element={<NotFound />} />
     </Routes>
   )
 }
