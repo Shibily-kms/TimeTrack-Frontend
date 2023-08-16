@@ -1,0 +1,32 @@
+@import '../../../assets/scss/model.scss';
+
+.not-found {
+    .header {
+        z-index: 5;
+    }
+
+    .content-div {
+
+        display: grid;
+        place-content: center;
+        width: 100%;
+
+        .content {
+            .image {
+                img {
+                    width: 300px;
+                    max-width: 100%;
+                }
+            }
+
+            .text {
+                text-align: center;
+
+                button {
+                    @include normalButton();
+                    background-color: rgb(0, 111, 155);
+                }
+            }
+        }
+    }
+}

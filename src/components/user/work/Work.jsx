@@ -7,6 +7,8 @@ import { completeWork } from '../../../redux/features/user/dayWorksSlice'
 import { offlineRegularWork, offlineExtraWork } from '../../../assets/javascript/offline-helper'
 import { addRegularWork, addExtraWork } from '../../../redux/features/user/workdataSlice'
 import { BiLoaderAlt } from 'react-icons/bi'
+import { BsTrash3 } from 'react-icons/bs'
+import SpinnerWithMessage from '../../common/spinners/SpinWithMessage'
 
 function Work({ punch, theBreak, lunchBreak, overTime }) {
     const dispatch = useDispatch()
@@ -82,7 +84,9 @@ function Work({ punch, theBreak, lunchBreak, overTime }) {
                                         }
                                         <label htmlFor={work.work}>{work.work}</label>
                                     </div>
-                                }) : 'no works'}
+                                }) : <div className='no-data'>
+                                    <SpinnerWithMessage message='No works' icon={<BsTrash3 />} spin={false} />
+                                </div>}
                         </div>
                     </div>
                     <div className="right">
