@@ -29,19 +29,7 @@ function AllStaffs() {
         })
     }, [])
 
-    const handleDelete = (id) => {
-        const confirm = window.confirm('Are you delete this staff ?')
-        if (confirm) {
-            setLoading(id)
-            adminAxios.delete(`/staff?id=${id}`).then(() => {
-                setData(data.filter((obj) => obj._id !== id))
-                setLoading('')
-            }).catch((error) => {
-                toast.error(error.response.data.message)
-                setLoading('')
-            })
-        }
-    }
+
 
     const closeModel = () => {
         if (password.text && !password.copied) {

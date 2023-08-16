@@ -18,11 +18,13 @@ function DateWorkAnalyze({ openModal, selected, setSelected }) {
     const form = location.state
 
     useEffect(() => {
+        // eslint-disable-next-line
         analyzeData.map((day) => {
             if (selected.date === day.date && selected.month === day.month) {
                 setTableData(day)
             }
         })
+        // eslint-disable-next-line
     }, [selected])
 
     useEffect(() => {
@@ -44,6 +46,7 @@ function DateWorkAnalyze({ openModal, selected, setSelected }) {
             toast(error?.response?.data?.message || 'Try now !')
             setLoading(false)
         })
+        // eslint-disable-next-line
     }, [])
 
     return (
