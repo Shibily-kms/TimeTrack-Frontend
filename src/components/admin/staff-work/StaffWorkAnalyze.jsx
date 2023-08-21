@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './work-analyze.scss'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { adminAxios } from '../../../config/axios'
 import { toast } from 'react-hot-toast'
 import { analyzeStaffHelper } from '../../../assets/javascript/work-helper'
@@ -14,23 +14,29 @@ function StaffWorkAnalyze({ openModal }) {
     const [staffData, setStaffData] = useState({})
     const location = useLocation()
     const form = location.state
+    const navigate = useNavigate()
 
     useEffect(() => {
         setLoading(true)
-        adminAxios.get(`/analyze/staff-work-data?from_date=${form.from_date}&to_date=${form.to_date}&type=${form.type}&staff_id=${form.staff}`)
-            .then((response) => {
-                adminAxios.get(`/staff/${form.staff}?if_delete=yes`).then((result) => {
-                    setStaffData(result.data.data)
-                    const analyzedData = analyzeStaffHelper(response?.data?.data, result.data.data,
-                        new Date(form.from_date), new Date(form.to_date))
-                    setAnalyzeData(analyzedData)
+        if (location?.state?.from_date && location?.state?.to_date) {
+            adminAxios.get(`/analyze/staff-work-data?from_date=${form?.from_date}&to_date=${form?.to_date}&type=${form?.type}&staff_id=${form?.staff}`)
+                .then((response) => {
+                    adminAxios.get(`/staff/${form?.staff}?if_delete=yes`).then((result) => {
+                        setStaffData(result.data.data)
+                        const analyzedData = analyzeStaffHelper(response?.data?.data, result.data.data,
+                            new Date(form?.from_date), new Date(form?.to_date))
+                        setAnalyzeData(analyzedData)
+                        setLoading(false)
+                    })
+
+                }).catch((error) => {
+                    toast(error?.response?.data?.message || 'Try now !')
                     setLoading(false)
                 })
-
-            }).catch((error) => {
-                toast(error?.response?.data?.message || 'Try now !')
-                setLoading(false)
-            })
+        } else {
+            navigate('/admin')
+        }
+        // eslint-disable-next-line
     }, [])
 
     return (

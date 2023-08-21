@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import * as XLSX from 'xlsx';
 import './top-bar.scss'
 import Title from '../../common/title/Title'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { BiLoaderAlt } from 'react-icons/bi'
 import { BsFillCalendarCheckFill, BsFillCalendarEventFill } from 'react-icons/bs'
 import { adminAxios } from '../../../config/axios';
@@ -11,6 +11,10 @@ import { toast } from 'react-hot-toast';
 function TopBar({ oneDay, staff }) {
     const location = useLocation()
     const [loading, setLoading] = useState('')
+    const navigate = useNavigate()
+
+
+
     // Convert to Excel Start
     const handleOneDayDownload = () => {
         setLoading('one')
@@ -28,6 +32,13 @@ function TopBar({ oneDay, staff }) {
             )
         })
     }
+
+    useEffect(() => {
+        if (!location?.state?.from_date || !location?.state?.to_date) {
+            navigate('/admin')
+        }
+        // eslint-disable-next-line
+    }, [])
 
     const handleAllDayDownload = () => {
         setLoading('all')

@@ -15,6 +15,7 @@ function StaffBasie() {
     const openViewModal = (data, info, type) => {
         setViewModal({ data, info, type, open: true })
     }
+    
     return (
         <div className='staff-works'>
             <div className='main'>

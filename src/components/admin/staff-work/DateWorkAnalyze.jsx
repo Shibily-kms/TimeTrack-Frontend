@@ -20,7 +20,7 @@ function DateWorkAnalyze({ openModal, selected, setSelected }) {
     useEffect(() => {
         // eslint-disable-next-line
         analyzeData.map((day) => {
-            if (selected.date === day.date && selected.month === day.month) {
+            if (selected.date === day.date && selected.month === day.month && selected.year === day.year) {
                 setTableData(day)
             }
         })
@@ -29,10 +29,10 @@ function DateWorkAnalyze({ openModal, selected, setSelected }) {
 
     useEffect(() => {
         setLoading(true)
-        adminAxios.get(`/analyze/staff-work-data?from_date=${form.from_date}&to_date=${form.to_date}&type=${form.type}`).then((response) => {
+        adminAxios.get(`/analyze/staff-work-data?from_date=${form?.from_date}&to_date=${form?.to_date}&type=${form?.type}`).then((response) => {
             adminAxios.get('/staff/all-list?all=yes').then((result) => {
                 const analyzedData = analyzeDateHelper(response?.data?.data, result.data.data,
-                    new Date(form.from_date), new Date(form.to_date))
+                    new Date(form?.from_date), new Date(form?.to_date))
                 setSelected({
                     date: analyzedData[0]?.date,
                     month: analyzedData[0]?.month,

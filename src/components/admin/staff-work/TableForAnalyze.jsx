@@ -10,14 +10,15 @@ function TableForAnalyze({ tableData, details, openModal, staffBasie }) {
     const months = ['Jun', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dev']
 
     useEffect(() => {
+        console.log(details);
         if (!staffBasie) {
-            if (new Date().getDate() === details?.date && new Date().getMonth() === details?.month) {
+            if (new Date().getDate() === details?.date && new Date().getMonth() === details?.month && new Date().getFullYear() === details?.year) {
                 setToday(true)
             } else {
                 setToday(false)
             }
         }
-
+        // eslint-disable-next-line
     }, [details])
 
     return (
@@ -26,7 +27,8 @@ function TableForAnalyze({ tableData, details, openModal, staffBasie }) {
                 <table>
                     <thead>
                         <tr>
-                            <th rowSpan={'2'}>{staffBasie ? "Date" : 'Full name'}</th>
+                            <th rowSpan={'2'}>{staffBasie ? "Date" : 'Full name'}<br></br>
+                                {!staffBasie && `( ${details.date}-${months[details.month]}-${details.year} )`}</th>
                             <th colSpan={'2'}>Punch</th>
                             <th colSpan={'2'}>Over time</th>
                             <th rowSpan={'2'}>Working <br></br>Time</th>
@@ -52,15 +54,15 @@ function TableForAnalyze({ tableData, details, openModal, staffBasie }) {
                                         {staffBasie ?
                                             (obj.punch && !obj?.current_designation && <span title={'Designation'}
                                                 className={`text-badge Sales-text gray`}>{obj.designation}</span>) :
-                                            <span title={obj?.current_designation ? 'Current designation' : 'Designation of the day'}
-                                                className={`text-badge Sales-text ${obj?.current_designation ? 'blue' : 'gray'}`}>{obj.designation}</span>}
+                                            <span title={obj?.current_designation ? 'Current designation' : 'Designation on the day'}
+                                                className={`text-badge Sales-text ${obj?.current_designation ? 'gray' : 'gray2'}`}>{obj.designation}</span>}
 
                                     </div>
                                 </td>
 
                                 <td><div>{stringToLocalTime(obj?.punch?.in)}</div>{!obj?.punch &&
                                     <span className={`text-badge Sales-text ${obj?.day === "SUN" ? 'red' : today ? 'gray' : 'orange'}`}>
-                                        {obj?.day === "SUN" ? "Holiday" : today ? "" : "Leave"}</span>}</td>
+                                        {obj?.day === "SUN" ? "Holiday" : today ? "Pending" : "Leave"}</span>}</td>
 
                                 <td><div>{stringToLocalTime(obj?.punch?.out)}</div>{obj?.auto_punch_out &&
                                     <span title='Auto punch outed' className='text-badge Sales-text blue'>Auto</span>}

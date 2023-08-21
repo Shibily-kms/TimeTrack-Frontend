@@ -48,6 +48,10 @@
                             background-color: rgb(202, 31, 1);
                         }
 
+                        .gray2 {
+                            background-color: rgb(116, 116, 116);
+                        }
+
                         button {
                             @include normalButton();
                             background-color: gray;
