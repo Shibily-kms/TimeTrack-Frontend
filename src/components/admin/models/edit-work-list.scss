@@ -6,6 +6,7 @@
 
         max-height: calc(80vh - 141px);
         overflow-y: auto;
+        @include scrollBar();
         ol {
             padding: 0 0 0 20px;
             font-size: 13px;

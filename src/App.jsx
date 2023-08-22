@@ -33,7 +33,7 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
+    <div className="App" style={{ marginBottom: '50px' }}>
       <Routes>
         <Route element={<Admin />} path='/admin/*' />
         <Route element={<User />} path='/*' />

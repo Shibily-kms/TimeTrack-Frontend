@@ -1,3 +1,5 @@
+@import '../../../assets/scss/model.scss';
+
 .view-modal {
 
     .box-div {
@@ -39,6 +41,7 @@
             overflow: auto;
             height: auto;
             max-height: 80vh;
+            @include scrollBar();
 
             .top {
                 display: flex;

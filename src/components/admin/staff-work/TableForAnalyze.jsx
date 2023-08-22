@@ -10,7 +10,6 @@ function TableForAnalyze({ tableData, details, openModal, staffBasie }) {
     const months = ['Jun', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dev']
 
     useEffect(() => {
-        console.log(details);
         if (!staffBasie) {
             if (new Date().getDate() === details?.date && new Date().getMonth() === details?.month && new Date().getFullYear() === details?.year) {
                 setToday(true)

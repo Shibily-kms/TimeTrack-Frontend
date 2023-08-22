@@ -39,6 +39,37 @@
     }
 }
 
+@mixin scrollBar() {
+
+    /* width */
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    /* Track */
+    &::-webkit-scrollbar-track {
+        background: none;
+    }
+
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+        background: #d6d6d6;
+        transition: background 0.2s;
+        border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        -ms-border-radius: 10px;
+        -o-border-radius: 10px;
+
+        &:hover {
+            background: #b8b8b8;
+            width: 10px;
+        }
+    }
+
+
+}
+
 .container {
     padding-left: 5%;
     padding-right: 5%;

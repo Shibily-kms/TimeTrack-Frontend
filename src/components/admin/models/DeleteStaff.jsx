@@ -70,7 +70,8 @@ function DeleteStaff({ setModal, setData, deleteId }) {
                     </div>}
 
                     <div className="buttons">
-                        <button type={hide ? 'button' : 'submit'} className={hide && 'hide'}>{loading && <span className='loading-icon'><BiLoaderAlt /></span>} Delete</button>
+                        <button type={hide ? 'button' : 'submit'} className={hide && 'hide'}>{loading && <span className='loading-icon'>
+                            <BiLoaderAlt /></span>} {form.type === 'soft' ? 'Leave' : 'Delete'}</button>
                     </div>
                 </form>
             </div>

@@ -152,6 +152,7 @@
                     padding: 10px 15px;
                     overflow-y: auto;
                     height: auto;
+                    @include scrollBar();
                     // height: 80vh;
                     // background-color: salmon;
                     max-height: calc(80vh - 50px);
