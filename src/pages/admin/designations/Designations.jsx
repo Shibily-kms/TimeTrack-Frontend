@@ -85,7 +85,8 @@ function Designations() {
                                     <td>{++index}</td>
                                     <td>{value.designation}</td>
                                     <td style={{ textAlign: 'center' }}>{value.name.length}</td>
-                                    <td style={{ textAlign: 'center' }}>{value?.allow_origins.map((origin) => <span key={origin} className={`text-badge ${origin}-text`}>{origin}</span>)}</td>
+                                    <td style={{ textAlign: 'center' }}>{value?.allow_origins.map((origin) => <span key={origin}
+                                        className={`text-badge ${origin}-text`}>{origin}</span>)}</td>
                                     <td style={{ textAlign: 'center' }}>{stringToLocalTime(value.auto_punch_out ? value.auto_punch_out : '17:30')}</td>
                                     <td style={{ textAlign: 'center' }}>
                                         <div className='buttons' >

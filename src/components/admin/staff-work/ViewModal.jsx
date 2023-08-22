@@ -44,7 +44,7 @@ function ViewModal({ data, info, type, closeModal }) {
                             <div className="table-head">
                                 <div className="row">
                                     <div className="th">Type</div>
-                                    <div className="th">Item/Info</div>
+                                    <div className="th">Item/Status</div>
                                     <div className="th">IN</div>
                                     <div className="th">OUT</div>
                                     <div className="th">Duration</div>
