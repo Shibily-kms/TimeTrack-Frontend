@@ -52,7 +52,7 @@ function TopBar({ oneDay, staff }) {
         }).then((response) => {
             if (response.data.data?.[0]) {
                 const workbook = exportToExcel(response.data.data);
-                downloadFile(workbook, `${staff ? response.data.data?.[0]?.full_name + '-work' : 'staff_works'} ${location?.state?.from_date} to ${location?.state?.to_date}`)
+                downloadFile(workbook, `${staff ? response.data.data?.[0]?.full_name + '-work' : 'staff_works'}`)
             } else {
                 setLoading('')
                 toast.error('No data!')
