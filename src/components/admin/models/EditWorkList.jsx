@@ -6,13 +6,13 @@ import SpinWithMessage from '../../common/spinners/SpinWithMessage';
 import { adminAxios } from '../../../config/axios'
 import { IoTrashBin } from 'react-icons/io5'
 
-function EditWorkList({ setModel, designationId }) {
+function EditWorkList({ setModel, staffId }) {
     const [works, setWorks] = useState([])
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         setLoading(true)
-        adminAxios.get(`/regular-work?designation=${designationId}`).then((response) => {
+        adminAxios.get(`/regular-work?staffId=${staffId}`).then((response) => {
             setWorks(response.data.data || [])
             setLoading(false)
         })
@@ -31,7 +31,7 @@ function EditWorkList({ setModel, designationId }) {
                 </> : <>
                     {works?.[0] ? <ol>
                         {works.map((obj, index) => <li key={index}>
-                            <WorkText work={obj}  setWorks={setWorks} />
+                            <WorkText work={obj} setWorks={setWorks} />
                         </li>)}
                     </ol> :
                         <div className='no-work'>
@@ -42,7 +42,7 @@ function EditWorkList({ setModel, designationId }) {
             </div>
             {/* Section Two */}
             <div className="add-box">
-                <AddTextInput setWorks={setWorks} designationId={designationId} />
+                <AddTextInput setWorks={setWorks} staffId={staffId} />
             </div>
         </div>
     )

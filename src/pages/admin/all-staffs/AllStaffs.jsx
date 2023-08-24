@@ -6,13 +6,14 @@ import EditStaff from '../../../components/admin/edit-staff/EditStaff'
 import DeleteStaff from '../../../components/admin/models/DeleteStaff'
 import './all-staffs.scss'
 import { adminAxios } from '../../../config/axios'
-import { BsTrash3 } from 'react-icons/bs'
+import { BsTrash3, BsListUl } from 'react-icons/bs'
 import { AiOutlinePlus } from 'react-icons/ai'
 import { FiEdit2 } from 'react-icons/fi'
 import { IoCloseCircleOutline } from 'react-icons/io5'
 import { toast } from 'react-hot-toast'
 import IconWithMessage from '../../../components/common/spinners/SpinWithMessage'
 import { IoTrashBin } from 'react-icons/io5'
+import EditWorkList from '../../../components/admin/models/EditWorkList'
 
 function AllStaffs() {
     const [loading, setLoading] = useState('')
@@ -40,13 +41,8 @@ function AllStaffs() {
         setPassword({ text: null, copied: false })
     }
 
-    const openEditModal = (id) => {
-        setModal('EDIT STAFF')
-        setDoId(id)
-    }
-
-    const openDeleteModel = (id) => {
-        setModal('DELETE STAFF')
+    const openModal = (id, action) => {
+        setModal(action)
         setDoId(id)
     }
 
@@ -81,10 +77,19 @@ function AllStaffs() {
                                     <td>{value.contact}</td>
                                     <td>
                                         <div className='buttons'>
-                                            <button title='Edit' onClick={() => openEditModal(value._id)}
-                                                className='button-small-icon edit'> <FiEdit2 /></button>
-                                            <button title='Remove' onClick={() => openDeleteModel(value._id)}
-                                                className={'button-small-icon delete'}>  <BsTrash3 /></button>
+                                            <div className="button-div">
+                                                <button title='Works list' onClick={() => openModal(value._id, 'WORKS LIST')}
+                                                    className='button-small-icon '><BsListUl /></button>
+                                                {value.work_count && <span>{value.work_count}</span>}
+                                            </div>
+                                            <div className="button-div">
+                                                <button title='Edit' onClick={() => openModal(value._id, 'EDIT STAFF')}
+                                                    className='button-small-icon edit'> <FiEdit2 /></button>
+                                            </div>
+                                            <div className="button-div">
+                                                <button title='Remove' onClick={() => openModal(value._id, 'DELETE STAFF')}
+                                                    className={'button-small-icon delete'}>  <BsTrash3 /></button>
+                                            </div>
                                         </div>
                                     </td>
                                 </tr>
@@ -105,7 +110,7 @@ function AllStaffs() {
                         <div className="modal" >
                             <div className="border">
                                 <div className="shadow" onClick={() => closeModel()}></div>
-                                <div className={modal === 'ADD NEW STAFF' || modal === 'EDIT STAFF' ? "box large-box" : 'box'}>
+                                <div className={modal === 'DELETE STAFF' ? "box" : 'box large-box'}>
                                     <div className="header">
                                         <div className="title">
                                             <h5>{modal}</h5>
@@ -119,6 +124,7 @@ function AllStaffs() {
                                             password={password.text} setPassword={setPassword} />}
                                         {modal === 'EDIT STAFF' && <EditStaff setModal={setModal} setData={setData} editId={doId} />}
                                         {modal === 'DELETE STAFF' && <DeleteStaff setModal={setModal} setData={setData} deleteId={doId} />}
+                                        {modal === 'WORKS LIST' && <EditWorkList setModal={setModal} staffId={doId} />}
                                     </div>
                                 </div>
                             </div>
