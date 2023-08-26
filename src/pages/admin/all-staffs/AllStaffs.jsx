@@ -4,11 +4,12 @@ import Title from '../../../components/common/title/Title'
 import AddStaff from '../../../components/admin/add-staff/AddStaff'
 import EditStaff from '../../../components/admin/edit-staff/EditStaff'
 import DeleteStaff from '../../../components/admin/models/DeleteStaff'
+import TableFilter from '../../../components/common/table-filter/TableFilter'
 import './all-staffs.scss'
 import { adminAxios } from '../../../config/axios'
-import { BsTrash3, BsListUl } from 'react-icons/bs'
+import { BsTrash3 } from 'react-icons/bs'
 import { AiOutlinePlus } from 'react-icons/ai'
-import { FiEdit2 } from 'react-icons/fi'
+import { FiEdit2, FiList } from 'react-icons/fi'
 import { IoCloseCircleOutline } from 'react-icons/io5'
 import { toast } from 'react-hot-toast'
 import IconWithMessage from '../../../components/common/spinners/SpinWithMessage'
@@ -56,45 +57,48 @@ function AllStaffs() {
                 <div>
                     <Title sub={'All staffs'} />
                 </div>
-                <div className="top">
-                    <button onClick={() => setModal('ADD NEW STAFF')}><AiOutlinePlus /> Add Staff</button>
-                </div>
                 <div className="table-div">
                     {data?.[0] ? <>
-                        <table id="list">
-                            <tr>
-                                <th>Sl no</th>
-                                <th>Full name</th>
-                                <th>Designation</th>
-                                <th>Mobile</th>
-                                <th>Control</th>
-                            </tr>
-                            {data.map((value, index) => {
-                                return <tr key={value._id}>
-                                    <td>{++index}</td>
-                                    <td>{value?.first_name ? value?.first_name + ' ' + value?.last_name : value?.user_name}</td>
-                                    <td>{value.designation.designation}</td>
-                                    <td>{value.contact}</td>
-                                    <td>
-                                        <div className='buttons'>
-                                            <div className="button-div">
-                                                <button title='Works list' onClick={() => openModal(value._id, 'WORKS LIST')}
-                                                    className='button-small-icon '><BsListUl /></button>
-                                                {value.work_count && <span>{value.work_count}</span>}
-                                            </div>
-                                            <div className="button-div">
-                                                <button title='Edit' onClick={() => openModal(value._id, 'EDIT STAFF')}
-                                                    className='button-small-icon edit'> <FiEdit2 /></button>
-                                            </div>
-                                            <div className="button-div">
-                                                <button title='Remove' onClick={() => openModal(value._id, 'DELETE STAFF')}
-                                                    className={'button-small-icon delete'}>  <BsTrash3 /></button>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            })}
-                        </table>
+                        <TableFilter srlNo={true} topRight={<button className='add-button' onClick={() => setModal('ADD NEW STAFF')}><AiOutlinePlus /> Add Staff</button>}>
+                            <table id="list">
+                                <thead>
+                                    <tr>
+
+                                        <th>Full name</th>
+                                        <th>Designation</th>
+                                        <th>Mobile</th>
+                                        <th>Control</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {data.map((value) => {
+                                        return <tr key={value._id}>
+
+                                            <td>{value?.first_name ? value?.first_name + ' ' + value?.last_name : value?.user_name}</td>
+                                            <td>{value.designation.designation}</td>
+                                            <td>{value.contact}</td>
+                                            <td>
+                                                <div className='buttons'>
+                                                    <div className="button-div">
+                                                        <button title='Works list' onClick={() => openModal(value._id, 'WORKS LIST')}
+                                                            className='button-small-icon '><FiList /></button>
+                                                        {value.work_count && <span>{value.work_count}</span>}
+                                                    </div>
+                                                    <div className="button-div">
+                                                        <button title='Edit' onClick={() => openModal(value._id, 'EDIT STAFF')}
+                                                            className='button-small-icon edit'> <FiEdit2 /></button>
+                                                    </div>
+                                                    <div className="button-div">
+                                                        <button title='Remove' onClick={() => openModal(value._id, 'DELETE STAFF')}
+                                                            className={'button-small-icon delete'}>  <BsTrash3 /></button>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    })}
+                                </tbody>
+                            </table>
+                        </TableFilter>
                     </>
                         :
                         <div className='no-data'>

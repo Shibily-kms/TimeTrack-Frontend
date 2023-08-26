@@ -29,7 +29,7 @@ function Staff_work_table() {
     <div className='staff-table'>
       <div className="container">
         <div>
-          <Title sub={'Staff work details'} />
+          <Title  sub={'Staff work details'} />
         </div>
         <div className="boader">
           {staff_works?.[0] ?
