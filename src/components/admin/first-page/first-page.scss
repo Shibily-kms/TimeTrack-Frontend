@@ -82,6 +82,9 @@
 
                 .content {
                     padding: 10px 15px;
+                    overflow: auto;
+                    @include scrollBar();
+                    max-height: calc(80vh - 50px);
                 }
             }
         }

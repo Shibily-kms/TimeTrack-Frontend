@@ -6,19 +6,25 @@
 .edit-text-input {
     width: 100%;
 
+    &:hover {
+        background-color: ghostwhite;
+    }
+
     div {
 
         display: flex;
-        align-items: flex-end;
+        align-items: center;
 
         .item-div {
             width: 100%;
             // max-width: calc(100% - 70px);
             max-width: calc(100% - 30px);
-            p{
+
+            p {
                 word-wrap: break-word;
 
             }
+
             .text-input {
                 width: 100%;
                 font-size: 13px;
@@ -40,13 +46,13 @@
                 height: 30px;
             }
 
-            
+
 
             .delete {
                 background-color: $red_color;
             }
 
-           
+
         }
     }
 }

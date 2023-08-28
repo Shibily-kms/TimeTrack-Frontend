@@ -44,7 +44,7 @@ function ViewModal({ data, info, type, closeModal }) {
                             <div className="table-head">
                                 <div className="row">
                                     <div className="th">Type</div>
-                                    <div className="th">Item/Info</div>
+                                    <div className="th">Item/Status</div>
                                     <div className="th">IN</div>
                                     <div className="th">OUT</div>
                                     <div className="th">Duration</div>
@@ -94,7 +94,7 @@ function ViewModal({ data, info, type, closeModal }) {
                                 {data?.regular_work?.map((value, index) => {
                                     return <div key={index} className="row">
                                         <div className="td">{index === 0 && 'Regular work :'}</div>
-                                        <div className="td">{value?.work}</div>
+                                        <div className="td" title={value?.work} >{value?.work}</div>
                                         <div className="td">{stringToLocalTime(value?.start)}</div>
                                         <div className="td">{stringToLocalTime(value?.end)}</div>
                                         <div className="td">{getTimeFromSecond(value?.duration) || '0m'}</div>
@@ -104,7 +104,7 @@ function ViewModal({ data, info, type, closeModal }) {
                                 {data?.extra_work?.map((value, index) => {
                                     return <div key={index} className="row">
                                         <div className="td">{index === 0 && 'Extra work :'}</div>
-                                        <div className="td">{value?.work}</div>
+                                        <div className="td" title={value?.work}>{value?.work}</div>
                                         <div className="td">{stringToLocalTime(value?.start)}</div>
                                         <div className="td">{stringToLocalTime(value?.end)}</div>
                                         <div className="td">{getTimeFromSecond(value?.duration) || '0m'}</div>

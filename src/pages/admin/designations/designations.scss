@@ -5,88 +5,54 @@
     position: relative;
 
     .container {
-        .top {
+
+
+        .add-button {
+            @include normalButton();
+            background-color: $green_color;
+            font-size: 13px;
             display: flex;
-            justify-content: flex-end;
-            margin-top: 10px;
 
-            button {
-                @include normalButton();
-                background-color: $green_color;
-                font-size: 13px;
-                display: flex;
-
-                svg {
-                    font-size: 18px;
-                    margin: 0;
-                    margin-right: 5px;
-                }
+            svg {
+                font-size: 18px;
+                margin: 0;
+                margin-right: 5px;
             }
         }
+
 
         .table-div {
             width: 100%;
             overflow: auto;
+            border-collapse: collapse;
 
-            #list {
-                border-collapse: collapse;
-                width: 100%;
-                margin-top: 10px;
+            td {
+                .buttons {
+                    display: flex;
+                    justify-content: center;
+                    gap: 10px;
 
-                td,
-                th {
-                    border: 1px solid #ddd;
-                    padding: 5px 8px;
-                    font-size: 14px;
-                }
-
-                tr {
-                    &:nth-child(even) {
-                        background-color: #f2f2f2;
+                    .button-small-icon {
+                        @include normalButton();
+                        font-size: 16px;
+                        padding: 7px 15px 5px 15px;
+                        background-color: rgb(53, 53, 53);
                     }
 
-                    &:hover {
-                        background-color: #ddd;
+                    .edit {
+                        background-color: $edit_color;
+                        ;
                     }
-                }
 
-                th {
-                    padding-top: 12px;
-                    padding-bottom: 12px;
-                    text-align: left;
-                    background-color: #272727;
-                    color: white;
-                    text-align: center;
-                }
-
-                td {
-                    .buttons {
-                        display: inline-block;
-                        button{
-                            margin: 3px 3px;
-                        }
-                        
-                        .button-small-icon {
-                            @include normalButton();
-                            font-size: 16px;
-                            padding: 7px 15px 5px 15px;
-                            background-color: rgb(53, 53, 53);
-                        }
-
-                        .edit {
-                            background-color: $edit_color;
-                            ;
-                        }
-
-                        .delete {
-                            background-color: $red_color;
-                        }
+                    .delete {
+                        background-color: $red_color;
                     }
                 }
             }
+
         }
 
-        .no-data{
+        .no-data {
             display: grid;
             place-content: center;
             height: 60vh;
@@ -154,6 +120,7 @@
                     padding: 10px 15px;
                     overflow-y: auto;
                     height: auto;
+                    @include scrollBar();
                     // height: 80vh;
                     // background-color: salmon;
                     max-height: calc(80vh - 50px);

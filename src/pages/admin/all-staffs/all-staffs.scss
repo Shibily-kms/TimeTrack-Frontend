@@ -5,11 +5,12 @@
     position: relative;
 
     .container {
-        .no-data{
+        .no-data {
             display: grid;
             place-content: center;
             height: 60vh;
         }
+
         .top {
             display: flex;
             justify-content: flex-end;
@@ -30,45 +31,28 @@
         }
 
         .table-div {
-            width: 100%;
-            overflow: auto;
+            .add-button {
+                @include normalButton();
+                background-color: $green_color;
+                font-size: 13px;
+                display: flex;
 
-            #list {
-                border-collapse: collapse;
-                width: 100%;
-                margin-top: 10px;
-
-                td,
-                th {
-                    border: 1px solid #ddd;
-                    padding: 5px 8px;
-                    font-size: 14px;
+                svg {
+                    font-size: 18px;
+                    margin: 0;
+                    margin-right: 5px;
                 }
+            }
 
-                tr {
-                    &:nth-child(even) {
-                        background-color: #f2f2f2;
-                    }
 
-                    &:hover {
-                        background-color: #ddd;
-                    }
-                }
+            td {
+                .buttons {
+                    display: flex;
+                    justify-content: center;
+                    gap: 10px;
 
-                th {
-                    padding-top: 12px;
-                    padding-bottom: 12px;
-                    text-align: left;
-                    background-color: #272727;
-                    color: white;
-                    text-align: center;
-                }
-
-                td {
-                    .buttons {
-                        display: flex;
-                        justify-content: center;
-                        gap: 10px;
+                    .button-div {
+                        position: relative;
 
                         .button-small-icon {
                             @include normalButton();
@@ -79,15 +63,31 @@
 
                         .edit {
                             background-color: $edit_color;
-                            ;
                         }
 
                         .delete {
                             background-color: $red_color;
                         }
+
+                        span {
+                            position: absolute;
+                            font-size: 12px;
+                            font-weight: 500;
+                            background-color: rgb(201, 201, 201);
+                            padding: 0 5px;
+                            border-radius: 50px;
+                            -webkit-border-radius: 50px;
+                            -moz-border-radius: 50px;
+                            -ms-border-radius: 50px;
+                            -o-border-radius: 50px;
+                            right: -5px;
+                            top: -6px;
+                        }
                     }
+
                 }
             }
+
         }
 
     }
@@ -152,6 +152,7 @@
                     padding: 10px 15px;
                     overflow-y: auto;
                     height: auto;
+                    @include scrollBar();
                     // height: 80vh;
                     // background-color: salmon;
                     max-height: calc(80vh - 50px);
@@ -222,6 +223,7 @@
                     }
 
                     .button-div {
+
                         button {
                             @include normalButton();
                             width: 100%;

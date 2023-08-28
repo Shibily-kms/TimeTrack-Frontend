@@ -26,11 +26,14 @@
             }
 
             tbody {
+
                 tr {
                     td {
                         padding: 8px 6px;
                         border-bottom: 1px solid #DDD;
                         text-align: center;
+                        border-left: 1px rgb(238, 238, 238) dashed;
+                        border-right: 1px rgb(238, 238, 238) dashed;
 
                         .gray {
                             background-color: rgb(172, 172, 172);
@@ -46,6 +49,10 @@
 
                         .red {
                             background-color: rgb(202, 31, 1);
+                        }
+
+                        .gray2 {
+                            background-color: rgb(116, 116, 116);
                         }
 
                         button {

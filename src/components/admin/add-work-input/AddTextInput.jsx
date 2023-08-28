@@ -5,7 +5,7 @@ import { BiLoaderAlt } from 'react-icons/bi'
 import { adminAxios } from '../../../config/axios'
 import { toast } from 'react-hot-toast'
 
-function AddTextInput({ setWorks, designationId }) {
+function AddTextInput({ setWorks, staffId }) {
     const [work, setWork] = useState('')
     const [loading, setLoading] = useState(false)
 
@@ -17,7 +17,7 @@ function AddTextInput({ setWorks, designationId }) {
         e.preventDefault()
         if (work.length >= 3) {
             setLoading(true)
-            adminAxios.post('/regular-work', { designationId, regular_work: work }).then((response) => {
+            adminAxios.post('/regular-work', { staffId, regular_work: work }).then((response) => {
                 setWorks((state) => {
                     return [...state, response.data.data]
                 })

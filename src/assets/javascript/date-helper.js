@@ -1,4 +1,4 @@
-function stringToLocalTime(time = '', ifSecond = false) {    // 02:15:23  ==> 02:15 PM
+function stringToLocalTime(time = '', ifSecond = false) {    // 14:15:23  ==> 02:15 PM
     if (!time) {
         return
     }

@@ -14,17 +14,16 @@ function EditDesignation({ setModel, editData, setEditData, setData }) {
         })
     }
 
-    const handleAllow = (e, type) => {
-
-        if (e.target.value === 'true') {
+    const handleCheck = (e) => {
+        if (e.target.checked) {
             setEditData({
                 ...editData,
-                allow_origins: [...editData.allow_origins, type]
+                allow_origins: [...editData.allow_origins, e.target.value]
             })
         } else {
             setEditData({
                 ...editData,
-                allow_origins: editData.allow_origins.filter((elem) => elem !== type)
+                allow_origins: editData.allow_origins.filter((elem) => elem !== e.target.value)
             })
         }
     }
@@ -66,18 +65,26 @@ function EditDesignation({ setModel, editData, setEditData, setData }) {
                     </div>
 
                     <div className="new-input-div">
-                        <select id="source" name="source" required onChange={(e) => handleAllow(e, 'Sales')} >
-                            <option selected={editData?.allow_origins.includes('Sales')} value={true} defaultValue={true}>Yes</option>
-                            <option selected={!editData?.allow_origins.includes('Sales')} value={false} defaultValue={false}>No</option>
-                        </select>
-                        <label htmlFor="source">Access to Sales Page</label>
-                    </div>
-                    <div className="new-input-div">
                         <input type="time" name='auto_punch_out' required onChange={handleChange}
                             value={editData.auto_punch_out} />
                         <label htmlFor="pin">Auto Punch Out Time</label>
                     </div>
 
+                    <div className="checkbox-list">
+                        <div className="checkbox-div">
+                            <div className="items">
+                                <input type="checkbox" checked={editData?.allow_origins.includes('Sales')} id="Sales" name='allow_origins'
+                                    value="Sales" onChange={handleCheck} />
+                                <label htmlFor="Sales">Sales</label>
+                            </div>
+                            <div className="items">
+                                <input type="checkbox" checked={editData?.allow_origins.includes('SalesPro')} id="SalesPro" name='allow_origins'
+                                    value="SalesPro" onChange={handleCheck} />
+                                <label htmlFor="SalesPro">SalesPro</label>
+                            </div>
+                        </div>
+                        <label className='head-label' htmlFor="">Origins access</label>
+                    </div>
 
                     <div className="button-div">
                         <button>  {loading ? <span className='loading-icon'><BiLoaderAlt /></span> : 'Update'}</button>

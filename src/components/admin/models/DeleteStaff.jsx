@@ -1,12 +1,21 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './delete-staff.scss'
 import { toast } from 'react-hot-toast'
 import { adminAxios } from '../../../config/axios'
 import { BiLoaderAlt } from 'react-icons/bi'
 
 function DeleteStaff({ setModal, setData, deleteId }) {
-    const [form, setForm] = useState({ type: null, message: null })
+    const [form, setForm] = useState({ type: null, message: '' })
     const [loading, setLoading] = useState(null)
+    const [hide, setHide] = useState(true)
+
+    useEffect(() => {
+        if (form.type === 'hard' || form.message.length > 4) {
+            setHide(false)
+        } else {
+            setHide(true)
+        }
+    }, [form])
 
 
     const handleChoose = (e) => {
@@ -52,15 +61,17 @@ function DeleteStaff({ setModal, setData, deleteId }) {
                     </div>
                     <div className="radio-input-div">
                         <input type="radio" id='soft' value={'soft'} name='reason' onChange={handleChoose} />
-                        <label htmlFor="soft">Leave the company</label>
+                        <label htmlFor="soft">Left the company</label>
                     </div>
                     {form.type === 'soft' && <div className="text-input-div">
                         <input type="text" id='message' name='message' value={form.message} required onChange={handleChange} />
                         <label htmlFor="message">Type Reason</label>
+                        <small>* Minimum 5 letters</small>
                     </div>}
 
                     <div className="buttons">
-                        <button type={form.type ? 'submit' : 'button'} className={!form.type && 'hide'}>{loading && <span className='loading-icon'><BiLoaderAlt /></span>} Delete</button>
+                        <button type={hide ? 'button' : 'submit'} className={hide && 'hide'}>{loading && <span className='loading-icon'>
+                            <BiLoaderAlt /></span>} {form.type === 'soft' ? 'Leave' : 'Delete'}</button>
                     </div>
                 </form>
             </div>

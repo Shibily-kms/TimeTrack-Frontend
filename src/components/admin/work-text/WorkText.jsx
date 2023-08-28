@@ -1,4 +1,4 @@
-import React, {  useState } from 'react'
+import React, { useState } from 'react'
 import './work-text.scss'
 import { BsTrash3Fill } from 'react-icons/bs'
 import { adminAxios } from '../../../config/axios'
@@ -25,7 +25,7 @@ function EditTextInput({ work, setWorks }) {
             <form action="" >
                 <div>
                     <div className="item-div">
-                        <p className='text-input'>{work.work}</p>
+                        <p className='text-input'>{work.work_name}</p>
                     </div>
                     <div className="actions">
                         <button type='button' className={loading ? 'delete loading-icon' : 'delete'}

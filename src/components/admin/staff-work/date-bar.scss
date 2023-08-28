@@ -8,10 +8,10 @@
         justify-content: center;
 
         .items-div {
-            width: calc(100% - 50px);
+            width: 100%;
             display: inline-flex;
             gap: 10px;
-            padding-top: 10px;
+            padding: 7px 0;
             overflow-x: scroll;
 
             &::-webkit-scrollbar {
@@ -86,42 +86,46 @@
 
         }
 
+        .icon-button-boarder {
+            width: 50px;
+            height: 100%;
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
 
-        .icon-button-div {
-            span {
-                margin-top: 5px;
+            .icon-button-div {
+                span {
+                    margin-top: 5px;
+                }
+
+                background-color: white;
+                width: 30px;
+                height: 30px;
+                border-radius: 100px;
+                -webkit-border-radius: 100px;
+                -moz-border-radius: 100px;
+                -ms-border-radius: 100px;
+                -o-border-radius: 100px;
+                box-shadow: 0px 0px 8px rgb(199, 199, 199);
+                font-size: 18px;
+                display: grid;
+                place-content: center;
+                cursor: pointer;
             }
 
-            background-color: white;
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            border-radius: 100px;
-            -webkit-border-radius: 100px;
-            -moz-border-radius: 100px;
-            -ms-border-radius: 100px;
-            -o-border-radius: 100px;
-            box-shadow: 0px 0px 8px rgb(199, 199, 199);
-            font-size: 18px;
-            display: grid;
-            place-content: center;
-            top: 55%;
-            transform: translate(0, -50%);
-            -webkit-transform: translate(0, -50%);
-            -moz-transform: translate(0, -50%);
-            -ms-transform: translate(0, -50%);
-            -o-transform: translate(0, -50%);
-            cursor: pointer;
+
         }
 
         .left {
-            left: -13px;
+            left: -2px;
+            background: linear-gradient(270deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 44%);
         }
 
         .right {
-            right: -13px;
+            right: -2px;
+            background: linear-gradient(95deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 44%);
         }
 
-        .button-none-visible {}
     }
 }

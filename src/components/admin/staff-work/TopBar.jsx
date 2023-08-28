@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import * as XLSX from 'xlsx';
 import './top-bar.scss'
 import Title from '../../common/title/Title'
-import { useLocation } from 'react-router-dom'
+import { getTimeFromSecond, stringToLocalTime } from '../../../assets/javascript/date-helper'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { BiLoaderAlt } from 'react-icons/bi'
 import { BsFillCalendarCheckFill, BsFillCalendarEventFill } from 'react-icons/bs'
 import { adminAxios } from '../../../config/axios';
@@ -11,6 +12,10 @@ import { toast } from 'react-hot-toast';
 function TopBar({ oneDay, staff }) {
     const location = useLocation()
     const [loading, setLoading] = useState('')
+    const navigate = useNavigate()
+
+
+
     // Convert to Excel Start
     const handleOneDayDownload = () => {
         setLoading('one')
@@ -29,6 +34,13 @@ function TopBar({ oneDay, staff }) {
         })
     }
 
+    useEffect(() => {
+        if (!location?.state?.from_date || !location?.state?.to_date) {
+            navigate('/admin')
+        }
+        // eslint-disable-next-line
+    }, [])
+
     const handleAllDayDownload = () => {
         setLoading('all')
         adminAxios.get('/analyze/staff-work-data', {
@@ -41,7 +53,7 @@ function TopBar({ oneDay, staff }) {
         }).then((response) => {
             if (response.data.data?.[0]) {
                 const workbook = exportToExcel(response.data.data);
-                downloadFile(workbook, `${staff ? response.data.data?.[0]?.full_name + '-work' : 'staff_works'} ${location?.state?.from_date} to ${location?.state?.to_date}`)
+                downloadFile(workbook, `${staff ? response.data.data?.[0]?.full_name + '-work' : 'staff_works'}`)
             } else {
                 setLoading('')
                 toast.error('No data!')
@@ -57,53 +69,53 @@ function TopBar({ oneDay, staff }) {
             const workSheetData = staff.dates.flatMap((date) => {
                 const punch = {
                     date: date.date,
-                    type: 'punch',
+                    type: 'Punch',
                     work: '',
-                    start: date.punch.in,
-                    end: date.punch.out,
-                    duration: `${parseInt(date.punch.duration / 60) || '< 1'} min`
+                    start: stringToLocalTime(date.punch.in),
+                    end: stringToLocalTime(date.punch.out),
+                    duration: getTimeFromSecond(date.punch.duration) || '0m'
                 }
                 let overTime = {
                     date: date.date,
-                    type: 'over time',
+                    type: 'Over time',
                     work: '',
-                    start: date.over_time.in,
-                    end: date.over_time.out,
-                    duration: `${parseInt(date.over_time.duration / 60) || '< 1'} min`
+                    start: stringToLocalTime(date.over_time.in),
+                    end: stringToLocalTime(date.over_time.out),
+                    duration: getTimeFromSecond(date.over_time.duration) || '0m'
                 }
                 overTime = date?.over_time?.in ? [overTime] : []
                 let lunchBreak = {
                     date: date.date,
-                    type: 'lunch break',
+                    type: 'Lunch break',
                     work: '',
-                    start: date.lunch_break.start,
-                    end: date.lunch_break.end,
-                    duration: `${parseInt(date.lunch_break.duration / 60) || '< 1'} min`
+                    start: stringToLocalTime(date.lunch_break.start),
+                    end: stringToLocalTime(date.lunch_break.end),
+                    duration: getTimeFromSecond(date.lunch_break.duration) || '0m'
                 }
                 lunchBreak = date?.lunch_break?.start ? [lunchBreak] : []
                 const regular = date.regular_work.map((workObj) => ({
                     date: date.date,
-                    type: 'regular work',
+                    type: 'Regular work',
                     work: workObj.work,
-                    start: workObj.start,
-                    end: workObj.end,
-                    duration: workObj.duration
+                    start: stringToLocalTime(workObj.start),
+                    end: stringToLocalTime(workObj.end),
+                    duration: null
                 }));
                 const extra = date.extra_work.map((workObj) => ({
                     date: date.date,
-                    type: 'extra work',
+                    type: 'Extra work',
                     work: workObj.work,
-                    start: workObj.start,
-                    end: workObj.end,
-                    duration: workObj.duration
+                    start: stringToLocalTime(workObj.start),
+                    end: stringToLocalTime(workObj.end),
+                    duration: null
                 }));
-                const breaks = date.break.map((obj) => ({
+                const breaks = date.break.map((obj, idx) => ({
                     date: date.date,
-                    type: 'break',
+                    type: `Break ${idx + 1}`,
                     work: '',
-                    start: obj.start,
-                    end: obj.end,
-                    duration: `${parseInt(obj.duration / 60) || '< 1'} min`
+                    start: stringToLocalTime(obj.start),
+                    end: stringToLocalTime(obj.end),
+                    duration: getTimeFromSecond(obj.duration) || '0m'
                 }));
                 return [punch, ...regular, ...extra, ...breaks, ...overTime, ...lunchBreak, '']
             })

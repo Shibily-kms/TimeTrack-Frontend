@@ -28,7 +28,7 @@ function Work_details() {
   useEffect(() => {
     if (internet) {
       dispatch(getPunchDetails())
-      userAxios.get('/works/' + user?.designation?._id).then((works) => {
+      userAxios.get('/regular-work').then((works) => {
         dispatch(setRegularWork(works.data.data))
       })
     }
@@ -101,7 +101,7 @@ function Work_details() {
     }
 
     let checkIfAutoPunchOut = null
-    
+
     if (!workDetails?.punch_out && workDetails?.punch_in) {
       // Check If Auto PunchOut
       checkIfAutoPunchOut = setInterval(() => {
