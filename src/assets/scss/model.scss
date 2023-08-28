@@ -104,10 +104,17 @@
     -o-border-radius: 50px;
     margin: 3px 3px;
     display: inline-block;
+    background-color: black;
+    color: white;
 }
 
 // Bg Colors
 .Sales-text {
     background-color: rgb(2, 187, 48);
+    color: white;
+}
+
+.SalesPro-text {
+    background-color: rgb(187, 2, 187);
     color: white;
 }
