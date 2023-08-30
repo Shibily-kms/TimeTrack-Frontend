@@ -3,13 +3,13 @@ import axios from 'axios'
 
 const baseSetup = {
     userAxios: axios.create({
-        baseURL: 'http://192.168.204.221:8000/',
+        baseURL: 'http://localhost:8000/',
         headers: {
             'Content-Type': 'application/json'
         }
     }),
     adminAxios: axios.create({
-        baseURL: 'http://192.168.204.221:8000/admin/',
+        baseURL: 'http://localhost:8000/admin/',
         headers: {
             'Content-Type': 'application/json'
         }
