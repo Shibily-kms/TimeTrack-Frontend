@@ -46,11 +46,11 @@ function Choose_dates({ setModel }) {
 
                         <div className="input-div">
                             <label htmlFor="from_date">From date</label>
-                            <input type='date' name='from_date' id='from_date' max={form?.to_date} value={form.from_date} required onChange={handleChange} />
+                            <input type='date' name='from_date' id='from_date' min={'2023-07-07'} max={form?.to_date} value={form.from_date} required onChange={handleChange} />
                         </div>
                         <div className="input-div">
                             <label htmlFor="to_date">End date</label>
-                            <input type='date' name='to_date' id='to_date' max={new Date().toISOString().split('T')[0]} value={form.to_date} required onChange={handleChange} />
+                            <input type='date' name='to_date' id='to_date' min={'2023-07-07'} max={new Date().toISOString().split('T')[0]} value={form.to_date} required onChange={handleChange} />
                         </div>
                         <div className="input-div">
                             <label htmlFor="staff">Staff</label>
