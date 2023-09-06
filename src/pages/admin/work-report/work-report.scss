@@ -82,8 +82,15 @@
         }
 
 
-        .content{
+        .content {
             margin-top: 15px;
+
+            .no-data {
+                width: 100%;
+                height: 50vh;
+                display: grid;
+                place-content: center;
+            }
         }
     }
 }
