@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './edit-staff.scss'
 import { adminAxios } from '../../../config/axios'
 import SpinWithMessage from '../../common/spinners/SpinWithMessage'
+import { secondsToHHMM } from '../../../assets/javascript/date-helper'
 import { toast } from 'react-hot-toast'
 import { BiLoaderAlt } from 'react-icons/bi'
 
@@ -9,6 +10,8 @@ function EditStaff({ setModal, setData, editId }) {
     const [form, setFrom] = useState({})
     const [designations, setDesignations] = useState([])
     const [loading, setLoading] = useState('getData')
+    const months = ['Jun', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
 
     const handleChange = (e) => {
         setFrom({
@@ -63,8 +66,19 @@ function EditStaff({ setModal, setData, editId }) {
         adminAxios.get(`/staff/${editId}`).then((response) => {
             const data = response.data.data
             setFrom({
-                _id: data?._id, first_name: data?.first_name, last_name: data?.last_name, email_id: data?.email_id, contact: data?.contact,
-                designation: data?.designation?._id, designationName: data?.designation?.designation, dob: data?.dob, place: data?.address?.place, pin_code: data?.address?.pin_code
+                _id: data?._id,
+                first_name: data?.first_name,
+                last_name: data?.last_name,
+                email_id: data?.email_id,
+                contact: data?.contact,
+                designation: data?.designation?._id,
+                designationName: data?.designation?.designation,
+                dob: data?.dob,
+                place: data?.address?.place,
+                pin_code: data?.address?.pin_code,
+                current_salary: data?.current_salary,
+                current_working_days: data?.current_working_days,
+                current_working_time: secondsToHHMM(data?.current_working_time || 0)
             })
             setLoading('')
         })
@@ -83,7 +97,7 @@ function EditStaff({ setModal, setData, editId }) {
                     </div>
                 </>
                     :
-                    <form action="" onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit}>
                         <div className="sections">
                             <div className="text-input-div">
                                 <input type="text" id='first_name' name='first_name' value={form?.first_name} required onChange={handleChange} />
@@ -123,6 +137,19 @@ function EditStaff({ setModal, setData, editId }) {
                                 <input type="number" id='pin_code' name='pin_code' value={form?.pin_code} required onChange={handleChange} />
                                 <label htmlFor="pin_code">Pin code</label>
                             </div>
+                            <div className="text-input-div">
+                                <input type="number" id='current_salary' name='current_salary' min={'0'} value={form?.current_salary} required onChange={handleChange} />
+                                <label htmlFor="current_salary">Current Salary</label>
+                            </div>
+                            <div className="text-input-div">
+                                <input type="number" id='current_working_days' max={'31'} min={'0'} name='current_working_days' value={form?.current_working_days} required onChange={handleChange} />
+                                <label htmlFor="current_working_days">Working days ({months[new Date().getMonth()]})</label>
+                            </div>
+                            <div className="text-input-div">
+                                <input type="text" id='current_working_time' pattern="([01][0-9]|2[0-3]):[0-5][0-9]" name='current_working_time' value={form?.current_working_time} required onChange={handleChange} />
+                                <label htmlFor="current_working_time">Hours in a day (HH:MM)</label>
+                            </div>
+
                         </div>
                         <div className="actions">
                             <button type={loading === 'submit' ? 'button' : 'submit'} >

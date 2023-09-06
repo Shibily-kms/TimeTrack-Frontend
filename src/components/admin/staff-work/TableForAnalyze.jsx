@@ -7,7 +7,7 @@ import { BsArrowsFullscreen } from 'react-icons/bs'
 
 function TableForAnalyze({ tableData, details, openModal, staffBasie }) {
     const [today, setToday] = useState(false)
-    const months = ['Jun', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dev']
+    const months = ['Jun', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
     useEffect(() => {
         if (!staffBasie) {

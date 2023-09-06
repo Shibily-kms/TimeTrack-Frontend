@@ -23,11 +23,15 @@ function First_page() {
               </button>
             </div>
             <div className="button-div" >
-              <button onClick={() => setModel('SELECT DATES')} >STAFF WORK DETAILS
+              <button onClick={() => navigate('/admin/all-staffs')} >ALL STAFFS
               </button>
             </div>
             <div className="button-div" >
-              <button onClick={() => navigate('/admin/all-staffs')} >ALL STAFFS
+              <button onClick={() => setModel('SELECT DATES')} >STAFF WORKS ANALYZE
+              </button>
+            </div>
+            <div className="button-div" >
+              <button onClick={() => navigate('/admin/staff-work-report')} >STAFF WORKS REPORT
               </button>
             </div>
           </div>
@@ -49,6 +53,7 @@ function First_page() {
                 </div>
                 <div className="content">
                   {model === 'SELECT DATES' ? <ChooseDates setModel={setModel} /> : ""}
+                  {model === 'SELECT MONTH' ? <ChooseDates setModel={setModel} /> : ""}
                 </div>
               </div>
             </div>

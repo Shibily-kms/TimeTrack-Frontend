@@ -35,6 +35,16 @@ const getTimeFromSecond = (seconds) => {
     return time;
 }
 
+const secondsToHHMM = (seconds) => {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+
+    const formattedHours = hours.toString().padStart(2, '0');
+    const formattedMinutes = minutes.toString().padStart(2, '0');
+
+    return `${formattedHours}:${formattedMinutes}`;
+}
 
 
-export { stringToLocalTime, YYYYMMDDFormat, getTimeFromSecond }
+
+export { stringToLocalTime, YYYYMMDDFormat, getTimeFromSecond, secondsToHHMM }

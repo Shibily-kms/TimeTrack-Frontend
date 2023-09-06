@@ -21,7 +21,7 @@ function Choose_dates({ setModel }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        navigate(`/admin/staff-work-details/${form.staff ? 'staff-basie' : 'date-basie'}`, {
+        navigate(`/admin/staff-work-analyze/${form.staff ? 'staff-basie' : 'date-basie'}`, {
             state: {
                 ...form,
                 type: form.staff ? 'staff-basie' : 'date-basie'
@@ -43,7 +43,6 @@ function Choose_dates({ setModel }) {
             <div className='add-design'>
                 <div className="inputs">
                     <form onSubmit={handleSubmit}>
-
                         <div className="input-div">
                             <label htmlFor="from_date">From date</label>
                             <input type='date' name='from_date' id='from_date' min={'2023-07-07'} max={form?.to_date} value={form.from_date} required onChange={handleChange} />
