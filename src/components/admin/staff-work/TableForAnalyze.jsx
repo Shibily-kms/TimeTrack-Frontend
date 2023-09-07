@@ -4,9 +4,11 @@ import { stringToLocalTime, getTimeFromSecond } from '../../../assets/javascript
 import SpinWithMessage from '../../common/spinners/SpinWithMessage';
 import { FcTimeline } from 'react-icons/fc'
 import { BsArrowsFullscreen } from 'react-icons/bs'
+import { FiEdit2 } from 'react-icons/fi'
 
-function TableForAnalyze({ tableData, details, openModal, staffBasie }) {
+function TableForAnalyze({ tableData, details, openModal, staffBasie, openEditModal }) {
     const [today, setToday] = useState(false)
+    const [yesterday, setYesterday] = useState(false)
     const months = ['Jun', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
     useEffect(() => {
@@ -15,6 +17,15 @@ function TableForAnalyze({ tableData, details, openModal, staffBasie }) {
                 setToday(true)
             } else {
                 setToday(false)
+            }
+            let currentDate = new Date();
+            currentDate.setDate(currentDate.getDate() - 1);
+
+
+            if (currentDate.getDate() === details?.date && currentDate.getMonth() === details?.month && currentDate.getFullYear() === details?.year) {
+                setYesterday(true)
+            } else {
+                setYesterday(false)
             }
         }
         // eslint-disable-next-line
@@ -44,8 +55,8 @@ function TableForAnalyze({ tableData, details, openModal, staffBasie }) {
                         </tr>
                     </thead>
                     <tbody>
-                        {tableData && tableData.map((obj) => {
-                            return <tr>
+                        {tableData && tableData.map((obj, index) => {
+                            return <tr key={index}>
                                 <td className='name'>
                                     <div>{staffBasie ? (obj.date + '-' + months[obj.month] + '-' + obj.year + ' | ' + obj.day)
                                         : obj.full_name}</div>
@@ -85,12 +96,24 @@ function TableForAnalyze({ tableData, details, openModal, staffBasie }) {
 
                                 <td>{obj?.extra_work?.[0] && `( ${obj?.extra_work?.length} )`}</td>
 
-                                <td><button onClick={() => openModal(obj, {
-                                    day: obj.day,
-                                    date: obj.date,
-                                    month: obj.month,
-                                    year: obj.year
-                                }, 'date')} className='button'><BsArrowsFullscreen /></button></td>
+                                <td>
+                                    {!staffBasie && (today || yesterday) && obj?.punch?.in && <button onClick={() => openEditModal({
+                                        staff_id: obj?.staff_id,
+                                        punch: obj?.punch,
+                                        over_time: obj?.over_time,
+                                        date: obj.date,
+                                        month: obj.month,
+                                        year: obj.year,
+                                        day: obj.day
+                                    })} className='button blue'>< FiEdit2 /></button>}
+
+                                    <button onClick={() => openModal(obj, {
+                                        day: obj.day,
+                                        date: obj.date,
+                                        month: obj.month,
+                                        year: obj.year
+                                    }, 'date')} className='button'><BsArrowsFullscreen /></button>
+                                </td>
                             </tr>
                         })}
                     </tbody>

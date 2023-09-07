@@ -58,6 +58,7 @@
                         button {
                             @include normalButton();
                             background-color: gray;
+                            margin:  3px;
                         }
                     }
 

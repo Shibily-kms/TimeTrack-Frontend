@@ -31,7 +31,7 @@ function First_page() {
               </button>
             </div>
             <div className="button-div" >
-              <button onClick={() => navigate('/admin/staff-work-report')} >STAFF WORKS REPORT
+              <button onClick={() => navigate('/admin/monthly-work-report')} >MONTHLY WORK REPORT
               </button>
             </div>
           </div>

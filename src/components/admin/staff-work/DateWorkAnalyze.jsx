@@ -10,7 +10,7 @@ import { analyzeDateHelper } from '../../../assets/javascript/work-helper'
 
 
 
-function DateWorkAnalyze({ openModal, selected, setSelected }) {
+function DateWorkAnalyze({ openModal, openEditModal, selected, setSelected }) {
     const [analyzeData, setAnalyzeData] = useState([])
     const [loading, setLoading] = useState(false)
     const [tableData, setTableData] = useState({})
@@ -65,7 +65,7 @@ function DateWorkAnalyze({ openModal, selected, setSelected }) {
                         date: tableData.date,
                         month: tableData.month,
                         year: tableData.year
-                    }} openModal={openModal} />
+                    }} openModal={openModal} openEditModal={openEditModal} />
                 </div>
             </>}
         </div>

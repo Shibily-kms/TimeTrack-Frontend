@@ -77,7 +77,6 @@ function WorkReport() {
                                 </div>
                             }
                         </>}
-
                 </div>
             </div>
         </div>
