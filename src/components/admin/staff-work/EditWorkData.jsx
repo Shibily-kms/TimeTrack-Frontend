@@ -19,7 +19,7 @@ function EditWorkData({ data, closeModal }) {
     const handelSubmit = (e) => {
         setLoading(true)
         e.preventDefault();
-        const ask = window.confirm('Are you sure update this work ?')
+        const ask = window.confirm('Are you sure you want to update this work?')
         
         if (ask) {
             const date = `${data.year}-${(data.month + 1).toString().padStart(2, '0')}-${data.date.toString().padStart(2, '0')}`

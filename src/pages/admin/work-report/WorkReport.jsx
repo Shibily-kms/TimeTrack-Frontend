@@ -52,7 +52,7 @@ function WorkReport() {
                     <div className="left">
                         <div className="text-input-div">
                             <input type="month" id='month' name='month' value={dateForm} onChange={handleDate}
-                                max={`${new Date().getFullYear()}-${(new Date().getMonth() + 1).toString().padStart(2, '0')}`} min={'2023-07'} />
+                                max={`${new Date().getFullYear()}-${(new Date().getMonth() + 1).toString().padStart(2, '0')}`} min={'2023-08'} />
                             <label htmlFor="month">Choose month</label>
                         </div>
                     </div>
