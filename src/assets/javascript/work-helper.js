@@ -124,4 +124,36 @@ const analyzeStaffHelper = (data, staffDetails, start, end) => {
     return staff
 }
 
-export { analyzeDateHelper, analyzeStaffHelper }
+const workReportHelper = (data, staffs, date) => {
+    const firstDay = new Date(new Date(date).getFullYear(), new Date(date).getMonth(), 1)
+    const lastDay = new Date(new Date(date).getFullYear(), new Date(date).getMonth() + 1, 0)
+    let reportData = data
+    let k = 0
+    for (let i = 0; i < staffs.length; i++) {
+        if (YYYYMMDDFormat(lastDay) >= YYYYMMDDFormat(new Date(staffs[i].createdAt))) {
+            if (YYYYMMDDFormat(firstDay) <= YYYYMMDDFormat(new Date(staffs[i]?.deleteReason?.date)) || !staffs[i]?.deleteReason) {
+                if (staffs[i]._id !== reportData[k]?.staffId) {
+                    const report = {
+                        allowed_salary: 0,
+                        date: date,
+                        day_hours: staffs[i].current_working_time || 0,
+                        designation: staffs[i].designation.designation, 
+                        extra_time: 0,
+                        full_name: staffs[i].first_name + ' ' + staffs[i].last_name,
+                        monthly_salary: staffs[i].current_salary || 0,
+                        staffId: staffs[i]._id,
+                        used_CF: 0,
+                        worked_days: 0,
+                        worked_time: 0,
+                        working_days: staffs[i].current_working_days || 0,
+                    }
+                    reportData.splice(k, 0, report)
+                }
+                k++
+            }
+        }
+    }
+    return reportData;
+}
+
+export { analyzeDateHelper, analyzeStaffHelper, workReportHelper }

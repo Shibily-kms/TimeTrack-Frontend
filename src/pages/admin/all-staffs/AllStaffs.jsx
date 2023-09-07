@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from 'react'
+import './all-staffs.scss'
 import Header from '../../../components/admin/header/Header'
 import Title from '../../../components/common/title/Title'
 import AddStaff from '../../../components/admin/add-staff/AddStaff'
 import EditStaff from '../../../components/admin/edit-staff/EditStaff'
 import DeleteStaff from '../../../components/admin/models/DeleteStaff'
 import TableFilter from '../../../components/common/table-filter/TableFilter'
-import './all-staffs.scss'
+import IconWithMessage from '../../../components/common/spinners/SpinWithMessage'
+import EditWorkList from '../../../components/admin/models/EditWorkList'
 import { adminAxios } from '../../../config/axios'
+import { getTimeFromSecond } from '../../../assets/javascript/date-helper'
 import { BsTrash3 } from 'react-icons/bs'
 import { AiOutlinePlus } from 'react-icons/ai'
 import { FiEdit2, FiList } from 'react-icons/fi'
 import { IoCloseCircleOutline } from 'react-icons/io5'
 import { toast } from 'react-hot-toast'
-import IconWithMessage from '../../../components/common/spinners/SpinWithMessage'
 import { IoTrashBin } from 'react-icons/io5'
-import EditWorkList from '../../../components/admin/models/EditWorkList'
+
 
 function AllStaffs() {
     const [loading, setLoading] = useState('')
@@ -67,6 +69,9 @@ function AllStaffs() {
                                         <th>Full name</th>
                                         <th>Designation</th>
                                         <th>Mobile</th>
+                                        <th>Working time <br></br> (One day)</th>
+                                        <th>Working <br></br> days</th>
+                                        <th>Monthly <br></br> salary</th>
                                         <th>Control</th>
                                     </tr>
                                 </thead>
@@ -77,6 +82,9 @@ function AllStaffs() {
                                             <td>{value?.first_name ? value?.first_name + ' ' + value?.last_name : value?.user_name}</td>
                                             <td>{value.designation.designation}</td>
                                             <td>{value.contact}</td>
+                                            <td>{getTimeFromSecond(value.current_working_time) || 'Om'}</td>
+                                            <td>{value.current_working_days || 0}</td>
+                                            <td>₹{value.current_salary || 0}.00</td>
                                             <td>
                                                 <div className='buttons'>
                                                     <div className="button-div">
