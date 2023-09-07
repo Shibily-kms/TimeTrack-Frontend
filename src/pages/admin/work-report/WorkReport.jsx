@@ -3,6 +3,7 @@ import './work-report.scss'
 import Header from '../../../components/admin/header/Header'
 import WorkReportTable from '../../../components/admin/work-report/WorkReportTable'
 import SpinnerText from '../../../components/common/spinners/SpinWithMessage'
+import SCReport from '../../../components/admin/work-report/SCReport'
 import { adminAxios } from '../../../config/axios'
 import { workReportHelper } from '../../../assets/javascript/work-helper'
 import { BsDatabaseFillExclamation } from 'react-icons/bs'
@@ -57,7 +58,12 @@ function WorkReport() {
                     </div>
                     <div className="right">
                         {/* Buttons */}
-
+                        {data[0] && !thisMonth &&
+                            <div>
+                                <p>Download files</p>
+                                <div><SCReport report={data} thisMonth={thisMonth} date={dateForm} /></div>
+                            </div>
+                        }
                     </div>
                 </div>
                 <div className="content">

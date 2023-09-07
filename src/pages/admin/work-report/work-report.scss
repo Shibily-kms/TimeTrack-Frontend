@@ -79,11 +79,35 @@
                     }
                 }
             }
+
+            .right {
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+
+                >div {
+                    text-align: center;
+                    width: max-content;
+
+                    p {
+                        font-size: 13px;
+                        font-weight: 600;
+                        margin-bottom: 5px;
+
+                    }
+
+                    div {
+                        display: flex;
+                        justify-content: center;
+                    }
+                }
+            }
         }
 
 
         .content {
             margin-top: 15px;
+            overflow: auto;
 
             .no-data {
                 width: 100%;
