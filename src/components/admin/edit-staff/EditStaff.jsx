@@ -41,12 +41,17 @@ function EditStaff({ setModal, setData, editId }) {
             toast.success('Updated!')
             setData((state) => state.map((value) => {
                 if (value._id === form._id) {
+                    let timeSplit = form?.current_working_time?.split(':')
+                    timeSplit = (timeSplit[0] * 3600) + (timeSplit[1] * 60)
                     return {
                         _id: form._id,
                         first_name: form.first_name,
                         last_name: form.last_name,
                         designation: { _id: form.designation, designation: form.designationName },
-                        contact: form.contact
+                        contact: form.contact,
+                        current_salary: form?.current_salary,
+                        current_working_days: form?.current_working_days,
+                        current_working_time: timeSplit
                     }
                 }
                 return value
