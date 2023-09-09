@@ -24,7 +24,7 @@ function First_page() {
                         </div>
                         {(user?.designation?.allow_origins?.includes('Sales') || user?.designation?.allow_origins?.includes('SalesPro')) &&
                             <div className="button-div">
-                                <button onClick={() => window.location.href = `http://192.168.204.221:3000/?id=${user._id}`}>SALES</button>
+                                <button onClick={() => window.location.href = `http://localhost:3000/?id=${user._id}`}>SALES</button>
                             </div>}
                         <div className="button-div">
                             <button onClick={() => setModal('CHANGE PASSWORD')}>CHANGE PASSWORD</button>

@@ -31,6 +31,8 @@ function TopBar({ oneDay, staff }) {
                 workbook,
                 `staff_works ${oneDay.year}-${(oneDay.month + 1).toString().padStart(2, '0')}-${oneDay.date.toString().padStart(2, '0')}`
             )
+        }).catch((error) => {
+            toast.error(error.response.data.message)
         })
     }
 
@@ -58,6 +60,8 @@ function TopBar({ oneDay, staff }) {
                 setLoading('')
                 toast.error('No data!')
             }
+        }).catch((error) => {
+            toast.error(error.response.data.message)
         })
     }
 

@@ -5,6 +5,7 @@ import AddTextInput from '../add-work-input/AddTextInput';
 import SpinWithMessage from '../../common/spinners/SpinWithMessage';
 import { adminAxios } from '../../../config/axios'
 import { IoTrashBin } from 'react-icons/io5'
+import { toast } from 'react-hot-toast'
 
 function EditWorkList({ setModel, staffId }) {
     const [works, setWorks] = useState([])
@@ -15,6 +16,8 @@ function EditWorkList({ setModel, staffId }) {
         adminAxios.get(`/regular-work?staffId=${staffId}`).then((response) => {
             setWorks(response.data.data || [])
             setLoading(false)
+        }).catch((error) => {
+            toast.error(error.response.data.message)
         })
         // eslint-disable-next-line
     }, [])

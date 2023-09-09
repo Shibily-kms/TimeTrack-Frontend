@@ -30,6 +30,8 @@ function AllStaffs() {
         adminAxios.get('/staff/all-list').then((response) => {
             setData(response.data.data)
             setLoading('')
+        }).catch((error) => {
+            toast.error(error.response.data.message)
         })
     }, [])
 

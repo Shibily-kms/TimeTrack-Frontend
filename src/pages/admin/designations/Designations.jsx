@@ -27,6 +27,8 @@ function Designations() {
         adminAxios.get('/designations').then((response) => {
             setLoading('')
             setData(response.data?.data || [])
+        }).catch((error) => {
+            toast.error(error.response.data.message)
         })
     }, [])
 

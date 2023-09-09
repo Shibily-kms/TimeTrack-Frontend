@@ -86,6 +86,8 @@ function EditStaff({ setModal, setData, editId }) {
                 current_working_time: secondsToHHMM(data?.current_working_time || 0)
             })
             setLoading('')
+        }).catch((error) => {
+            toast.error(error.response.data.message)
         })
         adminAxios.get('/designations').then((response) => {
             setDesignations(response.data?.data || [])
