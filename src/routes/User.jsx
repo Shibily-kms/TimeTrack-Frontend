@@ -48,6 +48,8 @@ function User() {
     if (user) {
       userAxios.get(`/profile?staffId=${user?._id}`).then((response) => {
         dispatch(setUser({ ...user, ...response.data.data }))
+      }).catch((error) => {
+        toast.error(error.response.data.message)
       })
     }
     // eslint-disable-next-line

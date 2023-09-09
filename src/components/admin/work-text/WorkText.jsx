@@ -3,6 +3,7 @@ import './work-text.scss'
 import { BsTrash3Fill } from 'react-icons/bs'
 import { adminAxios } from '../../../config/axios'
 import { BiLoaderAlt } from 'react-icons/bi'
+import {toast} from 'react-hot-toast'
 
 function EditTextInput({ work, setWorks }) {
     const [loading, setLoading] = useState('')
@@ -15,6 +16,8 @@ function EditTextInput({ work, setWorks }) {
             adminAxios.delete(`/regular-work?work_id=${work._id}`).then(() => {
                 setWorks((state) => state.filter((value) => value._id !== work._id))
                 setLoading('')
+            }).catch((error) => {
+                toast.error(error.response.data.message)
             })
         }
     }

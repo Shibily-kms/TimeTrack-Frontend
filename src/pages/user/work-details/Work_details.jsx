@@ -11,6 +11,7 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getPunchDetails } from '../../../redux/features/user/workdataSlice'
 import { setRegularWork } from '../../../redux/features/user/dayWorksSlice'
+import { toast } from 'react-hot-toast'
 
 
 function Work_details() {
@@ -30,6 +31,8 @@ function Work_details() {
       dispatch(getPunchDetails())
       userAxios.get('/regular-work').then((works) => {
         dispatch(setRegularWork(works.data.data))
+      }).catch((error) => {
+        toast.error(error.response.data.message)
       })
     }
     // eslint-disable-next-line

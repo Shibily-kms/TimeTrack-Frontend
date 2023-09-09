@@ -30,7 +30,7 @@ function AddStaff({ closeModel, setData, password, setPassword }) {
         if (form.first_name[0] === ' ' || form.last_name[0] === ' ' || form.place[0] === ' ') {
             toast.error('Space is not accepted as the first character')
             setLoading('')
-            return 
+            return
         }
         adminAxios.post('/staff', form).then((response) => {
             toast.success('Success, Now copy password ')
@@ -60,6 +60,8 @@ function AddStaff({ closeModel, setData, password, setPassword }) {
         adminAxios.get('/designations').then((response) => {
             setLoading('')
             setDesignations(response.data?.data || [])
+        }).catch((error) => {
+            toast.error(error.response.data.message)
         })
         // eslint-disable-next-line
     }, [])
