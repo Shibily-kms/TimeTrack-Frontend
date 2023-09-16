@@ -104,6 +104,10 @@ function Designations() {
                                 <IconWithMessage icon={loading !== 'initialLoad' && <IoTrashBin />}
                                     message={loading === 'initialLoad' ? 'Loading...' : 'No Data'}
                                     spin={loading === 'initialLoad' ? true : false} />
+                                <div style={{ textAlign: 'center' }}>
+                                    {loading !== 'initialLoad' && <button className='add-button'
+                                        onClick={() => setModel('ADD NEW DESIGNATION')}>Add Designation</button>}
+                                </div>
                             </div>
                         </>}
                 </div>

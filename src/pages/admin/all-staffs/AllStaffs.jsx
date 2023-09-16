@@ -113,6 +113,9 @@ function AllStaffs() {
                         :
                         <div className='no-data'>
                             <IconWithMessage icon={loading !== 'initialData' && <IoTrashBin />} message={loading === 'initialData' ? 'Loading...' : 'No Staffs'} spin={loading === 'initialData' ? true : false} />
+                            <div >
+                                {loading !== 'initialData' && <button className='add-button' onClick={() => setModal('ADD NEW STAFF')}> Add Staff</button>}
+                            </div>
                         </div>
                     }
 
