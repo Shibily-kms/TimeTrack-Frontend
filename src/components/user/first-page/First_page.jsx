@@ -26,6 +26,10 @@ function First_page() {
                             <div className="button-div">
                                 <button onClick={() => window.location.href = `http://localhost:3001/?id=${user._id}`}>SALES</button>
                             </div>}
+                        {(user?.designation?.allow_origins?.includes('Accountant')) &&
+                            <div className="button-div">
+                                <button onClick={() => window.location.href = `http://localhost:3001/?id=${user._id}`}>ACCOUNTANT</button>
+                            </div>}
                         <div className="button-div">
                             <button onClick={() => setModal('CHANGE PASSWORD')}>CHANGE PASSWORD</button>
                         </div>
