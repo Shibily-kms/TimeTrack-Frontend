@@ -24,11 +24,11 @@ function First_page() {
                         </div>
                         {(user?.designation?.allow_origins?.includes('Sales') || user?.designation?.allow_origins?.includes('SalesPro')) &&
                             <div className="button-div">
-                                <button onClick={() => window.location.href = `http://localhost:3001/?id=${user._id}`}>SALES</button>
+                                <button onClick={() => window.location.href = `https://sales.alliancewatersolutions.com/?id=${user._id}`}>SALES</button>
                             </div>}
                         {(user?.designation?.allow_origins?.includes('Accountant')) &&
                             <div className="button-div">
-                                <button onClick={() => window.location.href = `http://localhost:3001/?id=${user._id}`}>ACCOUNTANT</button>
+                                <button onClick={() => window.location.href = `https://accounting.alliancewatersolutions.com/?id=${user._id}`}>ACCOUNTANT</button>
                             </div>}
                         <div className="button-div">
                             <button onClick={() => setModal('CHANGE PASSWORD')}>CHANGE PASSWORD</button>
