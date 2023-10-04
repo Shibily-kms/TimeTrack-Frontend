@@ -54,6 +54,15 @@
                         background-color: rgb(116, 116, 116);
                     }
 
+                    .message {
+                        svg {
+                            margin-right: 5px;
+                        }
+
+                        font-style: italic;
+                        color: rgb(0, 163, 228);
+                    }
+
                     button {
                         @include normalButton();
                         background-color: gray;
