@@ -1,6 +1,6 @@
 {
-  "short_name": "Alliance App",
-  "name": "Alliance App",
+  "short_name": "Alliance",
+  "name": "Alliance",
   "icons": [
     {
       "src": "favicon.ico",
@@ -19,7 +19,19 @@
     }
   ],
   "start_url": ".",
-  "display": "standalone",
+  "display": "minimal-ui",
   "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "background_color": "#ffffff",
+  "orientation": "portrait",
+  "related_applications": [
+    {
+      "platform": "webapp",
+      "url": "https://www.staff.alliancewatersolutions.com/manifest.json"
+    }
+  ],
+  "url_handlers": [
+    {
+      "origin": "https://*.alliancewatersolutions.com"
+    }
+  ]
 }

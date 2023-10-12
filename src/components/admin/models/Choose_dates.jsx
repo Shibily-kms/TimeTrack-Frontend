@@ -54,7 +54,8 @@ function Choose_dates({ setModel }) {
                         <div className="input-div">
                             <label htmlFor="staff">Staff</label>
                             <select name="staff" id="staff" onChange={handleChange}>
-                                <option value="">{loading ? 'Loading...' : 'All'}</option>
+                                <option value="">{'All'}</option>
+                                {loading && <option value="">{'Loading staffs...'}</option>}
                                 {staffs?.map((staff) => <option key={staff._id} value={staff._id}>{staff.first_name + ' ' + staff.last_name}
                                     {staff.delete && ' (Removed)'}</option>)}
                             </select>
