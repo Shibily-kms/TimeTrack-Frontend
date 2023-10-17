@@ -110,16 +110,26 @@
 
 // Bg Colors
 .Sales-text {
-    background-color: rgb(2, 187, 48);
+    background-color: rgb(33, 141, 0);
     color: white;
 }
 
 .SalesPro-text {
-    background-color: rgb(187, 2, 187);
+    background-color: rgb(0, 92, 23);
     color: white;
 }
 
 .Accountant-text {
-    background-color: rgb(187, 70, 2);
+    background-color: rgb(255, 196, 0);
+    color: rgb(0, 0, 0);
+}
+
+.Service-text {
+    background-color: rgb(0, 162, 184);
+    color: white;
+}
+
+.ServiceAdmin-text {
+    background-color: rgb(0, 95, 107);
     color: white;
 }
