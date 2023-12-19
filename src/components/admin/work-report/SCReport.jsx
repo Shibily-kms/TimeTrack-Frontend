@@ -32,7 +32,7 @@ function SCReport({ report, thisMonth, date }) {
     const exportToExcel = (datas) => {
 
         const workbook = XLSX.utils.book_new();
-        const sheetName = 'SC Report';
+        const sheetName1 = 'SC Report';
         let workSheetData = []
         datas.map((data, index) => {
             const obj = {
@@ -47,7 +47,7 @@ function SCReport({ report, thisMonth, date }) {
         })
 
         const worksheet = XLSX.utils.json_to_sheet(workSheetData);
-        XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
+        XLSX.utils.book_append_sheet(workbook, worksheet, sheetName1);
         return workbook;
     };
 

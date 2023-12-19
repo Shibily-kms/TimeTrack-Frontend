@@ -88,14 +88,14 @@ function EditDesignation({ setModel, editData, setEditData, setData }) {
                                 <label htmlFor="Accountant">Accountant</label>
                             </div>
                             <div className="items">
-                                <input type="checkbox" checked={editData?.allow_origins.includes('Service')} id="Service" name='allow_origins'
-                                    value="Service" onChange={handleCheck} />
-                                <label htmlFor="Service">Service</label>
+                                <input type="checkbox" checked={editData?.allow_origins.includes('RO_Service')} id="RO_Service" name='allow_origins'
+                                    value="RO_Service" onChange={handleCheck} />
+                                <label htmlFor="RO_Service">RO Service</label>
                             </div>
                             <div className="items">
-                                <input type="checkbox" checked={editData?.allow_origins.includes('ServiceAdmin')} id="ServiceAdmin" name='allow_origins'
-                                    value="ServiceAdmin" onChange={handleCheck} />
-                                <label htmlFor="ServiceAdmin">Service Admin</label>
+                                <input type="checkbox" checked={editData?.allow_origins.includes('RO_Admin')} id="RO_Admin" name='allow_origins'
+                                    value="RO_Admin" onChange={handleCheck} />
+                                <label htmlFor="RO_Admin">RO Admin</label>
                             </div>
                         </div>
                         <label className='head-label' htmlFor="">Origins access</label>

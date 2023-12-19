@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import './view-modal.scss'
 import { IoClose } from 'react-icons/io5'
-import { FcLeave, FcPlanner, FcCancel } from 'react-icons/fc'
+import { FcLeave, FcPlanner } from 'react-icons/fc'
+import { TbFingerprintOff } from 'react-icons/tb'
 import { stringToLocalTime, getTimeFromSecond } from '../../../assets/javascript/date-helper'
 
 function ViewModal({ data, info, type, closeModal }) {
@@ -134,9 +135,9 @@ function ViewModal({ data, info, type, closeModal }) {
                         <div className="info-box">
                             <div className="info-content">
                                 <div className="icon-div">
-                                    {info?.day === 'SUN' ? <FcPlanner /> : today ? <FcCancel /> : <FcLeave />}
+                                    {info?.day === 'SUN' ? <FcPlanner /> : today ? <TbFingerprintOff /> : <FcLeave />}
                                 </div>
-                                <h4>{info?.day === 'SUN' ? 'Today holiday' : today ? 'Unpunched' : 'Took leave'} </h4>
+                                <h4>{info?.day === 'SUN' ? 'Holiday' : today ? 'Not punched' : 'Took leave'} </h4>
                             </div>
                         </div>
                     </>}
