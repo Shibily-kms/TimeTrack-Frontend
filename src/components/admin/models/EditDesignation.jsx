@@ -97,6 +97,11 @@ function EditDesignation({ setModel, editData, setEditData, setData }) {
                                     value="RO_Admin" onChange={handleCheck} />
                                 <label htmlFor="RO_Admin">RO Admin</label>
                             </div>
+                            <div className="items">
+                                <input type="checkbox" checked={editData?.allow_origins.includes('Customer_details')} id="Customer_details" name='allow_origins'
+                                    value="Customer_details" onChange={handleCheck} />
+                                <label htmlFor="Customer_details">Customer details</label>
+                            </div>
                         </div>
                         <label className='head-label' htmlFor="">Origins access</label>
                     </div>

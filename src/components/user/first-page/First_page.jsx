@@ -24,15 +24,19 @@ function First_page() {
                         </div>
                         {(user?.designation?.allow_origins?.includes('Sales') || user?.designation?.allow_origins?.includes('SalesPro')) &&
                             <div className="button-div">
-                                <button onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>SALES</button>
+                                <button onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>SALES APP</button>
                             </div>}
                         {(user?.designation?.allow_origins?.includes('Accountant')) &&
                             <div className="button-div">
-                                <button onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>ACCOUNTANT</button>
+                                <button onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>ACCOUNTANT APP</button>
                             </div>}
                         {(user?.designation?.allow_origins?.includes('RO_Service')) &&
                             <div className="button-div">
-                                <button onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>RO SERVICE</button>
+                                <button onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>RO SERVICE APP</button>
+                            </div>}
+                        {(user?.designation?.allow_origins?.includes('Customer_details')) &&
+                            <div className="button-div">
+                                <button onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>ControlNex APP</button>
                             </div>}
                         <div className="button-div">
                             <button onClick={() => setModal('CHANGE PASSWORD')}>CHANGE PASSWORD</button>
