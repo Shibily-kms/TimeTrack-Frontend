@@ -88,19 +88,19 @@ function EditDesignation({ setModel, editData, setEditData, setData }) {
                                 <label htmlFor="Accountant">Accountant</label>
                             </div>
                             <div className="items">
-                                <input type="checkbox" checked={editData?.allow_origins.includes('RO_Service')} id="RO_Service" name='allow_origins'
-                                    value="RO_Service" onChange={handleCheck} />
-                                <label htmlFor="RO_Service">RO Service</label>
+                                <input type="checkbox" checked={editData?.allow_origins.includes('PR_Service')} id="PR_Service" name='allow_origins'
+                                    value="PR_Service" onChange={handleCheck} />
+                                <label htmlFor="PR_Service">PR Service</label>
                             </div>
                             <div className="items">
-                                <input type="checkbox" checked={editData?.allow_origins.includes('RO_Admin')} id="RO_Admin" name='allow_origins'
-                                    value="RO_Admin" onChange={handleCheck} />
-                                <label htmlFor="RO_Admin">RO Admin</label>
+                                <input type="checkbox" checked={editData?.allow_origins.includes('PR_Admin')} id="PR_Admin" name='allow_origins'
+                                    value="PR_Admin" onChange={handleCheck} />
+                                <label htmlFor="PR_Admin">PR Admin</label>
                             </div>
                             <div className="items">
-                                <input type="checkbox" checked={editData?.allow_origins.includes('Customer_details')} id="Customer_details" name='allow_origins'
-                                    value="Customer_details" onChange={handleCheck} />
-                                <label htmlFor="Customer_details">Customer details</label>
+                                <input type="checkbox" checked={editData?.allow_origins.includes('ControlNex')} id="ControlNex" name='allow_origins'
+                                    value="ControlNex" onChange={handleCheck} />
+                                <label htmlFor="ControlNex">ControlNex</label>
                             </div>
                         </div>
                         <label className='head-label' htmlFor="">Origins access</label>

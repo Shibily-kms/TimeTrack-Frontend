@@ -30,11 +30,15 @@ function First_page() {
                             <div className="button-div">
                                 <button onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>ACCOUNTANT APP</button>
                             </div>}
-                        {(user?.designation?.allow_origins?.includes('RO_Service')) &&
+                        {(user?.designation?.allow_origins?.includes('PR_Service')) &&
                             <div className="button-div">
-                                <button onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>RO SERVICE APP</button>
+                                <button onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>PURIFIER SERVICE APP</button>
                             </div>}
-                        {(user?.designation?.allow_origins?.includes('Customer_details')) &&
+                        {(user?.designation?.allow_origins?.includes('PR_Admin')) &&
+                            <div className="button-div">
+                                <button onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>PURIFIER ADMIN APP</button>
+                            </div>}
+                        {(user?.designation?.allow_origins?.includes('ControlNex')) &&
                             <div className="button-div">
                                 <button onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>ControlNex APP</button>
                             </div>}
