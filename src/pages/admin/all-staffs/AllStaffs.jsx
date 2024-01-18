@@ -83,7 +83,7 @@ function AllStaffs() {
 
                                             <td>{value?.first_name ? value?.first_name + ' ' + value?.last_name : value?.user_name}</td>
                                             <td>{value.designation.designation}</td>
-                                            <td>{value.contact}</td>
+                                            <td>{value.contact1}</td>
                                             <td>{getTimeFromSecond(value.current_working_time) || 'Om'}</td>
                                             <td>{value.current_working_days || 0}</td>
                                             <td>₹{value.current_salary || 0}.00</td>

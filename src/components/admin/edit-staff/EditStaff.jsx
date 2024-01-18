@@ -48,7 +48,7 @@ function EditStaff({ setModal, setData, editId }) {
                         first_name: form.first_name,
                         last_name: form.last_name,
                         designation: { _id: form.designation, designation: form.designationName },
-                        contact: form.contact,
+                        contact1: form.contact1,
                         current_salary: form?.current_salary,
                         current_working_days: form?.current_working_days,
                         current_working_time: timeSplit
@@ -75,7 +75,7 @@ function EditStaff({ setModal, setData, editId }) {
                 first_name: data?.first_name,
                 last_name: data?.last_name,
                 email_id: data?.email_id,
-                contact: data?.contact,
+                contact1: data?.contact1,
                 designation: data?.designation?._id,
                 designationName: data?.designation?.designation,
                 dob: data?.dob,
@@ -119,8 +119,8 @@ function EditStaff({ setModal, setData, editId }) {
                                 <label htmlFor="email_id">Email Address</label>
                             </div>
                             <div className="text-input-div">
-                                <input type="number" id='contact' name='contact' value={form?.contact} required onChange={handleChange} />
-                                <label htmlFor="contact">Mobile no</label>
+                                <input type="number" id='contact1' name='contact1' value={form?.contact1} required onChange={handleChange} />
+                                <label htmlFor="contact1">Mobile no</label>
                             </div>
                             <div className="text-input-div">
                                 <select id="designation" name="designation" required onChange={handleDesignationChange}>

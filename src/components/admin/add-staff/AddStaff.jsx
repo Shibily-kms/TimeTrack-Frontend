@@ -8,7 +8,7 @@ import { FaInfo } from 'react-icons/fa'
 
 function AddStaff({ closeModel, setData, password, setPassword }) {
     const [form, setFrom] = useState({
-        first_name: null, last_name: null, email_id: null, contact: null,
+        first_name: null, last_name: null, email_id: null, contact1: null,
         designation: null, dob: null, place: null, pin_code: null
     })
     const [designations, setDesignations] = useState([])
@@ -105,8 +105,8 @@ function AddStaff({ closeModel, setData, password, setPassword }) {
                                 <label htmlFor="email_id">Email Address</label>
                             </div>
                             <div className="text-input-div">
-                                <input type="number" id='contact' name='contact' value={form?.contact} required onChange={handleChange} />
-                                <label htmlFor="contact">Mobile no</label>
+                                <input type="number" id='contact1' name='contact1' value={form?.contact1} required onChange={handleChange} />
+                                <label htmlFor="contact1">Mobile no</label>
                             </div>
                             <div className="text-input-div">
                                 <select id="designation" name="designation" required onChange={handleChange}>
