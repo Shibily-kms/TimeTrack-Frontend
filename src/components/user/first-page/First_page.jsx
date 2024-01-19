@@ -42,6 +42,14 @@ function First_page() {
                             <div className="button-div">
                                 <button onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>ControlNex APP</button>
                             </div>}
+                        {(user?.designation?.allow_origins?.includes('WH_Service')) &&
+                            <div className="button-div">
+                                <button onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>WH SERVICE APP</button>
+                            </div>}
+                        {(user?.designation?.allow_origins?.includes('WH_Admin')) &&
+                            <div className="button-div">
+                                <button onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>WH ADMIN APP</button>
+                            </div>}
                         <div className="button-div">
                             <button onClick={() => setModal('CHANGE PASSWORD')}>CHANGE PASSWORD</button>
                         </div>
