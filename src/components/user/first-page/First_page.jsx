@@ -24,31 +24,31 @@ function First_page() {
                         </div>
                         {(user?.designation?.allow_origins?.includes('Sales') || user?.designation?.allow_origins?.includes('SalesPro')) &&
                             <div className="button-div">
-                                <button onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>SALES APP</button>
+                                <button onClick={() => window.location.href = `http://sales.alliancedev.in?id=${user?._id}`}>SALES APP</button>
                             </div>}
                         {(user?.designation?.allow_origins?.includes('Accountant')) &&
                             <div className="button-div">
-                                <button onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>ACCOUNTANT APP</button>
+                                <button onClick={() => window.location.href = `http://accounting.alliancedev.in?id=${user?._id}`}>ACCOUNTANT APP</button>
                             </div>}
                         {(user?.designation?.allow_origins?.includes('PR_Service')) &&
                             <div className="button-div">
-                                <button onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>PURIFIER SERVICE APP</button>
+                                <button onClick={() => window.location.href = `http://purifierservice.alliancedev.in?id=${user?._id}`}>PURIFIER SERVICE APP</button>
                             </div>}
                         {(user?.designation?.allow_origins?.includes('PR_Admin')) &&
                             <div className="button-div">
-                                <button onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>PURIFIER ADMIN APP</button>
+                                <button onClick={() => window.location.href = `http://purifierservice.alliancedev.in/admin?id=${user?._id}`}>PURIFIER ADMIN APP</button>
                             </div>}
                         {(user?.designation?.allow_origins?.includes('ControlNex')) &&
                             <div className="button-div">
-                                <button onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>ControlNex APP</button>
+                                <button onClick={() => window.location.href = `http://controlnex.alliancedev.in?id=${user?._id}`}>ControlNex APP</button>
                             </div>}
                         {(user?.designation?.allow_origins?.includes('WH_Service')) &&
                             <div className="button-div">
-                                <button onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>WH SERVICE APP</button>
+                                <button onClick={() => window.location.href = `http://whservice.alliancedev.in?id=${user?._id}`}>WH SERVICE APP</button>
                             </div>}
                         {(user?.designation?.allow_origins?.includes('WH_Admin')) &&
                             <div className="button-div">
-                                <button onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>WH ADMIN APP</button>
+                                <button onClick={() => window.location.href = `http://whservice.alliancedev.in/admin?id=${user?._id}`}>WH ADMIN APP</button>
                             </div>}
                         <div className="button-div">
                             <button onClick={() => setModal('CHANGE PASSWORD')}>CHANGE PASSWORD</button>
