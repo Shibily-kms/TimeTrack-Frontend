@@ -22,7 +22,8 @@ function First_page() {
                         <div className="button-div">
                             <button onClick={() => navigate('/enter-work-details')}>ENTER WORK DETAILS</button>
                         </div>
-                        {(user?.designation?.allow_origins?.includes('Sales') || user?.designation?.allow_origins?.includes('SalesPro')) &&
+                        {(user?.designation?.allow_origins?.includes('Sales') || user?.designation?.allow_origins?.includes('SalesPro')
+                            || user?.designation?.allow_origins?.includes('Installation')) &&
                             <div className="button-div">
                                 <button onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>SALES APP</button>
                             </div>}
