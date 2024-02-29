@@ -132,7 +132,7 @@ const workReportHelper = (data, staffs, date) => {
     for (let i = 0; i < staffs.length; i++) {
         if (YYYYMMDDFormat(lastDay) >= YYYYMMDDFormat(new Date(staffs[i].createdAt))) {
             if (YYYYMMDDFormat(firstDay) <= YYYYMMDDFormat(new Date(staffs[i]?.deleteReason?.date)) || !staffs[i]?.deleteReason) {
-                console.log(staffs[i], reportData[k], 'hii');
+            
                 if (staffs[i]._id !== reportData[k]?.staffId) {
                     const report = {
                         allowed_salary: 0,
@@ -150,7 +150,7 @@ const workReportHelper = (data, staffs, date) => {
                         balance_CF: staffs[i].balance_CF || 0,
                         message: 'Report not available'
                     }
-                    console.log(report, 'report');
+                    
                     reportData.splice(k, 0, report)
                 }
                 k++

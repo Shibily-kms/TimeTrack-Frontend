@@ -80,12 +80,47 @@ function EditDesignation({ setModel, editData, setEditData, setData }) {
                             <div className="items">
                                 <input type="checkbox" checked={editData?.allow_origins.includes('SalesPro')} id="SalesPro" name='allow_origins'
                                     value="SalesPro" onChange={handleCheck} />
-                                <label htmlFor="SalesPro">SalesPro</label>
+                                <label htmlFor="SalesPro">Sales Pro</label>
                             </div>
                             <div className="items">
                                 <input type="checkbox" checked={editData?.allow_origins.includes('Accountant')} id="Accountant" name='allow_origins'
                                     value="Accountant" onChange={handleCheck} />
                                 <label htmlFor="Accountant">Accountant</label>
+                            </div>
+                            <div className="items">
+                                <input type="checkbox" checked={editData?.allow_origins.includes('PR_Service')} id="PR_Service" name='allow_origins'
+                                    value="PR_Service" onChange={handleCheck} />
+                                <label htmlFor="PR_Service">PR Service</label>
+                            </div>
+                            <div className="items">
+                                <input type="checkbox" checked={editData?.allow_origins.includes('PR_Admin')} id="PR_Admin" name='allow_origins'
+                                    value="PR_Admin" onChange={handleCheck} />
+                                <label htmlFor="PR_Admin">PR Admin</label>
+                            </div>
+                            <div className="items">
+                                <input type="checkbox" checked={editData?.allow_origins.includes('ControlNex')} id="ControlNex" name='allow_origins'
+                                    value="ControlNex" onChange={handleCheck} />
+                                <label htmlFor="ControlNex">ControlNex</label>
+                            </div>
+                            <div className="items">
+                                <input type="checkbox" checked={editData?.allow_origins.includes('Customer_Info')} id="Customer_Info" name='allow_origins'
+                                    value="Customer_Info" onChange={handleCheck} />
+                                <label htmlFor="Customer_Info">Customer_Info</label>
+                            </div>
+                            <div className="items">
+                                <input type="checkbox" checked={editData?.allow_origins.includes('WH_Service')} id="WH_Service" name='allow_origins'
+                                    value="WH_Service" onChange={handleCheck} />
+                                <label htmlFor="WH_Service">WH Service</label>
+                            </div>
+                            <div className="items">
+                                <input type="checkbox" checked={editData?.allow_origins.includes('WH_Admin')} id="WH_Admin" name='allow_origins'
+                                    value="WH_Admin" onChange={handleCheck} />
+                                <label htmlFor="WH_Admin">WH Admin</label>
+                            </div>
+                            <div className="items">
+                                <input type="checkbox" checked={editData?.allow_origins.includes('Installation')} id="Installation" name='allow_origins'
+                                    value="Installation" onChange={handleCheck} />
+                                <label htmlFor="Installation">Installation</label>
                             </div>
                         </div>
                         <label className='head-label' htmlFor="">Origins access</label>
