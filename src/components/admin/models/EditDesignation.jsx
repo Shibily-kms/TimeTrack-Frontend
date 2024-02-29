@@ -103,6 +103,11 @@ function EditDesignation({ setModel, editData, setEditData, setData }) {
                                 <label htmlFor="ControlNex">ControlNex</label>
                             </div>
                             <div className="items">
+                                <input type="checkbox" checked={editData?.allow_origins.includes('Customer_Info')} id="Customer_Info" name='allow_origins'
+                                    value="Customer_Info" onChange={handleCheck} />
+                                <label htmlFor="Customer_Info">Customer_Info</label>
+                            </div>
+                            <div className="items">
                                 <input type="checkbox" checked={editData?.allow_origins.includes('WH_Service')} id="WH_Service" name='allow_origins'
                                     value="WH_Service" onChange={handleCheck} />
                                 <label htmlFor="WH_Service">WH Service</label>

@@ -39,7 +39,7 @@ function First_page() {
                             <div className="button-div">
                                 <button onClick={() => window.location.href = `http://purifierservice.alliancedev.in/admin?id=${user?._id}`}>PURIFIER ADMIN APP</button>
                             </div>}
-                        {(user?.designation?.allow_origins?.includes('ControlNex')) &&
+                        {(user?.designation?.allow_origins?.includes('ControlNex') || user?.designation?.allow_origins?.includes('Customer_Info')) &&
                             <div className="button-div">
                                 <button onClick={() => window.location.href = `http://controlnex.alliancedev.in?id=${user?._id}`}>ControlNex APP</button>
                             </div>}
