@@ -45,6 +45,26 @@ const secondsToHHMM = (seconds) => {
     return `${formattedHours}:${formattedMinutes}`;
 }
 
+function TimeBasedGreeting() {
+    // Get the current hour
+    const hour = new Date().getHours();
+    let greeting;
+
+    // Determine the greeting based on the current hour
+    if (hour < 12) {
+        greeting = 'Good Morning';
+    } else if (hour < 18) {
+        greeting = 'Good Afternoon';
+    } else if (hour < 7) {
+        greeting = 'Good Evening';
+    } else {
+        greeting = 'Good Night';
+    }
+
+    // Render the greeting
+    return greeting;
+}
 
 
-export { stringToLocalTime, YYYYMMDDFormat, getTimeFromSecond, secondsToHHMM }
+
+export { stringToLocalTime, YYYYMMDDFormat, getTimeFromSecond, secondsToHHMM, TimeBasedGreeting }

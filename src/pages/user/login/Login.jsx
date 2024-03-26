@@ -16,7 +16,7 @@ function Login() {
             dispatch(reset())
         }
         if (user?.token) {
-            navigate('/')
+            navigate('/?page=home')
         }
     })
 
