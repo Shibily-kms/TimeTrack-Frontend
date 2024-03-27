@@ -1,32 +1,23 @@
 import React, { useEffect, useRef } from 'react'
 import './single-page.scss'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { logOut } from '../../../redux/features/user/authSlice'
+import { useSelector } from 'react-redux'
 import AllianceLogo from '../../../assets/images/alliance-logo.png'
 import { IoPersonCircleOutline, IoChevronBack } from "react-icons/io5";
-import { IoMdLogOut, IoMdLogIn } from "react-icons/io";
 import { MdOutlineHistoryToggleOff } from "react-icons/md";
 import { RiSettingsLine, RiMoreFill, RiHome6Line } from "react-icons/ri";
-import { clearWorkData } from '../../../redux/features/user/workdataSlice';
-import { clearRegularWork } from '../../../redux/features/user/dayWorksSlice';
+import { HiStatusOffline, HiStatusOnline } from "react-icons/hi";
+
 
 
 function SinglePage({ title, description, children }) {
     const navigate = useNavigate()
-    const dispatch = useDispatch()
-    const { user } = useSelector((state) => state.userAuth)
+    const { internet } = useSelector((state) => state.network)
     const lastScrollTop = useRef(0);
     const navbarRef = useRef(null);
     const [searchParams, setSearchParams] = useSearchParams()
 
 
-    const handleLogOut = () => {
-        dispatch(clearWorkData())
-        dispatch(clearRegularWork())
-        dispatch(logOut())
-        navigate('/login')
-    }
 
     useEffect(() => {
         const onScroll = () => {
@@ -53,7 +44,7 @@ function SinglePage({ title, description, children }) {
         <div className="single-page-body">
             <div className="single-page-header-div" ref={navbarRef}>
                 <div className="border">
-                    <div className="left" onClick={() => (!searchParams.get('page') && searchParams.get('page') !== 'home') && navigate(-1)}>
+                    <div className="left" onClick={() => (!searchParams.get('page') || searchParams.get('page') !== 'home') && navigate(-1)}>
                         {(!searchParams.get('page') || searchParams.get('page') !== 'home') && <IoChevronBack />}
                         <img src={AllianceLogo} alt='logo' />
                         <h3>Alliance</h3>
@@ -62,14 +53,10 @@ function SinglePage({ title, description, children }) {
                         <div className="round-icon-button" title='Profile'>
                             <IoPersonCircleOutline />
                         </div>
-                        {user
-                            ? <div className="round-icon-button" onClick={handleLogOut} title='Log Out'>
-                                <IoMdLogOut />
-                            </div>
-                            : <div className="round-icon-button" onClick={() => navigate('/login')} title='Log In'>
-                                <IoMdLogIn />
-                            </div>
-                        }
+                        <div className="round-icon-button" style={{ cursor: "auto", color: !internet && 'red' }}
+                            title={internet ? 'Online' : 'Offline'}>
+                            {internet ? <HiStatusOnline /> : <HiStatusOffline />}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -100,7 +87,7 @@ function SinglePage({ title, description, children }) {
                         <RiSettingsLine />
                         <p>Settings</p>
                     </div>
-                    <div className={searchParams.get('page') === 'more' ? "item-div active-item" : "item-div"} onClick={() => navigate('/')}>
+                    <div className={searchParams.get('page') === 'more' ? "item-div active-item" : "item-div"} onClick={() => navigate('/more/?page=more')}>
                         <RiMoreFill />
                         <p>More</p>
                     </div>

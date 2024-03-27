@@ -1,0 +1,86 @@
+import React, { useEffect, useState } from 'react'
+import './more.scss'
+import SinglePage from '../../../components/common/page/SinglePage'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+import { MdOutlinePassword, MdOutlineNotificationsActive } from "react-icons/md";
+import { IoArrowForwardOutline, IoPersonCircleOutline } from "react-icons/io5";
+import { IoMdLogOut } from "react-icons/io";
+import Modal from '../../../components/common/modal/Modal'
+import ChangePassword from '../../../components/user/change-password/ChangePassword';
+import { clearWorkData } from '../../../redux/features/user/workdataSlice';
+import { clearRegularWork } from '../../../redux/features/user/dayWorksSlice';
+import { logOut } from '../../../redux/features/user/authSlice'
+import { useDispatch } from 'react-redux';
+
+const MorePage = () => {
+    const [searchParams, setSearchParams] = useSearchParams()
+    const [modal, setModal] = useState({ content: null, title: null, status: false })
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (!searchParams.get('page')) {
+            setSearchParams(`page=home`)
+        }
+    }, [])
+
+    const openModel = (title, content) => {
+        setModal({ content, title, status: true })
+    }
+
+    const handleLogOut = () => {
+        const ask = window.confirm('Are you ready for logOut ?')
+        if (ask) {
+            dispatch(clearWorkData())
+            dispatch(clearRegularWork())
+            dispatch(logOut())
+            navigate('/login')
+        }
+    }
+
+
+    return (
+        <div className="more-page-div">
+            <Modal modal={modal} setModal={() => setModal({ status: false })} />
+            <SinglePage title={'More Options'}>
+                <div className="section-border">
+                    <div className="option-div">
+                        <div className="left">
+                            <IoPersonCircleOutline />
+                            <h4>Profile</h4>
+                        </div>
+                        <div className="right">
+                            <IoArrowForwardOutline />
+                        </div>
+                    </div>
+                    <div className="option-div" onClick={() => openModel('Change Password', <ChangePassword setModal={setModal} />)}>
+                        <div className="left">
+                            <MdOutlinePassword />
+                            <h4>Change password</h4>
+                        </div>
+                        <div className="right">
+                            <IoArrowForwardOutline />
+                        </div>
+                    </div>
+                    <div className="option-div">
+                        <div className="left">
+                            <MdOutlineNotificationsActive />
+                            <h4>Notifications</h4>
+                        </div>
+                        <div className="right">
+                            <IoArrowForwardOutline />
+                        </div>
+                    </div>
+                    <div className="option-div red-option" onClick={() => handleLogOut()}>
+                        <div className="left">
+                            <IoMdLogOut />
+                            <h4>Log out</h4>
+                        </div>
+                    </div>
+                </div>
+            </SinglePage>
+        </div>
+    )
+}
+
+export default MorePage

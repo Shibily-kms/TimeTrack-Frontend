@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import './change-password.scss'
-import { userAxios } from '../../../../config/axios'
+import { userAxios } from '../../../config/axios'
 import { toast } from 'react-hot-toast'
 import { BiLoaderAlt } from 'react-icons/bi'
 import { RxEyeClosed, RxEyeOpen } from 'react-icons/rx';
+import NormalInput from '../../../components/common/inputs/NormalInput'
 
 
 function ChangePassword({ setModal }) {
@@ -34,7 +35,7 @@ function ChangePassword({ setModal }) {
         userAxios.post('/change-password', form).then((response) => {
             toast.success(response.data.message)
             setLoading(false)
-            setModal(null)
+            setModal({ status: false })
         }).catch((error) => {
             toast.error(error.response.data.message)
             setLoading(false)
@@ -45,27 +46,18 @@ function ChangePassword({ setModal }) {
         <div className="change-password-div">
             <div className="inputs">
                 <form onSubmit={handleSubmit}>
-                    <div className="input-div">
-                        <label htmlFor="current">Current Password</label>
-                        <input type={show ? 'text' : 'password'} name='current' id='current' required onChange={handleChange} />
-                        <div className="icon" onClick={() => setShow(!show)}>
-                            {show ? <RxEyeOpen /> : <RxEyeClosed />}
-                        </div>
-                    </div>
-                    <div className="input-div">
-                        <label htmlFor="newPass">New Password</label>
-                        <input type={show ? 'text' : 'password'} name='newPass' id='newPass' required onChange={handleChange} />
-                        <div className="icon" onClick={() => setShow(!show)}>
-                            {show ? <RxEyeOpen /> : <RxEyeClosed />}
-                        </div>
-                    </div>
-                    <div className="input-div">
-                        <label htmlFor="confirm">Confirm Password</label>
-                        <input type={show ? 'text' : 'password'} name='confirm' id='confirm' required onChange={handleChange} />
-                        <div className="icon" onClick={() => setShow(!show)}>
-                            {show ? <RxEyeOpen /> : <RxEyeClosed />}
-                        </div>
-                    </div>
+                    <NormalInput label={'Current Password'} name='current' id={'current'} type={show ? 'text' : 'password'}
+                        onChangeFun={handleChange} value={form?.current} rightIcon={show ? <RxEyeOpen /> : <RxEyeClosed />}
+                        rightIconAction={() => setShow(!show)} />
+
+                    <NormalInput label={'New Password'} name='newPass' id={'newPass'} type={show ? 'text' : 'password'}
+                        onChangeFun={handleChange} value={form?.newPass} rightIcon={show ? <RxEyeOpen /> : <RxEyeClosed />}
+                        rightIconAction={() => setShow(!show)} />
+
+                    <NormalInput label={'Confirm Password'} name='confirm' id={'confirm'} type={show ? 'text' : 'password'}
+                        onChangeFun={handleChange} value={form?.confirm} rightIcon={show ? <RxEyeOpen /> : <RxEyeClosed />}
+                        rightIconAction={() => setShow(!show)} />
+
                     <div className="button-div">
                         <button>  {loading ? <span className='loading-icon'><BiLoaderAlt /></span> : 'Update'}</button>
                     </div>

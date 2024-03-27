@@ -1,0 +1,27 @@
+@import '../../../assets/scss/color.scss';
+
+.multi-select-model-div {
+    padding: 7px 0;
+
+    div {
+        position: relative;
+
+        label {
+            position: absolute;
+            color: rgb(85, 85, 85);
+            background-color: white;
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            top: -7px;
+            left: 10px;
+            font-size: 12px;
+            font-weight: 500;
+            max-width: 85%;
+            padding: 0px 5px;
+            width: auto;
+        }
+       
+    }
+
+}

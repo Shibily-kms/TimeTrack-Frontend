@@ -9,7 +9,7 @@ function NotFound() {
     const { user } = useSelector((state) => state.userAuth)
     const navigate = useNavigate()
     return (
-        <div className='not-found'> 
+        <div className='not-found'>
             <div className="header">
                 <Header />
             </div>
@@ -31,4 +31,4 @@ function NotFound() {
     )
 }
 
-export default NotFound 
+export default NotFound
