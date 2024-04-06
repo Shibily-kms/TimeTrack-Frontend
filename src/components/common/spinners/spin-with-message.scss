@@ -1,3 +1,4 @@
+.spin-with-full-view,
 .spin-with-message {
     .spinner-body {
         width: 150px;
@@ -5,7 +6,7 @@
         text-align: center;
 
         .load-div {
-            font-size: 40px;
+            font-size: 50px;
             color: rgb(92, 92, 92);
         }
 
@@ -13,7 +14,7 @@
             svg {
                 animation: iconLoading 1.5s linear infinite;
                 -webkit-animation: iconLoading 1.5s linear infinite;
-}
+            }
 
             @keyframes iconLoading {
                 0% {
@@ -26,6 +27,12 @@
             }
         }
 
+        .loading-image {
+            img {
+                width: 100px;
+            }
+        }
+
         .message {
             p {
                 font-size: 14px;
@@ -33,5 +40,15 @@
                 color: gray;
             }
         }
+    }
+}
+
+
+.spin-with-full-view {
+    .spinner-body {
+        width: 100%;
+        height: 300px;
+        display: grid;
+        place-content: center;
     }
 }

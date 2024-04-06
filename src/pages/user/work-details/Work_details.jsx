@@ -1,24 +1,23 @@
 import React, { useState } from 'react'
 import './work-details.scss'
 import { userAxios } from '../../../config/axios'
-import Header from '../../../components/user/header/Header'
 import Punching from '../../../components/user/punch/Punching'
 import Work from '../../../components/user/work/Work'
 import WorkDetails from '../../../components/user/semi-work-details/WorkDetails'
 import SpinWithMessage from '../../../components/common/spinners/SpinWithMessage'
-import Title from '../../../components/common/title/Title'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getPunchDetails } from '../../../redux/features/user/workdataSlice'
 import { setRegularWork } from '../../../redux/features/user/dayWorksSlice'
 import { toast } from 'react-hot-toast'
+import SinglePage from '../../../components/common/page/SinglePage'
 
 
 function Work_details() {
   const dispatch = useDispatch()
   const { workDetails, isLoading } = useSelector((state) => state.workData)
   const { user } = useSelector((state) => state.userAuth)
-  const { internet } = useSelector((state) => state.network)
+  const { internet } = useSelector((state) => state.systemInfo)
 
   // Button Show & hide Status : false = hide , true : show
   const [punch, setPunch] = useState({ in: false, out: false })
@@ -130,33 +129,32 @@ function Work_details() {
 
 
   return (
-    <div className='work-details-page'>
-      <div className="header-div">
-        <Header />
-      </div>
-      <div className='container'>
-        <Title sub={'Work details'} />
-      </div>
-      <div className="container content">
-        {isLoading ? <>
-          <div className='no-data'>
-            <SpinWithMessage message={'Loading...'} />
-          </div>
-        </>
-          : <>
-            <div className="section-one">
-              <div className="left">
-                <Punching punch={punch} theBreak={theBreak} lunchBreak={lunchBreak} overTime={overTime} />
+    <div className='work-details-page-div'>
+      <SinglePage title={'Enter today'}>
+        <div className="section-one-div">
+          <WorkDetails />
+        </div>
+
+
+
+        <div className="container content">
+          {isLoading ? <>
+            <SpinWithMessage load fullView />
+          </>
+            : <>
+              <div className="section-one">
+                <div className="left">
+                  <Punching punch={punch} theBreak={theBreak} lunchBreak={lunchBreak} overTime={overTime} />
+                </div>
+                <div className="right">
+                </div>
               </div>
-              <div className="right">
-                <WorkDetails />
+              <div className="section-two">
+                <Work punch={punch} theBreak={theBreak} lunchBreak={lunchBreak} overTime={overTime} />
               </div>
-            </div>
-            <div className="section-two">
-              <Work punch={punch} theBreak={theBreak} lunchBreak={lunchBreak} overTime={overTime} />
-            </div>
-          </>}
-      </div>
+            </>}
+        </div>
+      </SinglePage>
     </div>
   )
 }

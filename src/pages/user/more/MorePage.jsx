@@ -5,6 +5,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { MdOutlinePassword, MdOutlineNotificationsActive } from "react-icons/md";
 import { IoArrowForwardOutline, IoPersonCircleOutline } from "react-icons/io5";
 import { IoMdLogOut } from "react-icons/io";
+import { BsQrCodeScan } from "react-icons/bs";
 import Modal from '../../../components/common/modal/Modal'
 import ChangePassword from '../../../components/user/change-password/ChangePassword';
 import { clearWorkData } from '../../../redux/features/user/workdataSlice';
@@ -22,6 +23,7 @@ const MorePage = () => {
         if (!searchParams.get('page')) {
             setSearchParams(`page=home`)
         }
+        // eslint-disable-next-line
     }, [])
 
     const openModel = (title, content) => {
@@ -48,6 +50,15 @@ const MorePage = () => {
                         <div className="left">
                             <IoPersonCircleOutline />
                             <h4>Profile</h4>
+                        </div>
+                        <div className="right">
+                            <IoArrowForwardOutline />
+                        </div>
+                    </div>
+                    <div className="option-div">
+                        <div className="left">
+                            <BsQrCodeScan />
+                            <h4>Punch Scanner</h4>
                         </div>
                         <div className="right">
                             <IoArrowForwardOutline />

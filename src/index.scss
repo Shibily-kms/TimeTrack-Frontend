@@ -1,5 +1,5 @@
+@use './assets/scss/ui/theme.scss';
 @import './assets/scss/fonts.scss';
-
 
 * {
     margin: 0;
@@ -9,4 +9,5 @@
 
 body {
     overscroll-behavior-y: contain;
+    background-color: var(--background-primary);
 }

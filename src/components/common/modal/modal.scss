@@ -31,11 +31,6 @@
             max-width: 100%;
             height: auto;
             max-height: 80vh;
-            border-radius: 15px;
-            -webkit-border-radius: 15px;
-            -moz-border-radius: 15px;
-            -ms-border-radius: 15px;
-            -o-border-radius: 15px;
             z-index: 6;
             position: fixed;
             left: 50%;
@@ -80,10 +75,13 @@
             -moz-transition: ease-in .3s;
             -ms-transition: ease-in .3s;
             -o-transition: ease-in .3s;
+            border-radius: 30px;
+            -webkit-border-radius: 30px;
+            -moz-border-radius: 30px;
+            -ms-border-radius: 30px;
+            -o-border-radius: 30px;
         }
     }
-
-
 }
 
 

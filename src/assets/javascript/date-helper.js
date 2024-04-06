@@ -65,6 +65,27 @@ function TimeBasedGreeting() {
     return greeting;
 }
 
+function convertIsoToAmPm(isoString) {
+    // Parse the ISO string into a Date object
+    const date = new Date(isoString);
+
+    // Get hours, minutes, and seconds
+    let hours = date.getHours();
+    const minutes = date.getMinutes();
+    const seconds = date.getSeconds();
+
+    // Format hours for AM/PM
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+
+    // Pad minutes and seconds with leading zeros if needed
+    const minutesStr = minutes < 10 ? '0' + minutes : minutes;
+    const secondsStr = seconds < 10 ? '0' + seconds : seconds;
+
+    // Combine parts
+    return `${hours}:${minutesStr}:${secondsStr} ${ampm}`;
+}
 
 
-export { stringToLocalTime, YYYYMMDDFormat, getTimeFromSecond, secondsToHHMM, TimeBasedGreeting }
+export { stringToLocalTime, YYYYMMDDFormat, getTimeFromSecond, secondsToHHMM, TimeBasedGreeting, convertIsoToAmPm }

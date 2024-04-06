@@ -1,0 +1,74 @@
+@use './var-color' as *;
+
+
+@mixin light-theme {
+    --text-primary: #{$aws-theme-light-text-primary};
+    --text-secondary: #{$aws-theme-light-text-secondary};
+
+    --background-primary: #{$aws-theme-light-background-primary};
+    --background-secondary: #{$aws-theme-light-background-secondary};
+
+    --border-primary: #{$aws-theme-light-border-primary};
+    --border-secondary: #{$aws-theme-light-border-secondary};
+
+    --button-primary-default: #{$aws-theme-light-button-primary-default};
+    --button-primary-hover: #{$aws-theme-light-button-primary-hover};
+    --button-primary-active: #{$aws-theme-light-button-primary-active};
+    --button-primary-inactive: #{$aws-theme-light-button-primary-inactive};
+
+    --button-secondary-default: #{$aws-theme-light-button-secondary-default};
+    --button-secondary-hover: #{$aws-theme-light-button-secondary-hover};
+    --button-secondary-active: #{$aws-theme-light-button-secondary-active};
+    --button-secondary-inactive: #{$aws-theme-light-button-secondary-inactive};
+
+    --shadow-01: #{$aws-theme-light-shadow-01};
+    --shadow-02: #{$aws-theme-light-shadow-02};
+
+    color-scheme: light;
+}
+
+@mixin dark-theme {
+    --text-primary: #{$aws-theme-dark-text-primary};
+    --text-secondary: #{$aws-theme-dark-text-secondary};
+
+    --background-primary: #{$aws-theme-dark-background-primary};
+    --background-secondary: #{$aws-theme-dark-background-secondary};
+
+    --border-primary: #{$aws-theme-dark-border-primary};
+    --border-secondary: #{$aws-theme-dark-border-secondary};
+
+    --button-primary-default: #{$aws-theme-dark-button-primary-default};
+    --button-primary-hover: #{$aws-theme-dark-button-primary-hover};
+    --button-primary-active: #{$aws-theme-dark-button-primary-active};
+    --button-primary-inactive: #{$aws-theme-dark-button-primary-inactive};
+
+    --button-secondary-default: #{$aws-theme-dark-button-secondary-default};
+    --button-secondary-hover: #{$aws-theme-dark-button-secondary-hover};
+    --button-secondary-active: #{$aws-theme-dark-button-secondary-active};
+    --button-secondary-inactive: #{$aws-theme-dark-button-secondary-inactive};
+
+    --shadow-01: #{$aws-theme-dark-shadow-01};
+    --shadow-02: #{$aws-theme-dark-shadow-02};
+
+    color-scheme: dark;
+}
+
+
+.light {
+    @include light-theme;
+}
+
+.dark {
+    @include dark-theme;
+}
+
+// OS Default.
+:root:not(.light):not(.dark) {
+    @media (prefers-color-scheme: light) {
+        @include light-theme;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        @include dark-theme;
+    }
+}

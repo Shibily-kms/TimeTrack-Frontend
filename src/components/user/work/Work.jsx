@@ -14,7 +14,7 @@ function Work({ punch, theBreak, lunchBreak, overTime }) {
     const dispatch = useDispatch()
     const [extraWork, setExtraWork] = useState('')
     const { workDetails } = useSelector((state) => state.workData)
-    const { internet } = useSelector((state) => state.network)
+    const { internet } = useSelector((state) => state.systemInfo)
     const { regular } = useSelector((state) => state.dayWorks)
     const [loading, setLoading] = useState('')
 

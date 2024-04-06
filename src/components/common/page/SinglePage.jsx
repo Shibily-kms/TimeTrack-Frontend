@@ -12,9 +12,10 @@ import { HiStatusOffline, HiStatusOnline } from "react-icons/hi";
 
 function SinglePage({ title, description, children }) {
     const navigate = useNavigate()
-    const { internet } = useSelector((state) => state.network)
+    const { internet } = useSelector((state) => state.systemInfo)
     const lastScrollTop = useRef(0);
     const navbarRef = useRef(null);
+    // eslint-disable-next-line
     const [searchParams, setSearchParams] = useSearchParams()
 
 
@@ -83,7 +84,7 @@ function SinglePage({ title, description, children }) {
                         <MdOutlineHistoryToggleOff />
                         <p>History</p>
                     </div>
-                    <div className={searchParams.get('page') === 'settings' ? "item-div active-item" : "item-div"} onClick={() => navigate('/')}>
+                    <div className={searchParams.get('page') === 'settings' ? "item-div active-item" : "item-div"} onClick={() => navigate('/settings/?page=settings')}>
                         <RiSettingsLine />
                         <p>Settings</p>
                     </div>

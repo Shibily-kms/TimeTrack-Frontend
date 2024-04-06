@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import './home.scss'
 import SinglePage from '../../../components/common/page/SinglePage'
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { BsQrCodeScan } from "react-icons/bs";
 import { IoFingerPrint, IoLogoAppleAr } from "react-icons/io5";
 import { MdOutlineMiscellaneousServices } from "react-icons/md";
+import { LuListPlus } from "react-icons/lu";
 import { HiUserGroup } from "react-icons/hi2";
 import { BiMath } from "react-icons/bi";
 
@@ -15,13 +16,13 @@ function Home() {
   const [searchParams, setSearchParams] = useSearchParams()
   const { user } = useSelector((state) => state.userAuth)
   const navigate = useNavigate()
-  const [modal, setModal] = useState(null)
 
 
   useEffect(() => {
     if (!searchParams.get('page')) {
       setSearchParams(`page=home`)
     }
+    // eslint-disable-next-line
   }, [])
 
   return (
@@ -33,8 +34,12 @@ function Home() {
               <BsQrCodeScan />
               <p>Scanner</p>
             </div>
-            <div className="big-button">
+            <div className="big-button" onClick={() => navigate('/punch-work?page=more')}>
               <IoFingerPrint />
+              <p>Punch to Work</p>
+            </div>
+            <div className="big-button" onClick={() => navigate('/enter-today?page=more')}>
+              <LuListPlus />
               <p>Enter today</p>
             </div>
           </div>

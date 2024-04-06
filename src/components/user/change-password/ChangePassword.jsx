@@ -22,12 +22,23 @@ function ChangePassword({ setModal }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        function isValidPassword(password) {
+            const pattern = /^\S+$/;
+            return pattern.test(password);
+        }
+
         if (form?.newPass.length < 6) {
             toast.error('Password must have 6 letters')
             return;
         }
         if (form.newPass !== form.confirm) {
             toast.error('Password not match !')
+            return;
+        }
+
+        if (!isValidPassword(form.newPass)) {
+            toast.error("Clear Space in password");
             return;
         }
 

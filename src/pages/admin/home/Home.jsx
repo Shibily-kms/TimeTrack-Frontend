@@ -1,6 +1,6 @@
 import React from 'react'
 import Header from '../../../components/admin/header/Header'
-import First_page from '../../../components/admin/first-page/First_page'
+import FirstPage from '../../../components/admin/first-page/First_page'
 
 function Home() {
   return (
@@ -9,7 +9,7 @@ function Home() {
         <Header />
       </div>
       <div className="first-page-div">
-        <First_page />
+        <FirstPage />
       </div>
     </div>
   )

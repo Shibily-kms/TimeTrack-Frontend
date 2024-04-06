@@ -17,7 +17,7 @@ import { BiLoaderAlt } from 'react-icons/bi'
 function Punching({ punch, theBreak, lunchBreak, overTime }) {
     const dispatch = useDispatch()
     const { user } = useSelector((state) => state.userAuth)
-    const { internet } = useSelector((state) => state.network)
+    const { internet } = useSelector((state) => state.systemInfo)
     const { workDetails } = useSelector((state) => state.workData)
     const [loading, setLoading] = useState('')
 
