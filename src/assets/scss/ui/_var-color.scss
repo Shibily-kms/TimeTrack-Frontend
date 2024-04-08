@@ -10,8 +10,9 @@ $aws-color-neutral-50: #858585;
 $aws-color-neutral-60: #696969;
 $aws-color-neutral-70: #4e4e4e;
 $aws-color-neutral-75: #313131;
-$aws-color-neutral-80: #343434;
-$aws-color-neutral-90: #1b1b1b;
+$aws-color-neutral-80: #242424;
+$aws-color-neutral-90: #161616;
+
 
 $aws-color-light-theme-blue: #0085f2;
 $aws-color-light-theme-green: #009a46;
@@ -172,9 +173,9 @@ $aws-color-dark-theme-primary-80: $aws-color-light-theme-primary-80;
 $aws-color-dark-theme-primary-90: $aws-color-light-theme-primary-90;
 
 $aws-theme-light-text-primary: $aws-color-neutral-90;
-$aws-theme-light-text-secondary: $aws-color-neutral-70;
-$aws-theme-light-background-primary: $aws-color-white;
-$aws-theme-light-background-secondary: $aws-color-neutral-light-70;
+$aws-theme-light-text-secondary: $aws-color-neutral-10;
+$aws-theme-light-background-primary: $aws-color-neutral-light-70;
+$aws-theme-light-background-secondary: $aws-color-black;
 $aws-theme-light-border-primary: $aws-color-neutral-20;
 $aws-theme-light-border-secondary: $aws-color-neutral-20;
 $aws-theme-light-border-success: $aws-color-light-theme-green-20;
@@ -195,13 +196,13 @@ $aws-theme-light-icon-information: $aws-color-light-theme-blue-50;
 $aws-theme-light-icon-warning: $aws-color-light-theme-red-50;
 $aws-theme-light-icon-success: $aws-color-light-theme-green-60;
 $aws-theme-light-focus-01: 0 0 0 3px rgba(0, 144, 237, 0.4);
-$aws-theme-light-shadow-01: 0 1px 2px rgba(43, 42, 51, 0.05);
+$aws-theme-light-shadow-01: 0px 10px 10px rgba(43, 42, 51, 0.2);
 $aws-theme-light-shadow-02: 0 1px 6px rgba(43, 42, 51, 0.1);
 
 $aws-theme-dark-text-primary: $aws-color-white;
-$aws-theme-dark-text-secondary: $aws-color-neutral-20;
-$aws-theme-dark-background-primary: $aws-color-neutral-80;
-$aws-theme-dark-background-secondary: $aws-color-neutral-75;
+$aws-theme-dark-text-secondary: $aws-color-neutral-90;
+$aws-theme-dark-background-primary: $aws-color-neutral-90;
+$aws-theme-dark-background-secondary: $aws-color-neutral-10;
 $aws-theme-dark-border-primary: $aws-color-neutral-50;
 $aws-theme-dark-border-secondary: $aws-color-neutral-60;
 $aws-theme-dark-border-success: $aws-color-dark-theme-green-20;
@@ -220,8 +221,8 @@ $aws-theme-dark-icon-warning: $aws-color-dark-theme-yellow-40;
 $aws-theme-dark-icon-success: $aws-color-dark-theme-green-40;
 $aws-theme-dark-field-focus-border: $aws-color-white;
 $aws-theme-dark-focus-01: 0 0 0 3px rgba(251, 251, 254, 0.5);
-$aws-theme-dark-shadow-01: 0 1px 2px rgba(251, 251, 254, 0.2);
-$aws-theme-dark-shadow-02: 0 1px 6px rgba(251, 251, 254, 0.2);
+$aws-theme-dark-shadow-01: 0px 10px 10px rgba(43, 42, 51, 0.2);
+$aws-theme-dark-shadow-02: 0 1px 6px rgba(141, 141, 141, 0.2);
 
 $screen-sm: 426px;
 $screen-md: 769px;

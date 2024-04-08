@@ -1,3 +1,4 @@
+@use '../../../assets/scss/ui/theme';
 @import '../../../assets/scss/model.scss';
 
 .modal-div,
@@ -20,13 +21,13 @@
             height: 100vh;
             top: 0;
             left: 0;
-            background-color: rgba(207, 207, 207, 0.274);
+            background-color: var(--background-opt-primary);
             z-index: 1;
             backdrop-filter: blur(3px);
         }
 
         .modal-content {
-            background-color: white;
+            background-color: var(--background-c1);
             width: 400px;
             max-width: 100%;
             height: auto;

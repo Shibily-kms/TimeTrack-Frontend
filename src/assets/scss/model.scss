@@ -1,3 +1,6 @@
+@use '../../assets/scss/ui/theme';
+@use '../../assets/scss/ui/var-color' as *;
+
 @mixin normalButton() {
     border: none;
     border-radius: 8px;
@@ -5,12 +8,12 @@
     -moz-border-radius: 8px;
     -ms-border-radius: 8px;
     -o-border-radius: 8px;
-    color: white;
+    color: #{$aws-color-white};
     font-size: 16px;
     font-weight: 600;
     text-align: center;
     padding: 11px 15px;
-    background-color: black;
+    background-color: var(--background-secondary);
     cursor: pointer;
 
     &:hover {

@@ -1,17 +1,29 @@
+@use "sass:color";
 @use './var-color' as *;
 
 
 @mixin light-theme {
     --text-primary: #{$aws-theme-light-text-primary};
     --text-secondary: #{$aws-theme-light-text-secondary};
+    --text-tertiary: #{$aws-color-primary};
+    --text-c1: #{$aws-color-neutral-70};
+    --text-c2: #{$aws-color-neutral-50};
+    --text-c3: #{$aws-color-neutral-30};
+
 
     --background-primary: #{$aws-theme-light-background-primary};
     --background-secondary: #{$aws-theme-light-background-secondary};
+    --background-tertiary: #{$aws-color-primary};
+    --background-opt-primary : #{color.adjust($aws-theme-light-background-primary,$alpha : -0.6)};
+    --background-c1: #{$aws-color-white};
+    --background-c2: #{$aws-color-neutral-10};
+    --background-c3: #{$aws-color-neutral-30};
 
     --border-primary: #{$aws-theme-light-border-primary};
     --border-secondary: #{$aws-theme-light-border-secondary};
+    --border-tertiary : #{$aws-color-primary};
 
-    --button-primary-default: #{$aws-theme-light-button-primary-default};
+    --button-primary-default: #{$aws-color-primary};
     --button-primary-hover: #{$aws-theme-light-button-primary-hover};
     --button-primary-active: #{$aws-theme-light-button-primary-active};
     --button-primary-inactive: #{$aws-theme-light-button-primary-inactive};
@@ -30,14 +42,24 @@
 @mixin dark-theme {
     --text-primary: #{$aws-theme-dark-text-primary};
     --text-secondary: #{$aws-theme-dark-text-secondary};
+    --text-tertiary: #{$aws-color-primary};
+    --text-c1: #{$aws-color-neutral-20};
+    --text-c2: #{$aws-color-neutral-40};
+    --text-c3: #{$aws-color-neutral-60};
 
     --background-primary: #{$aws-theme-dark-background-primary};
     --background-secondary: #{$aws-theme-dark-background-secondary};
+    --background-tertiary: #{$aws-color-primary};
+    --background-opt-primary : #{color.adjust($aws-theme-dark-background-primary, $alpha : -0.6)};
+    --background-c1: #{$aws-color-neutral-80};
+    --background-c2: #{$aws-color-neutral-60};
+    --background-c3: #{$aws-color-neutral-40};
 
     --border-primary: #{$aws-theme-dark-border-primary};
     --border-secondary: #{$aws-theme-dark-border-secondary};
+    --border-tertiary : #{$aws-color-light-theme-primary-50};
 
-    --button-primary-default: #{$aws-theme-dark-button-primary-default};
+    --button-primary-default: #{$aws-color-primary};
     --button-primary-hover: #{$aws-theme-dark-button-primary-hover};
     --button-primary-active: #{$aws-theme-dark-button-primary-active};
     --button-primary-inactive: #{$aws-theme-dark-button-primary-inactive};

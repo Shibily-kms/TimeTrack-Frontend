@@ -1,8 +1,10 @@
-@import '../../../assets/scss/color.scss';
+@use "sass:color";
+@use '../../../assets/scss/ui/theme';
+@use '../../../assets/scss/ui/var-color' as *;
 @import '../../../assets/scss/model.scss';
 
 
-.more-page-div {
+.settings-page-div {
     .section-border {
         .option-div {
             display: flex;
@@ -10,7 +12,7 @@
             gap: 10px;
             align-items: center;
             padding: 15px 10px;
-            border-bottom: 1px solid rgb(184, 184, 184);
+            border-bottom: 1px solid var(--border-primary);
             cursor: pointer;
 
             &:last-child {
@@ -18,7 +20,7 @@
             }
 
             &:hover {
-                background-color: rgb(247, 247, 247);
+                background-color: var(--background-c2);
             }
 
             .left {
@@ -42,14 +44,6 @@
                 >svg {
                     font-size: 22px;
                 }
-            }
-        }
-
-        .red-option {
-            color: $red_color;
-
-            &:hover {
-                background-color: rgb(255, 237, 232);
             }
         }
     }

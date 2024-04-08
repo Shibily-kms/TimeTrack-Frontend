@@ -1,4 +1,6 @@
-@import '../../../assets/scss/color.scss';
+@use "sass:color";
+@use '../../../assets/scss/ui/theme';
+@use '../../../assets/scss/ui/var-color' as *;
 @import '../../../assets/scss/model.scss';
 
 .change-theme-div {
@@ -12,7 +14,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            background-color: rgb(236, 236, 236);
+            background-color: var(--background-c2);
             padding: 15px 15px;
             width: 90px;
 
@@ -26,19 +28,18 @@
             -ms-border-radius: 10px;
             -o-border-radius: 10px;
             cursor: pointer;
-            border: 2px solid rgb(212, 212, 212);
+            border: 2px solid var(--border-primary);
 
-            &:hover{
-                background-color: rgb(221, 221, 221);
-                border: 2px solid rgb(177, 177, 177);
+            &:hover {
+                border: 2px solid var(--background-tertiary);
             }
 
         }
 
         .active {
-            background-color: rgb(255, 200, 249);
-            border: 2px solid $primary_color;
-            color: $primary_color;
+            background-color: #{color.adjust($aws-color-light-theme-violet-70,$alpha : -0.8)};
+            border: 2px solid var(--background-tertiary);
+            color: var(--background-tertiary);
         }
     }
 }

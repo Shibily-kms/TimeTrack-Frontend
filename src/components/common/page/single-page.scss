@@ -1,66 +1,7 @@
-@import '../../../assets/scss/color.scss';
+@use "sass:color";
+@use '../../../assets/scss/ui/theme';
+@use '../../../assets/scss/ui/var-color' as *;
 @import '../../../assets/scss/model.scss';
-
-// .page-boarder {
-//     width: 100%;
-
-//     .header-div {
-//         z-index: 5;
-
-//         .header {
-//             display: flex;
-//             justify-content: space-between;
-//             padding: 10px 5%;
-//             background-color: $primary_color;
-//             color: white;
-//             align-items: center;
-
-//             .back-div {
-//                 button {
-//                     background: none;
-//                     border: none;
-//                     font-size: 23px;
-//                     color: white;
-//                     cursor: pointer;
-
-//                     &:hover {
-//                         background-color: rgba(255, 255, 255, 0.253);
-//                         border-radius: 10px;
-//                         -webkit-border-radius: 10px;
-//                         -moz-border-radius: 10px;
-//                         -ms-border-radius: 10px;
-//                         -o-border-radius: 10px;
-
-//                     }
-//                 }
-//             }
-
-//             .left {
-//                 cursor: pointer;
-//             }
-
-//             .right {
-//                 button {
-//                     @include normalButton();
-//                     background-color: white;
-//                     color: black;
-//                 }
-//             }
-//         }
-//     }
-
-//     .body-div {
-//         .title-div {
-//             display: flex;
-//             justify-content: space-between;
-//             border-bottom: 1px solid black;
-//             padding: 5px 8px;
-//             margin-bottom: 15px;
-//         }
-
-
-//     }
-// }
 
 
 .single-page-body {
@@ -85,8 +26,9 @@
             align-items: center;
             height: 55px;
             padding: 0px 5%;
-            background-color: $blue_color;
-            color: white;
+            background-color: var(--background-tertiary);
+            box-shadow: var(--shadow-01);
+            color: #{$aws-color-neutral-light-70};
 
             .left {
                 display: flex;
@@ -123,7 +65,7 @@
                 .round-icon-button {
                     width: 32px;
                     height: 32px;
-                    background-color: rgba(255, 255, 255, 0.432);
+                    background-color: var(--background-opt-primary);
                     display: flex;
                     justify-content: center;
                     align-items: center;
@@ -161,7 +103,7 @@
                 p {
                     font-size: 15px;
                     font-weight: 500;
-                    color: rgb(66, 66, 66);
+                    color: var(--text-c2);
                 }
 
             }
@@ -173,7 +115,7 @@
         z-index: 15;
         left: 0;
         bottom: 0;
-        background-color: white;
+        background-color: var(--background-c1);
         width: 100%;
         display: flex;
         justify-content: center;
@@ -205,7 +147,7 @@
             }
 
             .active-item {
-                color: $primary_color;
+                color: #{$aws-color-light-theme-primary-60};
             }
         }
 

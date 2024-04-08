@@ -29,7 +29,7 @@ const Settings = () => {
 
 
     return (
-        <div className="more-page-div">
+        <div className="settings-page-div">
             <Modal modal={modal} setModal={() => setModal({ status: false })} />
             <SinglePage title={'Settings'}>
                 <div className="section-border">
