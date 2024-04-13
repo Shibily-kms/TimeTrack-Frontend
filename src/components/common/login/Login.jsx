@@ -3,7 +3,7 @@ import './login.scss'
 import { RxEyeClosed, RxEyeOpen } from 'react-icons/rx';
 import { loginAdmin } from '../../../redux/features/admin/authSlice';
 import { loginUser } from '../../../redux/features/user/authSlice';
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import LoginImage from '../../../assets/images/login-image.png'
 import NormalInput from '../inputs/NormalInput';
@@ -14,6 +14,7 @@ function Login({ admin }) {
   const navigate = useNavigate();
   const [show, setShow] = useState(false)
   const [form, setForm] = useState({ user_name: null, password: null })
+  const { isLoading } = useSelector((state) => state.userAuth)
 
   const handleChange = (e) => {
     setForm({
@@ -59,7 +60,7 @@ function Login({ admin }) {
                 onChangeFun={handleChange} value={form?.password} type={show ? 'text' : 'password'} rightIconAction={() => setShow(!show)} />
 
               <SingleButton type={'submit'} name={'Log In'} classNames={'lg btn-tertiary txt-center'}
-                style={{ marginTop: '10px', width: '100%' }} />
+                style={{ marginTop: '10px', width: '100%' }} loading={isLoading} />
             </form>
           </div>
         </div>
