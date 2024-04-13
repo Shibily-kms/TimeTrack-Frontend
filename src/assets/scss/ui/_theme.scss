@@ -14,10 +14,16 @@
     --background-primary: #{$aws-theme-light-background-primary};
     --background-secondary: #{$aws-theme-light-background-secondary};
     --background-tertiary: #{$aws-color-primary};
-    --background-opt-primary : #{color.adjust($aws-theme-light-background-primary,$alpha : -0.6)};
+    --background-opt-primary-6 : #{color.adjust($aws-theme-light-background-primary,$alpha : -0.6)};
+    --background-opt-primary-5 : #{color.adjust($aws-theme-light-background-primary, $alpha : -0.5)};
     --background-c1: #{$aws-color-white};
     --background-c2: #{$aws-color-neutral-10};
     --background-c3: #{$aws-color-neutral-30};
+
+    --color-error : #{$aws-color-light-theme-red-60};
+    --color-success : #{$aws-color-light-theme-green-60};
+    --color-warning : #{$aws-color-light-theme-yellow-50};
+
 
     --border-primary: #{$aws-theme-light-border-primary};
     --border-secondary: #{$aws-theme-light-border-secondary};
@@ -50,10 +56,15 @@
     --background-primary: #{$aws-theme-dark-background-primary};
     --background-secondary: #{$aws-theme-dark-background-secondary};
     --background-tertiary: #{$aws-color-primary};
-    --background-opt-primary : #{color.adjust($aws-theme-dark-background-primary, $alpha : -0.6)};
+    --background-opt-primary-6 : #{color.adjust($aws-theme-dark-background-primary, $alpha : -0.6)};
+    --background-opt-primary-5 : #{color.adjust($aws-theme-dark-background-primary, $alpha : -0.5)};
     --background-c1: #{$aws-color-neutral-80};
     --background-c2: #{$aws-color-neutral-60};
     --background-c3: #{$aws-color-neutral-40};
+
+    --color-error : #{$aws-color-dark-theme-red-60};
+    --color-success : #{$aws-color-dark-theme-green-60};
+    --color-warning : #{$aws-color-dark-theme-yellow-50};
 
     --border-primary: #{$aws-theme-dark-border-primary};
     --border-secondary: #{$aws-theme-dark-border-secondary};
@@ -73,6 +84,11 @@
     --shadow-02: #{$aws-theme-dark-shadow-02};
 
     color-scheme: dark;
+
+    // Styles
+    img {
+        opacity: .7;
+    }
 }
 
 

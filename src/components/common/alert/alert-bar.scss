@@ -1,0 +1,60 @@
+@use '../../../assets/scss/ui/theme';
+
+.alert-bar-style-div {
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(240, 30, 30);
+    color: white;
+    width: 500px;
+    max-width: 100%;
+    padding: 10px 5px;
+    font-size: 13px;
+    transition: ease-in .3s;
+    -webkit-transition: ease-in .3s;
+    -moz-transition: ease-in .3s;
+    -ms-transition: ease-in .3s;
+    -o-transition: ease-in .3s;
+
+    .icon-div {
+        min-width: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 19px;
+    }
+
+    .content-section {
+        width: 100%;
+
+        p {
+            text-align: justify;
+        }
+    }
+
+    .close-section {
+        display: flex;
+        align-items: flex-start;
+
+        svg {
+            cursor: pointer;
+        }
+    }
+
+}
+
+.success {
+    background-color: var(--color-success);
+}
+
+.error {
+    background-color: var(--color-error);
+}
+
+.warning {
+    background-color: var(--color-warning);
+}
+
+.info {
+    background-color: var(--background-secondary);
+    color: var(--text-secondary);
+}

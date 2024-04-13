@@ -1,17 +1,20 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, Suspense, lazy, useState } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import Login from '../pages/user/login/Login'
-import Home from '../pages/user/home/Home'
-import WorkDetails from '../pages/user/work-details/Work_details'
-import PunchWork from '../pages/user/punch-work/PunchWork'
-import NotFound from '../pages/user/not-found/NotFound '
-import MorePage from '../pages/user/more/MorePage'
-import Settings from '../pages/user/settings/Settings'
 import { userAxios } from '../config/axios'
 import { resetOfflineData, doPunchOUt } from '../redux/features/user/workdataSlice'
 import { setUser } from '../redux/features/user/authSlice'
 import { toast } from 'react-hot-toast'
+import PageLoading from '../components/common/spinners/PageLoading'
+import SinglePage from '../components/common/page/SinglePage'
+
+const Home = lazy(() => import('../pages/user/home/Home'))
+const WorkDetails = lazy(() => import('../pages/user/work-details/Work_details'))
+const PunchWork = lazy(() => import('../pages/user/punch-work/PunchWork'))
+const NotFound = lazy(() => import('../pages/user/not-found/NotFound '))
+const MorePage = lazy(() => import('../pages/user/more/MorePage'))
+const Settings = lazy(() => import('../pages/user/settings/Settings'))
+// const SinglePage = lazy(() => import('../components/common/page/SinglePage'))
 
 
 function User() {
@@ -21,6 +24,7 @@ function User() {
   const { user } = useSelector((state) => state.userAuth)
   const { internet } = useSelector((state) => state.systemInfo)
   const { workDetails } = useSelector((state) => state.workData)
+  const [pageHead, setPageHead] = useState({ title: null, desc: null })
 
   if (user?.token) {
     isAuthenticated = true
@@ -61,17 +65,21 @@ function User() {
 
 
   return (
-    <Routes>
-      <Route path='/' element={<PrivateRoute element={<Home />} isAuthenticated={isAuthenticated} />} />
-      <Route path='/punch-work' element={<PrivateRoute element={<PunchWork />} isAuthenticated={isAuthenticated} />} />
-      <Route path='/enter-today' element={<PrivateRoute element={<WorkDetails />} isAuthenticated={isAuthenticated} />} />
-      <Route path='/settings' element={<PrivateRoute element={<Settings />} isAuthenticated={isAuthenticated} />} />
-      <Route path='/more' element={<PrivateRoute element={<MorePage />} isAuthenticated={isAuthenticated} />} />
-      <Route path='/login' element={<Login />} />
+    <SinglePage pageHead={pageHead}>
+      <Suspense fallback={<PageLoading />}>
+        <Routes>
+          <Route path='/' element={<PrivateRoute element={<Home setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+          <Route path='/punch-work' element={<PrivateRoute element={<PunchWork setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+          <Route path='/enter-today' element={<PrivateRoute element={<WorkDetails setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+          <Route path='/settings' element={<PrivateRoute element={<Settings setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+          <Route path='/more' element={<PrivateRoute element={<MorePage setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
 
-      {/* 404 Route */}
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+
+          {/* 404 Route */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
+    </SinglePage>
   )
 }
 

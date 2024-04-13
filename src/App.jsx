@@ -1,9 +1,11 @@
+import React, { useEffect, Suspense, lazy } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Admin from './routes/Admin';
 import User from './routes/User';
-import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { connection } from './redux/features/user/systemSlice'
+import PageLoading from './components/common/spinners/PageLoading';
+const Login = lazy(() => import('./pages/user/login/Login'))
 
 
 function App() {
@@ -47,11 +49,16 @@ function App() {
   }, [])
 
   return (
-    <div className="App" style={{ marginBottom: '50px' }}>
-      <Routes>
-        <Route element={<Admin />} path='/admin/*' />
-        <Route element={<User />} path='/*' />
-      </Routes>
+    <div className="App">
+      <Suspense fallback={<PageLoading />}>
+        <Routes>
+          <Route element={<Admin />} path='/admin/*' />
+          <Route element={<User />} path='/*' />
+
+          {/* WithOut Header and Footer */}
+          <Route path='/login' element={<Login />} />
+        </Routes>
+      </Suspense>
     </div>
   );
 }

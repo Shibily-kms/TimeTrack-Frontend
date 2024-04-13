@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = 'http://192.168.1.57'
+const baseUrl = 'http://localhost'
 
 const baseSetup = {
     userAxios: axios.create({

@@ -9,16 +9,13 @@ import { RiSettingsLine, RiMoreFill, RiHome6Line } from "react-icons/ri";
 import { HiStatusOffline, HiStatusOnline } from "react-icons/hi";
 
 
-
-function SinglePage({ title, description, children }) {
+function SinglePage({ pageHead, children }) {
     const navigate = useNavigate()
     const { internet } = useSelector((state) => state.systemInfo)
     const lastScrollTop = useRef(0);
     const navbarRef = useRef(null);
     // eslint-disable-next-line
     const [searchParams, setSearchParams] = useSearchParams()
-
-
 
     useEffect(() => {
         const onScroll = () => {
@@ -65,8 +62,8 @@ function SinglePage({ title, description, children }) {
             <div className="single-page-body-div">
                 <div className="page-container">
                     <div className="page-title-div">
-                        <h3>{title}</h3>
-                        <p>{description}</p>
+                        <h3>{pageHead?.title}</h3>
+                        <p>{pageHead?.desc}</p>
                     </div>
                     <div className="page-content-div">
                         {children}
@@ -93,6 +90,7 @@ function SinglePage({ title, description, children }) {
                         <p>More</p>
                     </div>
                 </div>
+
             </div>
         </div>
     )

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import './more.scss'
-import SinglePage from '../../../components/common/page/SinglePage'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { MdOutlinePassword, MdOutlineNotificationsActive } from "react-icons/md";
 import { IoArrowForwardOutline, IoPersonCircleOutline } from "react-icons/io5";
@@ -13,7 +12,7 @@ import { clearRegularWork } from '../../../redux/features/user/dayWorksSlice';
 import { logOut } from '../../../redux/features/user/authSlice'
 import { useDispatch } from 'react-redux';
 
-const MorePage = () => {
+const MorePage = ({ setPageHead }) => {
     const [searchParams, setSearchParams] = useSearchParams()
     const [modal, setModal] = useState({ content: null, title: null, status: false })
     const dispatch = useDispatch()
@@ -23,6 +22,8 @@ const MorePage = () => {
         if (!searchParams.get('page')) {
             setSearchParams(`page=home`)
         }
+
+        setPageHead(() => ({ title: 'More Options' }))
         // eslint-disable-next-line
     }, [])
 
@@ -44,52 +45,50 @@ const MorePage = () => {
     return (
         <div className="more-page-div">
             <Modal modal={modal} setModal={() => setModal({ status: false })} />
-            <SinglePage title={'More Options'}>
-                <div className="section-border">
-                    <div className="option-div">
-                        <div className="left">
-                            <IoPersonCircleOutline />
-                            <h4>Profile</h4>
-                        </div>
-                        <div className="right">
-                            <IoArrowForwardOutline />
-                        </div>
+            <div className="section-border">
+                <div className="option-div">
+                    <div className="left">
+                        <IoPersonCircleOutline />
+                        <h4>Profile</h4>
                     </div>
-                    <div className="option-div">
-                        <div className="left">
-                            <BsQrCodeScan />
-                            <h4>Punch Scanner</h4>
-                        </div>
-                        <div className="right">
-                            <IoArrowForwardOutline />
-                        </div>
-                    </div>
-                    <div className="option-div" onClick={() => openModel('Change Password', <ChangePassword setModal={setModal} />)}>
-                        <div className="left">
-                            <MdOutlinePassword />
-                            <h4>Change password</h4>
-                        </div>
-                        <div className="right">
-                            <IoArrowForwardOutline />
-                        </div>
-                    </div>
-                    <div className="option-div">
-                        <div className="left">
-                            <MdOutlineNotificationsActive />
-                            <h4>Notifications</h4>
-                        </div>
-                        <div className="right">
-                            <IoArrowForwardOutline />
-                        </div>
-                    </div>
-                    <div className="option-div red-option" onClick={() => handleLogOut()}>
-                        <div className="left">
-                            <IoMdLogOut />
-                            <h4>Log out</h4>
-                        </div>
+                    <div className="right">
+                        <IoArrowForwardOutline />
                     </div>
                 </div>
-            </SinglePage>
+                <div className="option-div">
+                    <div className="left">
+                        <BsQrCodeScan />
+                        <h4>Punch Scanner</h4>
+                    </div>
+                    <div className="right">
+                        <IoArrowForwardOutline />
+                    </div>
+                </div>
+                <div className="option-div" onClick={() => openModel('Change Password', <ChangePassword setModal={setModal} />)}>
+                    <div className="left">
+                        <MdOutlinePassword />
+                        <h4>Change password</h4>
+                    </div>
+                    <div className="right">
+                        <IoArrowForwardOutline />
+                    </div>
+                </div>
+                <div className="option-div">
+                    <div className="left">
+                        <MdOutlineNotificationsActive />
+                        <h4>Notifications</h4>
+                    </div>
+                    <div className="right">
+                        <IoArrowForwardOutline />
+                    </div>
+                </div>
+                <div className="option-div red-option" onClick={() => handleLogOut()}>
+                    <div className="left">
+                        <IoMdLogOut />
+                        <h4>Log out</h4>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }

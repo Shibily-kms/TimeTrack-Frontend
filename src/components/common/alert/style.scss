@@ -1,0 +1,18 @@
+.toaster-b-div {
+    position: fixed;
+    bottom: 57px;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    -webkit-transform: translate(-50%, 0%);
+    -moz-transform: translate(-50%, 0%);
+    -ms-transform: translate(-50%, 0%);
+    -o-transform: translate(-50%, 0%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    user-select: none;
+    width: 100%;
+    gap: 5px;
+    background: none;
+    z-index: 4;
+}

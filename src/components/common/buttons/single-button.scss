@@ -1,0 +1,107 @@
+@use '../../../assets/scss/ui/theme';
+@use '../../../assets/scss/ui/var-color' as *;
+
+.single-button-comp-div {
+    button {
+        border: none;
+        border-radius: 8px;
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        -ms-border-radius: 8px;
+        -o-border-radius: 8px;
+        font-size: 15px;
+        font-weight: 500;
+        text-align: center;
+        padding: 10px 13px;
+        color: var(--text-secondary);
+        background-color: var(--background-secondary);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+
+        &:hover {
+            opacity: .8;
+        }
+    }
+
+    .sm {
+        border-radius: 8px;
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        -ms-border-radius: 8px;
+        -o-border-radius: 8px;
+        font-size: 13px;
+        font-weight: 500;
+        padding: 8px 13px;
+    }
+
+    .md {
+        border-radius: 8px;
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        -ms-border-radius: 8px;
+        -o-border-radius: 8px;
+        font-size: 15px;
+        font-weight: 500;
+        padding: 10px 13px;
+    }
+
+    .lg {
+        border-radius: 8px;
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        -ms-border-radius: 8px;
+        -o-border-radius: 8px;
+        font-size: 15px;
+        font-weight: 600;
+        padding: 13px 17px;
+    }
+
+    .xl {
+        border-radius: 8px;
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        -ms-border-radius: 8px;
+        -o-border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        padding: 15px 22px;
+    }
+
+    .btn-primary {
+        color: var(--text-secondary);
+        background-color: var(--background-secondary);
+    }
+
+    .btn-secondary {
+        color: var(--text-primary);
+        background-color: var(--background-primary);
+        border: 1px solid var(--border-primary);
+    }
+
+    .btn-tertiary {
+        color: #{$aws-color-white};
+        background-color: var(--background-tertiary);
+    }
+
+    .btn-gray {
+        color: #{$aws-color-white};
+        background-color: var(--background-c3);
+    }
+
+    .txt-start {
+        justify-content: start;
+    }
+
+    .txt-center {
+        justify-content: center;
+    }
+
+    .txt-end {
+        justify-content: end;
+    }
+
+
+}

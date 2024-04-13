@@ -8,6 +8,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './redux/app/store'
 // import { ToastContainer } from 'react-toastify'
 import { Toaster } from "react-hot-toast";
+import ToasterB from './components/common/alert/ToasterB'
 // import 'react-toastify/dist/ReactToastify.css'
 
 
@@ -22,11 +23,12 @@ root.render(
               borderRadius: '10px',
               background: '#333',
               color: '#fff',
-              fontSize:'12px'
+              fontSize: '12px'
             },
           }} />
           <App />
           {/* <ToastContainer /> */}
+          <ToasterB />
         </BrowserRouter>
       </PersistGate>
     </Provider>

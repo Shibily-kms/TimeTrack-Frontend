@@ -53,9 +53,9 @@ function TimeBasedGreeting() {
     // Determine the greeting based on the current hour
     if (hour < 12) {
         greeting = 'Good Morning';
-    } else if (hour < 18) {
+    } else if (hour < 15) {
         greeting = 'Good Afternoon';
-    } else if (hour < 7) {
+    } else if (hour < 19) {
         greeting = 'Good Evening';
     } else {
         greeting = 'Good Night';
