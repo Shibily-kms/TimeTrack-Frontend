@@ -34,7 +34,7 @@ function Admin() {
       <Route path='/login' element={<Login />} />
 
       {/* 404 Route */}
-      <Route path="*" element={<NotFound />} />
+      <Route path="/*" element={<NotFound />} />
     </Routes>
   )
 }

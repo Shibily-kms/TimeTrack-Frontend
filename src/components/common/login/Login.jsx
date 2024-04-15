@@ -26,12 +26,16 @@ function Login({ admin }) {
   const onSubmit = (e) => {
     e.preventDefault();
     if (admin) {
-      dispatch(loginAdmin(form)).then(() => {
-        navigate('/admin')
+      dispatch(loginAdmin(form)).then((res) => {
+        if (!res?.error) {
+          navigate('/admin')
+        }
       })
     } else {
-      dispatch(loginUser(form)).then(() => {
-        navigate('/')
+      dispatch(loginUser(form)).then((res) => {
+        if (!res?.error) {
+          navigate('/')
+        }
       })
     }
   }

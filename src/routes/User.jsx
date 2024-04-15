@@ -14,7 +14,6 @@ const PunchWork = lazy(() => import('../pages/user/punch-work/PunchWork'))
 const NotFound = lazy(() => import('../pages/user/not-found/NotFound '))
 const MorePage = lazy(() => import('../pages/user/more/MorePage'))
 const Settings = lazy(() => import('../pages/user/settings/Settings'))
-// const SinglePage = lazy(() => import('../components/common/page/SinglePage'))
 
 
 function User() {
@@ -26,7 +25,7 @@ function User() {
   const { workDetails } = useSelector((state) => state.workData)
   const [pageHead, setPageHead] = useState({ title: null, desc: null })
 
-  if (user?.token) {
+  if (user?.token && localStorage.getItem('_aws_temp_tkn')) {
     isAuthenticated = true
   }
 
@@ -76,7 +75,7 @@ function User() {
 
 
           {/* 404 Route */}
-          <Route path="*" element={<NotFound />} />
+          <Route path="/*" element={<NotFound />} />
         </Routes>
       </Suspense>
     </SinglePage>

@@ -27,7 +27,7 @@ export const systemSlice = createSlice({
         // Alert
         error: (state, action) => {
             state.alerts = [
-                ...state.alerts,
+                ...state?.alerts || [],
                 {
                     id: Math.random().toString(36),
                     type: 'error',
@@ -41,7 +41,7 @@ export const systemSlice = createSlice({
         },
         success: (state, action) => {
             state.alerts = [
-                ...state.alerts,
+                ...state?.alerts || [],
                 {
                     id: Math.random().toString(36),
                     type: 'success',
@@ -55,7 +55,7 @@ export const systemSlice = createSlice({
         },
         info: (state, action) => {
             state.alerts = [
-                ...state.alerts,
+                ...state?.alerts || [],
                 {
                     id: Math.random().toString(36),
                     type: 'info',
@@ -69,7 +69,7 @@ export const systemSlice = createSlice({
         },
         warning: (state, action) => {
             state.alerts = [
-                ...state.alerts,
+                ...state?.alerts || [],
                 {
                     id: Math.random().toString(36),
                     type: 'warning',
