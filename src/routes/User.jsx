@@ -5,6 +5,7 @@ import { userAxios } from '../config/axios'
 import { resetOfflineData, doPunchOUt } from '../redux/features/user/workdataSlice'
 import { setUser } from '../redux/features/user/authSlice'
 import { toast } from 'react-hot-toast'
+import { getPunchDetails } from '../redux/features/user/workdataSlice'
 import PageLoading from '../components/common/spinners/PageLoading'
 import SinglePage from '../components/common/page/SinglePage'
 
@@ -57,6 +58,11 @@ function User() {
       }).catch((error) => {
         toast.error(error.response.data.message)
       })
+    }
+
+    // Get Work Enter Details
+    if (internet) {
+      dispatch(getPunchDetails())
     }
     // eslint-disable-next-line
   }, [])

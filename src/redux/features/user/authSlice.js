@@ -15,7 +15,6 @@ export const loginUser = createAsyncThunk('user/login', async (formData, thunkAP
     try {
         return await userAxios.post('/login', formData)
     } catch (error) {
-        console.log(error, 'err')
         const message = (error && error.message) || error.message || error.toString()
         return thunkAPI.rejectWithValue(message)
     }
@@ -45,7 +44,6 @@ export const userAuthSlice = createSlice({
                 state.isLoading = true;
             })
             .addCase(loginUser.fulfilled, (state, action) => {
-                console.log(action)
                 localStorage.setItem(
                     '_aws_temp_tkn', action.payload.data.token
                 );
@@ -53,7 +51,6 @@ export const userAuthSlice = createSlice({
                 state.user = action.payload.data;
             })
             .addCase(loginUser.rejected, (state, action) => {
-                console.log(action)
                 state.isLoading = false;
                 state.isError = true;
                 state.message = action.payload;

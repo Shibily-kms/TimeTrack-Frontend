@@ -23,6 +23,7 @@
     --color-error : #{$aws-color-light-theme-red-60};
     --color-success : #{$aws-color-light-theme-green-60};
     --color-warning : #{$aws-color-light-theme-yellow-50};
+    --color-info : #{$aws-color-light-theme-blue-50};
 
 
     --border-primary: #{$aws-theme-light-border-primary};
@@ -65,6 +66,7 @@
     --color-error : #{$aws-color-dark-theme-red-60};
     --color-success : #{$aws-color-dark-theme-green-60};
     --color-warning : #{$aws-color-dark-theme-yellow-50};
+    --color-info : #{$aws-color-dark-theme-blue-50};
 
     --border-primary: #{$aws-theme-dark-border-primary};
     --border-secondary: #{$aws-theme-dark-border-secondary};

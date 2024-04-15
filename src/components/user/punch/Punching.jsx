@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import './punching.scss'
 import { userAxios } from '../../../config/axios'
-import { toast } from 'react-hot-toast'
+// import { toast } from 'react-hot-toast'
+import { toast } from '../../../redux/features/user/systemSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import {
     offlineStartBreak, offlineEndBreak, offlineStartLunchBreak, offlineEndLunchBreak
@@ -30,19 +31,19 @@ function Punching({ punch, theBreak, lunchBreak, overTime }) {
                     setLoading('punchIn')
                     userAxios.post('/punch-in', { designation: user?.designation?.designation }).then((response) => {
                         userAxios.get('/regular-work').then((works) => {
-                            response.data.data.offBreak = []
-                            response.data.data.lunch_break = {}
-                            dispatch(setRegularWork(works.data.data))
-                            dispatch(setWorkData(response.data.data))
-                            toast.success(response.data.message)
+                            response.data.offBreak = []
+                            response.data.lunch_break = {}
+                            dispatch(setRegularWork(works.data))
+                            dispatch(setWorkData(response.data))
+                            dispatch(toast.push.success({ message: response.message }))
                             setLoading('')
                         })
                     }).catch((error) => {
                         setLoading('')
-                        toast.error(error.response.data.message)
+                        dispatch(toast.push.error({ message: error.message }))
                     })
                 } else {
-                    toast.error('Must have Internet')
+                    dispatch(toast.push.error({ message: 'Must have Internet' }))
                 }
             }
         }
@@ -57,16 +58,16 @@ function Punching({ punch, theBreak, lunchBreak, overTime }) {
                     userAxios.post('/punch-out', { id: workDetails._id }).then((response) => {
                         dispatch(setWorkData({
                             ...workDetails,
-                            punch_out: response.data.data.punch_out
+                            punch_out: response.data.punch_out
                         }))
-                        toast.success(response.data.message)
+                        dispatch(toast.push.success({ message: response.message }))
                         setLoading('')
                     }).catch((error) => {
-                        toast.error(error.response.data.message)
+                        dispatch(toast.push.error({ message: error.message }))
                         setLoading('')
                     })
                 } else {
-                    toast.error('Must have Internet')
+                    dispatch(toast.push.error({ message: 'Must have Internet' }))
                 }
             }
         }
@@ -79,17 +80,17 @@ function Punching({ punch, theBreak, lunchBreak, overTime }) {
                 setLoading('breakStart')
                 if (internet) {
                     userAxios.post('/start-break', { id: workDetails._id }).then((response) => {
-                        dispatch(doStartBreak(response.data.data))
-                        toast.success(response.data.message)
+                        dispatch(doStartBreak(response.data))
+                        dispatch(toast.push.success({ message: response.message }))
                         setLoading('')
                     }).catch((error) => {
                         setLoading('')
-                        toast.error(error.response.data.message)
+                        dispatch(toast.push.error({ message: error.message }))
                     })
                 } else {
                     const oneBreak = offlineStartBreak()
                     dispatch(doStartBreak(oneBreak))
-                    toast.success('Break Started')
+                    dispatch(toast.push.success({ message: 'Break Started' }))
                     setLoading('')
                 }
             }
@@ -103,17 +104,17 @@ function Punching({ punch, theBreak, lunchBreak, overTime }) {
                 setLoading('breakEnd')
                 if (internet) {
                     userAxios.post('/end-break', { id: workDetails._id, break_id: workDetails.break._id }).then((response) => {
-                        dispatch(doEndBreak(response.data.data))
-                        toast.success(response.data.message)
+                        dispatch(doEndBreak(response.data))
+                        dispatch(toast.push.success({ message: response.message }))
                         setLoading('')
                     }).catch((error) => {
                         setLoading('')
-                        toast.error(error.response.data.message)
+                        dispatch(toast.push.error({ message: error.message }))
                     })
                 } else {
                     const oneBreak = offlineEndBreak(workDetails.break)
                     dispatch(doEndBreak(oneBreak))
-                    toast.success('Break Ended')
+                    dispatch(toast.push.success({ message: 'Break Ended' }))
                     setLoading('')
                 }
             }
@@ -128,17 +129,17 @@ function Punching({ punch, theBreak, lunchBreak, overTime }) {
                 if (internet) {
                     setLoading('lunchStart')
                     userAxios.post('/start-lunch-break', { id: workDetails._id }).then((response) => {
-                        dispatch(doLunchBreak({ ...response.data.data, save: true }))
-                        toast.success(response.data.message)
+                        dispatch(doLunchBreak({ ...response.data, save: true }))
+                        dispatch(toast.push.success({ message: response.message }))
                         setLoading('')
                     }).catch((error) => {
                         setLoading('')
-                        toast.error(error.response.data.message)
+                        dispatch(toast.push.error({ message: error.message }))
                     })
                 } else {
                     const oneBreak = offlineStartLunchBreak()
                     dispatch(doLunchBreak({ ...oneBreak, save: false }))
-                    toast.success('Break Started')
+                    dispatch(toast.push.success({ message: 'Break Started' }))
                     setLoading('')
                 }
             }
@@ -152,17 +153,17 @@ function Punching({ punch, theBreak, lunchBreak, overTime }) {
                 setLoading('lunchEnd')
                 if (internet) {
                     userAxios.post('/end-lunch-break', { id: workDetails._id }).then((response) => {
-                        dispatch(doLunchBreak(response.data.data))
-                        toast.success(response.data.message)
+                        dispatch(doLunchBreak(response.data))
+                        dispatch(toast.push.success({ message: response.message }))
                         setLoading('')
                     }).catch((error) => {
-                        toast.error(error.response.data.message)
+                        dispatch(toast.push.error({ message: error.message }))
                         setLoading('')
                     })
                 } else {
                     const oneBreak = offlineEndLunchBreak(workDetails.lunch_break)
                     dispatch(doLunchBreak(oneBreak))
-                    toast.success('Break Ended')
+                    dispatch(toast.push.success({ message: 'Break Ended' }))
                     setLoading('')
                 }
             }
@@ -177,14 +178,14 @@ function Punching({ punch, theBreak, lunchBreak, overTime }) {
                     setLoading('overIn')
                     userAxios.post('/start-over-time', { id: workDetails._id }).then((response) => {
                         dispatch(doStartOverTime())
-                        toast.success('Over time Started')
+                        dispatch(toast.push.success({ message: 'Over time Started' }))
                         setLoading('')
                     }).catch((error) => {
-                        toast.error(error.response.data.message)
+                        dispatch(toast.push.error({ message: error.message }))
                         setLoading('')
                     })
                 } else {
-                    toast.error('Must have Internet')
+                    dispatch(toast.push.error({ message: 'Must have Internet' }))
                 }
             }
         }
@@ -197,14 +198,14 @@ function Punching({ punch, theBreak, lunchBreak, overTime }) {
                 setLoading('overOut')
                 userAxios.post('/stop-over-time', { id: workDetails._id }).then((response) => {
                     dispatch(doStopOverTime())
-                    toast.success('Over time Stopped')
+                    dispatch(toast.push.success({ message: 'Over time Stopped' }))
                     setLoading('')
                 }).catch((error) => {
-                    toast.error(error.response.data.message)
+                    dispatch(toast.push.error({ message: error.message }))
                     setLoading('')
                 })
             } else {
-                toast.error('Must have Internet')
+                dispatch(toast.push.error({ message: 'Must have Internet' }))
             }
         }
     }

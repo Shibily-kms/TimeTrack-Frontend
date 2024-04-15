@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import './style.scss'
-import SinglePage from '../../../components/common/page/SinglePage'
 import Punching from '../../../components/user/punch/Punching'
+import WorkDetails from '../../../components/user/semi-work-details/WorkDetails'
 import { useDispatch, useSelector } from 'react-redux'
 import { getPunchDetails } from '../../../redux/features/user/workdataSlice'
 import { userAxios } from '../../../config/axios'
@@ -9,7 +8,7 @@ import { setRegularWork } from '../../../redux/features/user/dayWorksSlice'
 import { toast } from 'react-hot-toast'
 
 
-const PunchWork = () => {
+const PunchWork = ({ setPageHead }) => {
     const dispatch = useDispatch()
     const { workDetails, isLoading } = useSelector((state) => state.workData)
     const { user } = useSelector((state) => state.userAuth)
@@ -21,17 +20,8 @@ const PunchWork = () => {
     const [overTime, setOverTime] = useState({ in: false, out: false })
 
     useEffect(() => {
-        if (internet) {
-            dispatch(getPunchDetails())
-            userAxios.get('/regular-work').then((works) => {
-                dispatch(setRegularWork(works.data.data))
-            }).catch((error) => {
-                toast.error(error.response.data.message)
-            })
-        }
-        // eslint-disable-next-line
+        setPageHead(() => ({ title: 'Punch to work' }))
     }, [])
-
 
     useEffect(() => {
 
@@ -123,11 +113,10 @@ const PunchWork = () => {
 
     return (
         <div className='punch-work-page'>
-            <SinglePage title={'Punch to Work'}>
-                <div className="section-one-div">
-                    <Punching punch={punch} theBreak={theBreak} lunchBreak={lunchBreak} overTime={overTime} />
-                </div>
-            </SinglePage>
+            <div className="section-one-div" style={{ display: 'flex', flexDirection: 'column', gap: "15px" }}>
+                <WorkDetails />
+                <Punching punch={punch} theBreak={theBreak} lunchBreak={lunchBreak} overTime={overTime} />
+            </div>
         </div>
     )
 }

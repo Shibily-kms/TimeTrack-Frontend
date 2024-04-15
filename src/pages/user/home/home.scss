@@ -3,6 +3,15 @@
 @import '../../../assets/scss/model.scss';
 
 .home-page {
+    .profile-section {
+        margin-bottom: 15px;
+
+        .birth-box {
+            text-align: center;
+            padding: 30px 5px 15px 5px;
+        }
+    }
+
     .section-one-div {
         .section-content {
             display: flex;
@@ -59,7 +68,7 @@
             display: grid;
             grid-template-columns: 1fr 1fr 1fr 1fr;
             margin-top: 15px;
-            gap: 30px;
+            gap: 25px 10px;
 
             .app-item {
                 display: flex;
@@ -87,7 +96,7 @@
                 }
 
                 p {
-                    font-size: 13px;
+                    font-size: 12px;
                     font-weight: 500;
                     @include threeDots(2);
                     text-align: center;

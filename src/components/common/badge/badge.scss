@@ -1,0 +1,88 @@
+@use "sass:color";
+@use '../../../assets/scss/ui/theme';
+@use '../../../assets/scss/ui/var-color' as *;
+
+.badge-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    background-color: seagreen;
+    height: fit-content;
+    width: fit-content;
+    white-space: nowrap;
+    
+
+    svg {
+        margin-right: -7px;
+    }
+
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+    padding: 2px 4px;
+
+}
+
+.sm {
+    font-size: 10px;
+    padding: 2px 4px;
+}
+
+.md {
+    font-size: 12px;
+    padding: 2px 4px;
+}
+
+.lg {
+    font-size: 13px;
+    padding: 3px 5px;
+}
+
+.success-fill {
+    background-color: var(--color-success);
+    color : #{$aws-color-white};
+}
+
+.error-fill {
+    background-color: var(--color-error);
+    color : #{$aws-color-white};
+}
+
+.warning-fill {
+    background-color: var(--color-warning);
+    color : #{$aws-color-white};
+}
+
+.info-fill {
+    background-color: var(--color-info);
+    color : #{$aws-color-white};
+}
+
+.success-not-fill {
+    background-color: #{color.adjust($aws-color-light-theme-green-50,$alpha : -0.6)};
+    color: var(--color-success);
+    border: 1px solid var(--color-success);
+
+}
+
+.error-not-fill {
+    background-color: #{color.adjust($aws-color-light-theme-red-50,$alpha : -0.6)};
+    color: var(--color-error);
+    border: 1px solid var(--color-error);
+}
+
+.warning-not-fill {
+    background-color: #{color.adjust($aws-color-light-theme-yellow-50,$alpha : -0.6)};
+    color: var(--color-warning);
+    border: 1px solid var(--color-warning);
+}
+
+.info-not-fill {
+    background-color: #{color.adjust($aws-color-light-theme-blue-50,$alpha : -0.6)};
+    color: var(--color-info);
+    border: 1px solid var(--color-info);
+}

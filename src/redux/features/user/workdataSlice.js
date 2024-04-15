@@ -14,7 +14,7 @@ export const getPunchDetails = createAsyncThunk('user/punch-details', async (bod
     try {
         return await userAxios.get('/punch-details')
     } catch (error) {
-        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+        const message = (error && error.message) || error.message || error.toString()
         return thunkAPI.rejectWithValue(message)
     }
 })
@@ -92,8 +92,8 @@ export const workDataSlice = createSlice({
             })
             .addCase(getPunchDetails.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.workDetails = { ...action.payload.data?.data, offBreak: [] }
-                state.workDetails.lunch_break = { ...action.payload.data?.data?.lunch_break, save: true } || {}
+                state.workDetails = { ...action.payload.data, offBreak: [] }
+                state.workDetails.lunch_break = { ...action.payload.data?.lunch_break, save: true } || {}
             })
             .addCase(getPunchDetails.rejected, (state, action) => {
                 state.isLoading = false;

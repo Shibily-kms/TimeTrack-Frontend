@@ -42,10 +42,9 @@ const responseConfigUserFunction = (response) => {
 }
 
 const responseErrorUserFunction = (error) => {
-    console.log(error)
-    // if (error.response && error.response.status === 401) {
-    //     handleUserTokenError();
-    // }
+    if (error.response && error.response.status === 401) {
+        handleUserTokenError();
+    }
     return Promise.reject(error.response.data);
 }
 
