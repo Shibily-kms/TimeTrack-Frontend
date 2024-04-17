@@ -12,6 +12,17 @@ export const dayWorksSlice = createSlice({
         setRegularWork: (state, action) => {
             state.regular = action.payload
         },
+        addNewRegularWork: (state, action) => {
+            state.regular = [...(state?.regular || []), action.payload]
+        },
+        updateRegularWork: (state, action) => {
+            state.regular = state.regular?.map((work) => {
+                if (work._id === action.payload._id) {
+                    return action.payload
+                }
+                return work;
+            })
+        },
         clearRegularWork: (state) => {
             state.regular = null
         },
@@ -26,7 +37,7 @@ export const dayWorksSlice = createSlice({
 })
 
 
-export const { setRegularWork, clearRegularWork, completeWork } = dayWorksSlice.actions;
+export const { setRegularWork, clearRegularWork, completeWork, addNewRegularWork, updateRegularWork } = dayWorksSlice.actions;
 export default dayWorksSlice.reducer
 
 

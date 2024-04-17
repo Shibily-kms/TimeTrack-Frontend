@@ -9,11 +9,10 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getPunchDetails } from '../../../redux/features/user/workdataSlice'
 import { setRegularWork } from '../../../redux/features/user/dayWorksSlice'
-import { toast } from 'react-hot-toast'
-import SinglePage from '../../../components/common/page/SinglePage'
+import { toast } from '../../../redux/features/user/systemSlice'
 
 
-function Work_details() {
+function Work_details({ setPageHead }) {
   const dispatch = useDispatch()
   const { workDetails, isLoading } = useSelector((state) => state.workData)
   const { user } = useSelector((state) => state.userAuth)
@@ -29,11 +28,13 @@ function Work_details() {
     if (internet) {
       dispatch(getPunchDetails())
       userAxios.get('/regular-work').then((works) => {
-        dispatch(setRegularWork(works.data.data))
+        dispatch(setRegularWork(works.data))
       }).catch((error) => {
-        toast.error(error.response.data.message)
+        dispatch(toast.push.error({ message: error.message }))
       })
     }
+
+    setPageHead({ title: 'Enter Today' })
     // eslint-disable-next-line
   }, [])
 
@@ -130,31 +131,17 @@ function Work_details() {
 
   return (
     <div className='work-details-page-div'>
-      <SinglePage title={'Enter today'}>
-        <div className="section-one-div">
-          <WorkDetails />
-        </div>
-
-
-
-        <div className="container content">
-          {isLoading ? <>
-            <SpinWithMessage load fullView />
-          </>
-            : <>
-              <div className="section-one">
-                <div className="left">
-                  <Punching punch={punch} theBreak={theBreak} lunchBreak={lunchBreak} overTime={overTime} />
-                </div>
-                <div className="right">
-                </div>
-              </div>
-              <div className="section-two">
-                <Work punch={punch} theBreak={theBreak} lunchBreak={lunchBreak} overTime={overTime} />
-              </div>
-            </>}
-        </div>
-      </SinglePage>
+      <div className="section-one-div">
+        <WorkDetails />
+      </div>
+      <div className="content">
+        {isLoading
+          ? <SpinWithMessage load fullView />
+          : <div className="section-two">
+            <Work punch={punch} theBreak={theBreak} lunchBreak={lunchBreak} overTime={overTime} />
+          </div>
+        }
+      </div>
     </div>
   )
 }

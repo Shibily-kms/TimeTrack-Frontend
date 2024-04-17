@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './work.scss'
 import { userAxios } from '../../../config/axios'
 import { useDispatch, useSelector } from 'react-redux'
@@ -7,8 +7,13 @@ import { completeWork } from '../../../redux/features/user/dayWorksSlice'
 import { offlineRegularWork, offlineExtraWork } from '../../../assets/javascript/offline-helper'
 import { addRegularWork, addExtraWork } from '../../../redux/features/user/workdataSlice'
 import { BiLoaderAlt } from 'react-icons/bi'
-import { BsTags } from 'react-icons/bs'
 import SpinnerWithMessage from '../../common/spinners/SpinWithMessage'
+import SingleButton from '../../../components/common/buttons/SingleButton'
+import { HiPlus } from "react-icons/hi";
+import { FaListCheck, FaCheck } from "react-icons/fa6";
+import Modal from '../../common/modal/Modal'
+import AddEditRegWork from '../add-edit-work/AddEditRegWork'
+import RegularWorkCard from '../regular-work-card/RegularWorkCard'
 
 function Work({ punch, theBreak, lunchBreak, overTime }) {
     const dispatch = useDispatch()
@@ -17,6 +22,12 @@ function Work({ punch, theBreak, lunchBreak, overTime }) {
     const { internet } = useSelector((state) => state.systemInfo)
     const { regular } = useSelector((state) => state.dayWorks)
     const [loading, setLoading] = useState('')
+    const [modal, setModal] = useState({ status: false })
+    const [allRgWork, setAllRgWork] = useState(false)
+    const [noTodayWorks, setNoTodayWorks] = useState(true)
+
+    const dayOfWeekNumber = new Date().getDay();
+    const dayOfMonthNumber = new Date().getDate();
 
     const handleWork = (e) => {
         let confirm = window.confirm('Are you completing this work ?')
@@ -65,64 +76,68 @@ function Work({ punch, theBreak, lunchBreak, overTime }) {
         }
     }
 
+    const openWorkModal = (title, data) => {
+        setModal({ status: true, content: <AddEditRegWork setModal={setModal} updateData={data} />, title })
+    }
+
+    useEffect(() => {
+        regular?.map((work) => {
+            if (work?.interval === 1 || work?.weekly.includes(dayOfWeekNumber)
+                || work?.monthly.includes(dayOfMonthNumber)) {
+                setNoTodayWorks(false)
+                return true;
+            }
+        })
+    }, [regular])
+
     return (
-        <div className='work'>
-            <div className="boader">
-                {(!punch?.in && punch?.out) || (!overTime?.in && overTime?.out) ? <div className='main-div'>
-                    <div className="left">
-                        <div className="title">
-                            <h4>Regular Works</h4>
-                        </div>
-                        <div className="regular">
-                            {regular?.[0] ?
-                                regular.map((work) => {
-                                    return <div className="input-div" key={work.work} >
-                                        {loading === work.work ?
-                                            <span className='loading-icon'><BiLoaderAlt /></span> :
-                                            <input type="checkbox" name='work' checked={work.finished ? true : false}
-                                                id={work.work} value={work.work} onChange={(e) => work.finished ? null : handleWork(e)} />
-                                        }
-                                        <label htmlFor={work.work}>{work.work}</label>
-                                    </div>
-                                }) : <div className='no-data'>
-                                    <SpinnerWithMessage message='No regular works' icon={<BsTags />} spin={false} />
-                                </div>}
+        <div className='enter-today-div'>
+            <Modal modal={modal} setModal={setModal} />
+            {workDetails?.punch_in && <div className='border-div'>
+                <div className="section-div section-one">
+                    <div className="title">
+                        <h4>{allRgWork ? 'All' : 'Today'} Regular Works</h4>
+                        <div className='buttons-div'>
+                            <SingleButton classNames={'sm btn-tertiary'} style={{ fontSize: '11px' }}
+                                name={'New'} stIcon={<HiPlus />}
+                                onClick={() => openWorkModal('Add New Work')} />
+
+                            <SingleButton classNames={allRgWork ? 'sm btn-primary' : 'sm btn-gray'} style={{ fontSize: '11px' }}
+                                name={'All'} stIcon={allRgWork && <FaCheck />} onClick={() => setAllRgWork(!allRgWork)} />
                         </div>
                     </div>
-                    <div className="right">
-                        <div className="title">
-                            <h4>Extra works</h4>
-                        </div>
-                        <div className="extra">
-                            <div className="inputs">
-                                <form onSubmit={handleSubmit}>
-                                    <div className="input-div">
-                                        <input type="text" placeholder='Enter extra work...' value={extraWork} name='work' required onChange={handleChange} />
-                                    </div>
-                                    <div className="button-div">
-                                        <button type={loading === 'extra-work-submit-loading' ? 'button' : 'submit'}>
-                                            {loading === 'extra-work-submit-loading' ?
-                                                <span className='loading-icon'><BiLoaderAlt /></span> : 'Add'}</button>
-                                    </div>
-                                </form>
-                            </div>
+                    <div className="content-div">
+                        {(regular?.[0] || noTodayWorks) ?
+                            regular?.map((work) => {
+                                if (work?.interval === 1 || work?.weekly.includes(dayOfWeekNumber)
+                                    || work?.monthly.includes(dayOfMonthNumber) || allRgWork) {
+                                    return <RegularWorkCard allWork={allRgWork} data={work} openWorkModal={openWorkModal} />
+                                }
+                            }) : <SpinnerWithMessage message='No regular works' height={'200px'} icon={<FaListCheck />} spin={false} />
+                        }
+                    </div>
+                </div>
+                <div className="section-div section-two">
+                    <div className="title">
+                        <h4>Extra works</h4>
+                    </div>
+                    <div className="extra">
+                        <div className="inputs">
+                            <form onSubmit={handleSubmit}>
+                                <div className="input-div">
+                                    <input type="text" placeholder='Enter extra work...' value={extraWork} name='work' required onChange={handleChange} />
+                                </div>
+                                <div className="button-div">
+                                    <button type={loading === 'extra-work-submit-loading' ? 'button' : 'submit'}>
+                                        {loading === 'extra-work-submit-loading' ?
+                                            <span className='loading-icon'><BiLoaderAlt /></span> : 'Add'}</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
-                    :
-                    <div>
-                        <div className="box">
-                            {punch?.in && <h5>Punch In to Work</h5>}
-                            {!theBreak?.end && !punch?.in && !punch?.out && !lunchBreak?.end &&
-                                !workDetails?.over_time?.in && <h5>{workDetails?.auto_punch_out ? 'Auto punched Out' : 'Punched Out'}</h5>}
-                            {!theBreak?.start && theBreak?.end && <h5>You are on break</h5>}
-                            {!lunchBreak?.start && lunchBreak?.end && <h5>You are on lunch break</h5>}
-                            {workDetails?.over_time?.out && <h5>Over Time Ended</h5>}
-                        </div>
-                    </div>
-                }
-
             </div>
+            }
         </div>
     )
 }

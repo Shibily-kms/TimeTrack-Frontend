@@ -39,7 +39,7 @@ function SelectInput({
                     {firstOption && <option value={firstOption.value || ''}>{firstOption.option}</option>}
                     {values?.map((option, index) => <option selected={option?.selected || ifOther} key={index} value={option.value || ''}>{option.option}</option>)}
                 </select>
-                <label htmlFor={id || name}>{label}</label>
+                <label htmlFor={id || name}>{label}{isRequired && <span>*</span>}</label>
             </div>
             {ifOther && <NormalInput label='Type other' name={name} id={name + 'other'} onChangeFun={handleOther} value={text} />}
         </div>

@@ -1,54 +1,119 @@
+@use '../../../assets/scss/ui/theme';
+
 .spin-with-full-view,
 .spin-with-message {
-    .spinner-body {
-        width: 150px;
-        padding: 15px 20px;
-        text-align: center;
+    width: 100%;
+    padding: 15px 20px;
+    text-align: center;
+    display: grid;
+    place-content: center;
 
-        .load-div {
-            font-size: 50px;
-            color: rgb(92, 92, 92);
+    .load-div {
+        font-size: 50px;
+        color: var(--text-c2);
+    }
+
+    .spin-div {
+        svg {
+            animation: iconLoading 1.5s linear infinite;
+            -webkit-animation: iconLoading 1.5s linear infinite;
         }
 
-        .spin-div {
-            svg {
-                animation: iconLoading 1.5s linear infinite;
-                -webkit-animation: iconLoading 1.5s linear infinite;
+        @keyframes iconLoading {
+            0% {
+                transform: rotate(0deg);
             }
 
-            @keyframes iconLoading {
-                0% {
-                    transform: rotate(0deg);
-                }
-
-                100% {
-                    transform: rotate(360deg);
-                }
-            }
-        }
-
-        .loading-image {
-            img {
-                width: 100px;
-            }
-        }
-
-        .message {
-            p {
-                font-size: 14px;
-                font-weight: 500;
-                color: gray;
+            100% {
+                transform: rotate(360deg);
             }
         }
     }
+
+    .loading-image {
+        .loader {
+            width: 50px;
+            height: 28px;
+            --_g: no-repeat radial-gradient(farthest-side, var(--text-c2) 94%, #0000);
+            background:
+                var(--_g) 50% 0,
+                var(--_g) 100% 0;
+            background-size: 12px 12px;
+            position: relative;
+            animation: l23-0 1.5s linear infinite;
+        }
+
+        .loader:before {
+            content: "";
+            position: absolute;
+            height: 12px;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            background: var(--text-c2);
+            left: 0;
+            top: 0;
+            animation:
+                l23-1 1.5s linear infinite,
+                l23-2 0.5s cubic-bezier(0, 200, .8, 200) infinite;
+        }
+
+    }
+
+    .message {
+        p {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-c2);
+        }
+    }
+
 }
 
 
 .spin-with-full-view {
-    .spinner-body {
-        width: 100%;
-        height: 300px;
-        display: grid;
-        place-content: center;
+
+    width: 100%;
+    height: 300px;
+
+}
+
+@keyframes l23-0 {
+
+    0%,
+    31% {
+        background-position: 50% 0, 100% 0
+    }
+
+    33% {
+        background-position: 50% 100%, 100% 0
+    }
+
+    43%,
+    64% {
+        background-position: 50% 0, 100% 0
+    }
+
+    66% {
+        background-position: 50% 0, 100% 100%
+    }
+
+    79% {
+        background-position: 50% 0, 100% 0
+    }
+
+    100% {
+        transform: translateX(calc(-100%/3))
+    }
+}
+
+@keyframes l23-1 {
+    100% {
+        left: calc(100% + 7px)
+    }
+}
+
+@keyframes l23-2 {
+    100% {
+        top: -0.1px
     }
 }

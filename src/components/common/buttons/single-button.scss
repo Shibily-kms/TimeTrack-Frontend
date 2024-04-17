@@ -19,7 +19,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 8px;
+        gap: 5px;
 
         &:hover {
             opacity: .8;
@@ -37,7 +37,7 @@
             background-size: calc(100%/3) 100%;
             animation: l7 1s infinite linear;
         }
-       
+
     }
 
     .sm {
@@ -46,9 +46,9 @@
         -moz-border-radius: 8px;
         -ms-border-radius: 8px;
         -o-border-radius: 8px;
-        font-size: 13px;
+        font-size: 11px;
         font-weight: 500;
-        padding: 8px 13px;
+        padding: 7px 13px;
     }
 
     .md {
@@ -57,7 +57,7 @@
         -moz-border-radius: 8px;
         -ms-border-radius: 8px;
         -o-border-radius: 8px;
-        font-size: 15px;
+        font-size: 13px;
         font-weight: 500;
         padding: 10px 13px;
     }

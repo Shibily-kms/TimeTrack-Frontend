@@ -1,30 +1,30 @@
+@use '../../../assets/scss/ui/var-color' as *;
 @import '../../../assets/scss/model.scss';
 
 .punching {
-    .boader {
+    .border {
 
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
         gap: 10px;
-        justify-content: center;
 
         button {
             @include normalButton();
-            background-color: rgb(99, 99, 99);
+            background-color: #{$aws-color-neutral-60};
             display: grid;
             grid-template-columns: 1fr;
             justify-content: center;
             font-size: 12px;
 
-            span{
-                &:first-child{
+            span {
+                &:first-child {
                     font-size: 30px;
                 }
             }
         }
 
         .punch {
-            background-color: seagreen;
+            background-color: #{$aws-color-light-theme-green-60};
         }
 
         .opacity {
@@ -33,28 +33,27 @@
         }
     }
 
-    @media screen and (max-width:900px) {
-        .boader {
+    @media screen and (max-width:700px) {
+        .border {
             grid-template-columns: 1fr 1fr;
         }
     }
 
-    @media screen and (max-width:600px) {
-        .boader {
-            grid-template-columns: 1fr;
-        }
-    }
     @media screen and (max-width:490px) {
-        .boader {
-            button{
+        .border {
+            grid-template-columns: 1fr;
+
+            button {
                 display: flex;
                 align-items: center;
-                span{
-                    &:first-child{
+
+                span {
+                    &:first-child {
                         margin-right: 10px;
                         font-size: 25px;
                     }
-                    &:last-child{
+
+                    &:last-child {
                         font-size: 14px;
                     }
                 }

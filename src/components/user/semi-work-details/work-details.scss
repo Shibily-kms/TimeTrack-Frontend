@@ -1,11 +1,15 @@
-@import '../../../assets/scss/color.scss';
+@use "sass:color";
+@use '../../../assets/scss/ui/theme';
+@use '../../../assets/scss/ui/var-color' as *;
+
 
 .semi-work-details {
     width: 100%;
 
     .border {
         width: 100%;
-        background-color: $light_blue_color;
+        background-color: #{color.adjust($aws-color-light-theme-primary-60,$alpha : -0.8)};
+        color: var(--text-primary);
         padding: 15px;
         border-radius: 8px;
         -webkit-border-radius: 8px;
@@ -15,13 +19,22 @@
         font-size: 13px;
         font-weight: 600;
 
+        .list-body {
+            .table-title-div {
+                text-align: center;
+                padding: 10px 0px 25px 0px;
+            }
+        }
+
         .list-head,
         .list-item {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            border-bottom: 1px solid rgba(193, 230, 255, 0.692);
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            border-bottom: 1px solid #{color.adjust($aws-color-light-theme-primary-50,$alpha : -0.8)};
             padding-bottom: 3px;
-         
+            font-size: 13px;
+            font-weight: 500;
+
 
             span {
                 text-align: center;
@@ -36,9 +49,11 @@
             font-weight: bold;
             margin-bottom: 10px;
         }
-        .list-item{
+
+        .list-item {
             margin: 5px 0;
-            &:last-child{
+
+            &:last-child {
                 border: none;
             }
         }

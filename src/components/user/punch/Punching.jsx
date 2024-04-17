@@ -212,7 +212,7 @@ function Punching({ punch, theBreak, lunchBreak, overTime }) {
 
     return (
         <div className='punching' >
-            <div className="boader">
+            <div className="border">
                 {/* Punch */}
                 <button className={punch?.in ? "punch" : "opacity punch"} onClick={handlePunchIn}>
                     <span className={loading === 'punchIn' && 'loading-icon'}>{loading === 'punchIn' ? <BiLoaderAlt /> : <MdLogin />}</span>

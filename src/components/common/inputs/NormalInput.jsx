@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './normal-input.scss'
 
 function NormalInput({
     label = 'Label',
     name = 'name',
     id,
-    type,
+    type = 'text',
     onChangeFun,
     value = '',
     colorCode,
@@ -17,11 +17,13 @@ function NormalInput({
     rightIcon = null,
     rightIconAction = null
 }) {
+    const [inputType, setInputType] = useState('text')
+
     return (
         <div className='input-model-div normal-input'>
             <div>
                 <input
-                    type={type ? type : "text"}
+                    type={inputType}
                     name={name}
                     id={id || name}
                     value={value}
@@ -31,6 +33,8 @@ function NormalInput({
                     min={min}
                     max={max}
                     step={step}
+                    onFocus={() => setInputType(type)}
+                    onBlur={() => { if (!value) setInputType('text') }}
                 />
                 <label htmlFor={id || name}>{label}{isRequired && <span>*</span>}</label>
 

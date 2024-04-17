@@ -7,7 +7,7 @@ function Modal({ modal = { content: null, title: null, status: false, width: '40
         <>
             <div div className={modal?.status ? 'modal-div' : 'modal-hide-div'} >
                 <div className="modal-boarder">
-                    <div className="modal-shadow-div" onClick={() => setModal({ ...modal, status: false })}></div>
+                    <div className="modal-shadow-div" onClick={() => setModal({ status: false })}></div>
                     <div className="modal-content" style={{ width: modal?.width ? modal.width : '400px' }}>
                         <div className="modal-top">
                             <div className="left">
@@ -18,7 +18,9 @@ function Modal({ modal = { content: null, title: null, status: false, width: '40
                             </div>
                         </div>
                         <div className="model-center">
-                            {modal.content}
+                            <div className="model-center-content">
+                                {modal.content}
+                            </div>
                         </div>
                     </div>
                 </div>
