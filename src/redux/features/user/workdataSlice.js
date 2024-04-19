@@ -36,15 +36,15 @@ export const workDataSlice = createSlice({
         clearWorkData: (state) => {
             state.workDetails = null
         },
-        resetOfflineData: (state, action) => {
-            // state.workDetails.break = action.payload
-            // state.workDetails.offBreak = []
-            // state.workDetails.regular_work = []
-            // state.workDetails.extra_work = []
-            // if (state.workDetails.lunch_break.duration) {
-            //     state.workDetails.lunch_break.save = true
-            // }
-        },
+        // resetOfflineData: (state, action) => {
+        //     // state.workDetails.break = action.payload
+        //     // state.workDetails.offBreak = []
+        //     // state.workDetails.regular_work = []
+        //     // state.workDetails.extra_work = []
+        //     // if (state.workDetails.lunch_break.duration) {
+        //     //     state.workDetails.lunch_break.save = true
+        //     // }
+        // },
         doStartBreak: (state, action) => {
             state.workDetails.break = [...(state.workDetails.break || []), action.payload]
         },

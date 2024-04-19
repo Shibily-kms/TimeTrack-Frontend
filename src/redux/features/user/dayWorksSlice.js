@@ -37,6 +37,11 @@ export const dayWorksSlice = createSlice({
                     element.want_sync = action.payload?.want_sync
                 }
             });
+        },
+        clearSyncRegularWork: (state) => {
+            state.regular = state.regular?.map((work) => {
+                return { ...work, want_sync: false };
+            })
         }
     }
 })
@@ -44,7 +49,7 @@ export const dayWorksSlice = createSlice({
 
 export const {
     setRegularWork, clearRegularWork, completeRegularWork, addNewRegularWork,
-    updateRegularWork, deleteRegularWork
+    updateRegularWork, deleteRegularWork, clearSyncRegularWork
 } = dayWorksSlice.actions;
 
 export default dayWorksSlice.reducer

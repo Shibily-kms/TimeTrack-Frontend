@@ -29,7 +29,7 @@ export const systemSlice = createSlice({
             state.alerts = [
                 ...state?.alerts || [],
                 {
-                    id: Math.random().toString(36),
+                    id: action?.payload?.id || Math.random().toString(36),
                     type: 'error',
                     message: action.payload.message || 'Undefined',
                     icon: action.payload.icon || null,
@@ -43,7 +43,7 @@ export const systemSlice = createSlice({
             state.alerts = [
                 ...state?.alerts || [],
                 {
-                    id: Math.random().toString(36),
+                    id: action?.payload?.id || Math.random().toString(36),
                     type: 'success',
                     message: action.payload.message || 'Undefined',
                     icon: action.payload.icon || null,
@@ -57,7 +57,7 @@ export const systemSlice = createSlice({
             state.alerts = [
                 ...state?.alerts || [],
                 {
-                    id: Math.random().toString(36),
+                    id: action?.payload?.id || Math.random().toString(36),
                     type: 'info',
                     message: action.payload.message || 'Undefined',
                     icon: action.payload.icon || null,
@@ -71,7 +71,7 @@ export const systemSlice = createSlice({
             state.alerts = [
                 ...state?.alerts || [],
                 {
-                    id: Math.random().toString(36),
+                    id: action?.payload?.id || Math.random().toString(36),
                     type: 'warning',
                     message: action.payload.message || 'Undefined',
                     icon: action.payload.icon || null,

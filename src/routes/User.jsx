@@ -2,13 +2,14 @@ import React, { useEffect, Suspense, lazy, useState } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { userAxios } from '../config/axios'
-import { resetOfflineData, doPunchOUt } from '../redux/features/user/workdataSlice'
+import { setWorkData } from '../redux/features/user/workdataSlice'
 import { setUser } from '../redux/features/user/authSlice'
 import { getPunchDetails } from '../redux/features/user/workdataSlice'
 import PageLoading from '../components/common/spinners/PageLoading'
 import SinglePage from '../components/common/page/SinglePage'
 import { toast } from '../redux/features/user/systemSlice'
-import { MdCloudSync } from "react-icons/md";
+import { clearSyncRegularWork } from '../redux/features/user/dayWorksSlice'
+
 
 const Home = lazy(() => import('../pages/user/home/Home'))
 const WorkDetails = lazy(() => import('../pages/user/work-details/Work_details'))
@@ -25,6 +26,7 @@ function User() {
   const { user } = useSelector((state) => state.userAuth)
   const { internet } = useSelector((state) => state.systemInfo)
   const { workDetails } = useSelector((state) => state.workData)
+  const { regular } = useSelector((state) => state.dayWorks)
   const [pageHead, setPageHead] = useState({ title: null, desc: null })
 
   if (user?.token && localStorage.getItem('_aws_temp_tkn')) {
@@ -34,23 +36,38 @@ function User() {
   useEffect(() => {
     // Offline data Sync to Server
     if (internet) {
-      dispatch(toast.push.info({ message: 'Sync offline data...', icon: () => (<div><MdCloudSync /></div>), doClose: false }))
 
+      // Check any data for sync
+      const syncBreak = workDetails?.break?.filter((item) => item?.want_sync)
+      const syncLunch = workDetails?.lunch_break?.want_sync ? workDetails?.lunch_break : null
+      const syncRegularWork = regular?.filter((item) => item?.want_sync)
+      const syncExtraWork = workDetails?.extra_work?.filter((item) => item?.want_sync)
 
+      if (syncBreak?.[0] || syncLunch || syncRegularWork?.[0] || syncExtraWork?.[0]) {
 
-      if (workDetails?.offBreak?.[0] || workDetails?.regular_work?.[0] || workDetails?.extra_work?.[0] ||
-        workDetails?.lunch_break?.save === false) {
-        userAxios.post('/offline-recollect', workDetails).then((response) => {
-          dispatch(resetOfflineData(response.data.data))
+        dispatch(toast.push.info({ id: 'OFF_SYNC', message: 'Sync offline data...', icon: 'MdCloudSync', autoClose: false, doClose: false }))
+
+        userAxios.post('/offline-recollect', {
+          punch_id: workDetails._id,
+          the_break: syncBreak,
+          lunch_break: syncLunch,
+          regular_work: syncRegularWork,
+          extra_work: syncExtraWork,
+          updated_date: workDetails?.updated_date || null
+        }).then((response) => {
+          // Set all work data form new response
+          dispatch(setWorkData(response.data))
+          // Clear regular work sync id
+          dispatch(clearSyncRegularWork())
+          // clear alert
+          dispatch(toast.pull.single('OFF_SYNC'))
+
         }).catch((error) => {
-          toast.error(error.response.data.message)
-          if (error.response.data.statusCode !== 409) {
-            dispatch(resetOfflineData(error.response.data.data))
-          } else {
-            dispatch(doPunchOUt(error.response.data.data.punch_out))
-          }
+          dispatch(toast.pull.single('OFF_SYNC'))
+          dispatch(toast.push.error({ message: error.message }))
         })
       }
+
     }
     // eslint-disable-next-line
   }, [internet])
