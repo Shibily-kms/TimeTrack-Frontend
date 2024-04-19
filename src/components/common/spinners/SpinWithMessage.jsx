@@ -9,7 +9,7 @@ function SpinWithMessage({ icon, message = '', load = false, fullView = false, b
         <div className={fullView ? 'spin-with-full-view' : 'spin-with-message'} style={{ height: height }}>
             {load
                 ? <div className="loading-image">
-                    <div class="loader"></div>
+                    <div className="loader"></div>
                 </div>
                 : <div className={"load-div"}>
                     {icon || <MdOutlineDataSaverOff />}

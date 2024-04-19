@@ -32,14 +32,14 @@ function WorkDetails() {
                                     : <span>-</span>}
                             </div>
                         </>}
-                        {workDetails?.break?.start && <>
-                            <div className="list-item">
-                                <span>Last Break</span>
-                                <span>{convertIsoToAmPm(new Date(workDetails?.break?.start))}</span>
-                                <span>{workDetails?.break?.end ? convertIsoToAmPm(new Date(workDetails?.break?.end)) : '-'}</span>
-                                <span>{getTimeFromSecond(workDetails.break.duration) || '0m'}</span>
-                            </div>
-                        </>}
+
+                        {workDetails?.break?.map((item, index) => <div className="list-item">
+                            <span>Break {index + 1}</span>
+                            <span>{convertIsoToAmPm(new Date(item?.start))}</span>
+                            <span>{item?.end ? convertIsoToAmPm(new Date(item?.end)) : '-'}</span>
+                            <span>{getTimeFromSecond(item?.duration) || '0m'}</span>
+                        </div>)}
+
                         {workDetails?.lunch_break?.start && <>
                             <div className="list-item">
                                 <span>Lunch </span>

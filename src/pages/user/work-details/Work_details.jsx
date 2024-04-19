@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import './work-details.scss'
 import { userAxios } from '../../../config/axios'
-import Punching from '../../../components/user/punch/Punching'
 import Work from '../../../components/user/work/Work'
 import WorkDetails from '../../../components/user/semi-work-details/WorkDetails'
 import SpinWithMessage from '../../../components/common/spinners/SpinWithMessage'
@@ -10,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getPunchDetails } from '../../../redux/features/user/workdataSlice'
 import { setRegularWork } from '../../../redux/features/user/dayWorksSlice'
 import { toast } from '../../../redux/features/user/systemSlice'
+import { YYYYMMDDFormat } from '../../../assets/javascript/date-helper'
 
 
 function Work_details({ setPageHead }) {
@@ -17,16 +17,13 @@ function Work_details({ setPageHead }) {
   const { workDetails, isLoading } = useSelector((state) => state.workData)
   const { user } = useSelector((state) => state.userAuth)
   const { internet } = useSelector((state) => state.systemInfo)
-
-  // Button Show & hide Status : false = hide , true : show
-  const [punch, setPunch] = useState({ in: false, out: false })
-  const [theBreak, setTheBreak] = useState({ start: false, end: false })
-  const [lunchBreak, setLunchBreak] = useState({ start: false, end: false })
-  const [overTime, setOverTime] = useState({ in: false, out: false })
+  const [inWork, setInWork] = useState(false)
 
   useEffect(() => {
     if (internet) {
-      dispatch(getPunchDetails())
+      if (workDetails?.date !== YYYYMMDDFormat(new Date())) {
+        dispatch(getPunchDetails())
+      }
       userAxios.get('/regular-work').then((works) => {
         dispatch(setRegularWork(works.data))
       }).catch((error) => {
@@ -40,68 +37,17 @@ function Work_details({ setPageHead }) {
 
   useEffect(() => {
 
-    if (workDetails?.punch_in && workDetails?.punch_out) {
-      setPunch({ in: false, out: false })
-      setTheBreak({ start: false, end: false })
-      setLunchBreak({ start: false, end: false })
-    } else if (!workDetails?.punch_in && !workDetails?.punch_out) {
-      setPunch({ in: true, out: false })
-      setTheBreak({ start: false, end: false })
-      setLunchBreak({ start: false, end: false })
-      setOverTime({ in: false, out: false })
-    } else if (workDetails?.punch_in && !workDetails?.punch_out) {
-      setPunch({ in: false, out: true })
-      setTheBreak({ start: true, end: false })
-      setLunchBreak({ start: true, end: false })
+    // Check punchIn or OverIn
+    if ((workDetails?.punch_in && !workDetails?.punch_out) || (workDetails?.over_time?.in && !workDetails?.over_time?.out)) {
 
-      // Lunch Break
-      if (workDetails?.lunch_break?.start && workDetails?.lunch_break?.end) {
-        setLunchBreak({ start: false, end: false })
-      } else if (workDetails?.lunch_break?.start && !workDetails?.lunch_break?.end) {
-        setLunchBreak({ start: false, end: true })
-        setPunch({ in: false, out: false })
-        setTheBreak({ start: false, end: false })
-      }
-      // Break
-      if (workDetails?.break?.start && workDetails?.break?.end && !workDetails?.lunch_break?.start) {
-        setTheBreak({ start: true, end: false })
-      } else if (workDetails?.break?.start && !workDetails?.break?.end) {
-        setPunch({ in: false, out: false })
-        setTheBreak({ start: false, end: true })
-        setLunchBreak({ start: false, end: false })
+      // Check On Break or Lunch break
+      if ((workDetails?.break?.[workDetails?.break?.length - 1]?.end || !workDetails?.break?.[0]) &&
+        (workDetails?.lunch_break?.end || !workDetails?.lunch_break)
+      ) {
+        setInWork(true)
       }
     }
 
-    if (workDetails?.over_time?.in && workDetails?.over_time?.out) {
-      setOverTime({ in: false, out: false })
-      setTheBreak({ start: false, end: false })
-      setLunchBreak({ start: false, end: false })
-    } else if (!workDetails?.over_time?.in && !workDetails?.over_time?.out && workDetails?.punch_out) {
-      setOverTime({ in: true, out: false })
-      setTheBreak({ start: false, end: false })
-      setLunchBreak({ start: false, end: false })
-    } else if (workDetails?.over_time?.in && !workDetails?.over_time?.out) {
-      setOverTime({ in: false, out: true })
-      setTheBreak({ start: true, end: false })
-      setLunchBreak({ start: true, end: false })
-
-      // Lunch Break
-      if (workDetails?.lunch_break?.start && workDetails?.lunch_break?.end) {
-        setLunchBreak({ start: false, end: false })
-      } else if (workDetails?.lunch_break?.start && !workDetails?.lunch_break?.end) {
-        setLunchBreak({ start: false, end: true })
-        setOverTime({ in: false, out: false })
-        setTheBreak({ start: false, end: false })
-      }
-      // Break
-      if (workDetails?.break?.start && workDetails?.break?.end && !workDetails?.lunch_break?.start) {
-        setTheBreak({ start: true, end: false })
-      } else if (workDetails?.break?.start && !workDetails?.break?.end) {
-        setOverTime({ in: false, out: false })
-        setTheBreak({ start: false, end: true })
-        setLunchBreak({ start: false, end: false })
-      }
-    }
 
     let checkIfAutoPunchOut = null
 
@@ -136,9 +82,9 @@ function Work_details({ setPageHead }) {
       </div>
       <div className="content">
         {isLoading
-          ? <SpinWithMessage load fullView />
+          ? <SpinWithMessage load={true} fullView={true} />
           : <div className="section-two">
-            <Work punch={punch} theBreak={theBreak} lunchBreak={lunchBreak} overTime={overTime} />
+            <Work inWork={inWork} />
           </div>
         }
       </div>

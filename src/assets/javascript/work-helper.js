@@ -132,7 +132,7 @@ const workReportHelper = (data, staffs, date) => {
     for (let i = 0; i < staffs.length; i++) {
         if (YYYYMMDDFormat(lastDay) >= YYYYMMDDFormat(new Date(staffs[i].createdAt))) {
             if (YYYYMMDDFormat(firstDay) <= YYYYMMDDFormat(new Date(staffs[i]?.deleteReason?.date)) || !staffs[i]?.deleteReason) {
-            
+
                 if (staffs[i]._id !== reportData[k]?.staffId) {
                     const report = {
                         allowed_salary: 0,
@@ -150,7 +150,7 @@ const workReportHelper = (data, staffs, date) => {
                         balance_CF: staffs[i].balance_CF || 0,
                         message: 'Report not available'
                     }
-                    
+
                     reportData.splice(k, 0, report)
                 }
                 k++
@@ -160,4 +160,69 @@ const workReportHelper = (data, staffs, date) => {
     return reportData;
 }
 
-export { analyzeDateHelper, analyzeStaffHelper, workReportHelper }
+const punchDataHelper = (workDetails, setPunch, setTheBreak, setLunchBreak, setOverTime) => {
+    if (workDetails?.punch_in && workDetails?.punch_out) {
+        setPunch({ in: false, out: false })
+        setTheBreak({ start: false, end: false })
+        setLunchBreak({ start: false, end: false })
+    } else if (!workDetails?.punch_in && !workDetails?.punch_out) {
+        setPunch({ in: true, out: false })
+        setTheBreak({ start: false, end: false })
+        setLunchBreak({ start: false, end: false })
+        setOverTime({ in: false, out: false })
+    } else if (workDetails?.punch_in && !workDetails?.punch_out) {
+        setPunch({ in: false, out: true })
+        setTheBreak({ start: true, end: false })
+        setLunchBreak({ start: true, end: false })
+
+        // Lunch Break
+        if (workDetails?.lunch_break?.start && workDetails?.lunch_break?.end) {
+            setLunchBreak({ start: false, end: false })
+        } else if (workDetails?.lunch_break?.start && !workDetails?.lunch_break?.end) {
+            setLunchBreak({ start: false, end: true })
+            setPunch({ in: false, out: false })
+            setTheBreak({ start: false, end: false })
+        }
+        // Break
+        if (workDetails?.break?.[workDetails?.break?.length - 1]?.start && workDetails?.break?.[workDetails?.break?.length - 1]?.end && !workDetails?.lunch_break?.start) {
+            setTheBreak({ start: true, end: false })
+        } else if (workDetails?.break?.[workDetails?.break?.length - 1]?.start && !workDetails?.break?.[workDetails?.break?.length - 1]?.end) {
+            setPunch({ in: false, out: false })
+            setTheBreak({ start: false, end: true })
+            setLunchBreak({ start: false, end: false })
+        }
+    }
+
+    if (workDetails?.over_time?.in && workDetails?.over_time?.out) {
+        setOverTime({ in: false, out: false })
+        setTheBreak({ start: false, end: false })
+        setLunchBreak({ start: false, end: false })
+    } else if (!workDetails?.over_time?.in && !workDetails?.over_time?.out && workDetails?.punch_out) {
+        setOverTime({ in: true, out: false })
+        setTheBreak({ start: false, end: false })
+        setLunchBreak({ start: false, end: false })
+    } else if (workDetails?.over_time?.in && !workDetails?.over_time?.out) {
+        setOverTime({ in: false, out: true })
+        setTheBreak({ start: true, end: false })
+        setLunchBreak({ start: true, end: false })
+
+        // Lunch Break
+        if (workDetails?.lunch_break?.start && workDetails?.lunch_break?.end) {
+            setLunchBreak({ start: false, end: false })
+        } else if (workDetails?.lunch_break?.start && !workDetails?.lunch_break?.end) {
+            setLunchBreak({ start: false, end: true })
+            setOverTime({ in: false, out: false })
+            setTheBreak({ start: false, end: false })
+        }
+        // Break
+        if (workDetails?.break?.[workDetails?.break?.length - 1]?.start && workDetails?.break?.[workDetails?.break?.length - 1]?.end && !workDetails?.lunch_break?.start) {
+            setTheBreak({ start: true, end: false })
+        } else if (workDetails?.break?.[workDetails?.break?.length - 1]?.start && !workDetails?.break?.[workDetails?.break?.length - 1]?.end) {
+            setOverTime({ in: false, out: false })
+            setTheBreak({ start: false, end: true })
+            setLunchBreak({ start: false, end: false })
+        }
+    }
+}
+
+export { analyzeDateHelper, analyzeStaffHelper, workReportHelper, punchDataHelper }

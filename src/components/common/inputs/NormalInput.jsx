@@ -15,7 +15,8 @@ function NormalInput({
     max = null,
     step,
     rightIcon = null,
-    rightIconAction = null
+    rightIconAction = null,
+    style
 }) {
     const [inputType, setInputType] = useState('text')
 

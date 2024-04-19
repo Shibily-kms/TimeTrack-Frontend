@@ -34,8 +34,6 @@ function App() {
   }, []);
 
   useEffect(() => {
-
-    // const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
     const root = document.documentElement;
 
     if (theme === 'os-default') {
@@ -45,7 +43,7 @@ function App() {
     } else {
       root.className = 'light';
     }
-
+    // eslint-disable-next-line
   }, [])
 
   return (

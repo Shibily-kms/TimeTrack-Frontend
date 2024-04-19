@@ -23,13 +23,18 @@ export const dayWorksSlice = createSlice({
                 return work;
             })
         },
+        deleteRegularWork: (state, action) => {
+            state.regular = state.regular?.filter((work) => work._id !== action.payload)
+        },
         clearRegularWork: (state) => {
             state.regular = null
         },
-        completeWork: (state, action) => {
+        completeRegularWork: (state, action) => {
             state.regular.forEach(element => {
-                if (element.work === action.payload.thisWork) {
+                if (element.title === action.payload.work) {
                     element.finished = true
+                    element.do_time = new Date(action.payload.end)
+                    element.want_sync = action.payload?.want_sync
                 }
             });
         }
@@ -37,7 +42,11 @@ export const dayWorksSlice = createSlice({
 })
 
 
-export const { setRegularWork, clearRegularWork, completeWork, addNewRegularWork, updateRegularWork } = dayWorksSlice.actions;
+export const {
+    setRegularWork, clearRegularWork, completeRegularWork, addNewRegularWork,
+    updateRegularWork, deleteRegularWork
+} = dayWorksSlice.actions;
+
 export default dayWorksSlice.reducer
 
 

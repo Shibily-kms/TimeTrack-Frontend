@@ -4,10 +4,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { userAxios } from '../config/axios'
 import { resetOfflineData, doPunchOUt } from '../redux/features/user/workdataSlice'
 import { setUser } from '../redux/features/user/authSlice'
-import { toast } from 'react-hot-toast'
 import { getPunchDetails } from '../redux/features/user/workdataSlice'
 import PageLoading from '../components/common/spinners/PageLoading'
 import SinglePage from '../components/common/page/SinglePage'
+import { toast } from '../redux/features/user/systemSlice'
+import { MdCloudSync } from "react-icons/md";
 
 const Home = lazy(() => import('../pages/user/home/Home'))
 const WorkDetails = lazy(() => import('../pages/user/work-details/Work_details'))
@@ -31,7 +32,12 @@ function User() {
   }
 
   useEffect(() => {
+    // Offline data Sync to Server
     if (internet) {
+      dispatch(toast.push.info({ message: 'Sync offline data...', icon: () => (<div><MdCloudSync /></div>), doClose: false }))
+
+
+
       if (workDetails?.offBreak?.[0] || workDetails?.regular_work?.[0] || workDetails?.extra_work?.[0] ||
         workDetails?.lunch_break?.save === false) {
         userAxios.post('/offline-recollect', workDetails).then((response) => {
@@ -47,7 +53,8 @@ function User() {
       }
     }
     // eslint-disable-next-line
-  }, [internet, workDetails?.over_time?.in])
+  }, [internet])
+
 
   useEffect(() => {
     // Change Title
@@ -56,7 +63,7 @@ function User() {
       userAxios.get(`/profile?staffId=${user?._id}`).then((response) => {
         dispatch(setUser({ ...user, ...response.data.data }))
       }).catch((error) => {
-        toast.error(error.response.data.message)
+        dispatch(toast.push.error({ message: error.message }))
       })
     }
 

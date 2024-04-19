@@ -1,3 +1,6 @@
+@use "sass:color";
+@use '../../../assets/scss/ui/theme';
+@use '../../../assets/scss/ui/var-color' as *;
 @import '../../../assets/scss/color.scss';
 
 .enter-today-div {
@@ -10,7 +13,7 @@
                 justify-content: space-between;
                 align-items: center;
 
-                .buttons-div{
+                .buttons-div {
                     display: flex;
                     gap: 5px;
                     justify-content: flex-end;
@@ -19,12 +22,7 @@
         }
 
         .section-one {
-
-
-
             .content-div {
-
-
                 .input-div {
                     margin: 5px 0;
 
@@ -41,54 +39,77 @@
         }
 
         .section-two {
-            .extra {
-                .inputs {
-                    width: 300px;
-                    max-width: 100%;
+            margin-top: 20px;
 
-                    .input-div {
-                        margin-bottom: 10px;
-                        position: relative;
+            .work-list-div {
+                width: 100%;
+                margin-bottom: 10px;
 
-                        input {
-                            width: 100%;
-                            padding: 10px 15px;
-                            border-radius: 5px;
-                            -webkit-border-radius: 5px;
-                            -moz-border-radius: 5px;
-                            -ms-border-radius: 5px;
-                            -o-border-radius: 5px;
-                            outline: none;
-                            border: 1px solid black;
-                            margin-top: 5px;
-                            font-weight: 500;
-                            font-size: 14px;
-                        }
+                .border {
+                    width: 100%;
+                    background-color: #{color.adjust($aws-color-light-theme-primary-60,$alpha : -0.8)};
+                    color: var(--text-primary);
+                    padding: 15px;
+                    border-radius: 8px;
+                    -webkit-border-radius: 8px;
+                    -moz-border-radius: 8px;
+                    -ms-border-radius: 8px;
+                    -o-border-radius: 8px;
+                    font-size: 13px;
+                    font-weight: 600;
 
-
-                    }
-
-                    .finished {
-                        display: none;
-                    }
-
-                    .button-div {
-                        button {
-                            width: 100%;
-                            border: none;
-                            border-radius: 8px;
-                            -webkit-border-radius: 8px;
-                            -moz-border-radius: 8px;
-                            -ms-border-radius: 8px;
-                            -o-border-radius: 8px;
-                            color: white;
-                            font-size: 15px;
-                            font-weight: 500;
+                    .list-body {
+                        .table-title-div {
                             text-align: center;
-                            padding: 10px 15px;
-                            background-color: $blue_color;
+                            padding: 10px 0px 25px 0px;
                         }
                     }
+
+                    .list-head,
+                    .list-item {
+                        display: grid;
+                        grid-template-columns: 35px 75px auto;
+                        gap: 15px;
+                        border-bottom: 1px solid #{color.adjust($aws-color-light-theme-primary-50,$alpha : -0.8)};
+                        padding-bottom: 3px;
+                        font-size: 13px;
+                        font-weight: 500;
+                        align-items: center;
+
+
+                        span {
+                            text-align: start;
+
+                            &:first-child {
+                                text-align: center;
+                            }
+                        }
+                    }
+
+                    .list-head {
+                        font-weight: bold;
+                        margin-bottom: 10px;
+                    }
+
+                    .list-item {
+                        margin: 5px 0;
+
+                        &:last-child {
+                            border: none;
+                        }
+                    }
+                }
+
+
+            }
+
+            .extra-input {
+                form {
+                    display: grid;
+                    grid-template-columns: auto 50px;
+                    align-items: center;
+                    gap: 10px;
+                    padding-right: 5px;
                 }
             }
         }

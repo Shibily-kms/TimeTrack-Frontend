@@ -2,20 +2,22 @@ import React, { useEffect, useState } from 'react'
 import './work.scss'
 import { userAxios } from '../../../config/axios'
 import { useDispatch, useSelector } from 'react-redux'
-import { toast } from 'react-hot-toast'
-import { completeWork } from '../../../redux/features/user/dayWorksSlice'
-import { offlineRegularWork, offlineExtraWork } from '../../../assets/javascript/offline-helper'
-import { addRegularWork, addExtraWork } from '../../../redux/features/user/workdataSlice'
-import { BiLoaderAlt } from 'react-icons/bi'
-import SpinnerWithMessage from '../../common/spinners/SpinWithMessage'
-import SingleButton from '../../../components/common/buttons/SingleButton'
+import { toast } from '../../../redux/features/user/systemSlice'
+// eslint-disable-next-line
+import { offlineExtraWork } from '../../../assets/javascript/offline-helper'
+import { addExtraWork } from '../../../redux/features/user/workdataSlice'
 import { HiPlus } from "react-icons/hi";
 import { FaListCheck, FaCheck } from "react-icons/fa6";
+import { IoSend } from "react-icons/io5";
+import { convertIsoToAmPm } from '../../../assets/javascript/date-helper'
+import SpinnerWithMessage from '../../common/spinners/SpinWithMessage'
+import SingleButton from '../../../components/common/buttons/SingleButton'
 import Modal from '../../common/modal/Modal'
 import AddEditRegWork from '../add-edit-work/AddEditRegWork'
 import RegularWorkCard from '../regular-work-card/RegularWorkCard'
+import NormalInput from '../../common/inputs/NormalInput'
 
-function Work({ punch, theBreak, lunchBreak, overTime }) {
+function Work({ inWork }) {
     const dispatch = useDispatch()
     const [extraWork, setExtraWork] = useState('')
     const { workDetails } = useSelector((state) => state.workData)
@@ -29,28 +31,6 @@ function Work({ punch, theBreak, lunchBreak, overTime }) {
     const dayOfWeekNumber = new Date().getDay();
     const dayOfMonthNumber = new Date().getDate();
 
-    const handleWork = (e) => {
-        let confirm = window.confirm('Are you completing this work ?')
-        if (confirm) {
-            setLoading(e.target.value)
-            if (internet) {
-                userAxios.post('/regular-work', { work: e.target.value, punch_id: workDetails._id }).then((response) => {
-                    dispatch(completeWork({ thisWork: e.target.value }))
-                    toast.success('Work Completed')
-                    setLoading('')
-                }).catch((error) => {
-                    toast.error(error.response.data.message)
-                    setLoading('')
-                })
-            } else {
-                const oneRegularWork = offlineRegularWork(e.target.value)
-                dispatch(addRegularWork(oneRegularWork))
-                dispatch(completeWork({ thisWork: e.target.value }))
-                toast.success('Work Completed')
-                setLoading('')
-            }
-        }
-    }
 
     const handleChange = (e) => {
         setExtraWork(e.target.value)
@@ -58,20 +38,29 @@ function Work({ punch, theBreak, lunchBreak, overTime }) {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        setExtraWork('')
-        setLoading('extra-work-submit-loading')
+
+        if (!inWork) {
+            setExtraWork('')
+            return dispatch(toast.push.error({ message: 'Please enter to work' }))
+        }
+
+        setLoading('extra')
         if (internet) {
-            userAxios.post('/extra-work', { work: extraWork, punch_id: workDetails._id }).then((response) => {
-                toast.success(response.data.message)
+            userAxios.post('/extra-work/do', { work: extraWork, punch_id: workDetails._id }).then((response) => {
+                dispatch(toast.push.success({ message: 'New extra work added' }))
+                setExtraWork('')
+                dispatch(addExtraWork(response.data))
                 setLoading('')
             }).catch((error) => {
                 setLoading('')
-                toast.error(error.response.data.message)
+                setExtraWork('')
+                dispatch(toast.push.error({ message: error.message }))
             })
         } else {
             const oneExtraWork = offlineExtraWork(extraWork)
             dispatch(addExtraWork(oneExtraWork))
-            toast.success('Extra work added')
+            dispatch(toast.push.success({ message: 'Extra work added' }))
+            setExtraWork('')
             setLoading('')
         }
     }
@@ -87,7 +76,9 @@ function Work({ punch, theBreak, lunchBreak, overTime }) {
                 setNoTodayWorks(false)
                 return true;
             }
+            return work;
         })
+        // eslint-disable-next-line
     }, [regular])
 
     return (
@@ -107,13 +98,14 @@ function Work({ punch, theBreak, lunchBreak, overTime }) {
                         </div>
                     </div>
                     <div className="content-div">
-                        {(regular?.[0] || noTodayWorks) ?
-                            regular?.map((work) => {
+                        {((noTodayWorks && !allRgWork) || !regular?.[0]) ? <SpinnerWithMessage message='No regular works' height={'200px'} icon={<FaListCheck />} spin={false} />
+                            // eslint-disable-next-line
+                            : regular?.map((work) => {
                                 if (work?.interval === 1 || work?.weekly.includes(dayOfWeekNumber)
                                     || work?.monthly.includes(dayOfMonthNumber) || allRgWork) {
-                                    return <RegularWorkCard allWork={allRgWork} data={work} openWorkModal={openWorkModal} />
+                                    return <RegularWorkCard key={work._id} allWork={allRgWork} data={work} openWorkModal={openWorkModal} inWork={inWork} />
                                 }
-                            }) : <SpinnerWithMessage message='No regular works' height={'200px'} icon={<FaListCheck />} spin={false} />
+                            })
                         }
                     </div>
                 </div>
@@ -121,19 +113,30 @@ function Work({ punch, theBreak, lunchBreak, overTime }) {
                     <div className="title">
                         <h4>Extra works</h4>
                     </div>
-                    <div className="extra">
-                        <div className="inputs">
-                            <form onSubmit={handleSubmit}>
-                                <div className="input-div">
-                                    <input type="text" placeholder='Enter extra work...' value={extraWork} name='work' required onChange={handleChange} />
+                    {workDetails?.extra_work?.[0] &&
+                        <div className="work-list-div">
+                            <div className="border">
+                                <div className="list-body">
+                                    <div className="list-head">
+                                        <span></span>
+                                        <span>Time</span>
+                                        <span>Work</span>
+                                    </div>
+                                    {workDetails?.extra_work?.map((work, index) => <div key={work.start} className="list-item">
+                                        <span>{index + 1}</span>
+                                        <span>{convertIsoToAmPm(work?.start)}</span>
+                                        <span>{work?.work}</span>
+                                    </div>)}
                                 </div>
-                                <div className="button-div">
-                                    <button type={loading === 'extra-work-submit-loading' ? 'button' : 'submit'}>
-                                        {loading === 'extra-work-submit-loading' ?
-                                            <span className='loading-icon'><BiLoaderAlt /></span> : 'Add'}</button>
-                                </div>
-                            </form>
-                        </div>
+                            </div>
+                        </div>}
+
+                    <div className="extra-input">
+                        <form onSubmit={handleSubmit}>
+                            <NormalInput label='Enter extra work' name='extra_work' onChangeFun={handleChange} value={extraWork} />
+                            <SingleButton stIcon={<IoSend />} classNames={'lg'} style={{ fontSize: '22px' }} type={'submit'}
+                                loading={loading} />
+                        </form>
                     </div>
                 </div>
             </div>

@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import './punching.scss'
 import { userAxios } from '../../../config/axios'
-// import { toast } from 'react-hot-toast'
 import { toast } from '../../../redux/features/user/systemSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -10,7 +9,6 @@ import {
 import {
     setWorkData, doStartBreak, doEndBreak, doLunchBreak, doStartOverTime, doStopOverTime
 } from '../../../redux/features/user/workdataSlice'
-import { setRegularWork } from '../../../redux/features/user/dayWorksSlice'
 import { TbClockStop } from 'react-icons/tb'
 import { MdLogin, MdLogout, MdLunchDining, MdMoreTime, MdOutlineTimerOff } from 'react-icons/md'
 import { BiLoaderAlt } from 'react-icons/bi'
@@ -30,20 +28,15 @@ function Punching({ punch, theBreak, lunchBreak, overTime }) {
                 if (internet) {
                     setLoading('punchIn')
                     userAxios.post('/punch-in', { designation: user?.designation?.designation }).then((response) => {
-                        userAxios.get('/regular-work').then((works) => {
-                            response.data.offBreak = []
-                            response.data.lunch_break = {}
-                            dispatch(setRegularWork(works.data))
-                            dispatch(setWorkData(response.data))
-                            dispatch(toast.push.success({ message: response.message }))
-                            setLoading('')
-                        })
+                        dispatch(setWorkData(response.data))
+                        dispatch(toast.push.success({ message: response.message }))
+                        setLoading('')
                     }).catch((error) => {
                         setLoading('')
                         dispatch(toast.push.error({ message: error.message }))
                     })
                 } else {
-                    dispatch(toast.push.error({ message: 'Must have Internet' }))
+                    dispatch(toast.push.warning({ message: 'Must have Internet' }))
                 }
             }
         }
@@ -67,7 +60,7 @@ function Punching({ punch, theBreak, lunchBreak, overTime }) {
                         setLoading('')
                     })
                 } else {
-                    dispatch(toast.push.error({ message: 'Must have Internet' }))
+                    dispatch(toast.push.warning({ message: 'Must have Internet' }))
                 }
             }
         }
@@ -98,12 +91,13 @@ function Punching({ punch, theBreak, lunchBreak, overTime }) {
     }
     // Handle End Break
     const handleEndBreak = () => {
-        if ((workDetails.punch_in || workDetails.over_time.in) && workDetails.break.start && !workDetails.break.end) {
+        if ((workDetails.punch_in || workDetails.over_time.in) &&
+            workDetails?.break?.[workDetails?.break?.length - 1]?.start && !workDetails?.break?.[workDetails?.break?.length - 1]?.end) {
             let confirm = window.confirm('Are you ending a break?')
             if (confirm) {
                 setLoading('breakEnd')
                 if (internet) {
-                    userAxios.post('/end-break', { id: workDetails._id, break_id: workDetails.break._id }).then((response) => {
+                    userAxios.post('/end-break', { id: workDetails._id, break_id: workDetails?.break?.[workDetails?.break?.length - 1]?._id }).then((response) => {
                         dispatch(doEndBreak(response.data))
                         dispatch(toast.push.success({ message: response.message }))
                         setLoading('')
@@ -112,7 +106,7 @@ function Punching({ punch, theBreak, lunchBreak, overTime }) {
                         dispatch(toast.push.error({ message: error.message }))
                     })
                 } else {
-                    const oneBreak = offlineEndBreak(workDetails.break)
+                    const oneBreak = offlineEndBreak(workDetails?.break?.[workDetails?.break?.length - 1])
                     dispatch(doEndBreak(oneBreak))
                     dispatch(toast.push.success({ message: 'Break Ended' }))
                     setLoading('')
@@ -129,7 +123,7 @@ function Punching({ punch, theBreak, lunchBreak, overTime }) {
                 if (internet) {
                     setLoading('lunchStart')
                     userAxios.post('/start-lunch-break', { id: workDetails._id }).then((response) => {
-                        dispatch(doLunchBreak({ ...response.data, save: true }))
+                        dispatch(doLunchBreak({ ...response.data, want_sync: true }))
                         dispatch(toast.push.success({ message: response.message }))
                         setLoading('')
                     }).catch((error) => {
@@ -138,7 +132,7 @@ function Punching({ punch, theBreak, lunchBreak, overTime }) {
                     })
                 } else {
                     const oneBreak = offlineStartLunchBreak()
-                    dispatch(doLunchBreak({ ...oneBreak, save: false }))
+                    dispatch(doLunchBreak({ ...oneBreak }))
                     dispatch(toast.push.success({ message: 'Break Started' }))
                     setLoading('')
                 }
@@ -176,7 +170,7 @@ function Punching({ punch, theBreak, lunchBreak, overTime }) {
             if (confirm) {
                 if (internet) {
                     setLoading('overIn')
-                    userAxios.post('/start-over-time', { id: workDetails._id }).then((response) => {
+                    userAxios.post('/start-over-time', { id: workDetails._id }).then(() => {
                         dispatch(doStartOverTime())
                         dispatch(toast.push.success({ message: 'Over time Started' }))
                         setLoading('')
@@ -185,7 +179,7 @@ function Punching({ punch, theBreak, lunchBreak, overTime }) {
                         setLoading('')
                     })
                 } else {
-                    dispatch(toast.push.error({ message: 'Must have Internet' }))
+                    dispatch(toast.push.warning({ message: 'Must have Internet' }))
                 }
             }
         }
@@ -196,7 +190,7 @@ function Punching({ punch, theBreak, lunchBreak, overTime }) {
         if (confirm) {
             if (internet) {
                 setLoading('overOut')
-                userAxios.post('/stop-over-time', { id: workDetails._id }).then((response) => {
+                userAxios.post('/stop-over-time', { id: workDetails._id }).then(() => {
                     dispatch(doStopOverTime())
                     dispatch(toast.push.success({ message: 'Over time Stopped' }))
                     setLoading('')
@@ -205,7 +199,7 @@ function Punching({ punch, theBreak, lunchBreak, overTime }) {
                     setLoading('')
                 })
             } else {
-                dispatch(toast.push.error({ message: 'Must have Internet' }))
+                dispatch(toast.push.warning({ message: 'Must have Internet' }))
             }
         }
     }
