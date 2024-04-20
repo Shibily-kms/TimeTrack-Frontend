@@ -89,6 +89,11 @@ const MorePage = ({ setPageHead }) => {
                     </div>
                 </div>
             </div>
+
+            <div className="software-info">
+                <p>©Alliance water solutions®</p>
+                <p>version 2.0.0</p>
+            </div>
         </div>
     )
 }

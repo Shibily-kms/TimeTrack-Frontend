@@ -7,6 +7,7 @@
 .single-page-body {
     width: 100%;
     position: relative;
+    user-select: none;
 
     .single-page-header-div {
         z-index: 15;
@@ -110,13 +111,7 @@
             }
 
             .page-content-div{
-                .software-info{
-                    text-align: center;
-                    padding: 100px 5px 50px 5px;
-                    font-size: 13px;
-                    color: var(--text-c2);
-                    margin-bottom: 25px;
-                }
+                margin-bottom: 80px;
             }
         }
     }

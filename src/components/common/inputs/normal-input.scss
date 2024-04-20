@@ -36,7 +36,7 @@
             }
 
             &:focus~label,
-            &:valid~label {
+            &:not(:placeholder-shown)~label {
                 top: 3px;
                 left: 9px;
                 font-size: 12px;

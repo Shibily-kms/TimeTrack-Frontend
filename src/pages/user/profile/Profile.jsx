@@ -89,11 +89,11 @@ const Profile = ({ setPageHead }) => {
                         </div>
                         <div className="list-item-div">
                             <span><p>Post office</p></span>
-                            <span><p>: {userData?.address?.post} {userData?.address?.pin_code}</p></span>
+                            <span><p>: {userData?.address?.post} - {userData?.address?.pin_code}</p></span>
                         </div>
                         <div className="list-item-div">
                             <span><p>District</p></span>
-                            <span><p>: {userData?.address?.dt}</p></span>
+                            <span><p>: {userData?.address?.district}</p></span>
                         </div>
                         <div className="list-item-div">
                             <span><p>State</p></span>
@@ -103,6 +103,10 @@ const Profile = ({ setPageHead }) => {
                             <span><p>Mobile number</p></span>
                             <span><p>: {userData?.contact1}</p></span>
                         </div>
+                        {userData?.contact2 && <div className="list-item-div">
+                            <span><p></p></span>
+                            <span><p>: {userData?.contact2}</p></span>
+                        </div>}
                         <div className="list-item-div">
                             <span><p>Whatsapp</p></span>
                             <span><p>: {userData?.whatsapp}</p></span>

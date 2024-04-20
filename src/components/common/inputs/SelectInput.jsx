@@ -35,7 +35,7 @@ function SelectInput({
     return (
         <div className='input-model-div select-input'>
             <div>
-                <select required={isRequired} onChange={handleSelect} name={name} id={id || name}>
+                <select required={isRequired} onChange={handleSelect} name={name} id={id || name} placeholder={' '}>
                     {firstOption && <option value={firstOption.value || ''}>{firstOption.option}</option>}
                     {values?.map((option, index) => <option selected={option?.selected || ifOther} key={index} value={option.value || ''}>{option.option}</option>)}
                 </select>

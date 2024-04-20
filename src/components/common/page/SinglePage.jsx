@@ -67,10 +67,6 @@ function SinglePage({ pageHead, children }) {
                     </div>
                     <div className="page-content-div">
                         {children}
-                        <div className="software-info">
-                            <p>©Alliance water solutions®</p>
-                            <p>version 2.0.0</p>
-                        </div>
                     </div>
                 </div>
             </div>

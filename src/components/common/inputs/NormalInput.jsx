@@ -9,7 +9,7 @@ function NormalInput({
     onChangeFun,
     value = '',
     colorCode,
-    placeholder,
+    placeholder = '',
     isRequired = true,
     min = null,
     max = null,
@@ -28,7 +28,7 @@ function NormalInput({
                     name={name}
                     id={id || name}
                     value={value}
-                    placeholder={placeholder}
+                    placeholder={' ' + placeholder}
                     required={isRequired}
                     onChange={onChangeFun}
                     min={min}
