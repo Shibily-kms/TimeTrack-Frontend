@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import * as XLSX from 'xlsx';
 import './top-bar.scss'
 import Title from '../../common/title/Title'
-import { getTimeFromSecond, stringToLocalTime } from '../../../assets/javascript/date-helper'
+import { stringToLocalTime } from '../../../assets/javascript/date-helper'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { BiLoaderAlt } from 'react-icons/bi'
 import { BsFillCalendarCheckFill, BsFillCalendarEventFill } from 'react-icons/bs'
@@ -77,7 +77,7 @@ function TopBar({ oneDay, staff }) {
                     work: '',
                     start: stringToLocalTime(date.punch.in),
                     end: stringToLocalTime(date.punch.out),
-                    duration: getTimeFromSecond(date.punch.duration) || '0m'
+                    duration: date.punch.duration || '0'
                 }
                 let overTime = {
                     date: date.date,
@@ -85,7 +85,7 @@ function TopBar({ oneDay, staff }) {
                     work: '',
                     start: stringToLocalTime(date.over_time.in),
                     end: stringToLocalTime(date.over_time.out),
-                    duration: getTimeFromSecond(date.over_time.duration) || '0m'
+                    duration: date.over_time.duration || '0'
                 }
                 overTime = date?.over_time?.in ? [overTime] : []
                 let lunchBreak = {
@@ -94,7 +94,7 @@ function TopBar({ oneDay, staff }) {
                     work: '',
                     start: stringToLocalTime(date.lunch_break.start),
                     end: stringToLocalTime(date.lunch_break.end),
-                    duration: getTimeFromSecond(date.lunch_break.duration) || '0m'
+                    duration: date.lunch_break.duration || '0'
                 }
                 lunchBreak = date?.lunch_break?.start ? [lunchBreak] : []
                 const regular = date.regular_work.map((workObj) => ({
@@ -119,7 +119,7 @@ function TopBar({ oneDay, staff }) {
                     work: '',
                     start: stringToLocalTime(obj.start),
                     end: stringToLocalTime(obj.end),
-                    duration: getTimeFromSecond(obj.duration) || '0m'
+                    duration: obj.duration || '0'
                 }));
                 return [punch, ...regular, ...extra, ...breaks, ...overTime, ...lunchBreak, '']
             })
