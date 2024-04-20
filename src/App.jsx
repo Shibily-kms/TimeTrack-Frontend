@@ -12,9 +12,10 @@ function App() {
   const dispatch = useDispatch()
   const { theme } = useSelector((state) => state.systemInfo)
 
-
   useEffect(() => {
     dispatch(connection(navigator.onLine))
+    const root = document.documentElement;
+
     const handleOnline = () => {
       dispatch(connection(true))
     };
@@ -26,16 +27,7 @@ function App() {
     window.addEventListener('online', handleOnline);
     window.addEventListener('offline', handleOffline);
 
-    return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
-    };
-    // eslint-disable-next-line
-  }, []);
-
-  useEffect(() => {
-    const root = document.documentElement;
-
+    // Initial Theme Setup
     if (theme === 'os-default') {
       root.className = 'os-default';
     } else if (theme === 'dark') {
@@ -43,8 +35,14 @@ function App() {
     } else {
       root.className = 'light';
     }
+
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
     // eslint-disable-next-line
-  }, [])
+  }, []);
+
 
   return (
     <div className="App">

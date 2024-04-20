@@ -48,7 +48,7 @@ function SinglePage({ pageHead, children }) {
                         <h3>Alliance</h3>
                     </div>
                     <div className="right">
-                        <div className="round-icon-button" title='Profile'>
+                        <div className="round-icon-button" title='Profile' onClick={() => navigate('/profile?page=more')}>
                             <IoPersonCircleOutline />
                         </div>
                         <div className="round-icon-button" style={{ cursor: "auto", color: !internet && 'red' }}

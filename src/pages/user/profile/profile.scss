@@ -1,0 +1,124 @@
+@use '../../../assets/scss/ui/theme';
+
+.user-profile-div {
+    .profile-div {
+        margin-bottom: 20px;
+        user-select: none;
+
+        .image-section-div {
+            display: flex;
+            width: 100%;
+            justify-content: center;
+
+            .image-div {
+                width: 120px;
+                height: 120px;
+                position: relative;
+                margin-bottom: 20px;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 100%;
+                    -webkit-border-radius: 100%;
+                    -moz-border-radius: 100%;
+                    -ms-border-radius: 100%;
+                    -o-border-radius: 100%;
+                    border: var(--border-primary) 1px solid;
+                }
+
+                .camera-icon {
+                    width: 35px;
+                    height: 35px;
+                    background-color: var(--background-primary);
+                    color: var(--text-c1);
+                    border: var(--border-primary) 1px solid;
+                    border-radius: 100%;
+                    -webkit-border-radius: 100%;
+                    -moz-border-radius: 100%;
+                    -ms-border-radius: 100%;
+                    -o-border-radius: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-size: 26px;
+                    position: absolute;
+                    right: 2px;
+                    bottom: 2px;
+                }
+            }
+        }
+
+        .name-section {
+            text-align: center;
+            margin-bottom: 15px;
+
+            p {
+                color: var(--text-c2);
+            }
+        }
+
+        .sub-menu-div {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+
+            .item-div {
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+                align-items: center;
+                border: var(--border-primary) 1px solid;
+                border-radius: 10px;
+                -webkit-border-radius: 10px;
+                -moz-border-radius: 10px;
+                -ms-border-radius: 10px;
+                -o-border-radius: 10px;
+                padding: 5px 5px;
+                width: 100%;
+                cursor: pointer;
+                user-select: none;
+
+                &:hover {
+                    border: var(--border-tertiary) 1px solid;
+                }
+
+                svg {
+                    font-size: 22px;
+                    color: var(--text-tertiary);
+                }
+
+                span {
+                    font-size: 12px;
+                }
+            }
+        }
+    }
+
+    .list-details-div {
+        margin-bottom: 30px;
+        h4 {
+            font-size: 19px;
+            margin-bottom: 8px;
+        }
+
+        .list-item-div {
+            display: grid;
+            grid-template-columns: 35% 65%;
+            gap: 5px;
+            margin: 10px 0;
+
+            span {
+                &:first-child {
+                    color: var(--text-c2);
+                    font-size: 14px;
+                }
+
+                &:last-child {
+                    color: var(--text-c1);
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+}

@@ -64,17 +64,19 @@
     }
 
     .bottom-section-div {
-        font-size: 13px;
+        font-size: 12px;
         font-weight: 500;
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
 
         p {
             @include threeDots(1);
         }
 
-        div {
+        div{
             display: flex;
-            justify-content: space-between;
-            gap: 10px;
+            align-items: center;
         }
     }
 }

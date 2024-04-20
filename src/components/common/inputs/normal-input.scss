@@ -44,6 +44,7 @@
                 max-width: 85%;
                 padding: 0px 10px 0px 7px;
                 width: auto;
+                background: none;
 
             }
 
@@ -62,7 +63,7 @@
             -moz-transition: 0.1s ease-in-out;
             -ms-transition: 0.1s ease-in-out;
             -o-transition: 0.1s ease-in-out;
-            // background-color: var(--background-primary);
+            background-color: var(--background-primary);
             width: 85%;
             padding: 3px 0;
             display: inline-block;

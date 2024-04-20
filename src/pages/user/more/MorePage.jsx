@@ -46,7 +46,7 @@ const MorePage = ({ setPageHead }) => {
         <div className="more-page-div">
             <Modal modal={modal} setModal={() => setModal({ status: false })} />
             <div className="section-border">
-                <div className="option-div">
+                <div className="option-div" onClick={() => navigate('/profile?page=more')}>
                     <div className="left">
                         <IoPersonCircleOutline />
                         <h4>Profile</h4>

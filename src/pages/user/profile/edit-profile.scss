@@ -1,0 +1,23 @@
+.edit-profile-div {
+    form {
+        .input-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0 15px;
+
+        }
+    }
+
+
+    @media screen and (max-width:500px) {
+        form {
+            .input-section {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 0 10px;
+
+            }
+        }
+
+    }
+}

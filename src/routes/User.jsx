@@ -1,14 +1,14 @@
 import React, { useEffect, Suspense, lazy, useState } from 'react'
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { userAxios } from '../config/axios'
-import { setWorkData } from '../redux/features/user/workdataSlice'
-import { setUser } from '../redux/features/user/authSlice'
+import { clearWorkData, setWorkData } from '../redux/features/user/workdataSlice'
+import { setUser, logOut } from '../redux/features/user/authSlice'
 import { getPunchDetails } from '../redux/features/user/workdataSlice'
 import PageLoading from '../components/common/spinners/PageLoading'
 import SinglePage from '../components/common/page/SinglePage'
 import { toast } from '../redux/features/user/systemSlice'
-import { clearSyncRegularWork } from '../redux/features/user/dayWorksSlice'
+import { clearRegularWork, clearSyncRegularWork } from '../redux/features/user/dayWorksSlice'
 
 
 const Home = lazy(() => import('../pages/user/home/Home'))
@@ -17,12 +17,15 @@ const PunchWork = lazy(() => import('../pages/user/punch-work/PunchWork'))
 const NotFound = lazy(() => import('../pages/user/not-found/NotFound '))
 const MorePage = lazy(() => import('../pages/user/more/MorePage'))
 const Settings = lazy(() => import('../pages/user/settings/Settings'))
+const Profile = lazy(() => import('../pages/user/profile/Profile'))
+const EditProfile = lazy(() => import('../pages/user/profile/EditProfile'))
 
 
 function User() {
 
   let isAuthenticated = false
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const { user } = useSelector((state) => state.userAuth)
   const { internet } = useSelector((state) => state.systemInfo)
   const { workDetails } = useSelector((state) => state.workData)
@@ -34,9 +37,9 @@ function User() {
   }
 
   useEffect(() => {
+
     // Offline data Sync to Server
     if (internet) {
-
       // Check any data for sync
       const syncBreak = workDetails?.break?.filter((item) => item?.want_sync)
       const syncLunch = workDetails?.lunch_break?.want_sync ? workDetails?.lunch_break : null
@@ -67,7 +70,6 @@ function User() {
           dispatch(toast.push.error({ message: error.message }))
         })
       }
-
     }
     // eslint-disable-next-line
   }, [internet])
@@ -77,10 +79,13 @@ function User() {
     // Change Title
     document.title = `Staff Works`;
     if (user) {
-      userAxios.get(`/profile?staffId=${user?._id}`).then((response) => {
-        dispatch(setUser({ ...user, ...response.data.data }))
+      userAxios.get(`/auth/check-active`).then((response) => {
+        dispatch(setUser({ ...user, ...response.data }))
       }).catch((error) => {
-        dispatch(toast.push.error({ message: error.message }))
+        dispatch(clearWorkData())
+        dispatch(clearRegularWork())
+        dispatch(logOut())
+        navigate('/login')
       })
     }
 
@@ -102,6 +107,10 @@ function User() {
           <Route path='/enter-today' element={<PrivateRoute element={<WorkDetails setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
           <Route path='/settings' element={<PrivateRoute element={<Settings setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
           <Route path='/more' element={<PrivateRoute element={<MorePage setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+
+
+          <Route path='/profile' element={<PrivateRoute element={<Profile setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+          <Route path='/profile/edit' element={<PrivateRoute element={<EditProfile setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
 
 
           {/* 404 Route */}
