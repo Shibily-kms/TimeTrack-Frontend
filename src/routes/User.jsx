@@ -96,8 +96,6 @@ function User() {
     // eslint-disable-next-line
   }, [])
 
-
-
   return (
     <SinglePage pageHead={pageHead}>
       <Suspense fallback={<PageLoading />}>

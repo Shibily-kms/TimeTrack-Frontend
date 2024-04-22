@@ -5,6 +5,7 @@ const initialState = {
     internet: navigator.onLine,
     theme: 'os-default',
     alerts: [],
+    adminActivePage: 'dashboard'
 }
 
 export const systemSlice = createSlice({
@@ -89,6 +90,11 @@ export const systemSlice = createSlice({
         },
         pullAll: (state, action) => {
             state.alerts = []
+        },
+
+        // admin active page
+        setAdminActivePage: (state, action) => {
+            state.adminActivePage = action.payload
         }
 
 
@@ -101,5 +107,5 @@ const push = { error, success, warning, info, }
 export const toast = { pull, push }
 
 
-export const { connection, changeThemeColor } = systemSlice.actions;
+export const { connection, changeThemeColor, setAdminActivePage } = systemSlice.actions;
 export default systemSlice.reducer

@@ -14,7 +14,7 @@ function Admin() {
   let isAuthenticated = false
   const { admin } = useSelector((state) => state.adminAuth)
 
-  if (admin?.token) {
+  if (admin?.token && localStorage.getItem('_aws_temp_tkn_adn')) {
     isAuthenticated = true
   }
 
@@ -31,7 +31,7 @@ function Admin() {
       <Route path='/monthly-work-report' element={<PrivateRoute element={<WorkReport />} isAuthenticated={isAuthenticated} />} />
       <Route path='/designations' element={<PrivateRoute element={<Designations />} isAuthenticated={isAuthenticated} />} />
       <Route path='/all-staffs' element={<PrivateRoute element={<AllStaffs />} isAuthenticated={isAuthenticated} />} />
-      <Route path='/login' element={<Login />} />
+      {/* <Route path='/login' element={<Login />} /> */}
 
       {/* 404 Route */}
       <Route path="/*" element={<NotFound />} />

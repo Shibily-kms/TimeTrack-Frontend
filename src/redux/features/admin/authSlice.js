@@ -13,7 +13,7 @@ const initialState = {
 export const loginAdmin = createAsyncThunk('admin/login', async (formData, thunkAPI) => {
 
     try {
-        return await adminAxios.post('/login', formData)
+        return await adminAxios.post('/auth/login', formData)
     } catch (error) {
         const message = (error && error.message) || error.message || error.toString()
         return thunkAPI.rejectWithValue(message)
@@ -45,8 +45,8 @@ export const adminAuthSlice = createSlice({
             })
             .addCase(loginAdmin.fulfilled, (state, action) => {
                 state.isLoading = false;
-                localStorage.setItem('_aws_temp_tkn_adn', action.payload.data.data.token)
-                state.admin = action.payload.data.data;
+                localStorage.setItem('_aws_temp_tkn_adn', action.payload.data.token)
+                state.admin = action.payload.data;
             })
             .addCase(loginAdmin.rejected, (state, action) => {
                 state.isLoading = false;

@@ -16,9 +16,12 @@
     --background-tertiary: #{$aws-color-primary};
     --background-opt-primary-6 : #{color.adjust($aws-theme-light-background-primary,$alpha : -0.6)};
     --background-opt-primary-5 : #{color.adjust($aws-theme-light-background-primary, $alpha : -0.5)};
+    --background-opt-secondary-9 : #{color.adjust($aws-color-black, $alpha : -0.9)};
+    --background-opt-tertiary-8 : #{color.adjust($aws-color-primary, $alpha : -0.8)};
     --background-c1: #{$aws-color-white};
     --background-c2: #{$aws-color-neutral-10};
     --background-c3: #{$aws-color-neutral-30};
+    --background-d1: #{$aws-color-white};
 
     --color-error : #{$aws-color-light-theme-red-60};
     --color-success : #{$aws-color-light-theme-green-60};
@@ -29,6 +32,7 @@
     --border-primary: #{$aws-theme-light-border-primary};
     --border-secondary: #{$aws-theme-light-border-secondary};
     --border-tertiary : #{$aws-color-primary};
+    --border-c1 : #{$aws-color-neutral-10};
 
     --button-primary-default: #{$aws-color-primary};
     --button-primary-hover: #{$aws-theme-light-button-primary-hover};
@@ -59,9 +63,12 @@
     --background-tertiary: #{$aws-color-primary};
     --background-opt-primary-6 : #{color.adjust($aws-theme-dark-background-primary, $alpha : -0.6)};
     --background-opt-primary-5 : #{color.adjust($aws-theme-dark-background-primary, $alpha : -0.5)};
+    --background-opt-secondary-9 : #{color.adjust($aws-color-white, $alpha : -0.9)};
+    --background-opt-tertiary-8 : #{color.adjust($aws-color-primary, $alpha : -0.8)};
     --background-c1: #{$aws-color-neutral-80};
     --background-c2: #{$aws-color-neutral-60};
     --background-c3: #{$aws-color-neutral-40};
+    --background-d1: #{$aws-color-neutral-80};
 
     --color-error : #{$aws-color-dark-theme-red-60};
     --color-success : #{$aws-color-dark-theme-green-60};
@@ -71,6 +78,7 @@
     --border-primary: #{$aws-theme-dark-border-primary};
     --border-secondary: #{$aws-theme-dark-border-secondary};
     --border-tertiary : #{$aws-color-light-theme-primary-50};
+    --border-c1 : #{$aws-color-neutral-70};
 
     --button-primary-default: #{$aws-color-primary};
     --button-primary-hover: #{$aws-theme-dark-button-primary-hover};

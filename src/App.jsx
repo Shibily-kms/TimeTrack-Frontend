@@ -5,7 +5,8 @@ import User from './routes/User';
 import { useDispatch, useSelector } from 'react-redux';
 import { connection } from './redux/features/user/systemSlice'
 import PageLoading from './components/common/spinners/PageLoading';
-const Login = lazy(() => import('./pages/user/login/Login'))
+const UserLogin = lazy(() => import('./pages/user/login/Login'))
+const AdminLogin = lazy(() => import('./pages/admin/login/Login'))
 
 
 function App() {
@@ -48,11 +49,14 @@ function App() {
     <div className="App">
       <Suspense fallback={<PageLoading />}>
         <Routes>
+          {/* WithOut Header and Footer */}
+          <Route path='/login' element={<UserLogin />} />
+          <Route path='/admin/login' element={<AdminLogin />} />
+
+          {/* Routes */}
           <Route element={<Admin />} path='/admin/*' />
           <Route element={<User />} path='/*' />
 
-          {/* WithOut Header and Footer */}
-          <Route path='/login' element={<Login />} />
         </Routes>
       </Suspense>
     </div>
