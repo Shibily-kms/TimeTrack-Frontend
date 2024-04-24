@@ -13,23 +13,6 @@
         color: var(--text-c2);
     }
 
-    .spin-div {
-        svg {
-            animation: iconLoading 1.5s linear infinite;
-            -webkit-animation: iconLoading 1.5s linear infinite;
-        }
-
-        @keyframes iconLoading {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-    }
-
     .loading-image {
         .loader {
             width: 50px;
@@ -65,6 +48,10 @@
             font-weight: 500;
             color: var(--text-c2);
         }
+    }
+
+    .bottom-div {
+        margin: 15px;
     }
 
 }

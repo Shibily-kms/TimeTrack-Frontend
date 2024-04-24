@@ -106,7 +106,6 @@ function User() {
           <Route path='/settings' element={<PrivateRoute element={<Settings setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
           <Route path='/more' element={<PrivateRoute element={<MorePage setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
 
-
           <Route path='/profile' element={<PrivateRoute element={<Profile setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
           <Route path='/profile/edit' element={<PrivateRoute element={<EditProfile setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
 

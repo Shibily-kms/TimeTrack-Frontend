@@ -16,7 +16,7 @@ function SpinWithMessage({ icon, message = '', load = false, fullView = false, b
                 </div>
             }
 
-            {message && <div className="message">
+            {message && !load && <div className="message">
                 <p>{message}</p>
             </div>
             }
