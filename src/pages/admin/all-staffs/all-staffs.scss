@@ -1,4 +1,6 @@
+@use "sass:color";
 @use '../../../assets/scss/ui/theme';
+@use '../../../assets/scss/ui/var-color' as *;
 
 .staff-list-page-div {
     position: relative;
@@ -14,6 +16,11 @@
                     background-color: var(--color-info);
                 }
             }
+        }
+
+        .deleted-item {
+            color: var(--color-error);
+            background-color: #{color.adjust($aws-color-light-theme-red, $alpha : -0.8)};
         }
     }
 }

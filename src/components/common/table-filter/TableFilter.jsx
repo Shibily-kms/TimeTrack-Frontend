@@ -75,7 +75,7 @@ function TableFilter({ children, srlNo, topRight }) {
                     </thead>
                     <tbody>
                         {tableBody?.map((row, index) => (
-                            <tr key={index}>
+                            <tr key={index} className={row?.props?.className}>
                                 {srlNo ? <td>{(rowCount * (page - 1)) + index + 1}</td> : ""}
                                 {row?.props?.children?.map((col) => {
                                     return col;

@@ -1,26 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import './all-staffs.scss'
-import AddStaff from '../../../components/admin/edit-staff/EditStaff'
 import EditStaff from '../../../components/admin/edit-staff/EditStaff'
-import DeleteStaff from '../../../components/admin/models/DeleteStaff'
 import TableFilter from '../../../components/common/table-filter/TableFilter'
 import SpinWithMessage from '../../../components/common/spinners/SpinWithMessage'
-import EditWorkList from '../../../components/admin/models/EditWorkList'
 import { adminAxios } from '../../../config/axios'
 import { getTimeFromSecond } from '../../../assets/javascript/date-helper'
-import { BsTrash3 } from 'react-icons/bs'
-import { AiOutlinePlus } from 'react-icons/ai'
-import { FiEdit2, FiList } from 'react-icons/fi'
-import { IoCloseCircleOutline } from 'react-icons/io5'
 import { toast } from '../../../redux/features/user/systemSlice'
 import { IoTrashBin } from 'react-icons/io5'
 import { useDispatch } from 'react-redux'
 import Modal from '../../../components/common/modal/Modal'
 import SingleButton from '../../../components/common/buttons/SingleButton'
-import { FaPlus } from "react-icons/fa6";
 import { useNavigate } from 'react-router-dom'
 import { GrEdit } from "react-icons/gr";
-import { TbUserEdit } from "react-icons/tb";
+import { FaCheck } from "react-icons/fa6";
 
 
 function AllStaffs({ setPageHead }) {
@@ -28,13 +20,11 @@ function AllStaffs({ setPageHead }) {
     const navigate = useNavigate();
     const [loading, setLoading] = useState('')
     const [data, setData] = useState([])
-    const [modal, setModal] = useState({ status: false, width: '600px' })
-    const [password, setPassword] = useState({ text: null, copied: false })
-    const [doId, setDoId] = useState(null)
+    const [modal, setModal] = useState({ status: false })
+    const [allStaff, setAllStaff] = useState(false)
 
-    useEffect(() => {
-        setPageHead({ title: 'Staff List' })
-        setLoading('initialData')
+
+    const getActiveStaffList = () => {
         adminAxios.get('/staff/all-list').then((response) => {
             setData(response.data)
             setLoading('')
@@ -42,24 +32,39 @@ function AllStaffs({ setPageHead }) {
             setLoading('')
             dispatch(toast.push.error({ message: error.message }))
         })
+    }
+    const getAllStaffList = () => {
+        adminAxios.get('/staff/all-list?all=yes').then((response) => {
+            setData(response.data)
+            setLoading('')
+        }).catch((error) => {
+            setLoading('')
+            dispatch(toast.push.error({ message: error.message }))
+        })
+    }
+
+    useEffect(() => {
+        setPageHead({ title: 'Staff List' })
+        getActiveStaffList()
+        setLoading('initialData')
 
         // eslint-disable-next-line
     }, [])
 
-
-
-    const closeModel = () => {
-        if (password.text && !password.copied) {
-            toast.error('Must copy password')
-            return
-        }
-        setModal()
-        setPassword({ text: null, copied: false })
+    const openModal = (title, component) => {
+        setModal({ ...modal, status: true, title, content: component, width: '600px' })
     }
 
-    const openModal = (title, component) => {
-        setModal({ ...modal, status: true, title, content: component })
-        // setDoId(id)
+    const handleAllButton = () => {
+        setLoading('listing')
+        setAllStaff(!allStaff)
+        if (allStaff) {
+            // Get Active Staff List
+            getActiveStaffList()
+        } else {
+            // Get All Staff list
+            getAllStaffList()
+        }
     }
 
 
@@ -68,7 +73,8 @@ function AllStaffs({ setPageHead }) {
             <Modal modal={modal} setModal={setModal} />
             <div className="table-div">
                 {data?.[0] ? <>
-                    <TableFilter srlNo={true} >
+                    <TableFilter srlNo={true} topRight={<SingleButton name={'All Staffs'} stIcon={allStaff && <FaCheck />}
+                        classNames={allStaff ? 'btn-primary' : 'btn-gray'} onClick={handleAllButton} loading={loading === 'listing'} />}>
                         <table id="list">
                             <thead>
                                 <tr>
@@ -82,7 +88,7 @@ function AllStaffs({ setPageHead }) {
                             </thead>
                             <tbody>
                                 {data.map((value) => {
-                                    return <tr key={value._id} >
+                                    return <tr key={value._id} className={value?.delete ? 'deleted-item' : ""}>
 
                                         <td style={{ cursor: "pointer" }} title='Click for show profile details' onClick={() => navigate(`/admin/staff-list/${value._id}/view`)}>
                                             {value?.first_name + ' ' + value?.last_name}<br></br><small>{value?.sid}</small>
@@ -97,9 +103,12 @@ function AllStaffs({ setPageHead }) {
                                         </td>
                                         <td onClick={() => navigate(`/admin/staff-list/${value._id}/view`)}>₹{value.current_salary || 0}.00</td>
                                         <td>
-                                            <div className="button-div">
-                                                <SingleButton title='Edit' classNames={'icon-only'} stIcon={<GrEdit />} onClick={() => openModal('Edit Staff')} />
-                                            </div>
+                                            {!value?.delete &&
+                                                <div className="button-div">
+                                                    <SingleButton title='Edit' classNames={'icon-only'} stIcon={<GrEdit />}
+                                                        onClick={() => openModal('Edit Staff', <EditStaff setModal={setModal} setData={setData} editId={value._id} />)} />
+                                                </div>}
+
                                         </td>
                                         <td style={{ display: 'none' }}>{value?.sid}</td>
                                     </tr>

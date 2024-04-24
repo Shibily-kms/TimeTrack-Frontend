@@ -16,7 +16,8 @@ function NormalInput({
     step,
     rightIcon = null,
     rightIconAction = null,
-    style
+    style,
+    pattern
 }) {
     const [inputType, setInputType] = useState('text')
 
@@ -36,6 +37,7 @@ function NormalInput({
                     step={step}
                     onFocus={() => setInputType(type)}
                     onBlur={() => { if (!value) setInputType('text') }}
+                    pattern={pattern}
                 />
                 <label htmlFor={id || name}>{label}{isRequired && <span>*</span>}</label>
 
