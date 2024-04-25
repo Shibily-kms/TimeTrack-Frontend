@@ -5,10 +5,11 @@ import SelectInput from '../../common/inputs/SelectInput'
 import SingleButton from '../../common/buttons/SingleButton';
 import { toast } from '../../../redux/features/user/systemSlice'
 import { useDispatch } from 'react-redux';
-import { userAxios } from '../../../config/axios';
+import { adminAxios, userAxios } from '../../../config/axios';
 import { addNewRegularWork, updateRegularWork } from '../../../redux/features/user/dayWorksSlice'
 
-const AddEditRegWork = ({ updateData, setModal }) => {
+const AddEditRegWork = ({ updateData, setModal, admin, staff_id, setData }) => {
+    const baseApiAxios = admin ? adminAxios : userAxios
     const [form, setForm] = useState({
         title: updateData?.title || '',
         type: updateData?.repeat_type || 'daily',
@@ -66,8 +67,19 @@ const AddEditRegWork = ({ updateData, setModal }) => {
         setLoading(true)
 
         if (updateData) {
-            userAxios.put('/regular-work', { ...form, work_Id: updateData._id }).then((response) => {
-                dispatch(updateRegularWork(response.data))
+            baseApiAxios.put('/regular-work', { ...form, work_Id: updateData._id }).then((response) => {
+                if (admin) {
+                    setData((state) => {
+                        return state?.map((item) => {
+                            if (item._id === updateData._id) {
+                                return response.data
+                            }
+                            return item
+                        })
+                    })
+                } else {
+                    dispatch(updateRegularWork(response.data))
+                }
                 dispatch(toast.push.success({ message: "Updated" }))
                 setLoading(false)
                 setModal({ status: false })
@@ -76,8 +88,12 @@ const AddEditRegWork = ({ updateData, setModal }) => {
                 setLoading(false)
             })
         } else {
-            userAxios.post('/regular-work', { ...form, self: true }).then((response) => {
-                dispatch(addNewRegularWork(response.data))
+            baseApiAxios.post('/regular-work', { ...form, self: admin ? false : true, staff_id }).then((response) => {
+                if (admin) {
+                    setData((state) => ([...state, response.data]))
+                } else {
+                    dispatch(addNewRegularWork(response.data))
+                }
                 dispatch(toast.push.success({ message: "New regular work added to list" }))
                 setLoading(false)
                 setModal({ status: false })

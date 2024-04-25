@@ -4,13 +4,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FaCheck, FaTrash, FaPencil, FaCircleInfo } from "react-icons/fa6";
 import { GoDotFill } from "react-icons/go";
 import { convertIsoToAmPm } from '../../../assets/javascript/date-helper'
-import { userAxios } from '../../../config/axios';
+import { adminAxios, userAxios } from '../../../config/axios';
 import { deleteRegularWork, completeRegularWork } from '../../../redux/features/user/dayWorksSlice'
 import { toast } from '../../../redux/features/user/systemSlice'
 import { PiSpinnerBold } from "react-icons/pi";
 import { offlineRegularWork } from '../../../assets/javascript/offline-helper';
 
-const RegularWorkCard = ({ allWork, data, openWorkModal, inWork }) => {
+const RegularWorkCard = ({ allWork, data, setData, openWorkModal, inWork, admin }) => {
+    const baseApiAxios = admin ? adminAxios : userAxios
     const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     const { workDetails } = useSelector((state) => state.workData)
     const { internet } = useSelector((state) => state.systemInfo)
@@ -21,9 +22,13 @@ const RegularWorkCard = ({ allWork, data, openWorkModal, inWork }) => {
         const ask = window.confirm('Are you delete this todo ?')
         if (ask) {
             setLoading('delete' + id)
-            userAxios.delete(`/regular-work?work_id=${id}`).then(() => {
+            baseApiAxios.delete(`/regular-work?work_id=${id}`).then(() => {
+                if (admin) {
+                    setData((state) => state.filter((item) => item._id !== data._id))
+                } else {
+                    dispatch(deleteRegularWork(id))
+                }
                 setLoading('')
-                dispatch(deleteRegularWork(id))
                 dispatch(toast.push.success({ message: 'Removed form list' }))
             }).catch((error) => {
                 setLoading('')
@@ -90,12 +95,12 @@ const RegularWorkCard = ({ allWork, data, openWorkModal, inWork }) => {
                 {allWork && <>
                     {data?.finished
                         ? <p><FaCircleInfo /> Attended</p>
-                        : data?.self_start ? <>
+                        : ((admin && !data?.self_start) || (!admin && data?.self_start)) ? <>
                             <FaPencil onClick={() => openWorkModal('Update Regular Work', data)} />
                             {loading === `delete${data._id}`
                                 ? <span className='loading-icon'><PiSpinnerBold /></span>
                                 : <FaTrash onClick={() => handleDelete(data?._id)} />}
-                        </> : <p><FaCircleInfo /> Admin only</p>}
+                        </> : <p><FaCircleInfo /> {admin ? "Staff Only" : "Admin only"}</p>}
                 </>}
             </div>
         </div >

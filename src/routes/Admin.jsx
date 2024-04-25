@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux'
 const Dashboard = lazy(() => import('../pages/admin/dashboard/Dashboard'));
 const AllStaffs = lazy(() => import('../pages/admin/all-staffs/AllStaffs'))
 const AddStaff = lazy(() => import('../pages/admin/add-staff/AddStaff'))
+const StaffProfile = lazy(() => import('../pages/admin/staff-profile/StaffProfile'))
 
 function Admin() {
   let isAuthenticated = false
@@ -34,6 +35,7 @@ function Admin() {
           <Route path='/' element={<PrivateRoute element={<Dashboard setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
           <Route path='/staff-list' element={<PrivateRoute element={<AllStaffs setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
           <Route path='/staff-list/add-staff' element={<PrivateRoute element={<AddStaff setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+          <Route path='/staff-list/:staff_id/view' element={<PrivateRoute element={<StaffProfile setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
 
 
           <Route path='/staff-work-analyze/date-basie' element={<PrivateRoute element={<DateBasie setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />

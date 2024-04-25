@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import './delete-staff.scss'
-import { toast } from 'react-hot-toast'
+import { toast } from '../../../redux/features/user/systemSlice'
 import { adminAxios } from '../../../config/axios'
 import { BiLoaderAlt } from 'react-icons/bi'
+import RadioInput from '../../../components/common/inputs/RadioInput'
+import NormalInput from '../../common/inputs/NormalInput'
+import SingleButton from '../../common/buttons/SingleButton'
+import { useDispatch } from 'react-redux'
 
 function DeleteStaff({ setModal, setData, deleteId }) {
+    const dispatch = useDispatch()
     const [form, setForm] = useState({ type: null, message: '' })
     const [loading, setLoading] = useState(null)
     const [hide, setHide] = useState(true)
@@ -32,17 +37,24 @@ function DeleteStaff({ setModal, setData, deleteId }) {
         if (ask) {
             if (form.type) {
                 setLoading(true)
-                adminAxios.delete(`/staff?id=${deleteId}&type=${form.type}&message=${form.message}`).then((response) => {
-                    setData((state) => state.filter((staff) => staff._id !== deleteId))
+                adminAxios.delete(`/staff?id=${deleteId}&type=${form.type}&message=${form.message}`).then(() => {
+                    setData((state) => ({
+                        ...state,
+                        delete: true,
+                        deleteReason: {
+                            date: new Date(),
+                            reason: form?.message || 'Hard Deleted'
+                        },
+                    }))
                     setModal('')
                     setLoading(false)
                 }).catch((error) => {
-                    toast.error(error.response.data.message)
+                    dispatch(toast.push.error({ message: error.message }))
                     setModal('')
                     setLoading(false)
                 })
             } else {
-                toast.error('Choose any option')
+                dispatch(toast.push.error({ message: 'Choose any option' }))
             }
         } else {
             setModal('')
@@ -53,26 +65,16 @@ function DeleteStaff({ setModal, setData, deleteId }) {
     return (
         <div className='delete-staff'>
             <div className="boarder">
-                <h5>Reasons for delete a staff :</h5>
+                <h4>Reasons for delete a staff :</h4>
                 <form action="" onSubmit={handleSubmit}>
-                    <div className="radio-input-div">
-                        <input type="radio" id='hard' value={'hard'} name='reason' onChange={handleChoose} />
-                        <label htmlFor="hard">Rectification / Removal <span>( Hard delete )</span></label>
+                    <div className="radio-inputs">
+                        <RadioInput label={'Rectification / Removal'} id='hard' name={'reason'} onChangeFun={handleChoose} value={'hard'} />
+                        <RadioInput label={'Left the company'} id='soft' name={'reason'} onChangeFun={handleChoose} value={'soft'} />
                     </div>
-                    <div className="radio-input-div">
-                        <input type="radio" id='soft' value={'soft'} name='reason' onChange={handleChoose} />
-                        <label htmlFor="soft">Left the company</label>
-                    </div>
-                    {form.type === 'soft' && <div className="text-input-div">
-                        <input type="text" id='message' name='message' value={form.message} required onChange={handleChange} />
-                        <label htmlFor="message">Type Reason</label>
-                        <small>* Minimum 5 letters</small>
-                    </div>}
+                    {form.type === 'soft' && <NormalInput name='message' value={form?.message} onChangeFun={handleChange} label='Type Reason' />}
 
-                    <div className="buttons">
-                        <button type={hide ? 'button' : 'submit'} className={hide && 'hide'}>{loading && <span className='loading-icon'>
-                            <BiLoaderAlt /></span>} {form.type === 'soft' ? 'Leave' : 'Delete'}</button>
-                    </div>
+                    <SingleButton type={hide ? 'button' : 'submit'} classNames={hide ? "lg btn-gray" : "lg btn-danger"} loading={loading}
+                        name={form.type === 'soft' ? 'Leave' : 'Delete'} style={{ width: '100%' }} />
                 </form>
             </div>
 

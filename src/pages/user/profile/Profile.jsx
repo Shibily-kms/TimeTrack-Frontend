@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './profile.scss'
 import { getUserProfileImagePath } from '../../../assets/javascript/find-helpers';
+import { getTimeFromSecond } from '../../../assets/javascript/date-helper';
 import { userAxios } from '../../../config/axios'
 import { useDispatch, useSelector } from 'react-redux'
 import { TbCamera } from "react-icons/tb";
@@ -137,11 +138,11 @@ const Profile = ({ setPageHead }) => {
                         </div>
                         <div className="list-item-div">
                             <span><p>Working time</p></span>
-                            <span><p>: {userData?.current_working_time} / Day</p></span>
+                            <span><p>: {getTimeFromSecond(userData?.current_working_time) || '0m'} / Day</p></span>
                         </div>
                         <div className="list-item-div">
                             <span><p>C/F</p></span>
-                            <span><p>: {userData?.balance_CF}</p></span>
+                            <span><p>: {getTimeFromSecond(userData?.balance_CF) || '0m'}</p></span>
                         </div>
                     </>}
             </div>
