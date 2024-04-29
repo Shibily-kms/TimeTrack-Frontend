@@ -3,6 +3,7 @@ import './all-staffs.scss'
 import EditStaff from '../../../components/admin/edit-staff/EditStaff'
 import TableFilter from '../../../components/common/table-filter/TableFilter'
 import SpinWithMessage from '../../../components/common/spinners/SpinWithMessage'
+import StaffSettings from '../../../components/admin/staff-settings/StaffSettings'
 import { adminAxios } from '../../../config/axios'
 import { getTimeFromSecond } from '../../../assets/javascript/date-helper'
 import { toast } from '../../../redux/features/user/systemSlice'
@@ -13,6 +14,7 @@ import SingleButton from '../../../components/common/buttons/SingleButton'
 import { useNavigate } from 'react-router-dom'
 import { GrEdit } from "react-icons/gr";
 import { FaCheck } from "react-icons/fa6";
+import { FiSettings } from "react-icons/fi";
 
 
 function AllStaffs({ setPageHead }) {
@@ -33,6 +35,7 @@ function AllStaffs({ setPageHead }) {
             dispatch(toast.push.error({ message: error.message }))
         })
     }
+
     const getAllStaffList = () => {
         adminAxios.get('/staff/all-list?all=yes').then((response) => {
             setData(response.data)
@@ -51,8 +54,8 @@ function AllStaffs({ setPageHead }) {
         // eslint-disable-next-line
     }, [])
 
-    const openModal = (title, component) => {
-        setModal({ ...modal, status: true, title, content: component, width: '600px' })
+    const openModal = (title, component, width) => {
+        setModal({ ...modal, status: true, title, content: component, width: width || null })
     }
 
     const handleAllButton = () => {
@@ -98,15 +101,17 @@ function AllStaffs({ setPageHead }) {
                                         </td>
                                         <td onClick={() => navigate(`/admin/staff-list/${value._id}/view`)}>{value.contact1}</td>
                                         <td onClick={() => navigate(`/admin/staff-list/${value._id}/view`)}>
-                                            {getTimeFromSecond(value.current_working_time) || 'Om'} x {value.current_working_days || 0}
+                                            {getTimeFromSecond(value.current_working_time) || 'Om'} x {value.current_working_days || 0}d
                                             <br></br><small>{getTimeFromSecond(value.current_working_time * value.current_working_days)}</small>
                                         </td>
                                         <td onClick={() => navigate(`/admin/staff-list/${value._id}/view`)}>₹{value.current_salary || 0}.00</td>
                                         <td>
                                             {!value?.delete &&
                                                 <div className="button-div">
-                                                    <SingleButton title='Edit' classNames={'icon-only'} stIcon={<GrEdit />}
-                                                        onClick={() => openModal('Edit Staff', <EditStaff setModal={setModal} setData={setData} editId={value._id} />)} />
+                                                    <SingleButton title='Edit' classNames={'icon-only btn-blue'} stIcon={<GrEdit />}
+                                                        onClick={() => openModal('Edit Staff', <EditStaff setModal={setModal} setData={setData} editId={value._id} />, '600px')} />
+                                                    <SingleButton title='Staff Settings' classNames={'icon-only btn-primary '} stIcon={<FiSettings />}
+                                                        onClick={() => openModal('Settings', <StaffSettings setModal={setModal} staffId={value._id} />)} />
                                                 </div>}
 
                                         </td>

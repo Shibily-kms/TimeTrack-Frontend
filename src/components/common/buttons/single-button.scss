@@ -121,6 +121,15 @@
         }
     }
 
+    .btn-blue {
+        color: #{$aws-color-white};
+        background-color: var(--color-info);
+
+        .loader {
+            --_g: no-repeat radial-gradient(circle closest-side, #{$aws-color-white} 90%, #0000);
+        }
+    }
+
     .btn-danger {
         color: #{$aws-color-white};
         background-color: var(--color-error);

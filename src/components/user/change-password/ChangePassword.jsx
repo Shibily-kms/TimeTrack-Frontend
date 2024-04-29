@@ -5,6 +5,7 @@ import { toast } from 'react-hot-toast'
 import { BiLoaderAlt } from 'react-icons/bi'
 import { RxEyeClosed, RxEyeOpen } from 'react-icons/rx';
 import NormalInput from '../../../components/common/inputs/NormalInput'
+import SingleButton from '../../../components/common/buttons/SingleButton'
 
 
 function ChangePassword({ setModal }) {
@@ -69,9 +70,8 @@ function ChangePassword({ setModal }) {
                         onChangeFun={handleChange} value={form?.confirm} rightIcon={show ? <RxEyeOpen /> : <RxEyeClosed />}
                         rightIconAction={() => setShow(!show)} />
 
-                    <div className="button-div">
-                        <button>  {loading ? <span className='loading-icon'><BiLoaderAlt /></span> : 'Update'}</button>
-                    </div>
+                    <SingleButton name={'Update'} loading={loading} type={'button'} classNames={'lg btn-tertiary'} style={{ width: '100%' }} />
+
                 </form>
             </div >
         </div >

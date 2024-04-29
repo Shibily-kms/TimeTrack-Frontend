@@ -2,7 +2,6 @@ import React, { useEffect, Suspense, lazy, useState } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import DateBasie from '../pages/admin/staff-works/DateBasie'
 import StaffBasie from '../pages/admin/staff-works/StaffBasie'
-import Designations from '../pages/admin/designations/Designations'
 import WorkReport from '../pages/admin/work-report/WorkReport'
 import NotFound from '../pages/admin/not-found/NotFound '
 import PageLoading from '../components/common/spinners/PageLoading'
@@ -13,6 +12,9 @@ const Dashboard = lazy(() => import('../pages/admin/dashboard/Dashboard'));
 const AllStaffs = lazy(() => import('../pages/admin/all-staffs/AllStaffs'))
 const AddStaff = lazy(() => import('../pages/admin/add-staff/AddStaff'))
 const StaffProfile = lazy(() => import('../pages/admin/staff-profile/StaffProfile'))
+const Designations = lazy(() => import('../pages/admin/designations/Designations'))
+const Settings = lazy(() => import('../pages/admin/settings/Settings'))
+
 
 function Admin() {
   let isAuthenticated = false
@@ -36,12 +38,13 @@ function Admin() {
           <Route path='/staff-list' element={<PrivateRoute element={<AllStaffs setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
           <Route path='/staff-list/add-staff' element={<PrivateRoute element={<AddStaff setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
           <Route path='/staff-list/:staff_id/view' element={<PrivateRoute element={<StaffProfile setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+          <Route path='/designation-list' element={<PrivateRoute element={<Designations setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+          <Route path='/settings' element={<PrivateRoute element={<Settings setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
 
 
           <Route path='/staff-work-analyze/date-basie' element={<PrivateRoute element={<DateBasie setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
           <Route path='/staff-work-analyze/staff-basie' element={<PrivateRoute element={<StaffBasie setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
           <Route path='/monthly-work-report' element={<PrivateRoute element={<WorkReport setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
-          <Route path='/designations' element={<PrivateRoute element={<Designations setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
 
           {/* 404 Route */}
           <Route path="/*" element={<NotFound />} />

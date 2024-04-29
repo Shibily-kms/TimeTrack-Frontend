@@ -11,7 +11,7 @@ function Modal({ modal = { content: null, title: null, status: false, width: '40
                     <div className="modal-content" style={{ width: modal?.width ? modal.width : '400px' }}>
                         <div className="modal-top">
                             <div className="left">
-                                <h4>{modal.title}</h4>
+                                <h4>{modal?.title}</h4>
                             </div>
                             <div className="right" onClick={() => setModal({ status: false })}>
                                 <span className='close-icon'><GrClose /></span>
@@ -19,7 +19,7 @@ function Modal({ modal = { content: null, title: null, status: false, width: '40
                         </div>
                         <div className="model-center">
                             <div className="model-center-content">
-                                {modal.content}
+                                {modal?.content}
                             </div>
                         </div>
                     </div>

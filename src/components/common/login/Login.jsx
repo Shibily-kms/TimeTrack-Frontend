@@ -64,7 +64,7 @@ function Login({ admin }) {
                 onChangeFun={handleChange} value={form?.password} type={show ? 'text' : 'password'} rightIconAction={() => setShow(!show)} />
 
               <SingleButton type={'submit'} name={'Log In'} classNames={'lg btn-tertiary txt-center'}
-                style={{ marginTop: '10px', width: '100%' }} loading={isLoading} />
+                style={{ width: '100%' }} loading={isLoading} />
             </form>
           </div>
         </div>

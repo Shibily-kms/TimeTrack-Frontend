@@ -5,8 +5,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import AllianceLogo from '../../../assets/images/alliance-logo.png'
 import {
     MdOutlineSpaceDashboard, MdSpaceDashboard, MdAddCircleOutline, MdAddCircle,
-    MdOutlineVerified, MdVerified
+    MdOutlineVerified, MdVerified, MdOutlineWorkHistory, MdWorkHistory
 } from "react-icons/md";
+import { IoCalendarNumberOutline, IoCalendarNumber } from "react-icons/io5";
 import { PiUserListBold, PiUserListFill } from "react-icons/pi";
 import { RiFileList3Line, RiFileList3Fill, RiSettingsLine, RiSettingsFill } from "react-icons/ri";
 import { setAdminActivePage } from '../../../redux/features/user/systemSlice'
@@ -76,18 +77,28 @@ function AdminPage({ pageHead, children }) {
                                 {adminActivePage === 'staff-list' ? <PiUserListFill /> : <PiUserListBold />}
                                 <span>Staff List</span>
                             </div>
-                            <div className={adminActivePage === 'designation-list' ? "menu-item active-menu" : "menu-item"}
-                                onClick={() => clickMenuItem('', 'designation-list')}>
-                                {adminActivePage === 'designation-list' ? <MdVerified /> : <MdOutlineVerified />}
-                                <span>Designation List</span>
-                            </div>
                             <div className={adminActivePage === 'leave-letters' ? "menu-item active-menu" : "menu-item"}
                                 onClick={() => clickMenuItem('', 'leave-letters')}>
                                 {adminActivePage === 'leave-letters' ? <RiFileList3Fill /> : <RiFileList3Line />}
                                 <span>Leave letters</span>
                             </div>
+                            <div className={adminActivePage === 'work-analyze' ? "menu-item active-menu" : "menu-item"}
+                                onClick={() => clickMenuItem('', 'work-analyze')}>
+                                {adminActivePage === 'work-analyze' ? <MdWorkHistory /> : <MdOutlineWorkHistory />}
+                                <span>Work Analyze</span>
+                            </div>
+                            <div className={adminActivePage === 'monthly-reports' ? "menu-item active-menu" : "menu-item"}
+                                onClick={() => clickMenuItem('', 'monthly-reports')}>
+                                {adminActivePage === 'monthly-reports' ? <IoCalendarNumber /> : <IoCalendarNumberOutline />}
+                                <span>Monthly Reports</span>
+                            </div>
+                            <div className={adminActivePage === 'designation-list' ? "menu-item active-menu" : "menu-item"}
+                                onClick={() => clickMenuItem('/admin/designation-list', 'designation-list')}>
+                                {adminActivePage === 'designation-list' ? <MdVerified /> : <MdOutlineVerified />}
+                                <span>Designation List</span>
+                            </div>
                             <div className={adminActivePage === 'settings' ? "menu-item active-menu" : "menu-item"}
-                                onClick={() => clickMenuItem('', 'settings')}>
+                                onClick={() => clickMenuItem('/admin/settings', 'settings')}>
                                 {adminActivePage === 'settings' ? <RiSettingsFill /> : <RiSettingsLine />}
                                 <span>Settings</span>
                             </div>

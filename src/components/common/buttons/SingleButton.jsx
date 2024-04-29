@@ -10,9 +10,9 @@ const SingleButton = ({
         <div className="single-button-comp-div">
             {loading
                 ? <button title={title} className={`${classNames || 'md btn-primary'}`} style={{ ...style }}
-                    type={type || 'button'}><div class="loader">-</div></button>
+                    type={type || 'auto'}><div class="loader">-</div></button>
                 : <button title={title} className={`${classNames || 'md btn-primary'}`} style={{ ...style }}
-                    type={type || 'button'} onClick={onClick}>{stIcon}{name}{edIcon}</button>}
+                    type={type || 'auto'} onClick={onClick}>{stIcon}{name}{edIcon}</button>}
         </div>
     )
 }

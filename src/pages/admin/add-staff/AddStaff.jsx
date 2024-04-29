@@ -59,7 +59,7 @@ const AddStaff = ({ setPageHead }) => {
         <div className='add-staff-page'>
             <AlertBox messages={[
                 <><span>• More staff details add using <b>Edit option</b> in staff list.</span><br></br></>,
-                <span>• Use <b>Date of birth</b> for password when logging into staff account. Formate: YYYY-MM-DD</span>
+                <span>• Use <b>Date of birth</b> for password when logging into staff account. Formate: YYYY-MM-DD (1999-05-13)</span>
             ]} />
             <div className="boarder">
                 <form action="" onSubmit={handleSubmit}>
