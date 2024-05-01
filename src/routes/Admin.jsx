@@ -14,6 +14,7 @@ const AddStaff = lazy(() => import('../pages/admin/add-staff/AddStaff'))
 const StaffProfile = lazy(() => import('../pages/admin/staff-profile/StaffProfile'))
 const Designations = lazy(() => import('../pages/admin/designations/Designations'))
 const Settings = lazy(() => import('../pages/admin/settings/Settings'))
+const MonthlyReports = lazy(() => import('../pages/admin/work-report/WorkReport'))
 
 
 function Admin() {
@@ -40,6 +41,7 @@ function Admin() {
           <Route path='/staff-list/:staff_id/view' element={<PrivateRoute element={<StaffProfile setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
           <Route path='/designation-list' element={<PrivateRoute element={<Designations setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
           <Route path='/settings' element={<PrivateRoute element={<Settings setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+          <Route path='/analyze/monthly-reports' element={<PrivateRoute element={<MonthlyReports setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
 
 
           <Route path='/staff-work-analyze/date-basie' element={<PrivateRoute element={<DateBasie setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />

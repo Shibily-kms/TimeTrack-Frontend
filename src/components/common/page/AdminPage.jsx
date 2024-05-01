@@ -88,7 +88,7 @@ function AdminPage({ pageHead, children }) {
                                 <span>Work Analyze</span>
                             </div>
                             <div className={adminActivePage === 'monthly-reports' ? "menu-item active-menu" : "menu-item"}
-                                onClick={() => clickMenuItem('', 'monthly-reports')}>
+                                onClick={() => clickMenuItem('/admin/analyze/monthly-reports', 'monthly-reports')}>
                                 {adminActivePage === 'monthly-reports' ? <IoCalendarNumber /> : <IoCalendarNumberOutline />}
                                 <span>Monthly Reports</span>
                             </div>

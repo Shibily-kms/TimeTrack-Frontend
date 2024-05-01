@@ -28,7 +28,7 @@ const ProfileCard = () => {
                 </div>
             </div>
             <div className="bottom-section-div">
-                <Badge icon={<FaCheckCircle />} className={user?.status === 'Active' ? 'sm success-fill' : "sm error-fill"} text={user?.status || 'Left the company'} />
+                <Badge icon={<FaCheckCircle />} className={user?.status === 'Active' ? 'lg success-fill' : "sm error-fill"} text={user?.status || 'Left the company'} />
                 <div>
                     <MdKeyboardDoubleArrowDown/>
                     <p>75h 30m / 85h 50m</p>

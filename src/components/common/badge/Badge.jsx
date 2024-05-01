@@ -1,9 +1,9 @@
 import React from 'react'
 import './badge.scss'
 
-const Badge = ({ text, icon, className, styles }) => {
+const Badge = ({ text, icon, className, title, styles }) => {
     return (
-        <div className={`badge-div ${className}`} style={{ ...styles }}> {icon}{text}</div >
+        <div title={title} className={`badge-div ${className}`} style={{ ...styles }}> {icon}{text}</div >
     )
 }
 

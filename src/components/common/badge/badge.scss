@@ -10,19 +10,19 @@
     font-size: 12px;
     height: max-content;
     width: max-content;
+    min-width: max-content;
     white-space: nowrap;
 
     svg {
         margin-right: -2px;
     }
 
-    border-radius: 20px;
-    -webkit-border-radius: 20px;
-    -moz-border-radius: 20px;
-    -ms-border-radius: 20px;
-    -o-border-radius: 20px;
-    padding: 2px 4px;
-
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    padding: 2px 8px;
 }
 
 .sm {
@@ -59,6 +59,13 @@
     background-color: var(--color-info);
     color : #{$aws-color-white};
 }
+
+.gray-fill {
+    background-color: var(--background-c3);
+    color: var(--background-c1);
+}
+
+
 
 .success-not-fill {
     background-color: #{color.adjust($aws-color-light-theme-green-50,$alpha : -0.6)};
