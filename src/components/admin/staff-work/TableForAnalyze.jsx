@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import './table-for-analyze.scss';
 import { stringToLocalTime, getTimeFromSecond } from '../../../assets/javascript/date-helper'
-import SpinWithMessage from '../../common/spinners/SpinWithMessage';
-import { FcTimeline } from 'react-icons/fc'
 import { BsArrowsFullscreen } from 'react-icons/bs'
-import { FiEdit2 } from 'react-icons/fi'
+import { GrEdit } from 'react-icons/gr'
+import TableFilter from '../../common/table-filter/TableFilter'
+import Badge from '../../common/badge/Badge'
+import Modal from '../../common/modal/Modal'
+import ViewModal from '../../admin/staff-work/ViewModal'
+import EditWorkData from '../../admin/staff-work/EditWorkData'
+import SingleButton from '../../common/buttons/SingleButton';
+import DownloadButtons from './DownloadButtons';
 
-function TableForAnalyze({ tableData, details, openModal, staffBasie, openEditModal }) {
+function TableForAnalyze({ tableData, details, selectDay, staffBasie }) {
     const [today, setToday] = useState(false)
     const [yesterday, setYesterday] = useState(false)
+    const [modal, setModal] = useState({ status: false })
     const months = ['Jun', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
     useEffect(() => {
@@ -21,7 +27,6 @@ function TableForAnalyze({ tableData, details, openModal, staffBasie, openEditMo
             let currentDate = new Date();
             currentDate.setDate(currentDate.getDate() - 1);
 
-
             if (currentDate.getDate() === details?.date && currentDate.getMonth() === details?.month && currentDate.getFullYear() === details?.year) {
                 setYesterday(true)
             } else {
@@ -31,96 +36,122 @@ function TableForAnalyze({ tableData, details, openModal, staffBasie, openEditMo
         // eslint-disable-next-line
     }, [details])
 
+    const openModal = (title, content, width) => {
+        setModal({ status: true, title, content, width })
+    }
+
     return (
         <div className='table-for-analyze'>
+            <Modal modal={modal} setModal={setModal} />
             <div className="boarder">
-                <table>
-                    <thead>
-                        <tr>
-                            <th rowSpan={'2'}>{staffBasie ? "Date" : 'Full name'}<br></br>
-                                {!staffBasie && `( ${details.date}-${months[details.month]}-${details.year} )`}</th>
-                            <th colSpan={'2'}>Punch</th>
-                            <th colSpan={'2'}>Over time</th>
-                            <th rowSpan={'2'}>Working <br></br>Time</th>
-                            <th rowSpan={'2'}>Break</th>
-                            <th rowSpan={'2'}>Regular <br></br> Work</th>
-                            <th rowSpan={'2'}>Extra <br></br> Work</th>
-                            <th rowSpan={'2'}>Action</th>
-                        </tr>
-                        <tr>
-                            <th>IN</th>
-                            <th>Out</th>
-                            <th>IN</th>
-                            <th>Out</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {tableData && tableData.map((obj, index) => {
-                            return <tr key={index}>
-                                <td className='name'>
-                                    <div>{staffBasie ? (obj.date + '-' + months[obj.month] + '-' + obj.year + ' | ' + obj.day)
-                                        : obj.full_name}</div>
-                                    <div>
-                                        {staffBasie ?
-                                            (obj.punch && !obj?.current_designation && <span title={'Designation'}
-                                                className={`text-badge Sales-text gray`}>{obj.designation}</span>) :
-                                            <span title={obj?.current_designation ? 'Current designation' : 'Designation on the day'}
-                                                className={`text-badge Sales-text ${obj?.current_designation ? 'gray' : 'gray2'}`}>{obj.designation}</span>}
+                {tableData?.[0] &&
+                    <TableFilter topRight={<DownloadButtons oneDay={selectDay} />}>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th >{staffBasie ? "Date" : 'Full name'}<br></br>
+                                        {!staffBasie && `( ${details.date}-${months[details.month]}-${details.year} )`}</th>
+                                    <th >Punch In</th>
+                                    <th >Punch Out</th>
+                                    <th >Over time <br></br> In</th>
+                                    <th >Over time <br></br>Out</th>
+                                    <th >Working <br></br>Time</th>
+                                    <th >Break</th>
+                                    <th >Regular <br></br> Work</th>
+                                    <th >Extra <br></br> Work</th>
+                                    <th >Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {tableData && tableData.map((obj, index) => {
+                                    return <tr key={index}>
 
-                                    </div>
-                                </td>
+                                        <td className='name'>
+                                            {staffBasie ? (obj.date + '-' + months[obj.month] + '-' + obj.year + ' | ' + obj.day)
+                                                : obj.full_name} <br></br>
+                                            {staffBasie
+                                                ? (obj.punch && !obj?.current_designation && <Badge text={obj.designation} className={'gray-fill'} title={'Designation'} />)
+                                                : <Badge text={obj.designation} className={'gray-fill'} title={'Designation'} />}
+                                        </td>
 
-                                <td><div>{stringToLocalTime(obj?.punch?.in)}</div>{!obj?.punch &&
-                                    <span className={`text-badge Sales-text ${obj?.day === "SUN" ? 'red' : today ? 'gray' : 'orange'}`}>
-                                        {obj?.day === "SUN" ? "Holiday" : today ? "" : "Leave"}</span>}</td>
+                                        <td>
+                                            {stringToLocalTime(obj?.punch?.in)}
+                                            {!obj?.punch &&
+                                                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                                    <Badge text={obj?.day === "SUN" ? "Holiday" : today ? "" : "Leave"} className={obj?.day === 'SUN' ? 'error-fill' : 'warning-fill'} />
+                                                </div>
+                                            }
+                                        </td>
 
-                                <td><div>{stringToLocalTime(obj?.punch?.out)}</div>{obj?.auto_punch_out &&
-                                    <span title='Auto punch outed' className='text-badge Sales-text blue'>Auto</span>}
-                                    {!today && obj?.punch?.in && !obj?.punch?.out && <span title='Auto punch out not work / Punch in after auto punch out time'
-                                        className='text-badge Sales-text red'>Skipped</span>}</td>
+                                        <td>
+                                            {stringToLocalTime(obj?.punch?.out)} <br></br>
+                                            {obj?.auto_punch_out &&
+                                                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                                    <Badge text={'Auto'} className={'info-fill'} title={'Auto punch outed'} />
+                                                </div>
+                                            }
+                                            {!today && obj?.punch?.in && !obj?.punch?.out && <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                                <Badge text={'Skipped'} className={'warning-fill'} title={'Auto punch outed'} />
+                                            </div>}
+                                        </td>
 
-                                <td>{stringToLocalTime(obj?.over_time?.in)}</td>
+                                        <td>{stringToLocalTime(obj?.over_time?.in)}</td>
 
-                                <td><div>{stringToLocalTime(obj?.over_time?.out)}</div>{!today && obj?.over_time?.in && !obj?.over_time?.out &&
-                                    <span className='text-badge Sales-text orange'>Skipped</span>}</td>
+                                        <td>{stringToLocalTime(obj?.over_time?.out)}<br></br>
+                                            {!today && obj?.over_time?.in && !obj?.over_time?.out &&
+                                                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                                    <Badge text={'Skipped'} className={'warning-fill'} title={'Auto punch outed'} />
+                                                </div>
+                                            }</td>
 
-                                <td>{obj?.punch && (getTimeFromSecond(obj?.punch?.duration + obj?.over_time?.duration || 0) || '0m')}</td>
+                                        <td>{obj?.punch && (getTimeFromSecond(obj?.punch?.duration + obj?.over_time?.duration || 0) || '0m')}</td>
 
-                                <td>
-                                    <div>{obj?.break?.[0] && `( ${obj?.break?.length} )`} {obj?.lunch_break?.start &&
-                                        <span title='Lunch break included' className='text-badge Sales-text '>L</span>}</div>
-                                    <div>{getTimeFromSecond(obj?.break_duration)}</div>
-                                </td>
+                                        <td>
+                                            {obj?.break?.[0] && `( ${obj?.break?.length} )`} {obj?.lunch_break?.start &&
+                                                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                                    <Badge text={'L'} className={'gray-fill'} title={'Lunch break'} />
+                                                </div>
+                                            } <br></br>
+                                            {getTimeFromSecond(obj?.break_duration)}
+                                        </td>
 
-                                <td>{obj?.regular_work?.[0] && `( ${obj?.regular_work?.length} )`}</td>
+                                        <td>{obj?.regular_work?.[0] && `( ${obj?.regular_work?.length} )`}</td>
 
-                                <td>{obj?.extra_work?.[0] && `( ${obj?.extra_work?.length} )`}</td>
+                                        <td>{obj?.extra_work?.[0] && `( ${obj?.extra_work?.length} )`}</td>
 
-                                <td>
-                                    {!staffBasie && (today || yesterday) && obj?.punch?.in && <button onClick={() => openEditModal({
-                                        staff_id: obj?.staff_id,
-                                        punch: obj?.punch,
-                                        over_time: obj?.over_time,
-                                        date: obj.date,
-                                        month: obj.month,
-                                        year: obj.year,
-                                        day: obj.day
-                                    })} className='button blue'>< FiEdit2 /></button>}
+                                        <td>
+                                            <div className='button-div'>
 
-                                    <button onClick={() => openModal(obj, {
-                                        day: obj.day,
-                                        date: obj.date,
-                                        month: obj.month,
-                                        year: obj.year
-                                    }, 'date')} className='button'><BsArrowsFullscreen /></button>
-                                </td>
-                            </tr>
-                        })}
-                    </tbody>
-                </table>
-                {!tableData?.[0] && <div className='no-data'>
-                    <SpinWithMessage message={staffBasie ? 'No work data' : 'No Staffs'} icon={<FcTimeline />} spin={false} />
-                </div>}
+                                                {!staffBasie && (today || yesterday) && obj?.punch?.in &&
+                                                    <SingleButton title='Edit' classNames={'icon-only btn-blue '} stIcon={<GrEdit />}
+                                                        onClick={() => openModal('Edit', <EditWorkData data={
+                                                            {
+                                                                staff_id: obj?.staff_id,
+                                                                punch: obj?.punch,
+                                                                over_time: obj?.over_time,
+                                                                date: obj.date,
+                                                                month: obj.month,
+                                                                year: obj.year,
+                                                                day: obj.day
+                                                            }
+                                                        } setModal={setModal} />)} />}
+
+                                                <SingleButton title='Expand' classNames={'icon-only btn-primary '} stIcon={<BsArrowsFullscreen />}
+                                                    onClick={() => openModal('Expand', <ViewModal data={obj} info={
+                                                        {
+                                                            day: obj.day,
+                                                            date: obj.date,
+                                                            month: obj.month,
+                                                            year: obj.year
+                                                        }
+                                                    } />, '600px')} />
+                                            </div>
+                                        </td>
+                                    </tr>
+                                })}
+                            </tbody>
+                        </table>
+                    </TableFilter>}
             </div>
         </div >
     )

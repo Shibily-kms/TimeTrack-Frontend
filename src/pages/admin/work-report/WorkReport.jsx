@@ -23,7 +23,7 @@ function WorkReport({ setPageHead }) {
     }
 
     useEffect(() => {
-        setPageHead({ title: "Monthly Reports" })
+        setPageHead({ title: "Salary Reports" })
     }, [])
 
     useEffect(() => {

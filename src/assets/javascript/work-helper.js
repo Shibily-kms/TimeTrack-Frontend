@@ -1,6 +1,11 @@
 import { YYYYMMDDFormat } from './date-helper'
 
 const analyzeDateHelper = (data, staffs, start, end) => {
+
+    // Check This Month
+    const thisMonth = end?.getFullYear() === new Date().getFullYear() && end?.getMonth() === new Date().getMonth()
+    end = thisMonth ? new Date() : end
+
     let i = 0;
     let analyzeData = []
     const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
@@ -69,6 +74,11 @@ const analyzeDateHelper = (data, staffs, start, end) => {
 }
 
 const analyzeStaffHelper = (data, staffDetails, start, end) => {
+
+    // Check This Month
+    const thisMonth = end?.getFullYear() === new Date().getFullYear() && end?.getMonth() === new Date().getMonth()
+    end = thisMonth ? new Date() : end
+
     const staff = data?.[0] || {
         staff_id: staffDetails._id,
         full_name: `${staffDetails.first_name} ${staffDetails.last_name}`,
@@ -122,6 +132,54 @@ const analyzeStaffHelper = (data, staffDetails, start, end) => {
     }
 
     return staff
+}
+
+const analyzeStaffMonthReport = (thisMonth, staffData, staffMSR, analyzeData) => {
+    let workingDays = 0, workingHours = 0
+    let attendedDays = 0, attendedHours = 0
+    let leavedDays = 0, leavedHours = 0
+    let attendancePercentage = 0, wantedPercentage = 0
+
+
+    //  Wanted days and hours
+    workingDays = thisMonth ? staffData?.current_working_days || 0 : staffMSR?.working_days || 0
+    let dayWorkingHours = thisMonth ? staffData?.current_working_time || 0 : staffMSR?.day_hours || 0
+    workingHours = workingDays * dayWorkingHours || 0
+
+    // Attendance report
+    attendedDays = analyzeData?.dates?.filter((day) => day?.punch?.in) || []
+    attendedDays = attendedDays.length
+
+    analyzeData?.dates?.map((day) => {
+        if (day?.punch) {
+            attendedHours += day?.punch?.duration || 0
+        }
+        if (day?.over_time) {
+            attendedHours += day?.over_time?.duration || 0
+        }
+        return day
+    })
+
+    // Leave Report 
+    leavedDays = Math.max(0, workingDays - attendedDays)
+    leavedHours = Math.max(0, workingHours - attendedHours)
+
+    // Percentage 
+    attendancePercentage = parseInt((attendedHours * 100) / workingHours) || 0
+    let forThisMonth = new Date().getDate() * dayWorkingHours || 0
+    wantedPercentage = thisMonth ? parseInt((attendedHours * 100) / forThisMonth) || 0 : workingHours ? 100 : 0
+
+    return {
+        monthWorkingDays: workingDays,
+        monthWorkingHours: workingHours,
+        monthAttendanceDays: attendedDays,
+        monthAttendanceHours: attendedHours,
+        monthLeaveDays: leavedDays,
+        monthLeaveHours: leavedHours,
+        attendancePercentage,
+        wantedPercentage
+    }
+
 }
 
 const workReportHelper = (data, staffs, date) => {
@@ -225,4 +283,4 @@ const punchDataHelper = (workDetails, setPunch, setTheBreak, setLunchBreak, setO
     }
 }
 
-export { analyzeDateHelper, analyzeStaffHelper, workReportHelper, punchDataHelper }
+export { analyzeDateHelper, analyzeStaffHelper, workReportHelper, punchDataHelper, analyzeStaffMonthReport }

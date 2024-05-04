@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import * as XLSX from 'xlsx';
-import './top-bar.scss'
-import Title from '../../common/title/Title'
 import { getTimeFromSecond, stringToLocalTime } from '../../../assets/javascript/date-helper'
-import { useLocation, useNavigate } from 'react-router-dom'
-import { BiLoaderAlt } from 'react-icons/bi'
-import { BsFillCalendarCheckFill, BsFillCalendarEventFill } from 'react-icons/bs'
+import { useSearchParams } from 'react-router-dom'
 import { adminAxios } from '../../../config/axios';
-import { toast } from 'react-hot-toast';
+import { toast } from '../../../redux/features/user/systemSlice';
+import SingleButton from '../../common/buttons/SingleButton';
+import { SiMicrosoftexcel } from "react-icons/si";
+import { useDispatch } from 'react-redux';
 
-function TopBar({ oneDay, staff }) {
-    const location = useLocation()
+function DownloadButton({ oneDay, staff }) {
     const [loading, setLoading] = useState('')
-    const navigate = useNavigate()
-
+    const dispatch = useDispatch()
+    // eslint-disable-next-line
+    const [searchParams, setSearchParams] = useSearchParams()
 
 
     // Convert to Excel Start
@@ -26,42 +25,35 @@ function TopBar({ oneDay, staff }) {
                 type: 'staff-basie'
             }
         }).then((response) => {
-            const workbook = exportToExcel(response.data.data);
+            const workbook = exportToExcel(response.data);
             downloadFile(
                 workbook,
                 `staff_works ${oneDay.year}-${(oneDay.month + 1).toString().padStart(2, '0')}-${oneDay.date.toString().padStart(2, '0')}`
             )
         }).catch((error) => {
-            toast.error(error.response.data.message)
+            dispatch(toast.push.error({ message: error.message }))
         })
     }
-
-    // useEffect(() => {
-    //     if (!location?.state?.from_date || !location?.state?.to_date) {
-    //         navigate('/admin')
-    //     }
-    //     // eslint-disable-next-line
-    // }, [])
 
     const handleAllDayDownload = () => {
         setLoading('all')
         adminAxios.get('/analyze/staff-work-data', {
             params: {
-                from_date: location?.state?.from_date,
-                to_date: location?.state?.to_date,
+                from_date: searchParams.get('month') + '-01',
+                to_date: searchParams.get('month') + '31',
                 type: 'staff-basie',
-                staff_id: location?.state?.staff || null
+                staff_id: searchParams.get('staff') === 'all' ? null : searchParams.get('staff')
             }
         }).then((response) => {
-            if (response.data.data?.[0]) {
-                const workbook = exportToExcel(response.data.data);
-                downloadFile(workbook, `${staff ? response.data.data?.[0]?.full_name + '-work' : 'staff_works'}`)
+            if (response.data?.[0]) {
+                const workbook = exportToExcel(response.data);
+                downloadFile(workbook, `${staff ? response.data?.[0]?.full_name + '-work' : 'staff_works'}`)
             } else {
                 setLoading('')
-                toast.error('No data!')
+                dispatch(toast.push.error({ message: 'No data!' }))
             }
         }).catch((error) => {
-            toast.error(error.response.data.message)
+            toast.error(error.message)
         })
     }
 
@@ -158,41 +150,16 @@ function TopBar({ oneDay, staff }) {
 
 
     return (
-        <div className='staff-work-top-bar'>
-            <div className="container">
-                <div className="border">
-                    <div className="top">
-                        <div>
-                            {location?.state?.from_date === location?.state?.to_date ?
-                                <p>{`Date : ${location?.state?.from_date}`}</p>
-                                : <>
-                                    <p>{`From : ${location?.state?.from_date}`}</p>
-                                    <p>{`To : ${location?.state?.to_date}`}</p>
-                                </>
-                            }
-                        </div>
-                        <div className="buttons-box">
-                            <p>Download Excel file</p>
-                            <div className="buttons">
-                                {!staff && <>
-                                    {oneDay?.count ? <button title='Download this day XL file' onClick={() => handleOneDayDownload()}><span
-                                        className={loading === 'one' ? 'loading-icon' : ''}>{loading === 'one' ? <BiLoaderAlt /> : <BsFillCalendarEventFill />}
-                                    </span> <span className='text'>This day</span>  </button> :
-                                        <button style={{ opacity: '.5', cursor: 'not-allowed' }} ><span> <BsFillCalendarEventFill />
-                                        </span> <span className='text'>This day</span>  </button>}
-                                </>
-                                }
+        <div style={{ display: 'flex', gap: '10px' }}>
 
-                                <button title='Download all days XL file' onClick={() => handleAllDayDownload()}><span
-                                    className={loading === 'all' ? 'loading-icon' : ''}>{loading === 'all' ? <BiLoaderAlt /> : <BsFillCalendarCheckFill />}
-                                </span> <span className='text'>All days</span>  </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {oneDay?.count && !staff ? <SingleButton name={'This day'} stIcon={<SiMicrosoftexcel />}
+                title='Download this day XL file' onClick={() => handleOneDayDownload()} loading={loading === 'one'} /> : null}
+
+            <SingleButton name={'All day'} stIcon={<SiMicrosoftexcel />}
+                title='Download all days XL file' onClick={() => handleAllDayDownload()} loading={loading === 'all'} />
+
         </div>
     )
 }
 
-export default TopBar
+export default DownloadButton

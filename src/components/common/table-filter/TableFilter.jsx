@@ -40,13 +40,13 @@ function TableFilter({ children, srlNo, topRight }) {
     }
 
     useEffect(() => {
-        setTableBody(childrenBody.slice(rowCount * (page - 1), rowCount * page))
+        setTableBody(childrenBody?.slice(rowCount * (page - 1), rowCount * page))
     }, [rowCount, page, childrenBody])
 
 
     useEffect(() => {
-        setChildrenBody(children.props.children[1].props.children)
-        setTableBody(children.props.children[1].props.children.slice(rowCount * (page - 1), rowCount * page))
+        setChildrenBody(children?.props?.children?.[1]?.props?.children)
+        setTableBody(children?.props?.children?.[1]?.props?.children?.slice(rowCount * (page - 1), rowCount * page))
         // eslint-disable-next-line 
     }, [children])
 
