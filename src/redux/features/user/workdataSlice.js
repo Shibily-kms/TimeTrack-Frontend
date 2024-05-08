@@ -12,7 +12,7 @@ const initialState = {
 export const getPunchDetails = createAsyncThunk('user/punch-details', async (body, thunkAPI) => {
 
     try {
-        return await userAxios.get('/punch-details')
+        return await userAxios.get('/punch/today-data')
     } catch (error) {
         const message = (error && error.message) || error.message || error.toString()
         return thunkAPI.rejectWithValue(message)
@@ -36,15 +36,6 @@ export const workDataSlice = createSlice({
         clearWorkData: (state) => {
             state.workDetails = null
         },
-        // resetOfflineData: (state, action) => {
-        //     // state.workDetails.break = action.payload
-        //     // state.workDetails.offBreak = []
-        //     // state.workDetails.regular_work = []
-        //     // state.workDetails.extra_work = []
-        //     // if (state.workDetails.lunch_break.duration) {
-        //     //     state.workDetails.lunch_break.save = true
-        //     // }
-        // },
         doStartBreak: (state, action) => {
             state.workDetails.break = [...(state.workDetails.break || []), action.payload]
         },
@@ -57,9 +48,6 @@ export const workDataSlice = createSlice({
                 }
             });
         },
-        // addRegularWork: (state, action) => {
-        //     state.workDetails.regular_work.push(action.payload)
-        // },
         addExtraWork: (state, action) => {
             state.workDetails.extra_work.push(action.payload)
         },

@@ -41,19 +41,17 @@ function User() {
     // Offline data Sync to Server
     if (internet) {
       // Check any data for sync
-      const syncBreak = workDetails?.break?.filter((item) => item?.want_sync)
-      const syncLunch = workDetails?.lunch_break?.want_sync ? workDetails?.lunch_break : null
+
+
       const syncRegularWork = regular?.filter((item) => item?.want_sync)
       const syncExtraWork = workDetails?.extra_work?.filter((item) => item?.want_sync)
 
-      if (syncBreak?.[0] || syncLunch || syncRegularWork?.[0] || syncExtraWork?.[0]) {
+      if (syncRegularWork?.[0] || syncExtraWork?.[0]) {
 
         dispatch(toast.push.info({ id: 'OFF_SYNC', message: 'Sync offline data...', icon: 'MdCloudSync', autoClose: false, doClose: false }))
 
         userAxios.post('/offline-recollect', {
           punch_id: workDetails._id,
-          the_break: syncBreak,
-          lunch_break: syncLunch,
           regular_work: syncRegularWork,
           extra_work: syncExtraWork,
           updated_date: workDetails?.updated_date || null
@@ -81,7 +79,7 @@ function User() {
     if (user) {
       userAxios.get(`/auth/check-active`).then((response) => {
         dispatch(setUser({ ...user, ...response.data }))
-      }).catch((error) => {
+      }).catch(() => {
         dispatch(clearWorkData())
         dispatch(clearRegularWork())
         dispatch(logOut())

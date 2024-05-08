@@ -3,7 +3,8 @@
         .input-section {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 0 15px;
+            gap: 15px;
+            margin-bottom: 15px;
 
         }
     }
@@ -14,8 +15,6 @@
             .input-section {
                 display: grid;
                 grid-template-columns: 1fr;
-                gap: 0 10px;
-
             }
         }
 

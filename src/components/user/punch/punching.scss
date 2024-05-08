@@ -5,7 +5,7 @@
     .border {
 
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr;
         gap: 10px;
 
         button {
@@ -29,13 +29,12 @@
 
         .opacity {
             cursor: not-allowed;
-            display: none;
-        }
-    }
+            opacity: .3;
 
-    @media screen and (max-width:700px) {
-        .border {
-            grid-template-columns: 1fr 1fr;
+            &:hover {
+                opacity: .3;
+                pointer-events: none;
+            }
         }
     }
 

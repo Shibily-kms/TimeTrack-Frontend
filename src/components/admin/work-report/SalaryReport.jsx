@@ -94,7 +94,7 @@ const SalaryReport = ({ data, setData, setModal, viewOnly }) => {
         e.preventDefault();
         if (!viewOnly) {
             setLoading(true)
-            adminAxios.put('/analyze/work-report', form).then(() => {
+            adminAxios.put('/analyze/salary-report', form).then(() => {
                 setData((state) => state.map((a) => {
                     if (a?._id === form?._id) {
                         return {

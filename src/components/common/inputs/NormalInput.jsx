@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './normal-input.scss'
 
 function NormalInput({
@@ -19,13 +19,19 @@ function NormalInput({
     style,
     pattern
 }) {
-    const [inputType, setInputType] = useState('text')
+    const [inputType, setInputType] = useState('')
+
+    useEffect(() => {
+        if (inputType) {
+            setInputType(type)
+        }
+    }, [type])
 
     return (
         <div className='input-model-div normal-input'>
             <div>
                 <input
-                    type={inputType}
+                    type={inputType || 'text'}
                     name={name}
                     id={id || name}
                     value={value}

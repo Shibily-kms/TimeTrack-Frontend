@@ -15,7 +15,6 @@ import { YYYYMMDDFormat } from '../../../assets/javascript/date-helper'
 function Work_details({ setPageHead }) {
   const dispatch = useDispatch()
   const { workDetails, isLoading } = useSelector((state) => state.workData)
-  const { user } = useSelector((state) => state.userAuth)
   const { internet } = useSelector((state) => state.systemInfo)
   const [inWork, setInWork] = useState(false)
 
@@ -36,43 +35,13 @@ function Work_details({ setPageHead }) {
   }, [])
 
   useEffect(() => {
-
-    // Check punchIn or OverIn
-    if ((workDetails?.punch_in && !workDetails?.punch_out) || (workDetails?.over_time?.in && !workDetails?.over_time?.out)) {
-
-      // Check On Break or Lunch break
-      if ((workDetails?.break?.[workDetails?.break?.length - 1]?.end || !workDetails?.break?.[0]) &&
-        (workDetails?.lunch_break?.end || !workDetails?.lunch_break)
-      ) {
-        setInWork(true)
-      }
+    const lastPunchData = workDetails?.punch_list?.[workDetails?.punch_list.length - 1] || {}
+    if (lastPunchData?.in && !lastPunchData?.out) {
+      setInWork(true)
     }
 
-
-    let checkIfAutoPunchOut = null
-
-    if (!workDetails?.punch_out && workDetails?.punch_in) {
-      // Check If Auto PunchOut
-      checkIfAutoPunchOut = setInterval(() => {
-        if (workDetails?.punch_in) {
-          const [punchOutHour, punchOutMinute] = user?.designation?.auto_punch_out.split(':');
-          const [nowHour, nowMinute] = new Date().toTimeString().split(':');
-          if ((nowHour + nowMinute) >= (punchOutHour + punchOutMinute) && workDetails?.punch_out === null
-            && workDetails?.punch_in) {
-            dispatch(getPunchDetails())
-            clearInterval(checkIfAutoPunchOut);
-          }
-        }
-      }, 10000)
-    }
-
-    return () => {
-      if (checkIfAutoPunchOut) clearInterval(checkIfAutoPunchOut);
-    };
     // eslint-disable-next-line
   }, [workDetails])
-
-
 
 
   return (

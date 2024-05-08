@@ -140,22 +140,18 @@ const analyzeStaffMonthReport = (thisMonth, staffData, staffMSR, analyzeData) =>
     let leavedDays = 0, leavedHours = 0
     let attendancePercentage = 0, wantedPercentage = 0
 
-
     //  Wanted days and hours
     workingDays = thisMonth ? staffData?.current_working_days || 0 : staffMSR?.working_days || 0
     let dayWorkingHours = thisMonth ? staffData?.current_working_time || 0 : staffMSR?.day_hours || 0
     workingHours = workingDays * dayWorkingHours || 0
 
     // Attendance report
-    attendedDays = analyzeData?.dates?.filter((day) => day?.punch?.in) || []
+    attendedDays = analyzeData?.dates?.filter((day) => day?.punch_list?.[0]) || []
     attendedDays = attendedDays.length
 
     analyzeData?.dates?.map((day) => {
-        if (day?.punch) {
-            attendedHours += day?.punch?.duration || 0
-        }
-        if (day?.over_time) {
-            attendedHours += day?.over_time?.duration || 0
+        if (day?.total_working_time) {
+            attendedHours += day?.total_working_time || 0
         }
         return day
     })
@@ -218,68 +214,17 @@ const workReportHelper = (data, staffs, date) => {
     return reportData;
 }
 
-const punchDataHelper = (workDetails, setPunch, setTheBreak, setLunchBreak, setOverTime) => {
-    if (workDetails?.punch_in && workDetails?.punch_out) {
-        setPunch({ in: false, out: false })
-        setTheBreak({ start: false, end: false })
-        setLunchBreak({ start: false, end: false })
-    } else if (!workDetails?.punch_in && !workDetails?.punch_out) {
-        setPunch({ in: true, out: false })
-        setTheBreak({ start: false, end: false })
-        setLunchBreak({ start: false, end: false })
-        setOverTime({ in: false, out: false })
-    } else if (workDetails?.punch_in && !workDetails?.punch_out) {
-        setPunch({ in: false, out: true })
-        setTheBreak({ start: true, end: false })
-        setLunchBreak({ start: true, end: false })
+const punchDataHelper = (workDetails, setPunch) => {
+    const lastPunchData = workDetails?.punch_list?.[workDetails?.punch_list.length - 1] || {}
 
-        // Lunch Break
-        if (workDetails?.lunch_break?.start && workDetails?.lunch_break?.end) {
-            setLunchBreak({ start: false, end: false })
-        } else if (workDetails?.lunch_break?.start && !workDetails?.lunch_break?.end) {
-            setLunchBreak({ start: false, end: true })
-            setPunch({ in: false, out: false })
-            setTheBreak({ start: false, end: false })
-        }
-        // Break
-        if (workDetails?.break?.[workDetails?.break?.length - 1]?.start && workDetails?.break?.[workDetails?.break?.length - 1]?.end && !workDetails?.lunch_break?.start) {
-            setTheBreak({ start: true, end: false })
-        } else if (workDetails?.break?.[workDetails?.break?.length - 1]?.start && !workDetails?.break?.[workDetails?.break?.length - 1]?.end) {
-            setPunch({ in: false, out: false })
-            setTheBreak({ start: false, end: true })
-            setLunchBreak({ start: false, end: false })
-        }
+    // On Punch IN
+    if (lastPunchData?.in && !lastPunchData?.out) {
+        setPunch({ in: false, out: true })
     }
 
-    if (workDetails?.over_time?.in && workDetails?.over_time?.out) {
-        setOverTime({ in: false, out: false })
-        setTheBreak({ start: false, end: false })
-        setLunchBreak({ start: false, end: false })
-    } else if (!workDetails?.over_time?.in && !workDetails?.over_time?.out && workDetails?.punch_out) {
-        setOverTime({ in: true, out: false })
-        setTheBreak({ start: false, end: false })
-        setLunchBreak({ start: false, end: false })
-    } else if (workDetails?.over_time?.in && !workDetails?.over_time?.out) {
-        setOverTime({ in: false, out: true })
-        setTheBreak({ start: true, end: false })
-        setLunchBreak({ start: true, end: false })
-
-        // Lunch Break
-        if (workDetails?.lunch_break?.start && workDetails?.lunch_break?.end) {
-            setLunchBreak({ start: false, end: false })
-        } else if (workDetails?.lunch_break?.start && !workDetails?.lunch_break?.end) {
-            setLunchBreak({ start: false, end: true })
-            setOverTime({ in: false, out: false })
-            setTheBreak({ start: false, end: false })
-        }
-        // Break
-        if (workDetails?.break?.[workDetails?.break?.length - 1]?.start && workDetails?.break?.[workDetails?.break?.length - 1]?.end && !workDetails?.lunch_break?.start) {
-            setTheBreak({ start: true, end: false })
-        } else if (workDetails?.break?.[workDetails?.break?.length - 1]?.start && !workDetails?.break?.[workDetails?.break?.length - 1]?.end) {
-            setOverTime({ in: false, out: false })
-            setTheBreak({ start: false, end: true })
-            setLunchBreak({ start: false, end: false })
-        }
+    // On Punch OUT
+    if (!lastPunchData?.in || (lastPunchData?.in && lastPunchData?.out)) {
+        setPunch({ in: true, out: false })
     }
 }
 

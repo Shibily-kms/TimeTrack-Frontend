@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import './settings.scss'
 import { useSearchParams } from 'react-router-dom'
-import { MdLightMode, MdDarkMode } from "react-icons/md";
+import { MdLightMode, MdDarkMode, MdOutlinePassword, MdOutlineImportantDevices } from "react-icons/md";
 import { IoArrowForwardOutline } from "react-icons/io5";
 import Modal from '../../../components/common/modal/Modal'
 import ChangeTheme from '../../../components/user/change-theme/ChangeTheme';
 import { useSelector } from 'react-redux';
 import { BsCircleHalf } from "react-icons/bs";
+import ChangePassword from '../../../components/user/change-password/ChangePassword';
 
 const Settings = ({ setPageHead }) => {
     const [searchParams, setSearchParams] = useSearchParams()
@@ -35,6 +36,26 @@ const Settings = ({ setPageHead }) => {
                     <div className="left">
                         {theme === 'dark' ? <MdDarkMode /> : theme === 'light' ? < MdLightMode /> : <BsCircleHalf />}
                         <h4>Theme</h4>
+                    </div>
+                    <div className="right">
+                        <IoArrowForwardOutline />
+                    </div>
+                </div>
+
+                <div className="option-div" onClick={() => openModel('Change Password', <ChangePassword setModal={setModal} />)}>
+                    <div className="left">
+                        <MdOutlinePassword />
+                        <h4>Change password</h4>
+                    </div>
+                    <div className="right">
+                        <IoArrowForwardOutline />
+                    </div>
+                </div>
+
+                <div className="option-div" >
+                    <div className="left">
+                        <MdOutlineImportantDevices />
+                        <h4>Device Management</h4>
                     </div>
                     <div className="right">
                         <IoArrowForwardOutline />

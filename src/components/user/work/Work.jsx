@@ -3,7 +3,6 @@ import './work.scss'
 import { userAxios } from '../../../config/axios'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from '../../../redux/features/user/systemSlice'
-// eslint-disable-next-line
 import { offlineExtraWork } from '../../../assets/javascript/offline-helper'
 import { addExtraWork } from '../../../redux/features/user/workdataSlice'
 import { HiPlus } from "react-icons/hi";
@@ -84,7 +83,7 @@ function Work({ inWork }) {
     return (
         <div className='enter-today-div'>
             <Modal modal={modal} setModal={setModal} />
-            {workDetails?.punch_in && <div className='border-div'>
+            {workDetails?.name && <div className='border-div'>
                 <div className="section-div section-one">
                     <div className="title">
                         <h4>{allRgWork ? 'All' : 'Today'} Regular Works</h4>

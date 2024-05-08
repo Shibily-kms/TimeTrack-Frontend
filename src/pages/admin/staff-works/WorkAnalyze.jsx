@@ -26,8 +26,7 @@ const WorkAnalyze = ({ setPageHead }) => {
   const fetchData = (staffList) => {
     const listOfStaff = staffs?.[0] ? staffs : staffList
     setLoading('fetch')
-    adminAxios.get(`/analyze/staff-work-data?from_date=${searchParams.get('month') + '-01'}&to_date=${searchParams.get('month') + '-31'}
-    &type=${searchParams.get('staff') === 'all' ? 'date-basie' : 'staff-basie'}&staff_id=${searchParams.get('staff') !== 'all' ? searchParams.get('staff') : ''}`)
+    adminAxios.get(`/analyze/staff-work-data?from_date=${searchParams.get('month') + '-01'}&to_date=${searchParams.get('month') + '-31'}&type=${searchParams.get('staff') === 'all' ? 'date-basie' : 'staff-basie'}&staff_id=${searchParams.get('staff') !== 'all' ? searchParams.get('staff') : ''}`)
       .then(async (response) => {
 
         if (searchParams.get('staff') === 'all' || !searchParams.get('staff')) {
@@ -59,11 +58,11 @@ const WorkAnalyze = ({ setPageHead }) => {
           let staffMSR = null
           if (!thisMonth) {
             try {
-              await adminAxios.get(`/analyze/work-report/single?month=${searchParams.get('month')}&staff_id=${searchParams.get('staff')}`).then((result) => {
+              await adminAxios.get(`/analyze/salary-report/single?month=${searchParams.get('month')}&staff_id=${searchParams.get('staff')}`).then((result) => {
                 staffMSR = result?.data || null
               })
             } catch (error) {
-              
+
             }
           }
 

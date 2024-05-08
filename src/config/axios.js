@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = 'http://192.168.1.57'
+export const baseUrl = 'http://192.168.1.57'
 
 const baseSetup = {
     userAxios: axios.create({

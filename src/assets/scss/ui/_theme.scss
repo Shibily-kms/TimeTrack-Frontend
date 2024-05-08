@@ -17,6 +17,7 @@
     --background-opt-primary-6 : #{color.adjust($aws-theme-light-background-primary,$alpha : -0.6)};
     --background-opt-primary-5 : #{color.adjust($aws-theme-light-background-primary, $alpha : -0.5)};
     --background-opt-secondary-9 : #{color.adjust($aws-color-black, $alpha : -0.9)};
+    --background-opt-secondary-5 : #{color.adjust($aws-color-black, $alpha : -0.5)};
     --background-opt-tertiary-8 : #{color.adjust($aws-color-primary, $alpha : -0.8)};
     --background-c1: #{$aws-color-white};
     --background-c2: #{$aws-color-neutral-10};
@@ -64,6 +65,7 @@
     --background-opt-primary-6 : #{color.adjust($aws-theme-dark-background-primary, $alpha : -0.6)};
     --background-opt-primary-5 : #{color.adjust($aws-theme-dark-background-primary, $alpha : -0.5)};
     --background-opt-secondary-9 : #{color.adjust($aws-color-white, $alpha : -0.9)};
+    --background-opt-secondary-5 : #{color.adjust($aws-color-white, $alpha : -0.5)};
     --background-opt-tertiary-8 : #{color.adjust($aws-color-primary, $alpha : -0.8)};
     --background-c1: #{$aws-color-neutral-80};
     --background-c2: #{$aws-color-neutral-60};

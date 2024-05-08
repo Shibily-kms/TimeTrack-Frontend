@@ -7,9 +7,8 @@ import {
     MdOutlineSpaceDashboard, MdSpaceDashboard, MdAddCircleOutline, MdAddCircle,
     MdOutlineVerified, MdVerified, MdOutlineWorkHistory, MdWorkHistory
 } from "react-icons/md";
-import { LuIndianRupee } from "react-icons/lu";
+import { LuIndianRupee, LuQrCode } from "react-icons/lu";
 import { FaIndianRupeeSign } from "react-icons/fa6";
-import { IoCalendarNumberOutline, IoCalendarNumber } from "react-icons/io5";
 import { PiUserListBold, PiUserListFill } from "react-icons/pi";
 import { RiFileList3Line, RiFileList3Fill, RiSettingsLine, RiSettingsFill } from "react-icons/ri";
 import { setAdminActivePage } from '../../../redux/features/user/systemSlice'
@@ -93,6 +92,11 @@ function AdminPage({ pageHead, children }) {
                                 onClick={() => clickMenuItem('/admin/analyze/salary-reports', 'salary-reports')}>
                                 {adminActivePage === 'salary-reports' ? <FaIndianRupeeSign /> : <LuIndianRupee />}
                                 <span>Salary Reports</span>
+                            </div>
+                            <div className={adminActivePage === 'qr-generator' ? "menu-item active-menu" : "menu-item"}
+                                onClick={() => clickMenuItem('/admin/qr-generator', 'qr-generator')}>
+                                {adminActivePage === 'qr-generator' ? <LuQrCode /> : <LuQrCode />}
+                                <span>QR Generator</span>
                             </div>
                             <div className={adminActivePage === 'designation-list' ? "menu-item active-menu" : "menu-item"}
                                 onClick={() => clickMenuItem('/admin/designation-list', 'designation-list')}>

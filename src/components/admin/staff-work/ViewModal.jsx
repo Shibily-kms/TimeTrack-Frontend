@@ -33,7 +33,7 @@ function ViewModal({ data, info, }) {
                     <h5>{info.date + '-' + months[info.month] + '-' + info.year}</h5>
                 </div>
             </div>
-            {data?.punch ? <>
+            {data?.punch_list?.[0] ? <>
                 <div className="content">
                     <div className="table-head">
                         <div className="row">
@@ -46,47 +46,20 @@ function ViewModal({ data, info, }) {
                     </div>
                     {/* Punch */}
                     <div className="table-body">
-                        <div className="row">
-                            <div className="td">Punch</div>
-                            <div className="td">{data?.auto_punch_out &&
-                                <Badge title={'Auto punch outed'} text={'Auto'} className={'info-fill'} />}
+                        {data?.punch_list?.map((item, index) => <div className="row">
+                            <div className="td">Punch {index + 1}</div>
+                            <div className="td" style={{ display: 'flex', gap: '5px' }}>
+                                {item?.in_by && <Badge title={'Punch IN by'} text={item?.in_by} className={'info-fill'} />}
+                                {item?.auto && <Badge title={'Auto punch outed'} text={"Auto"} className={'success-fill'} />}
                             </div>
-                            <div className="td">{stringToLocalTime(data.punch?.in)}</div>
-                            <div className="td">{stringToLocalTime(data.punch?.out)} {!today && data?.punch?.in && !data?.punch?.out &&
-                                <Badge title={'Auto punch out not work / Punch in after auto punch out time'} text={'Skipped'} className={'warning-fill'} />
+                            <div className="td">{stringToLocalTime(item?.in)}</div>
+                            <div className="td">{stringToLocalTime(item?.out)} {!today && item?.in && !item?.out &&
+                                <Badge title={'The staff forgot punch out'} text={'Skipped'} className={'warning-fill'} />
                             }</div>
-                            <div className="td">{getTimeFromSecond(data.punch.duration) || '0m'}</div>
+                            <div className="td">{getTimeFromSecond(item?.duration) || '0m'}</div>
                         </div>
-                        {/* Over Time */}
-                        {data?.over_time?.in && <div className="row">
-                            <div className="td">Over time</div>
-                            <div className="td"></div>
-                            <div className="td">{stringToLocalTime(data?.over_time?.in)}</div>
-                            <div className="td">{stringToLocalTime(data?.over_time?.out)}{!today && data?.over_time?.in && !data?.over_time?.out &&
-                                <Badge text={'Skipped'} className={'warning-fill'} />
-                            }</div>
-                            <div className="td">{getTimeFromSecond(data?.over_time?.duration) || '0m'}</div>
-                        </div>}
+                        )}
 
-                        {/* Lunch Break */}
-                        {data?.lunch_break?.start && <div className="row">
-                            <div className="td">Lunch break</div>
-                            <div className="td"></div>
-                            <div className="td">{stringToLocalTime(data?.lunch_break?.start)}</div>
-                            <div className="td">{stringToLocalTime(data?.lunch_break?.end)}</div>
-                            <div className="td">{getTimeFromSecond(data?.lunch_break?.duration) || '0m'}</div>
-                        </div>}
-
-                        {/* Break */}
-                        {data?.break?.map((value, index) => {
-                            return <div key={index} className="row">
-                                <div className="td">Break {index + 1}</div>
-                                <div className="td"></div>
-                                <div className="td">{stringToLocalTime(value?.start)}</div>
-                                <div className="td">{stringToLocalTime(value?.end)}</div>
-                                <div className="td">{getTimeFromSecond(value?.duration) || '0m'}</div>
-                            </div>
-                        })}
                         {/* Regular Work  */}
                         {data?.regular_work?.map((value, index) => {
                             return <div key={index} className="row">
@@ -111,14 +84,14 @@ function ViewModal({ data, info, }) {
                         <div className="row" style={{ fontWeight: '700', marginTop: '15px' }}>
                             <div className="td"></div>
                             <div className="td">Total duration </div>
-                            <div className="td">: {getTimeFromSecond(data.punch?.duration + data?.over_time?.duration) || '0m'}</div>
+                            <div className="td">: {getTimeFromSecond(data?.total_working_time) || '0m'}</div>
                             <div className="td"></div>
                             <div className="td"></div>
                         </div>
                         <div className="row" style={{ fontWeight: '700' }}>
                             <div className="td"></div>
-                            <div className="td">Break duration </div>
-                            <div className="td">: {getTimeFromSecond(data.break_duration) || '0m'}</div>
+                            <div className="td">Break Count </div>
+                            <div className="td">: {data?.punch_list?.length - 1} times</div>
                             <div className="td"></div>
                             <div className="td"></div>
                         </div>

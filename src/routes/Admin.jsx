@@ -12,7 +12,8 @@ const StaffProfile = lazy(() => import('../pages/admin/staff-profile/StaffProfil
 const Designations = lazy(() => import('../pages/admin/designations/Designations'))
 const Settings = lazy(() => import('../pages/admin/settings/Settings'))
 const MonthlyReports = lazy(() => import('../pages/admin/work-report/WorkReport'))
-const WorkAnalyze = lazy(()=> import('../pages/admin/staff-works/WorkAnalyze'))
+const WorkAnalyze = lazy(() => import('../pages/admin/staff-works/WorkAnalyze'))
+const QrGenerator = lazy(() => import('../pages/admin/qr-generator/QrGenerator'))
 
 
 function Admin() {
@@ -41,10 +42,11 @@ function Admin() {
           <Route path='/settings' element={<PrivateRoute element={<Settings setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
           <Route path='/analyze/salary-reports' element={<PrivateRoute element={<MonthlyReports setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
           <Route path='/analyze/work-analyze' element={<PrivateRoute element={<WorkAnalyze setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+          <Route path='/qr-generator' element={<PrivateRoute element={<QrGenerator setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
 
 
-        
-         
+
+
 
           {/* 404 Route */}
           <Route path="/*" element={<NotFound />} />

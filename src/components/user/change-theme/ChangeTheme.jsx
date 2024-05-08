@@ -1,13 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './change-theme.scss'
-import { userAxios } from '../../../config/axios'
-import { toast } from 'react-hot-toast'
 import { MdLightMode, MdDarkMode } from "react-icons/md";
-import { BsCircleHalf } from "react-icons/bs";
+import { PiCircleHalfFill } from "react-icons/pi";
 import { useDispatch, useSelector } from 'react-redux'
 import { changeThemeColor } from '../../../redux/features/user/systemSlice'
 
-function ChangeTheme({ setModal }) {
+function ChangeTheme() {
 
     const { theme } = useSelector((state) => state.systemInfo)
     const dispatch = useDispatch()
@@ -23,7 +21,7 @@ function ChangeTheme({ setModal }) {
             <div className="input-options">
                 <div className={theme === 'os-default' ? "box-input-div active" : "box-input-div"}
                     onClick={() => handleChangeTheme('os-default')}>
-                    <BsCircleHalf />
+                    <PiCircleHalfFill />
                     <p>Default</p>
                 </div>
                 <div className={theme === 'dark' ? "box-input-div active" : "box-input-div"}

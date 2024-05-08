@@ -12,10 +12,6 @@ const PunchWork = ({ setPageHead }) => {
     const { workDetails } = useSelector((state) => state.workData)
     const { user } = useSelector((state) => state.userAuth)
     const [punch, setPunch] = useState({ in: false, out: false })
-    const [theBreak, setTheBreak] = useState({ start: false, end: false })
-    const [lunchBreak, setLunchBreak] = useState({ start: false, end: false })
-    const [overTime, setOverTime] = useState({ in: false, out: false })
-
 
     useEffect(() => {
         setPageHead(() => ({ title: 'Punch to work' }))
@@ -26,22 +22,33 @@ const PunchWork = ({ setPageHead }) => {
     }, [])
 
     useEffect(() => {
-        punchDataHelper(workDetails, setPunch, setTheBreak, setLunchBreak, setOverTime)
+        punchDataHelper(workDetails, setPunch)
+        // eslint-disable-next-line
+    }, [workDetails])
 
+    useEffect(() => {
         let checkIfAutoPunchOut = null
 
-        if (!workDetails?.punch_out && workDetails?.punch_in) {
-            // Check If Auto PunchOut
+        if (punch?.out && user?.punch_type === 'software') {
+
             checkIfAutoPunchOut = setInterval(() => {
-                if (workDetails?.punch_in) {
-                    const [punchOutHour, punchOutMinute] = user?.designation?.auto_punch_out.split(':');
-                    const [nowHour, nowMinute] = new Date().toTimeString().split(':');
-                    if ((nowHour + nowMinute) >= (punchOutHour + punchOutMinute) && workDetails?.punch_out === null
-                        && workDetails?.punch_in) {
-                        dispatch(getPunchDetails())
-                        clearInterval(checkIfAutoPunchOut);
+
+                if (punch?.out) {
+                    const lastPunch = workDetails.punch_list?.[workDetails?.punch_list?.length - 1] || {}
+                    const [lastInHour, lastInMinute] = new Date(lastPunch.in).toTimeString().split(':');
+                    const [punchOutHour, punchOutMinute] = user?.auto_punch_out.split(':');
+
+                    if ((punchOutHour + punchOutMinute) > (lastInHour + lastInMinute)) {
+
+                        const [nowHour, nowMinute] = new Date().toTimeString().split(':');
+
+                        if ((nowHour + nowMinute) >= (punchOutHour + punchOutMinute)) {
+                            dispatch(getPunchDetails())
+                            clearInterval(checkIfAutoPunchOut);
+                        }
                     }
                 }
+
             }, 10000)
         }
 
@@ -49,13 +56,13 @@ const PunchWork = ({ setPageHead }) => {
             if (checkIfAutoPunchOut) clearInterval(checkIfAutoPunchOut);
         };
         // eslint-disable-next-line
-    }, [workDetails])
+    }, [user, punch])
 
     return (
         <div className='punch-work-page'>
             <div className="section-one-div" style={{ display: 'flex', flexDirection: 'column', gap: "15px" }}>
                 <WorkDetails />
-                <Punching punch={punch} theBreak={theBreak} lunchBreak={lunchBreak} overTime={overTime} />
+                <Punching punch={punch} />
             </div>
         </div>
     )

@@ -28,7 +28,7 @@ function WorkReport({ setPageHead }) {
 
     useEffect(() => {
         setLoading(true)
-        adminAxios.get(`/analyze/work-report?date=${dateForm}`).then((response) => {
+        adminAxios.get(`/analyze/salary-report?date=${dateForm}`).then((response) => {
             adminAxios.get('/staff/all-list?all=yes').then((result) => {
                 const report = workReportHelper(response.data, result.data, dateForm)
                 setData(report)

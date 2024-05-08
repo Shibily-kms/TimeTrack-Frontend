@@ -11,8 +11,8 @@ function WorkDetails() {
     return (
         <div className="semi-work-details">
             <div className="border">
-                {workDetails?.punch_in ?
-                    <div className="list-body">
+                {workDetails?.name
+                    ? <div className="list-body">
                         <div className="table-title-div">
                             <h3>Today Work Report</h3>
                         </div>
@@ -22,42 +22,16 @@ function WorkDetails() {
                             <span>Out</span>
                             <span>Duration</span>
                         </div>
-                        {workDetails.punch_in && <>
-                            <div className="list-item">
-                                <span>Punch</span>
-                                <span>{convertIsoToAmPm(new Date(workDetails.punch_in))}</span>
-                                <span>{workDetails.punch_out ? convertIsoToAmPm(new Date(workDetails.punch_out)) : '-'}</span>
-                                {workDetails?.punch_out
-                                    ? <span>{getTimeFromSecond((new Date(workDetails?.punch_out) - new Date(workDetails.punch_in)) / 1000) || '0m'}</span>
-                                    : <span>-</span>}
-                            </div>
-                        </>}
 
-                        {workDetails?.break?.map((item, index) => <div className="list-item">
-                            <span>Break {index + 1}</span>
-                            <span>{convertIsoToAmPm(new Date(item?.start))}</span>
-                            <span>{item?.end ? convertIsoToAmPm(new Date(item?.end)) : '-'}</span>
-                            <span>{getTimeFromSecond(item?.duration) || '0m'}</span>
+                        {workDetails?.punch_list?.map((item, index) => <div className="list-item">
+                            <span>Punch {index + 1}</span>
+                            <span>{convertIsoToAmPm(new Date(item.in))}</span>
+                            <span>{item.out ? convertIsoToAmPm(new Date(item.out)) : '-'}</span>
+                            {item?.out
+                                ? <span>{getTimeFromSecond((new Date(item?.out) - new Date(item.in)) / 1000) || '0m'}</span>
+                                : <span>-</span>}
                         </div>)}
 
-                        {workDetails?.lunch_break?.start && <>
-                            <div className="list-item">
-                                <span>Lunch </span>
-                                <span>{convertIsoToAmPm(new Date(workDetails?.lunch_break?.start))}</span>
-                                <span>{workDetails?.lunch_break?.end ? convertIsoToAmPm(new Date(workDetails?.lunch_break?.end)) : '-'}</span>
-                                <span>{getTimeFromSecond(workDetails.lunch_break.duration) || '0m'}</span>
-                            </div>
-                        </>}
-                        {workDetails?.over_time?.in && <>
-                            <div className="list-item">
-                                <span>Over Time </span>
-                                <span>{convertIsoToAmPm(new Date(workDetails?.over_time?.in))}</span>
-                                <span>{workDetails?.over_time?.out ? convertIsoToAmPm(new Date(workDetails?.over_time?.out)) : '-'}</span>
-                                {workDetails?.over_time?.out
-                                    ? <span>{getTimeFromSecond((new Date(workDetails?.over_time?.out) - new Date(workDetails?.over_time?.in)) / 1000) || '0m'}</span>
-                                    : <span>-</span>}
-                            </div>
-                        </>}
                     </div>
                     : <div >
                         <SpinnerWithMessage fullView={true} icon={<IoFingerPrint />} message='Click punch In button for start work!' />

@@ -43,13 +43,18 @@
                     font-weight: 500;
                 }
 
-                &:first-child {
-                    background-color: #{color.adjust($aws-color-light-theme-yellow-40,$alpha : -0.3)};
-                }
 
                 &:last-child {
                     background-color: #{color.adjust($aws-color-light-theme-blue-40,$alpha : -0.3)};
                 }
+            }
+
+            .scanner {
+                background-color: #{color.adjust($aws-color-light-theme-yellow-40,$alpha : -0.3)};
+            }
+
+            .software {
+                background-color: #{color.adjust($aws-color-light-theme-green-40,$alpha : -0.3)};
             }
         }
     }

@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import './more.scss'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { MdOutlinePassword, MdOutlineNotificationsActive } from "react-icons/md";
+import { MdOutlineNotificationsActive } from "react-icons/md";
 import { IoArrowForwardOutline, IoPersonCircleOutline } from "react-icons/io5";
+import { LuFileEdit } from "react-icons/lu";
 import { IoMdLogOut } from "react-icons/io";
 import { BsQrCodeScan } from "react-icons/bs";
+import { TbRouteAltRight } from "react-icons/tb";
 import Modal from '../../../components/common/modal/Modal'
-import ChangePassword from '../../../components/user/change-password/ChangePassword';
 import { clearWorkData } from '../../../redux/features/user/workdataSlice';
 import { clearRegularWork } from '../../../redux/features/user/dayWorksSlice';
 import { logOut } from '../../../redux/features/user/authSlice'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const MorePage = ({ setPageHead }) => {
     const [searchParams, setSearchParams] = useSearchParams()
+    const { user } = useSelector((state) => state.userAuth)
     const [modal, setModal] = useState({ content: null, title: null, status: false })
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -26,10 +28,6 @@ const MorePage = ({ setPageHead }) => {
         setPageHead(() => ({ title: 'More Options' }))
         // eslint-disable-next-line
     }, [])
-
-    const openModel = (title, content) => {
-        setModal({ content, title, status: true })
-    }
 
     const handleLogOut = () => {
         const ask = window.confirm('Are you ready for logOut ?')
@@ -55,19 +53,30 @@ const MorePage = ({ setPageHead }) => {
                         <IoArrowForwardOutline />
                     </div>
                 </div>
+                {user?.punch_type === 'software' &&
+                    <div className="option-div">
+                        <div className="left">
+                            <BsQrCodeScan />
+                            <h4>Punch Scanner</h4>
+                        </div>
+                        <div className="right">
+                            <IoArrowForwardOutline />
+                        </div>
+                    </div>
+                }
                 <div className="option-div">
                     <div className="left">
-                        <BsQrCodeScan />
-                        <h4>Punch Scanner</h4>
+                        <TbRouteAltRight />
+                        <h4>My Enquiries</h4>
                     </div>
                     <div className="right">
                         <IoArrowForwardOutline />
                     </div>
                 </div>
-                <div className="option-div" onClick={() => openModel('Change Password', <ChangePassword setModal={setModal} />)}>
+                <div className="option-div">
                     <div className="left">
-                        <MdOutlinePassword />
-                        <h4>Change password</h4>
+                        <LuFileEdit />
+                        <h4>Leave Letter</h4>
                     </div>
                     <div className="right">
                         <IoArrowForwardOutline />
@@ -82,6 +91,7 @@ const MorePage = ({ setPageHead }) => {
                         <IoArrowForwardOutline />
                     </div>
                 </div>
+
                 <div className="option-div red-option" onClick={() => handleLogOut()}>
                     <div className="left">
                         <IoMdLogOut />
