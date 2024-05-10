@@ -5,6 +5,8 @@ import User from './routes/User';
 import { useDispatch, useSelector } from 'react-redux';
 import { connection } from './redux/features/user/systemSlice'
 import PageLoading from './components/common/spinners/PageLoading';
+import Scanner from './pages/user/scanner/Scanner';
+
 const UserLogin = lazy(() => import('./pages/user/login/Login'))
 const AdminLogin = lazy(() => import('./pages/admin/login/Login'))
 const QrCodeView = lazy(() => import('./pages/admin/qr-code-view/QrCodeView'))
@@ -54,6 +56,7 @@ function App() {
           <Route path='/login' element={<UserLogin />} />
           <Route path='/admin/login' element={<AdminLogin />} />
           <Route path='/qr-code' element={<QrCodeView />} />
+          <Route path='/scanner' element={<Scanner />} />
 
           {/* Routes */}
           <Route element={<Admin />} path='/admin/*' />

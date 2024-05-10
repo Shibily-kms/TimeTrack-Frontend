@@ -7,7 +7,7 @@ import { punchDataHelper } from '../../../assets/javascript/work-helper'
 import { YYYYMMDDFormat } from '../../../assets/javascript/date-helper'
 
 
-const PunchWork = ({ setPageHead }) => {
+const PunchWork = React.memo(({ setPageHead }) => {
     const dispatch = useDispatch()
     const { workDetails } = useSelector((state) => state.workData)
     const { user } = useSelector((state) => state.userAuth)
@@ -66,6 +66,6 @@ const PunchWork = ({ setPageHead }) => {
             </div>
         </div>
     )
-}
+})
 
 export default PunchWork

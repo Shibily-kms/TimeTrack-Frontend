@@ -7,9 +7,6 @@ import AdminPage from '../../../components/common/page/AdminPage'
 function Home() {
   return (
     <div className='admin-home-page'>
-      <AdminPage>
-
-      </AdminPage>
       {/* <div className="header-div">
         <Header />
       </div>

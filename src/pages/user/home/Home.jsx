@@ -44,7 +44,7 @@ function Home({ setPageHead }) {
       <div className="section-one-div">
         <div className="section-content">
           {(user?.punch_type === 'scanner' || !user?.punch_type) &&
-            <div className="big-button scanner">
+            <div className="big-button scanner" onClick={() => navigate('/scanner')}>
               <BsQrCodeScan />
               <p>Scanner</p>
             </div>}

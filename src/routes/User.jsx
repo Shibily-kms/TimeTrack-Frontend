@@ -107,7 +107,6 @@ function User() {
           <Route path='/profile' element={<PrivateRoute element={<Profile setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
           <Route path='/profile/edit' element={<PrivateRoute element={<EditProfile setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
 
-
           {/* 404 Route */}
           <Route path="/*" element={<NotFound />} />
         </Routes>

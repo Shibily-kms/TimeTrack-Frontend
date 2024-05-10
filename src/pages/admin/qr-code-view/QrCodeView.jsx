@@ -30,6 +30,14 @@ const QrCodeView = () => {
         })
     }, [])
 
+    useEffect(() => {
+        const autoRegenerateTime = setInterval(() => {
+            setLastGenerated(new Date())
+        }, 1000 * 60 * 59)  // 59 Mints
+
+        return () => clearInterval(autoRegenerateTime);
+    }, [])
+
 
     return (
         <div className="qr-code-view-page-div">
@@ -43,8 +51,13 @@ const QrCodeView = () => {
                                 <p>{data?.name || 'QR Code'}</p>
                             </div>
                             <div className='qr-code'>
+                                {/*
+                                    QR_CODE RESPOND
+                                    = BAR_TYPE = VERSION = QR_TYPE = QR_ID = GEN_TIME 
+                                    = AWSQR=v1=PUNCH=QR_ID=TIME
+                                */}
                                 <QRCode
-                                    value={`${baseUrl}:3000/punch-scanner/qr?qrId=${data?.qrId}&gen-time=${lastGenerated}`}
+                                    value={`AWSQR=v1=PUNCH=${data?.qrId}=${lastGenerated}`}
                                     renderAs="svg"
                                     size={'225'}
                                     level='Q'

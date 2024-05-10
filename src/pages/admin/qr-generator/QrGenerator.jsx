@@ -45,25 +45,26 @@ const QrGenerator = ({ setPageHead }) => {
         }
     }
 
-    const handleCopy = async (qrData) => {
+    const handleCopy = (qrData) => {
 
         const qrCodeLink = `${baseUrl}:3000/qr-code/?qrId=${qrData?.qrId}&type=viewOnly`
 
         if (qrCodeLink) {
-            if (navigator.clipboard && window.isSecureContext) {
-                try {
-                    await navigator.clipboard.writeText(qrCodeLink)
-                        .then(() => {
-                            dispatch(toast.push.success({ message: 'QR Code link Copied!' }))
-                        })
-                        .catch(() => dispatch(toast.push.error({ message: 'Try agin!' })));
-                } catch (err) {
-                    // Fallback to manual copy if the Clipboard API fails
-                    dispatch(toast.push.error({ message: 'Try agin!' }))
-                }
-            } else {
-                dispatch(toast.push.warning({ message: 'Use PC for Copy the link' }))
+
+            if (!navigator.clipboard) {
+                dispatch(toast.push.error({ message: `Clipboard functionality not supported in this browser!, Write from Below text.`, autoClose: false }));
+                dispatch(toast.push.info({ message: `${qrCodeLink}`, autoClose: false }));
+
+                return;
             }
+
+            navigator.clipboard.writeText(qrCodeLink)
+                .then(() => {
+                    dispatch(toast.push.success({ message: 'QR Code link Copied!' }))
+                })
+                .catch(() => dispatch(toast.push.error({ message: 'Try agin!' })));
+
+
 
         }
     }
