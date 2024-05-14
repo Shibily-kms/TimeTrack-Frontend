@@ -44,7 +44,7 @@ function Login({ admin }) {
     <div>
       <div className="login-comp">
         <div className="left-div">
-          <img src={LoginImage} />
+          <img src={LoginImage} alt='login-svg'/>
         </div>
         <div className="right-div">
 

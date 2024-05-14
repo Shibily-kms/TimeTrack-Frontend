@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './staff-profile.scss'
 import { adminAxios } from '../../../config/axios'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { toast } from '../../../redux/features/user/systemSlice'
 import SpinWithMessage from '../../../components/common/spinners/SpinWithMessage'
@@ -18,7 +18,6 @@ import { FaCheckCircle } from "react-icons/fa";
 
 const StaffProfile = ({ setPageHead }) => {
   const dispatch = useDispatch()
-  const navigate = useNavigate()
   const { staff_id } = useParams()
   const [data, setData] = useState({})
   const [loading, setLoading] = useState('fetch')

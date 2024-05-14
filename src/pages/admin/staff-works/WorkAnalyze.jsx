@@ -8,7 +8,7 @@ import DateBasie from './DateBasie'
 import { ImSearch } from "react-icons/im";
 import { adminAxios } from '../../../config/axios'
 import { useSearchParams } from 'react-router-dom'
-import { toast } from '../../../redux/features/user/systemSlice'
+import { setAdminActivePage, toast } from '../../../redux/features/user/systemSlice'
 import { useDispatch } from 'react-redux'
 import { analyzeDateHelper, analyzeStaffHelper, analyzeStaffMonthReport } from '../../../assets/javascript/work-helper'
 
@@ -104,6 +104,7 @@ const WorkAnalyze = ({ setPageHead }) => {
 
   useEffect(() => {
     setPageHead({ title: 'Work Analyze' })
+    dispatch(setAdminActivePage('work-analyze'))
 
     adminAxios.get('/staff/all-list?all=yes').then((response) => {
       const list = response.data?.map((person) => ({
@@ -115,7 +116,8 @@ const WorkAnalyze = ({ setPageHead }) => {
       setStaffs(list)
       fetchData(list)
     })
-
+    
+    // eslint-disable-next-line
   }, [])
 
 

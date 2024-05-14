@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './more.scss'
+import Modal from '../../../components/common/modal/Modal'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { MdOutlineNotificationsActive } from "react-icons/md";
 import { IoArrowForwardOutline, IoPersonCircleOutline } from "react-icons/io5";
@@ -7,7 +8,7 @@ import { LuFileEdit } from "react-icons/lu";
 import { IoMdLogOut } from "react-icons/io";
 import { BsQrCodeScan } from "react-icons/bs";
 import { TbRouteAltRight } from "react-icons/tb";
-import Modal from '../../../components/common/modal/Modal'
+import { GoGitPullRequest } from "react-icons/go";
 import { clearWorkData } from '../../../redux/features/user/workdataSlice';
 import { clearRegularWork } from '../../../redux/features/user/dayWorksSlice';
 import { logOut } from '../../../redux/features/user/authSlice'
@@ -54,7 +55,7 @@ const MorePage = ({ setPageHead }) => {
                     </div>
                 </div>
                 {user?.punch_type === 'software' &&
-                    <div className="option-div">
+                    <div className="option-div" onClick={() => navigate('/scanner?page=more')}>
                         <div className="left">
                             <BsQrCodeScan />
                             <h4>Punch Scanner</h4>
@@ -75,8 +76,17 @@ const MorePage = ({ setPageHead }) => {
                 </div>
                 <div className="option-div">
                     <div className="left">
+                        <GoGitPullRequest />
+                        <h4>Punch Request</h4>
+                    </div>
+                    <div className="right">
+                        <IoArrowForwardOutline />
+                    </div>
+                </div>
+                <div className="option-div" onClick={() => navigate('/leave-app?page=more')}>
+                    <div className="left">
                         <LuFileEdit />
-                        <h4>Leave Letter</h4>
+                        <h4>Leave Application</h4>
                     </div>
                     <div className="right">
                         <IoArrowForwardOutline />

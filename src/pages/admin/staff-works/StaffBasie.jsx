@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './staff-basie.scss'
 import { getTimeFromSecond } from '../../../assets/javascript/date-helper'
 import TableForAnalyze from '../../../components/admin/staff-work/TableForAnalyze'

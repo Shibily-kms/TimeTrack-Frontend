@@ -25,6 +25,8 @@ function NormalInput({
         if (inputType) {
             setInputType(type)
         }
+
+        // eslint-disable-next-line
     }, [type])
 
     return (

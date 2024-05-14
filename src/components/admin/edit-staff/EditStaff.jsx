@@ -4,7 +4,6 @@ import { adminAxios } from '../../../config/axios'
 import SpinWithMessage from '../../common/spinners/SpinWithMessage'
 import { secondsToHHMM } from '../../../assets/javascript/date-helper'
 import { toast } from '../../../redux/features/user/systemSlice'
-import { BiLoaderAlt } from 'react-icons/bi'
 import NormalInput from '../../common/inputs/NormalInput'
 import SelectInput from '../../common/inputs/SelectInput'
 import SingleButton from '../../common/buttons/SingleButton'
@@ -37,7 +36,7 @@ function EditStaff({ setModal, setData, editId }) {
     const handleSubmit = (e) => {
         e.preventDefault()
         setLoading('submit')
-        if (form.first_name[0] === ' ' || form.last_name[0] === ' ' || form.place[0] === ' ') {
+        if (form?.first_name?.[0] === ' ' || form?.last_name?.[0] === ' ' || form?.place?.[0] === ' ') {
             dispatch(toast.push.error({ message: 'Space is not accepted as the first character' }))
             setLoading('')
             return

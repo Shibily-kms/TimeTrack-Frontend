@@ -139,6 +139,15 @@
         }
     }
 
+    .btn-success {
+        color: #{$aws-color-white};
+        background-color: var(--color-success);
+
+        .loader {
+            --_g: no-repeat radial-gradient(circle closest-side, #{$aws-color-white} 90%, #0000);
+        }
+    }
+
     .txt-start {
         justify-content: start;
     }

@@ -19,6 +19,8 @@ function Login() {
         if (user?.token && localStorage.getItem('_aws_temp_tkn')) {
             navigate('/?page=home')
         }
+
+        // eslint-disable-next-line
     }, [isError, message])
 
     return (

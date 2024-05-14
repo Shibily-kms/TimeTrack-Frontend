@@ -4,9 +4,11 @@ import { useSelector } from 'react-redux'
 import { convertIsoToAmPm, getTimeFromSecond } from '../../../assets/javascript/date-helper'
 import SpinnerWithMessage from '../../../components/common/spinners/SpinWithMessage'
 import { IoFingerPrint } from "react-icons/io5";
+import { BsQrCodeScan } from "react-icons/bs";
 
 function WorkDetails() {
     const { workDetails } = useSelector((state) => state.workData)
+    const { user } = useSelector((state) => state.userAuth)
 
     return (
         <div className="semi-work-details">
@@ -34,7 +36,8 @@ function WorkDetails() {
 
                     </div>
                     : <div >
-                        <SpinnerWithMessage fullView={true} icon={<IoFingerPrint />} message='Click punch In button for start work!' />
+                        <SpinnerWithMessage fullView={true} icon={user?.punch_type === 'scanner' ? <BsQrCodeScan /> : <IoFingerPrint />}
+                            message={user?.punch_type === 'scanner' ? 'Scan QR Code for start work!' : 'Click punch In button for start work!'} />
                     </div>}
             </div>
         </div>

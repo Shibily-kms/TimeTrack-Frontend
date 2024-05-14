@@ -8,15 +8,14 @@ import { useSearchParams } from 'react-router-dom'
 import { adminAxios } from '../../../config/axios';
 import SpinWithMessage from '../../../components/common/spinners/SpinWithMessage'
 import { TbQrcodeOff } from "react-icons/tb";
-import { baseUrl } from '../../../config/axios'
 
 const QrCodeView = () => {
+    // eslint-disable-next-line
     const [searchParams, setSearchParams] = useSearchParams()
     const [loading, setLoading] = useState('fetch')
     const [qrTheme] = useState({ bgColor: '#f9f9fb', fgColor: '#161616' })
     const [data, setData] = useState({})
     const [lastGenerated, setLastGenerated] = useState(new Date())
-
 
 
     useEffect(() => {
@@ -28,6 +27,8 @@ const QrCodeView = () => {
             setLoading(error?.message)
 
         })
+
+        // eslint-disable-next-line
     }, [])
 
     useEffect(() => {
@@ -36,6 +37,8 @@ const QrCodeView = () => {
         }, 1000 * 60 * 59)  // 59 Mints
 
         return () => clearInterval(autoRegenerateTime);
+
+        // eslint-disable-next-line
     }, [])
 
 
@@ -64,7 +67,7 @@ const QrCodeView = () => {
                                     bgColor={qrTheme?.bgColor}
                                     fgColor={qrTheme?.fgColor}
                                 />
-                                <img src={AllianceLogo} />
+                                <img src={AllianceLogo} alt='alliance-logo'/>
                             </div>
                             <p>Generated At<br></br> {lastGenerated.toDateString()}, {lastGenerated.toLocaleTimeString()}</p>
                         </div>
@@ -77,8 +80,8 @@ const QrCodeView = () => {
                 <div className="bottom-div">
                     <p>Co-operatives</p>
                     <div className="image-div">
-                        <img src={AllianceLogo} />
-                        <img src={NpmIcon} />
+                        <img src={AllianceLogo} alt='alliance-logo'/>
+                        <img src={NpmIcon} alt='npm-icon'/>
                     </div>
                 </div>
             </div>

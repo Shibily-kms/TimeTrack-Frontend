@@ -4,7 +4,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import AllianceLogo from '../../../assets/images/alliance-logo.png'
 import { IoPersonCircleOutline, IoChevronBack } from "react-icons/io5";
-import { MdOutlineHistoryToggleOff } from "react-icons/md";
+import { TbReport } from "react-icons/tb";
 import { RiSettingsLine, RiMoreFill, RiHome6Line } from "react-icons/ri";
 import { HiStatusOffline, HiStatusOnline } from "react-icons/hi";
 
@@ -77,9 +77,9 @@ function SinglePage({ pageHead, children }) {
                         <RiHome6Line />
                         <p>Home</p>
                     </div>
-                    <div className={searchParams.get('page') === 'history' ? "item-div active-item" : "item-div"} onClick={() => navigate('/')}>
-                        <MdOutlineHistoryToggleOff />
-                        <p>History</p>
+                    <div className={searchParams.get('page') === 'report' ? "item-div active-item" : "item-div"} onClick={() => navigate('/punch-report/?page=report')}>
+                        <TbReport />
+                        <p>Report</p>
                     </div>
                     <div className={searchParams.get('page') === 'settings' ? "item-div active-item" : "item-div"} onClick={() => navigate('/settings/?page=settings')}>
                         <RiSettingsLine />

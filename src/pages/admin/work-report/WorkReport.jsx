@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import './work-report.scss'
-import Header from '../../../components/admin/header/Header'
 import WorkReportTable from '../../../components/admin/work-report/WorkReportTable'
 import SpinWithMessage from '../../../components/common/spinners/SpinWithMessage'
 import SCReport from '../../../components/admin/work-report/SCReport'
 import { adminAxios } from '../../../config/axios'
 import { workReportHelper } from '../../../assets/javascript/work-helper'
 import { BsDatabaseFillExclamation } from 'react-icons/bs'
-import { toast } from '../../../redux/features/user/systemSlice'
+import { setAdminActivePage, toast } from '../../../redux/features/user/systemSlice'
 import NormalInput from '../../../components/common/inputs/NormalInput'
 import { useDispatch } from 'react-redux'
 
@@ -24,6 +23,9 @@ function WorkReport({ setPageHead }) {
 
     useEffect(() => {
         setPageHead({ title: "Salary Reports" })
+        dispatch(setAdminActivePage('salary-reports'))
+
+        // eslint-disable-next-line
     }, [])
 
     useEffect(() => {
@@ -45,8 +47,8 @@ function WorkReport({ setPageHead }) {
             setThisMonth(false)
         }
 
+        // eslint-disable-next-line
     }, [dateForm])
-
 
 
     return (

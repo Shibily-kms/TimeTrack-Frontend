@@ -11,7 +11,7 @@ import { IoTrashBin } from 'react-icons/io5'
 import { FaPlus } from "react-icons/fa6";
 import { GrEdit } from 'react-icons/gr'
 import { GoTrash } from "react-icons/go";
-import { toast } from '../../../redux/features/user/systemSlice'
+import { setAdminActivePage, toast } from '../../../redux/features/user/systemSlice'
 import { useDispatch } from 'react-redux'
 
 function Designations({ setPageHead }) {
@@ -22,6 +22,8 @@ function Designations({ setPageHead }) {
 
     useEffect(() => {
         setPageHead({ title: 'Designation List' })
+        dispatch(setAdminActivePage('designation-list'))
+
         setLoading('fetch')
         adminAxios.get('/designations').then((response) => {
             setLoading('')
@@ -29,6 +31,8 @@ function Designations({ setPageHead }) {
         }).catch((error) => {
             dispatch(toast.push.error({ message: error.message }))
         })
+
+        // eslint-disable-next-line
     }, [])
 
     const openModal = (title, content) => {

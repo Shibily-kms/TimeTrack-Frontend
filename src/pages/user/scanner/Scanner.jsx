@@ -105,7 +105,7 @@ const Scanner = React.memo(() => {
         }
 
         setupWebcamAndScanner()
-
+        // eslint-disable-next-line
     }, [])
 
     useEffect(() => {
@@ -116,6 +116,7 @@ const Scanner = React.memo(() => {
         return () => {
             clearInterval(timer);
         };
+        // eslint-disable-next-line
     }, []);
 
     useEffect(() => {
@@ -176,7 +177,7 @@ const Scanner = React.memo(() => {
                 setOutLink(true)
             }
         }
-
+        // eslint-disable-next-line
     }, [qrCodeText])
 
     return (

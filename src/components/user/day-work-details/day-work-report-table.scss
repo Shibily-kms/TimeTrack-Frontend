@@ -1,0 +1,36 @@
+.day-work-report-table-div {
+    .content {
+        margin-top: 15px;
+
+        .table-head,
+        .table-body {
+            font-size: 12px;
+
+            .row {
+                display: grid;
+                grid-template-columns: 2fr 3fr 2fr 2fr 1fr;
+                gap: 3px;
+                padding-bottom: 7px;
+                padding-top: 7px;
+                font-weight: 400;
+                border-bottom: 1px dashed var(--border-primary);
+
+                .th,
+                .td {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+            }
+
+
+        }
+
+        .table-head {
+            .row {
+                font-weight: 700;
+            }
+        }
+    }
+}

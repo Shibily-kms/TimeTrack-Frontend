@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { adminAxios } from '../../../config/axios'
-import { toast } from '../../../redux/features/user/systemSlice'
+import { setAdminActivePage, toast } from '../../../redux/features/user/systemSlice'
 import { useDispatch } from 'react-redux'
 import TableFilter from '../../../components/common/table-filter/TableFilter'
 import CreateQr from '../../../components/admin/create-qr/CreateQr'
@@ -71,6 +71,8 @@ const QrGenerator = ({ setPageHead }) => {
 
     useEffect(() => {
         setPageHead({ title: "QR Generator" })
+        dispatch(setAdminActivePage('qr-generator'))
+
         setLoading(true)
         adminAxios.get('/qr-code/list?type=punch').then((response) => {
             setQrList(response?.data)
@@ -79,6 +81,8 @@ const QrGenerator = ({ setPageHead }) => {
             dispatch(toast.push.error({ message: 'Low Internet connection' }))
             setLoading(false)
         })
+
+        // eslint-disable-next-line
     }, [])
 
     return (

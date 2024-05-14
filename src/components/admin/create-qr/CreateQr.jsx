@@ -10,9 +10,10 @@ const CreateQr = ({ setModal, setQrList }) => {
     const dispatch = useDispatch();
     const [form, setForm] = useState({ qr_type: 'punch' })
 
-    const typeList = [
-        { option: 'Punch', value: 'punch' }
-    ]
+    // const typeList = [
+    //     { option: 'Punch', value: 'punch' }
+    // ]
+    
     const expireList = [
         { option: 'Today', value: '0' },
         { option: 'Tomorrow', value: '1' },

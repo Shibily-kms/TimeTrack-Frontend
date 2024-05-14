@@ -4,7 +4,7 @@ import { getUserProfileImagePath } from '../../../assets/javascript/find-helpers
 import { getTimeFromSecond } from '../../../assets/javascript/date-helper';
 import { userAxios } from '../../../config/axios'
 import { useDispatch, useSelector } from 'react-redux'
-import { TbCamera } from "react-icons/tb";
+// import { TbCamera } from "react-icons/tb";
 import { GrEdit } from "react-icons/gr";
 import { TbReport } from "react-icons/tb";
 import { LuBadgeHelp } from "react-icons/lu";
@@ -35,6 +35,8 @@ const Profile = ({ setPageHead }) => {
         })
 
         setPageHead({ title: 'Profile' })
+
+        // eslint-disable-next-line
     }, [])
 
     return (
@@ -42,10 +44,10 @@ const Profile = ({ setPageHead }) => {
             <div className="profile-div">
                 <div className="image-section-div">
                     <div className="image-div">
-                        <img src={userProfileImage} alt="Profile Image" />
-                        <div className="camera-icon">
+                        <img src={userProfileImage} alt="Profile" />
+                        {/* <div className="camera-icon">
                             <TbCamera />
-                        </div>
+                        </div> */}
                     </div>
                 </div>
                 <div className="name-section">
@@ -57,7 +59,7 @@ const Profile = ({ setPageHead }) => {
                         <GrEdit />
                         <span>Profile</span>
                     </div>
-                    <div className="item-div">
+                    <div className="item-div" onClick={() => navigate('/punch-report/?page=report')}>
                         <TbReport />
                         <span>Report</span>
                     </div>

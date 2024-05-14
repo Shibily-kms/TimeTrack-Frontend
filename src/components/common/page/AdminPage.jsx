@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import './admin-page.scss'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import AllianceLogo from '../../../assets/images/alliance-logo.png'
 import {
@@ -18,10 +18,7 @@ import { setAdminActivePage } from '../../../redux/features/user/systemSlice'
 function AdminPage({ pageHead, children }) {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const { internet, adminActivePage } = useSelector((state) => state.systemInfo)
-
-    // eslint-disable-next-line
-    const [searchParams, setSearchParams] = useSearchParams()
+    const { adminActivePage } = useSelector((state) => state.systemInfo)
 
     const clickMenuItem = (url, page) => {
         dispatch(setAdminActivePage(page))
@@ -79,7 +76,7 @@ function AdminPage({ pageHead, children }) {
                                 <span>Staff List</span>
                             </div>
                             <div className={adminActivePage === 'leave-letters' ? "menu-item active-menu" : "menu-item"}
-                                onClick={() => clickMenuItem('', 'leave-letters')}>
+                                onClick={() => clickMenuItem('/admin/leave-letters', 'leave-letters')}>
                                 {adminActivePage === 'leave-letters' ? <RiFileList3Fill /> : <RiFileList3Line />}
                                 <span>Leave letters</span>
                             </div>

@@ -15,6 +15,7 @@ import { YYYYMMDDFormat } from '../../../assets/javascript/date-helper'
 function Work_details({ setPageHead }) {
   const dispatch = useDispatch()
   const { workDetails, isLoading } = useSelector((state) => state.workData)
+  const { user } = useSelector((state) => state.userAuth)
   const { internet } = useSelector((state) => state.systemInfo)
   const [inWork, setInWork] = useState(false)
 
@@ -46,9 +47,11 @@ function Work_details({ setPageHead }) {
 
   return (
     <div className='work-details-page-div'>
-      <div className="section-one-div">
-        <WorkDetails />
-      </div>
+      {user?.punch_type === 'scanner' &&
+        <div className="section-one-div">
+          <WorkDetails />
+        </div>
+      }
       <div className="content">
         {isLoading
           ? <SpinWithMessage load={true} fullView={true} />

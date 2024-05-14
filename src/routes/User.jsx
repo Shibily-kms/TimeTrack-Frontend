@@ -19,6 +19,8 @@ const MorePage = lazy(() => import('../pages/user/more/MorePage'))
 const Settings = lazy(() => import('../pages/user/settings/Settings'))
 const Profile = lazy(() => import('../pages/user/profile/Profile'))
 const EditProfile = lazy(() => import('../pages/user/profile/EditProfile'))
+const PunchReport = lazy(() => import('../pages/user/punch-report/PunchReport'))
+const LeaveApp = lazy(() => import('../pages/user/leave-app/LeaveApp'))
 
 
 function User() {
@@ -99,13 +101,18 @@ function User() {
       <Suspense fallback={<PageLoading />}>
         <Routes>
           <Route path='/' element={<PrivateRoute element={<Home setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
-          <Route path='/punch-work' element={<PrivateRoute element={<PunchWork setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
-          <Route path='/enter-today' element={<PrivateRoute element={<WorkDetails setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+          <Route path='/punch-report' element={<PrivateRoute element={<PunchReport setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
           <Route path='/settings' element={<PrivateRoute element={<Settings setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
           <Route path='/more' element={<PrivateRoute element={<MorePage setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
 
+          <Route path='/punch-work' element={<PrivateRoute element={<PunchWork setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+          <Route path='/enter-today' element={<PrivateRoute element={<WorkDetails setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+
           <Route path='/profile' element={<PrivateRoute element={<Profile setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
           <Route path='/profile/edit' element={<PrivateRoute element={<EditProfile setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+
+          <Route path='/leave-app' element={<PrivateRoute element={<LeaveApp setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+
 
           {/* 404 Route */}
           <Route path="/*" element={<NotFound />} />

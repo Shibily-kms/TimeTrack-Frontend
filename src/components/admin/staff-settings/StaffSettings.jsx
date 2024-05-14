@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './staff-settings.scss'
-import { adminAxios, userAxios } from '../../../config/axios'
+import { adminAxios } from '../../../config/axios'
 import { useDispatch } from 'react-redux'
 import { toast } from '../../../redux/features/user/systemSlice'
 import SpinWithMessage from '../../common/spinners/SpinWithMessage'
@@ -36,7 +36,7 @@ const StaffSettings = ({ setModal, staffId }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         setLoading('update')
-        adminAxios.put('/staff/settings', form).then((response) => {
+        adminAxios.put('/staff/settings', form).then(() => {
             dispatch(toast.push.success({ message: 'Settings updated' }))
             setModal({ status: false })
             setLoading('')
@@ -55,7 +55,7 @@ const StaffSettings = ({ setModal, staffId }) => {
                         selected.push({ label: value, value })
                     }
                     all.push({ label: value, value })
-                    return;
+                    return value;
                 })
                 setOriginList(all)
                 setSelected(selected)
@@ -63,15 +63,23 @@ const StaffSettings = ({ setModal, staffId }) => {
 
             })
 
-            setForm({ ...form, staff_id: staffId, punch_type: response?.data?.punch_type || 'software', auto_punch_out: response?.data?.auto_punch_out || null })
+            setForm({
+                ...form,
+                staff_id: staffId,
+                punch_type: response?.data?.punch_type || 'software',
+                auto_punch_out: response?.data?.auto_punch_out || null,
+                origins_list : response?.data?.origins_list
+            })
             setPunchTypes([
                 { option: 'Software', value: 'software', selected: response.data?.punch_type === 'software' },
                 { option: 'Scanner', value: 'scanner', selected: response.data?.punch_type === 'scanner' }
             ])
-        }).catch((error) => {
+        }).catch(() => {
             setLoading('')
             dispatch(toast.push.error({ message: 'Invalid staff Id' }))
         })
+
+        // eslint-disable-next-line
     }, [])
 
 

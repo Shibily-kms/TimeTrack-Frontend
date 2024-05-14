@@ -1,6 +1,5 @@
 import React from 'react'
 import './spin-with-message.scss'
-import BoatWaveLoad from '../../../assets/images/boat-wave.gif'
 import { MdOutlineDataSaverOff } from "react-icons/md";
 
 function SpinWithMessage({ icon, message = '', load = false, fullView = false, bottomContent = null, height }) {

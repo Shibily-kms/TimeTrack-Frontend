@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './add-staff.scss'
 import { adminAxios } from '../../../config/axios'
-import { toast } from '../../../redux/features/user/systemSlice'
+import { setAdminActivePage, toast } from '../../../redux/features/user/systemSlice'
 import NormalInput from '../../../components/common/inputs/NormalInput';
 import SelectInput from '../../../components/common/inputs/SelectInput'
 import SingleButton from '../../../components/common/buttons/SingleButton';
@@ -52,6 +52,7 @@ const AddStaff = ({ setPageHead }) => {
         })
 
         setPageHead({ title: 'Add New Staff' })
+        dispatch(setAdminActivePage('add-staff'))
         // eslint-disable-next-line
     }, [])
 

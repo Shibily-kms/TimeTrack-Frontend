@@ -19,6 +19,8 @@ const PunchWork = React.memo(({ setPageHead }) => {
         if (workDetails?.date !== YYYYMMDDFormat(new Date())) {
             dispatch(getPunchDetails())
         }
+        
+        // eslint-disable-next-line
     }, [])
 
     useEffect(() => {
@@ -35,7 +37,7 @@ const PunchWork = React.memo(({ setPageHead }) => {
 
                 if (punch?.out) {
                     const lastPunch = workDetails.punch_list?.[workDetails?.punch_list?.length - 1] || {}
-                    const [lastInHour, lastInMinute] = new Date(lastPunch.in).toTimeString().split(':');
+                    const [lastInHour, lastInMinute] =  new Date(lastPunch?.in).toTimeString().split(':');
                     const [punchOutHour, punchOutMinute] = user?.auto_punch_out.split(':');
 
                     if ((punchOutHour + punchOutMinute) > (lastInHour + lastInMinute)) {

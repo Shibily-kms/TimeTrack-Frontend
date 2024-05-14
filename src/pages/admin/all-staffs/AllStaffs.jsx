@@ -6,7 +6,7 @@ import SpinWithMessage from '../../../components/common/spinners/SpinWithMessage
 import StaffSettings from '../../../components/admin/staff-settings/StaffSettings'
 import { adminAxios } from '../../../config/axios'
 import { getTimeFromSecond } from '../../../assets/javascript/date-helper'
-import { toast } from '../../../redux/features/user/systemSlice'
+import { setAdminActivePage, toast } from '../../../redux/features/user/systemSlice'
 import { IoTrashBin } from 'react-icons/io5'
 import { useDispatch } from 'react-redux'
 import Modal from '../../../components/common/modal/Modal'
@@ -50,6 +50,7 @@ function AllStaffs({ setPageHead }) {
         setPageHead({ title: 'Staff List' })
         getActiveStaffList()
         setLoading('initialData')
+        dispatch(setAdminActivePage('staff-list'))
 
         // eslint-disable-next-line
     }, [])

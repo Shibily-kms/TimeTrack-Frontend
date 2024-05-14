@@ -31,6 +31,8 @@ const AlertBar = ({
             }
         }, 5000); // Toasts disappear after 5 seconds
         return () => clearTimeout(timer);
+
+        // eslint-disable-next-line
     }, [])
 
     const handleClose = () => {
@@ -40,7 +42,6 @@ const AlertBar = ({
             console.error(`You can't remove this alert box.`)
         }
     }
-
 
     return (
         <div className={`${type} alert-bar-style-div`}>

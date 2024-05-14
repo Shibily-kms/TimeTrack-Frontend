@@ -10,6 +10,8 @@ const Dashboard = ({ setPageHead }) => {
     useEffect(() => {
         dispatch(setAdminActivePage('dashboard'))
         setPageHead({ title: 'Dashboard' })
+
+        // eslint-disable-next-line
     }, [])
 
     return (

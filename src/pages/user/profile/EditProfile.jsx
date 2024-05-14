@@ -49,6 +49,8 @@ const EditProfile = ({ setPageHead }) => {
         })
 
         setPageHead({ title: 'Edit Profile' })
+
+        // eslint-disable-next-line
     }, [])
 
     const handleChange = (e) => {
@@ -80,14 +82,14 @@ const EditProfile = ({ setPageHead }) => {
                     <form action="" onSubmit={handleSubmit}>
                         <div className="input-section">
                             <NormalInput label='Email Address' name='email_id' type='email' value={form?.email_id} onChangeFun={handleChange} />
-                            <SelectInput label='Gender' name='gender' values={genderList} onChangeFun={handleChange}/>
+                            <SelectInput label='Gender' name='gender' values={genderList} onChangeFun={handleChange} />
                             <NormalInput label='Address' name='address' value={form?.address} onChangeFun={handleChange} />
                             <NormalInput label='Place' name='place' value={form?.place} onChangeFun={handleChange} />
                             <NormalInput label='Post Office' name='post' value={form?.post} onChangeFun={handleChange} />
                             <NormalInput label='District' name='district' value={form?.district} onChangeFun={handleChange} />
                             <NormalInput label='State' name='state' value={form?.state} onChangeFun={handleChange} />
-                            <NormalInput label='Pin Code' name='pin_code' type='number' value={form?.pin_code} onChangeFun={handleChange} max={999999} min={111111}/>
-                            <NormalInput label='Mobile number (2)' name='contact2' value={form?.contact2} onChangeFun={handleChange} isRequired={false} max={9999999999} min={5555555555}/>
+                            <NormalInput label='Pin Code' name='pin_code' type='number' value={form?.pin_code} onChangeFun={handleChange} max={999999} min={111111} />
+                            <NormalInput label='Mobile number (2)' name='contact2' value={form?.contact2} onChangeFun={handleChange} isRequired={false} max={9999999999} min={5555555555} />
                             <NormalInput label='Whatsapp' name='whatsapp' value={form?.whatsapp} onChangeFun={handleChange} />
                         </div>
                         <SingleButton type={'submit'} name={'Update'} classNames={'lg btn-tertiary'} loading={loading === 'update'} style={{ width: '100%' }} />
