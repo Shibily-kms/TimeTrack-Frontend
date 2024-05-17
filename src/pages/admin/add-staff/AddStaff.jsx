@@ -52,7 +52,7 @@ const AddStaff = ({ setPageHead }) => {
         })
 
         setPageHead({ title: 'Add New Staff' })
-        dispatch(setAdminActivePage('add-staff'))
+        dispatch(setAdminActivePage('staff-list'))
         // eslint-disable-next-line
     }, [])
 

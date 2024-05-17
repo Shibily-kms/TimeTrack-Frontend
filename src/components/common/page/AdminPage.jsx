@@ -4,13 +4,14 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import AllianceLogo from '../../../assets/images/alliance-logo.png'
 import {
-    MdOutlineSpaceDashboard, MdSpaceDashboard, MdAddCircleOutline, MdAddCircle,
+    MdOutlineSpaceDashboard, MdSpaceDashboard,
     MdOutlineVerified, MdVerified, MdOutlineWorkHistory, MdWorkHistory
 } from "react-icons/md";
 import { LuIndianRupee, LuQrCode } from "react-icons/lu";
 import { FaIndianRupeeSign } from "react-icons/fa6";
 import { PiUserListBold, PiUserListFill } from "react-icons/pi";
 import { RiFileList3Line, RiFileList3Fill, RiSettingsLine, RiSettingsFill } from "react-icons/ri";
+import { IoPricetagsSharp, IoPricetagsOutline } from 'react-icons/io5'
 import { setAdminActivePage } from '../../../redux/features/user/systemSlice'
 
 
@@ -65,11 +66,6 @@ function AdminPage({ pageHead, children }) {
                                 {adminActivePage === 'dashboard' ? <MdSpaceDashboard /> : <MdOutlineSpaceDashboard />}
                                 <span>Dashboard</span>
                             </div>
-                            <div className={adminActivePage === 'add-staff' ? "menu-item active-menu" : "menu-item"}
-                                onClick={() => clickMenuItem('/admin/staff-list/add-staff', 'add-staff')}>
-                                {adminActivePage === 'add-staff' ? <MdAddCircle /> : <MdAddCircleOutline />}
-                                <span>Add Staff</span>
-                            </div>
                             <div className={adminActivePage === 'staff-list' ? "menu-item active-menu" : "menu-item"}
                                 onClick={() => clickMenuItem('/admin/staff-list', 'staff-list')}>
                                 {adminActivePage === 'staff-list' ? <PiUserListFill /> : <PiUserListBold />}
@@ -97,7 +93,7 @@ function AdminPage({ pageHead, children }) {
                             </div>
                             <div className={adminActivePage === 'designation-list' ? "menu-item active-menu" : "menu-item"}
                                 onClick={() => clickMenuItem('/admin/designation-list', 'designation-list')}>
-                                {adminActivePage === 'designation-list' ? <MdVerified /> : <MdOutlineVerified />}
+                                {adminActivePage === 'designation-list' ? <IoPricetagsSharp /> : <IoPricetagsOutline />}
                                 <span>Designation List</span>
                             </div>
                             <div className={adminActivePage === 'settings' ? "menu-item active-menu" : "menu-item"}

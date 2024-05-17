@@ -7,12 +7,18 @@
 
     .table-div {
 
+        .button-div {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
         td {
             .button-div {
                 display: flex;
                 justify-content: center;
                 gap: 10px;
-               
+
 
             }
         }

@@ -13,7 +13,7 @@ import Modal from '../../../components/common/modal/Modal'
 import SingleButton from '../../../components/common/buttons/SingleButton'
 import { useNavigate } from 'react-router-dom'
 import { GrEdit } from "react-icons/gr";
-import { FaCheck } from "react-icons/fa6";
+import { FaCheck, FaPlus } from "react-icons/fa6";
 import { FiSettings } from "react-icons/fi";
 
 
@@ -77,8 +77,13 @@ function AllStaffs({ setPageHead }) {
             <Modal modal={modal} setModal={setModal} />
             <div className="table-div">
                 {data?.[0] ? <>
-                    <TableFilter srlNo={true} topRight={<SingleButton name={'All Staffs'} stIcon={allStaff && <FaCheck />}
-                        classNames={allStaff ? 'btn-primary' : 'btn-gray'} onClick={handleAllButton} loading={loading === 'listing'} />}>
+                    <TableFilter srlNo={true} topRight={<div className='button-div'>
+                        <SingleButton name={'Staff'} stIcon={<FaPlus />}
+                            classNames={'btn-tertiary'} onClick={() => navigate('/admin/staff-list/add-staff')} />
+
+                        <SingleButton name={'All Staffs'} stIcon={allStaff && <FaCheck />}
+                            classNames={allStaff ? 'btn-primary' : 'btn-gray'} onClick={handleAllButton} loading={loading === 'listing'} />
+                    </div>}>
                         <table id="list">
                             <thead>
                                 <tr>

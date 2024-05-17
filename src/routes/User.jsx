@@ -7,6 +7,7 @@ import { setUser, logOut } from '../redux/features/user/authSlice'
 import { getPunchDetails } from '../redux/features/user/workdataSlice'
 import PageLoading from '../components/common/spinners/PageLoading'
 import SinglePage from '../components/common/page/SinglePage'
+import NotFound from '../pages/user/not-found/NotFound '
 import { toast } from '../redux/features/user/systemSlice'
 import { clearRegularWork, clearSyncRegularWork } from '../redux/features/user/dayWorksSlice'
 
@@ -14,7 +15,6 @@ import { clearRegularWork, clearSyncRegularWork } from '../redux/features/user/d
 const Home = lazy(() => import('../pages/user/home/Home'))
 const WorkDetails = lazy(() => import('../pages/user/work-details/Work_details'))
 const PunchWork = lazy(() => import('../pages/user/punch-work/PunchWork'))
-const NotFound = lazy(() => import('../pages/user/not-found/NotFound '))
 const MorePage = lazy(() => import('../pages/user/more/MorePage'))
 const Settings = lazy(() => import('../pages/user/settings/Settings'))
 const Profile = lazy(() => import('../pages/user/profile/Profile'))
@@ -115,7 +115,7 @@ function User() {
 
 
           {/* 404 Route */}
-          <Route path="/*" element={<NotFound />} />
+          <Route path="/*" element={<NotFound setPageHead={setPageHead} />} />
         </Routes>
       </Suspense>
     </SinglePage>

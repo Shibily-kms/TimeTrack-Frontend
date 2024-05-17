@@ -20,9 +20,9 @@ function SpinWithMessage({ icon, message = '', load = false, fullView = false, b
             </div>
             }
 
-            <div className="bottom-div">
+            {bottomContent && <div className="bottom-div">
                 {bottomContent}
-            </div>
+            </div>}
         </div>
     )
 }

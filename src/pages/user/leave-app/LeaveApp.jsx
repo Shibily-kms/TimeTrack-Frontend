@@ -19,7 +19,7 @@ const LeaveApp = ({ setPageHead }) => {
     const dispatch = useDispatch()
     const [loading, setLoading] = useState('fetch')
     const [count, setCount] = useState(0)
-    const [totalLeave, setTotalLeave] = useState()
+    const [totalLeave, setTotalLeave] = useState(0)
 
     const handleOpenModal = () => {
         setModal({ status: true, title: "Leave Registration", content: <LeaveReg setModal={setModal} setData={setData} /> })
