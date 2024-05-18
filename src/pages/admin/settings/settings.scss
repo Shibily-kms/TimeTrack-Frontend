@@ -54,5 +54,13 @@
                 }
             }
         }
+
+        .red-option {
+            color: #{$aws-color-light-theme-red-50};
+
+            &:hover {
+                background-color: #{color.adjust($aws-color-light-theme-red-50, $alpha : -0.8)};
+            }
+        }
     }
 }

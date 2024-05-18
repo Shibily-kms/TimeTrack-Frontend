@@ -10,6 +10,7 @@ import Scanner from './pages/user/scanner/Scanner';
 const UserLogin = lazy(() => import('./pages/user/login/Login'))
 const AdminLogin = lazy(() => import('./pages/admin/login/Login'))
 const QrCodeView = lazy(() => import('./pages/admin/qr-code-view/QrCodeView'))
+const ZeroAuth = lazy(() => import('./pages/admin/0auth/ZeroAuth'))
 
 
 function App() {
@@ -54,9 +55,11 @@ function App() {
         <Routes>
           {/* WithOut Header and Footer */}
           <Route path='/login' element={<UserLogin />} />
-          <Route path='/admin/login' element={<AdminLogin />} />
           <Route path='/qr-code' element={<QrCodeView />} />
           <Route path='/scanner' element={<Scanner />} />
+          <Route path='/v1/0auth' element={<ZeroAuth />} />
+
+          <Route path='/admin/login' element={<AdminLogin />} />
 
           {/* Routes */}
           <Route element={<Admin />} path='/admin/*' />

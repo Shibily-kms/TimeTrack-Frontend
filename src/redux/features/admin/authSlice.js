@@ -36,6 +36,10 @@ export const adminAuthSlice = createSlice({
         logOut: (state) => {
             state.admin = null
             localStorage.removeItem('_aws_temp_tkn_adn')
+        },
+        originAdminLogIn: (state, action) => {
+            localStorage.setItem('_aws_temp_tkn_adn', action.payload.token)
+            state.admin = action.payload;
         }
     },
     extraReducers: (builder) => {
@@ -57,5 +61,5 @@ export const adminAuthSlice = createSlice({
 })
 
 
-export const { reset, logOut, setAdmin } = adminAuthSlice.actions;
+export const { reset, logOut, setAdmin, originAdminLogIn } = adminAuthSlice.actions;
 export default adminAuthSlice.reducer

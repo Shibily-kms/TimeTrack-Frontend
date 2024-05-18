@@ -79,6 +79,7 @@
                 display: flex;
                 flex-direction: column;
                 align-items: center;
+                gap: 5px;
 
                 .icon-div {
                     width: 50px;
@@ -90,7 +91,7 @@
                     cursor: pointer;
 
                     svg {
-                        font-size: 27px;
+                        font-size: 35px;
                     }
 
                     border-radius: 15px;

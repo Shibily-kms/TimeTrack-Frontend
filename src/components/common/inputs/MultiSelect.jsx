@@ -30,7 +30,12 @@ function MultiSelect({
         }),
         option: (provided, state) => ({
             ...provided,
-            fontSize: '13px'
+            fontSize: '13px',
+            backgroundColor : 'var(--background-c1)'
+        }),
+        menu: (provided, state) => ({
+            ...provided,
+            backgroundColor : 'var(--background-c1)'
         })
     };
 
@@ -45,7 +50,7 @@ function MultiSelect({
                     options={values}
                     defaultValue={selectedValue}
                     className="basic-multi-select"
-                    classNamePrefix="Choose"
+                    classNamePrefix="custom-select"
                     onChange={onChangeFun}
                     id={id || name}
                     styles={customStyles}

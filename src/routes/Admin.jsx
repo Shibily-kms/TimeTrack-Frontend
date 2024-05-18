@@ -51,7 +51,7 @@ function Admin() {
 
 
           {/* 404 Route */}
-          <Route path="/*" element={<NotFound />} />
+          <Route path="/*" element={<NotFound setPageHead={setPageHead} />} />
         </Routes>
       </Suspense>
     </AdminPage>

@@ -4,8 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import AllianceLogo from '../../../assets/images/alliance-logo.png'
 import {
-    MdOutlineSpaceDashboard, MdSpaceDashboard,
-    MdOutlineVerified, MdVerified, MdOutlineWorkHistory, MdWorkHistory
+    MdOutlineSpaceDashboard, MdSpaceDashboard, MdOutlineWorkHistory, MdWorkHistory
 } from "react-icons/md";
 import { LuIndianRupee, LuQrCode } from "react-icons/lu";
 import { FaIndianRupeeSign } from "react-icons/fa6";
@@ -13,6 +12,9 @@ import { PiUserListBold, PiUserListFill } from "react-icons/pi";
 import { RiFileList3Line, RiFileList3Fill, RiSettingsLine, RiSettingsFill } from "react-icons/ri";
 import { IoPricetagsSharp, IoPricetagsOutline } from 'react-icons/io5'
 import { setAdminActivePage } from '../../../redux/features/user/systemSlice'
+import { getUserProfileImagePath } from '../../../assets/javascript/find-helpers'
+
+
 
 
 
@@ -20,6 +22,8 @@ function AdminPage({ pageHead, children }) {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const { adminActivePage } = useSelector((state) => state.systemInfo)
+    const { admin } = useSelector((state) => state.adminAuth)
+    const userProfileImage = getUserProfileImagePath(admin?.user_name);
 
     const clickMenuItem = (url, page) => {
         dispatch(setAdminActivePage(page))
@@ -110,11 +114,11 @@ function AdminPage({ pageHead, children }) {
                     <div className="bottom-div">
                         <div className="profile-div">
                             <div className="image-div">
-                                <img src={AllianceLogo} alt='profile' />
+                                <img src={userProfileImage || AllianceLogo} alt='profile' />
                             </div>
                             <div className="name-div">
-                                <h4>Full Name</h4>
-                                <p>SRL NO : 56846</p>
+                                <h4>{admin?.user_name}</h4>
+                                <p>{admin?.designation || 'Pro Admin'}</p>
                             </div>
                         </div>
                     </div>

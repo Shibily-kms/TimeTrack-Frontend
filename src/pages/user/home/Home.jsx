@@ -4,7 +4,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { BsQrCodeScan } from "react-icons/bs";
 import { IoFingerPrint, IoLogoAppleAr } from "react-icons/io5";
-import { MdOutlineMiscellaneousServices } from "react-icons/md";
+import { MdOutlineMiscellaneousServices, MdAdminPanelSettings } from "react-icons/md";
 import { LuListPlus } from "react-icons/lu";
 import { HiUserGroup } from "react-icons/hi2";
 import { BiMath } from "react-icons/bi";
@@ -16,6 +16,7 @@ import { YYYYMMDDFormat } from '../../../assets/javascript/date-helper';
 function Home({ setPageHead }) {
   const [searchParams, setSearchParams] = useSearchParams()
   const { user } = useSelector((state) => state.userAuth)
+  const { admin } = useSelector((state) => state.adminAuth)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -65,6 +66,24 @@ function Home({ setPageHead }) {
           <h4>App access</h4>
         </div>}
         <div className="section-content">
+          {(user?.origins_list?.includes('Accountant')) && <div className="app-item">
+            <div className="icon-div" style={{ backgroundColor: "#521f08" }}
+              onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>
+              <BiMath />
+            </div>
+            <p>Accounting <br></br> App</p>
+          </div>}
+
+          {user?.origins_list?.includes('Staff_Admin') && <div className="app-item">
+            <div className="icon-div" style={{ backgroundColor: "#4c0c87" }}
+              onClick={() => user?._id === admin?.temp_id
+                ? navigate('/admin')
+                : navigate(`/v1/0auth?temp_id=${user?._id}&location=Staff_Admin&redirect_url=http://localhost:3000/admin`)}>
+              <MdAdminPanelSettings />
+            </div>
+            <p>Staff Admin</p>
+          </div>}
+
           {(user?.origins_list?.includes('Sales') || user?.origins_list?.includes('SalesPro')
             || user?.origins_list?.includes('Installation')) && <div className="app-item">
               <div className="icon-div" style={{ backgroundColor: "#0c1663" }}
@@ -73,14 +92,6 @@ function Home({ setPageHead }) {
               </div>
               <p>Sales App</p>
             </div>}
-
-          {(user?.origins_list?.includes('Accountant')) && <div className="app-item">
-            <div className="icon-div" style={{ backgroundColor: "#521f08" }}
-              onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>
-              <BiMath />
-            </div>
-            <p>Accounting <br></br> App</p>
-          </div>}
 
           {(user?.origins_list?.includes('PR_Service')) && <div className="app-item">
             <div className="icon-div" style={{ backgroundColor: "#52082f" }}

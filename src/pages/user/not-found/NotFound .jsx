@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react'
-import Header from '../../../components/user/header/Header'
 import { useSelector } from 'react-redux'
 import './not-found.scss'
-import Gif404 from '../../../assets/images/404.gif'
 import { useNavigate } from 'react-router-dom'
 import SingleButton from '../../../components/common/buttons/SingleButton'
 

@@ -7,14 +7,35 @@ import { MdDarkMode, MdLightMode } from 'react-icons/md'
 import { BsCircleHalf } from 'react-icons/bs'
 import { IoArrowForwardOutline } from 'react-icons/io5'
 import { setAdminActivePage } from '../../../redux/features/user/systemSlice'
+import { IoMdLogOut } from 'react-icons/io'
+import { logOut } from '../../../redux/features/admin/authSlice'
+import { useNavigate } from 'react-router-dom'
+
 
 const Settings = ({ setPageHead }) => {
     const [modal, setModal] = useState({})
     const { theme } = useSelector((state) => state.systemInfo)
+    const { admin } = useSelector((state) => state.adminAuth)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const openModel = (title, content) => {
         setModal({ content, title, status: true })
+    }
+
+    const handleAdminLogOut = () => {
+
+        const ask = window.confirm('Are your ready for logout ?')
+        
+        if (ask) {
+            dispatch(logOut())
+            if (admin?.pro_admin) {
+                navigate('/admin/login')
+            } else {
+                navigate('/')
+            }
+        }
+
     }
 
 
@@ -37,6 +58,12 @@ const Settings = ({ setPageHead }) => {
                     </div>
                     <div className="right">
                         <IoArrowForwardOutline />
+                    </div>
+                </div>
+                <div className="option-div red-option" onClick={handleAdminLogOut}>
+                    <div className="left">
+                        <IoMdLogOut />
+                        <h4>Log out</h4>
                     </div>
                 </div>
             </div>

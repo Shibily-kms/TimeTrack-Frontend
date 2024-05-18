@@ -7,7 +7,7 @@ const ProfileCard = ({ full_name, description, rightContent }) => {
     const userProfileImage = getUserProfileImagePath(full_name);
 
     return (
-        <div className="profile-card-div">
+        <div className="profile-card-dash-div">
             <div className="left-div">
                 <div className="image-div">
                     <img src={userProfileImage} alt='Profile' />
