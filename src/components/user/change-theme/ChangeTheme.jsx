@@ -4,6 +4,7 @@ import { MdLightMode, MdDarkMode } from "react-icons/md";
 import { PiCircleHalfFill } from "react-icons/pi";
 import { useDispatch, useSelector } from 'react-redux'
 import { changeThemeColor } from '../../../redux/features/user/systemSlice'
+import Badge from '../../../components/common/badge/Badge'
 
 function ChangeTheme() {
 
@@ -28,6 +29,7 @@ function ChangeTheme() {
                     onClick={() => handleChangeTheme('dark')}>
                     <MdDarkMode />
                     <p>Dark</p>
+                    <span className='bottom-ab'><Badge text={'Beta'} className={'success-fill'} /></span>
                 </div>
                 <div className={theme === 'light' ? "box-input-div active" : "box-input-div"}
                     onClick={() => handleChangeTheme('light')}>

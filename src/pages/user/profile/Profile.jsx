@@ -63,10 +63,10 @@ const Profile = ({ setPageHead }) => {
                         <TbReport />
                         <span>Report</span>
                     </div>
-                    <div className="item-div">
+                    {/* <div className="item-div">
                         <LuBadgeHelp />
                         <span>Help me</span>
-                    </div>
+                    </div> */}
                 </div>
             </div>
             <div className="list-details-div">

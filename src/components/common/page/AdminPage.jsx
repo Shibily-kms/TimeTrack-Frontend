@@ -90,11 +90,11 @@ function AdminPage({ pageHead, children }) {
                                 {adminActivePage === 'salary-reports' ? <FaIndianRupeeSign /> : <LuIndianRupee />}
                                 <span>Salary Reports</span>
                             </div>
-                            <div className={adminActivePage === 'qr-generator' ? "menu-item active-menu" : "menu-item"}
+                            {admin?.pro_admin && <div className={adminActivePage === 'qr-generator' ? "menu-item active-menu" : "menu-item"}
                                 onClick={() => clickMenuItem('/admin/qr-generator', 'qr-generator')}>
                                 {adminActivePage === 'qr-generator' ? <LuQrCode /> : <LuQrCode />}
                                 <span>QR Generator</span>
-                            </div>
+                            </div>}
                             <div className={adminActivePage === 'designation-list' ? "menu-item active-menu" : "menu-item"}
                                 onClick={() => clickMenuItem('/admin/designation-list', 'designation-list')}>
                                 {adminActivePage === 'designation-list' ? <IoPricetagsSharp /> : <IoPricetagsOutline />}

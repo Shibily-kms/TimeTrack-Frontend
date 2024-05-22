@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setAdminActivePage, toast } from '../../../redux/features/user/systemSlice'
 import { adminAxios } from '../../../config/axios';
 import Modal from '../../../components/common/modal/Modal';
@@ -14,6 +14,7 @@ const LeaveApp = ({ setPageHead }) => {
     const [loading, setLoading] = useState('fetch')
     const [data, setData] = useState([])
     const [modal, setModal] = useState({ status: false })
+    const { admin } = useSelector((state) => state.adminAuth)
 
     const handleActionLeave = (singleData) => {
         setModal({ status: true, title: "Leave Action", content: <LeaveAction data={singleData} setData={setData} setModal={setModal} /> })
@@ -47,7 +48,7 @@ const LeaveApp = ({ setPageHead }) => {
                                 <th>Full name</th>
                                 <th>Days</th>
                                 <th>Status</th>
-                                <th>Control</th>
+                                {admin?.pro_admin && <th>Control</th>}
                             </tr>
                         </thead>
                         <tbody>
@@ -61,12 +62,12 @@ const LeaveApp = ({ setPageHead }) => {
                                     : item.leave_status === 'Approved'
                                         ? 'success-fill'
                                         : 'error-fill'} text={`${item?.self_cancel ? 'Self' : ""} ${item?.leave_status}`} /></td>
-                                <td>
+                                {admin?.pro_admin && <td>
                                     <div className="button-div" style={{ display: 'flex', justifyContent: 'center' }}>
                                         <SingleButton title={'Copy Link'} name={'Action'}
                                             onClick={() => handleActionLeave(item)} />
                                     </div>
-                                </td>
+                                </td>}
                             </tr>)}
                         </tbody>
                     </table>

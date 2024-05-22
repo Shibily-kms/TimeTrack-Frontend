@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import './staff-profile.scss'
 import { adminAxios } from '../../../config/axios'
-import { useParams } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import { toast } from '../../../redux/features/user/systemSlice'
 import SpinWithMessage from '../../../components/common/spinners/SpinWithMessage'
 import { YYYYMMDDFormat, getTimeFromSecond } from '../../../assets/javascript/date-helper'
@@ -18,11 +18,13 @@ import { FaCheckCircle } from "react-icons/fa";
 
 const StaffProfile = ({ setPageHead }) => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const { staff_id } = useParams()
   const [data, setData] = useState({})
   const [loading, setLoading] = useState('fetch')
   const [modal, setModal] = useState({ status: false })
   const [regular, setRegular] = useState([])
+  const { admin } = useSelector((state) => state.adminAuth)
 
 
   const openWorkModal = (title, data) => {
@@ -52,8 +54,8 @@ const StaffProfile = ({ setPageHead }) => {
       })
 
     }).catch((error) => {
-      dispatch(toast.push.error({ message: error.message }))
-      // navigate('/admin?page=dashboard')
+      dispatch(toast.push.error({ message: 'Invalid URL' }))
+      navigate('/admin/staff-list')
       setLoading('')
     })
     //eslint-disable-next-line
@@ -164,7 +166,7 @@ const StaffProfile = ({ setPageHead }) => {
               </div>
             </>}
         </div>
-        {loading !== 'fetch' && !data?.delete &&
+        {loading !== 'fetch' && !data?.delete && admin?.pro_admin &&
           <div className="reg-work-div" id="title3">
             <div className="title">
               <h3>Regular Works</h3>
@@ -190,10 +192,10 @@ const StaffProfile = ({ setPageHead }) => {
             <ul>
               <li onClick={() => scrollTo('title1')}>Personal Info</li>
               <li onClick={() => scrollTo('title2')}>Professional Info</li>
-              {loading !== 'fetch' && !data?.delete && <li onClick={() => scrollTo('title3')}>Regular Works</li>}
+              {loading !== 'fetch' && !data?.delete && admin?.pro_admin && <li onClick={() => scrollTo('title3')}>Regular Works</li>}
             </ul>
           </div>
-          {loading !== 'fetch' && !data?.delete &&
+          {loading !== 'fetch' && !data?.delete && admin?.pro_admin &&
             <div className="sub-section-two">
               <SingleButton name={'Add regular work'} classNames={'btn-tertiary'} style={{ width: '100%' }} onClick={() => openWorkModal('Add New Work')} />
               <SingleButton name={'Delete profile'} classNames={'btn-danger'} style={{ width: '100%' }}

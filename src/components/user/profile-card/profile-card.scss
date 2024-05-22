@@ -1,5 +1,4 @@
 @use "sass:color";
-@use '../../../assets/scss/ui/theme';
 @use '../../../assets/scss/ui/var-color' as *;
 @import '../../../assets/scss/model.scss';
 
@@ -12,7 +11,7 @@
     background: #{$aws-color-light-theme-blue-40};
     background: linear-gradient(320deg, #{$aws-color-light-theme-blue-50} 18%, #{$aws-color-light-theme-blue-80} 73%);
     border: var(--border-secondary) 1px solid;
-    padding: 10px 10px;
+    padding: 10px 10px 5px 10px;
     color : #{$aws-color-white};
     user-select: none;
     overflow: hidden;
@@ -23,7 +22,7 @@
         align-items: center;
         border-bottom: #{$aws-color-light-theme-blue-30} solid 1px;
         padding-bottom: 5px;
-        margin-bottom: 8px;
+        margin-bottom: 5px;
 
         .profile-image-div {
             width: 60px;
@@ -74,7 +73,7 @@
             @include threeDots(1);
         }
 
-        div{
+        div {
             display: flex;
             align-items: center;
         }

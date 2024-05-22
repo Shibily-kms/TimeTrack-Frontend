@@ -1,5 +1,4 @@
 @use "sass:color";
-@use '../../../assets/scss/ui/theme';
 @use '../../../assets/scss/ui/var-color' as *;
 
 .badge-div {
@@ -42,27 +41,27 @@
 
 .success-fill {
     background-color: var(--color-success);
-    color : #{$aws-color-white};
+    color : #{$aws-color-white} !important;
 }
 
 .error-fill {
     background-color: var(--color-error);
-    color : #{$aws-color-white};
+    color : #{$aws-color-white} !important;
 }
 
 .warning-fill {
     background-color: var(--color-warning);
-    color : #{$aws-color-white};
+    color : #{$aws-color-white} !important;
 }
 
 .info-fill {
     background-color: var(--color-info);
-    color : #{$aws-color-white};
+    color : #{$aws-color-white} !important;
 }
 
 .gray-fill {
     background-color: var(--background-c3);
-    color: var(--background-c1);
+    color: var(--background-c1) !important;
 }
 
 

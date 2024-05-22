@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './settings.scss'
 import { useSearchParams } from 'react-router-dom'
-import { MdLightMode, MdDarkMode, MdOutlinePassword, MdOutlineImportantDevices } from "react-icons/md";
+import { MdLightMode, MdDarkMode, MdOutlinePassword } from "react-icons/md";
 import { IoArrowForwardOutline } from "react-icons/io5";
 import Modal from '../../../components/common/modal/Modal'
 import ChangeTheme from '../../../components/user/change-theme/ChangeTheme';
@@ -46,16 +46,6 @@ const Settings = ({ setPageHead }) => {
                     <div className="left">
                         <MdOutlinePassword />
                         <h4>Change password</h4>
-                    </div>
-                    <div className="right">
-                        <IoArrowForwardOutline />
-                    </div>
-                </div>
-
-                <div className="option-div" >
-                    <div className="left">
-                        <MdOutlineImportantDevices />
-                        <h4>Device Management</h4>
                     </div>
                     <div className="right">
                         <IoArrowForwardOutline />

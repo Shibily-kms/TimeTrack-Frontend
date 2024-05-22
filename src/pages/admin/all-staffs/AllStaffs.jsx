@@ -8,7 +8,7 @@ import { adminAxios } from '../../../config/axios'
 import { getTimeFromSecond } from '../../../assets/javascript/date-helper'
 import { setAdminActivePage, toast } from '../../../redux/features/user/systemSlice'
 import { IoTrashBin } from 'react-icons/io5'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Modal from '../../../components/common/modal/Modal'
 import SingleButton from '../../../components/common/buttons/SingleButton'
 import { useNavigate } from 'react-router-dom'
@@ -24,6 +24,7 @@ function AllStaffs({ setPageHead }) {
     const [data, setData] = useState([])
     const [modal, setModal] = useState({ status: false })
     const [allStaff, setAllStaff] = useState(false)
+    const { admin } = useSelector((state) => state.adminAuth)
 
 
     const getActiveStaffList = () => {
@@ -78,9 +79,9 @@ function AllStaffs({ setPageHead }) {
             <div className="table-div">
                 {data?.[0] ? <>
                     <TableFilter srlNo={true} topRight={<div className='button-div'>
-                        <SingleButton name={'Staff'} stIcon={<FaPlus />}
+                        {admin?.pro_admin && <SingleButton name={'Staff'} stIcon={<FaPlus />}
                             classNames={'btn-tertiary'} onClick={() => navigate('/admin/staff-list/add-staff')} />
-
+                        }
                         <SingleButton name={'All Staffs'} stIcon={allStaff && <FaCheck />}
                             classNames={allStaff ? 'btn-primary' : 'btn-gray'} onClick={handleAllButton} loading={loading === 'listing'} />
                     </div>}>
@@ -92,7 +93,7 @@ function AllStaffs({ setPageHead }) {
                                     <th>Mobile No</th>
                                     <th>Work Details</th>
                                     <th>Salary</th>
-                                    <th>Control</th>
+                                    {admin?.pro_admin && <th>Control</th>}
                                 </tr>
                             </thead>
                             <tbody>
@@ -111,7 +112,7 @@ function AllStaffs({ setPageHead }) {
                                             <br></br><small>{getTimeFromSecond(value.current_working_time * value.current_working_days)}</small>
                                         </td>
                                         <td onClick={() => navigate(`/admin/staff-list/${value._id}/view`)}>₹{value.current_salary || 0}.00</td>
-                                        <td>
+                                        {admin?.pro_admin && <td>
                                             {!value?.delete &&
                                                 <div className="button-div">
                                                     <SingleButton title='Edit' classNames={'icon-only btn-blue'} stIcon={<GrEdit />}
@@ -120,7 +121,7 @@ function AllStaffs({ setPageHead }) {
                                                         onClick={() => openModal('Settings', <StaffSettings setModal={setModal} staffId={value._id} />)} />
                                                 </div>}
 
-                                        </td>
+                                        </td>}
                                         <td style={{ display: 'none' }}>{value?.sid}</td>
                                     </tr>
                                 })}

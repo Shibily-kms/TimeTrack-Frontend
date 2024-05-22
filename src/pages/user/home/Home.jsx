@@ -5,11 +5,14 @@ import { useSelector } from 'react-redux';
 import { BsQrCodeScan } from "react-icons/bs";
 import { IoFingerPrint, IoLogoAppleAr } from "react-icons/io5";
 import { MdOutlineMiscellaneousServices, MdAdminPanelSettings } from "react-icons/md";
+import { FaIndianRupeeSign } from "react-icons/fa6";
+import { FaStore } from "react-icons/fa";
 import { LuListPlus } from "react-icons/lu";
 import { HiUserGroup } from "react-icons/hi2";
 import { BiMath } from "react-icons/bi";
 import ProfileCard from '../../../components/user/profile-card/ProfileCard';
 import { YYYYMMDDFormat } from '../../../assets/javascript/date-helper';
+import { MdCleaningServices } from "react-icons/md";
 
 
 
@@ -66,14 +69,6 @@ function Home({ setPageHead }) {
           <h4>App access</h4>
         </div>}
         <div className="section-content">
-          {(user?.origins_list?.includes('Accountant')) && <div className="app-item">
-            <div className="icon-div" style={{ backgroundColor: "#521f08" }}
-              onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>
-              <BiMath />
-            </div>
-            <p>Accounting <br></br> App</p>
-          </div>}
-
           {user?.origins_list?.includes('Staff_Admin') && <div className="app-item">
             <div className="icon-div" style={{ backgroundColor: "#4c0c87" }}
               onClick={() => user?._id === admin?.temp_id
@@ -84,11 +79,19 @@ function Home({ setPageHead }) {
             <p>Staff Admin</p>
           </div>}
 
+          {(user?.origins_list?.includes('Accounting')) && <div className="app-item">
+            <div className="icon-div" style={{ backgroundColor: "#521f08" }}
+              onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>
+              <FaIndianRupeeSign />
+            </div>
+            <p>Accounting <br></br> App</p>
+          </div>}
+
           {(user?.origins_list?.includes('Sales') || user?.origins_list?.includes('SalesPro')
             || user?.origins_list?.includes('Installation')) && <div className="app-item">
               <div className="icon-div" style={{ backgroundColor: "#0c1663" }}
                 onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>
-                <IoLogoAppleAr />
+                <FaStore />
               </div>
               <p>Sales App</p>
             </div>}

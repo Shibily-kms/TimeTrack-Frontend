@@ -12,13 +12,14 @@ import { FaPlus } from "react-icons/fa6";
 import { GrEdit } from 'react-icons/gr'
 import { GoTrash } from "react-icons/go";
 import { setAdminActivePage, toast } from '../../../redux/features/user/systemSlice'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 function Designations({ setPageHead }) {
     const dispatch = useDispatch()
     const [data, setData] = useState([])
     const [modal, setModal] = useState(null)
     const [loading, setLoading] = useState('fetch')
+    const { admin } = useSelector((state) => state.adminAuth)
 
     useEffect(() => {
         setPageHead({ title: 'Designation List' })
@@ -68,7 +69,7 @@ function Designations({ setPageHead }) {
                                 <tr>
                                     <th>Designation</th>
                                     <th>Staffs Count</th>
-                                    <th>Control</th>
+                                    {admin?.pro_admin && <th>Control</th>}
                                 </tr>
                             </thead>
                             <tbody>
@@ -76,14 +77,14 @@ function Designations({ setPageHead }) {
                                     return <tr key={value._id}>
                                         <td>{value.designation}</td>
                                         <td style={{ textAlign: 'center' }}>{value.name.length}</td>
-                                        <td style={{ textAlign: 'center' }}>
+                                        {admin?.pro_admin && <td style={{ textAlign: 'center' }}>
                                             <div className='buttons' >
                                                 <SingleButton title='Edit' classNames={'icon-only btn-blue'} stIcon={<GrEdit />}
                                                     onClick={() => openModal('Edit Designation', <EditDesignation setModal={setModal} setData={setData} editData={value} />)} />
                                                 <SingleButton title='Delete' classNames={'icon-only btn-danger '} stIcon={<GoTrash />} onClick={() => handleDelete(value._id)}
                                                     loading={loading === value._id} />
                                             </div>
-                                        </td>
+                                        </td>}
                                     </tr>
                                 })}
                             </tbody>

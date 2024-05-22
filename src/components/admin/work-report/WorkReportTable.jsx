@@ -11,9 +11,11 @@ import Badge from '../../common/badge/Badge'
 import SingleButton from '../../common/buttons/SingleButton';
 import Modal from '../../common/modal/Modal'
 import SalaryReport from './SalaryReport';
+import { useSelector } from 'react-redux';
 
 function WorkReportTable({ report, setData, thisMonth }) {
     const [modal, setModal] = useState({})
+    const { admin } = useSelector((state) => state.adminAuth)
 
     const openModal = (title, data, type) => {
 
@@ -37,7 +39,7 @@ function WorkReportTable({ report, setData, thisMonth }) {
                             <th>Worked <br></br> days</th>
                             <th>Worked <br></br> hours</th>
                             <th>Total <br></br> Salary</th>
-                            {thisMonth ? <th>Current C/F</th> : <th>Control</th>}
+                            {thisMonth ? <th>Current C/F</th> : admin?.pro_admin ? <th>Control</th> : ''}
                         </tr>
                     </thead>
 
@@ -93,9 +95,9 @@ function WorkReportTable({ report, setData, thisMonth }) {
                                         {/* current c/f */}
                                         {thisMonth
                                             ? <td>{getTimeFromSecond(staff.balance_CF) || '0m'}</td>
-                                            : <td>
+                                            : admin?.pro_admin ? <td>
                                                 <SingleButton title='Edit' classNames={'icon-only btn-blue'} stIcon={<GrEdit />} onClick={() => openModal('Edit Salary', staff)} />
-                                            </td>
+                                            </td> : ""
                                         }
                                     </>
                                 }

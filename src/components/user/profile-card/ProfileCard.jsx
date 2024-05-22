@@ -28,11 +28,10 @@ const ProfileCard = () => {
                 </div>
             </div>
             <div className="bottom-section-div">
-                <Badge icon={<FaCheckCircle />} className={user?.status === 'Active' ? 'lg success-fill' : "sm error-fill"} text={user?.status || 'Left the company'} />
                 <div>
-                    <MdKeyboardDoubleArrowDown/>
-                    <p>75h 30m / 85h 50m</p>
+                    <p>Version 2.0.0</p>
                 </div>
+                <Badge icon={<FaCheckCircle />} className={user?.status === 'Active' ? 'lg success-fill' : "sm error-fill"} text={user?.status || 'Left the company'} />
             </div>
         </div>
     )
