@@ -1,0 +1,203 @@
+@use '../../../assets/scss/ui/var-color' as *;
+
+.scanner-page-div {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+
+    .content-div {
+        display: flex;
+        justify-content: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 10;
+        width: 100%;
+
+        .box-0-div {
+            min-width: 250px;
+            max-width: 500px;
+            width: 100%;
+            height: 100vh;
+            position: relative;
+
+
+            .scan-box-div {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: none;
+
+                .hole {
+                    width: 250px;
+                    height: 250px;
+                    background-color: transparent;
+                    box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.678);
+                    position: relative;
+                    border-radius: 20px;
+                    -webkit-border-radius: 20px;
+                    -moz-border-radius: 20px;
+                    -ms-border-radius: 20px;
+                    -o-border-radius: 20px;
+                    top: 150px;
+                    left: 50%;
+                    transform: translate(-50%, 0);
+                    -webkit-transform: translate(-50%, 0);
+                    -moz-transform: translate(-50%, 0);
+                    -ms-transform: translate(-50%, 0);
+                    -o-transform: translate(-50%, 0);
+
+                    .one,
+                    .two,
+                    .three,
+                    .four {
+                        width: 60px;
+                        height: 60px;
+                        position: absolute;
+                    }
+
+
+                    .one {
+                        border-left: 6px solid #{$aws-color-white};
+                        border-top: 6px solid #{$aws-color-white};
+                        border-top-left-radius: 35px;
+                        left: -15px;
+                        top: -15px;
+                        background: transparent;
+                    }
+
+                    .two {
+                        border-right: 6px solid #{$aws-color-white};
+                        border-top: 6px solid #{$aws-color-white};
+                        border-top-right-radius: 35px;
+                        right: -15px;
+                        top: -15px;
+                        background: transparent;
+                    }
+
+                    .three {
+                        border-left: 6px solid #{$aws-color-white};
+                        border-bottom: 6px solid #{$aws-color-white};
+                        border-bottom-left-radius: 35px;
+                        left: -15px;
+                        bottom: -15px;
+                        background: transparent;
+                    }
+
+                    .four {
+                        border-right: 6px solid #{$aws-color-white};
+                        border-bottom: 6px solid #{$aws-color-white};
+                        border-bottom-right-radius: 35px;
+                        right: -15px;
+                        bottom: -15px;
+                        background: transparent;
+                    }
+                }
+            }
+
+            .top-trans-layer-div {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                padding: 25px;
+                color : #{$aws-color-white};
+
+                .section-one-div {
+
+                    .name-info-div {
+                        width: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+
+                        .time-div {
+                            display: flex;
+                            align-items: center;
+                            gap: 10px;
+
+                            .image-div {
+                                width: 30px;
+                                height: 30px;
+                                border-radius: 100px;
+                                -webkit-border-radius: 100px;
+                                -moz-border-radius: 100px;
+                                -ms-border-radius: 100px;
+                                -o-border-radius: 100px;
+                                overflow: hidden;
+
+                                img {
+                                    width: 100%;
+                                    height: 100%;
+                                }
+                            }
+
+                            p {
+                                font-size: 14px;
+                                font-weight: 500;
+                            }
+                        }
+
+                        svg {
+                            font-size: 35px;
+                            cursor: pointer;
+                        }
+                    }
+                }
+
+                .section-two-div {
+                    p {
+                        text-align: center;
+                        font-size: 12px;
+                    }
+                }
+
+
+
+            }
+        }
+
+        .popup-result-div {
+            max-width: 500px;
+            width: 100%;
+            min-width: 250px;
+            height: 100vh;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+
+            .box-div {
+                height: 85%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 15px;
+
+                >svg {
+                    font-size: 65px;
+                }
+
+                p {
+                    font-size: 13px;
+                    margin-top: -10px;
+                }
+            }
+        }
+
+
+    }
+
+
+
+
+
+
+}

@@ -1,9 +1,15 @@
+@use './assets/scss/ui/theme.scss';
+@use './assets/scss/ui/var-color' as *;
+@import './assets/scss/fonts.scss';
+
 * {
     margin: 0;
     box-sizing: border-box;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'ConfigRounded', 'Montserrat', sans-serif;
 }
 
 body {
     overscroll-behavior-y: contain;
+    background-color: var(--background-primary);
+    color: var(--text-primary);
 }

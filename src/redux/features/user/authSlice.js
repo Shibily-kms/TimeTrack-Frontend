@@ -13,9 +13,9 @@ const initialState = {
 export const loginUser = createAsyncThunk('user/login', async (formData, thunkAPI) => {
 
     try {
-        return await userAxios.post('/login', formData)
+        return await userAxios.post('/auth/login', formData)
     } catch (error) {
-        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+        const message = (error && error.message) || error.message || error.toString()
         return thunkAPI.rejectWithValue(message)
     }
 })
@@ -34,7 +34,7 @@ export const userAuthSlice = createSlice({
             state.user = action.payload
         },
         logOut: (state) => {
-            localStorage.removeItem('_tkn_stf');
+            localStorage.removeItem('_aws_temp_tkn');
             state.user = null
         }
     },
@@ -45,10 +45,10 @@ export const userAuthSlice = createSlice({
             })
             .addCase(loginUser.fulfilled, (state, action) => {
                 localStorage.setItem(
-                    '_tkn_stf', action.payload.data.data.token
+                    '_aws_temp_tkn', action.payload.data.token
                 );
                 state.isLoading = false;
-                state.user = action.payload.data.data;
+                state.user = action.payload.data;
             })
             .addCase(loginUser.rejected, (state, action) => {
                 state.isLoading = false;

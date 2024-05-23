@@ -1,143 +1,98 @@
 import React, { useEffect, useState } from 'react'
-import Header from '../../../components/admin/header/Header'
+import './designations.scss'
 import AddDesignation from '../../../components/admin/models/Add_designation'
 import EditDesignation from '../../../components/admin/models/EditDesignation'
-import IconWithMessage from '../../../components/common/spinners/SpinWithMessage'
-import Title from '../../../components/common/title/Title'
+import SpinWithMessage from '../../../components/common/spinners/SpinWithMessage'
 import TableFilter from '../../../components/common/table-filter/TableFilter'
-import './designations.scss'
+import SingleButton from '../../../components/common/buttons/SingleButton'
+import Modal from '../../../components/common/modal/Modal'
 import { adminAxios } from '../../../config/axios'
-import { IoCloseCircleOutline, IoTrashBin } from 'react-icons/io5'
-import { FiEdit2 } from 'react-icons/fi'
-import { BsTrash3 } from 'react-icons/bs'
-import { AiOutlinePlus } from 'react-icons/ai'
-import { toast } from 'react-hot-toast'
-import { stringToLocalTime } from '../../../assets/javascript/date-helper'
-import { BiLoaderAlt } from 'react-icons/bi'
+import { IoTrashBin } from 'react-icons/io5'
+import { FaPlus } from "react-icons/fa6";
+import { GrEdit } from 'react-icons/gr'
+import { GoTrash } from "react-icons/go";
+import { setAdminActivePage, toast } from '../../../redux/features/user/systemSlice'
+import { useDispatch, useSelector } from 'react-redux'
 
-function Designations() {
-
+function Designations({ setPageHead }) {
+    const dispatch = useDispatch()
     const [data, setData] = useState([])
-    const [model, setModel] = useState(null)
-    const [editData, setEditData] = useState({})
-    const [loading, setLoading] = useState('')
+    const [modal, setModal] = useState(null)
+    const [loading, setLoading] = useState('fetch')
+    const { admin } = useSelector((state) => state.adminAuth)
 
     useEffect(() => {
-        setLoading('initialLoad')
+        setPageHead({ title: 'Designation List' })
+        dispatch(setAdminActivePage('designation-list'))
+
+        setLoading('fetch')
         adminAxios.get('/designations').then((response) => {
             setLoading('')
-            setData(response.data?.data || [])
+            setData(response?.data || [])
         }).catch((error) => {
-            toast.error(error.response.data.message)
+            dispatch(toast.push.error({ message: error.message }))
         })
+
+        // eslint-disable-next-line
     }, [])
 
-    const openEdit = (header, value) => {
-        setEditData({ ...value, allow_origins: value.allow_origins, auto_punch_out: value.auto_punch_out || '17:30' })
-        setModel(header)
+    const openModal = (title, content) => {
+        setModal({ status: true, title: title, content })
     }
 
     const handleDelete = (id) => {
         let confirm = window.confirm('Are you delete this designation ?')
         if (confirm) {
             setLoading(id)
-            adminAxios.delete(`/designation?id=${id}`).then((response) => {
+            adminAxios.delete(`/designation?id=${id}`).then(() => {
                 setData((state) => {
                     return state.filter(obj => obj._id !== id)
                 })
                 setLoading('')
             }).catch((error) => {
-                toast.error(error.response.data.message)
+                dispatch(toast.push.error({ message: error.message }))
                 setLoading('')
             })
         }
     }
 
+
     return (
-        <div className='designations'>
-            <div className="header-div">
-                <Header />
-            </div>
-            <div className="container">
-                <div>
-                    <Title sub={'Designation list'} />
-                </div>
-
-                <div className="table-div">
-                    {data?.[0] ?
-                        <TableFilter srlNo={true} topRight={<button className='add-button'
-                            onClick={() => setModel('ADD NEW DESIGNATION')}><AiOutlinePlus /> Add Designation</button>}>
-                            <table id="list">
-                                <thead>
-                                    <tr>
-                                        <th>Designation</th>
-                                        <th>Staff</th>
-                                        <th>Access</th>
-                                        <th>Auto Punch Out</th>
-                                        <th>Control</th>
+        <div className='designationList-page-div'>
+            <Modal modal={modal} setModal={setModal} />
+            <div className="table-div">
+                {data?.[0] ?
+                    <TableFilter srlNo={true} topRight={<SingleButton name={'Designation'} stIcon={<FaPlus />} classNames={'md btn-tertiary'}
+                        onClick={() => openModal('Create Designation', <AddDesignation setData={setData} setModel={setModal} />)} />}>
+                        <table id="list">
+                            <thead>
+                                <tr>
+                                    <th>Designation</th>
+                                    <th>Staffs Count</th>
+                                    {admin?.pro_admin && <th>Control</th>}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {data.map((value, index) => {
+                                    return <tr key={value._id}>
+                                        <td>{value.designation}</td>
+                                        <td style={{ textAlign: 'center' }}>{value.name.length}</td>
+                                        {admin?.pro_admin && <td style={{ textAlign: 'center' }}>
+                                            <div className='buttons' >
+                                                <SingleButton title='Edit' classNames={'icon-only btn-blue'} stIcon={<GrEdit />}
+                                                    onClick={() => openModal('Edit Designation', <EditDesignation setModal={setModal} setData={setData} editData={value} />)} />
+                                                <SingleButton title='Delete' classNames={'icon-only btn-danger '} stIcon={<GoTrash />} onClick={() => handleDelete(value._id)}
+                                                    loading={loading === value._id} />
+                                            </div>
+                                        </td>}
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    {data.map((value, index) => {
-                                        return <tr key={value._id}>
-                                            <td>{value.designation}</td>
-                                            <td style={{ textAlign: 'center' }}>{value.name.length}</td>
-                                            <td style={{ textAlign: 'center' }}>{value?.allow_origins.map((origin) => <span key={origin}
-                                                className={`text-badge desi-text`}>{origin}</span>)}</td>
-                                            <td style={{ textAlign: 'center' }}>{stringToLocalTime(value.auto_punch_out ? value.auto_punch_out : '17:30')}</td>
-                                            <td style={{ textAlign: 'center' }}>
-                                                <div className='buttons' >
-                                                    <button title='Edit' onClick={() => openEdit('EDIT DESIGNATION', value)}
-                                                        className='button-small-icon edit'><FiEdit2 /></button>
-                                                    <button title='Remove' onClick={() => handleDelete(value._id)}
-                                                        className={loading === value._id ? 'button-small-icon delete loading-icon' : 'button-small-icon delete'}>
-                                                        {loading === value._id ? <BiLoaderAlt /> : <BsTrash3 />}</button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    })}
-                                </tbody>
-                            </table>
-                        </TableFilter>
-                        : <>
-                            <div className='no-data'>
-                                <IconWithMessage icon={loading !== 'initialLoad' && <IoTrashBin />}
-                                    message={loading === 'initialLoad' ? 'Loading...' : 'No Data'}
-                                    spin={loading === 'initialLoad' ? true : false} />
-                                <div style={{ textAlign: 'center' }}>
-                                    {loading !== 'initialLoad' && <button className='add-button'
-                                        onClick={() => setModel('ADD NEW DESIGNATION')}>Add Designation</button>}
-                                </div>
-                            </div>
-                        </>}
-                </div>
+                                })}
+                            </tbody>
+                        </table>
+                    </TableFilter>
+                    : <SpinWithMessage load={loading === 'fetch'} height={'300px'} fullView
+                        icon={<IoTrashBin />} message={'Empty list'} />}
             </div>
-
-            {
-                model ?
-                    <>
-                        <div className="model" >
-                            <div className="border">
-                                <div className="shadow" onClick={() => setModel('')}></div>
-                                <div className={model === 'WORKS LIST' ? "box large-box" : 'box'}>
-                                    <div className="header">
-                                        <div className="title">
-                                            <h5>{model}</h5>
-                                        </div>
-                                        <div className="close-icon" onClick={() => setModel('')}>
-                                            <IoCloseCircleOutline />
-                                        </div>
-                                    </div>
-                                    <div className="content">
-                                        {model === 'ADD NEW DESIGNATION' && <AddDesignation setModel={setModel} setData={setData} />}
-                                        {model === 'EDIT DESIGNATION' &&
-                                            <EditDesignation setModel={setModel} editData={editData} setEditData={setEditData} setData={setData} />}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </> : ''
-            }
         </div >
     )
 }

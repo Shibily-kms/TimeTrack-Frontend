@@ -13,9 +13,9 @@ const initialState = {
 export const loginAdmin = createAsyncThunk('admin/login', async (formData, thunkAPI) => {
 
     try {
-        return await adminAxios.post('/login', formData)
+        return await adminAxios.post('/auth/login', formData)
     } catch (error) {
-        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+        const message = (error && error.message) || error.message || error.toString()
         return thunkAPI.rejectWithValue(message)
     }
 })
@@ -35,7 +35,11 @@ export const adminAuthSlice = createSlice({
         },
         logOut: (state) => {
             state.admin = null
-            localStorage.removeItem('_tkn_adn')
+            localStorage.removeItem('_aws_temp_tkn_adn')
+        },
+        originAdminLogIn: (state, action) => {
+            localStorage.setItem('_aws_temp_tkn_adn', action.payload.token)
+            state.admin = action.payload;
         }
     },
     extraReducers: (builder) => {
@@ -45,8 +49,8 @@ export const adminAuthSlice = createSlice({
             })
             .addCase(loginAdmin.fulfilled, (state, action) => {
                 state.isLoading = false;
-                localStorage.setItem('_tkn_adn', action.payload.data.data.token)
-                state.admin = action.payload.data.data;
+                localStorage.setItem('_aws_temp_tkn_adn', action.payload.data.token)
+                state.admin = action.payload.data;
             })
             .addCase(loginAdmin.rejected, (state, action) => {
                 state.isLoading = false;
@@ -57,5 +61,5 @@ export const adminAuthSlice = createSlice({
 })
 
 
-export const { reset, logOut, setAdmin } = adminAuthSlice.actions;
+export const { reset, logOut, setAdmin, originAdminLogIn } = adminAuthSlice.actions;
 export default adminAuthSlice.reducer

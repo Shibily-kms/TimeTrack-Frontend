@@ -1,0 +1,60 @@
+.regular-work-card-div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    // background-color: sandybrown;
+    gap: 5px;
+    padding: 8px 12px;
+    border-bottom: var(--border-secondary) 1px dashed;
+
+
+    .left-div,
+    .right-div {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .checkbox {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 20px;
+            height: 20px;
+            border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            -ms-border-radius: 5px;
+            -o-border-radius: 5px;
+            padding: 5px;
+            background-color: var(--background-c2);
+            cursor: pointer;
+        }
+
+        small {
+            font-size: 11px;
+            color: var(--text-c2);
+        }
+
+        .selected-box {
+            background-color: var(--color-success);
+            color: white;
+        }
+
+
+        p {
+            font-size: 14px;
+        }
+    }
+
+    .right-div {
+        svg {
+            color: var(--text-c1);
+            cursor: pointer;
+        }
+
+        p {
+            font-size: 12px;
+        }
+
+    }
+}

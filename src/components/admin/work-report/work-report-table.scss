@@ -1,58 +1,12 @@
-@import '../../../assets/scss/model.scss';
+@use '../../../assets/scss/ui/var-color' as *;
 
 .work-report-table {
     table {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 13px;
-        font-weight: 500;
-
-        thead {
-            background-color: black;
-            color: white;
-
-            tr {
-                th {
-                    padding: 5px;
-                    border: 1px gray dotted;
-                    font-weight: 500;
-                    font-size: 12px;
-                }
-            }
-        }
 
         tbody {
             tr {
                 td {
-                    padding: 8px 6px;
-                    border-bottom: 1px solid #DDD;
                     text-align: center;
-                    border-left: 1px rgb(238, 238, 238) dashed;
-                    border-right: 1px rgb(238, 238, 238) dashed;
-
-                    .gray {
-                        background-color: rgb(172, 172, 172);
-                    }
-
-                    .blue {
-                        background-color: rgb(26, 132, 194);
-                    }
-
-                    .green {
-                        background-color: rgb(11, 168, 71);
-                    }
-
-                    .orange {
-                        background-color: rgb(253, 122, 0);
-                    }
-
-                    .red {
-                        background-color: rgb(202, 31, 1);
-                    }
-
-                    .gray2 {
-                        background-color: rgb(116, 116, 116);
-                    }
 
                     .message {
                         svg {
@@ -60,30 +14,29 @@
                         }
 
                         font-style: italic;
-                        color: rgb(0, 163, 228);
+                        color: #{$aws-color-light-theme-blue-50};
                     }
 
-                    button {
-                        @include normalButton();
-                        background-color: gray;
+                    >div {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        gap: 3px;
                     }
+
+                    .salary-td {
+                        font-weight: 600;
+                        color: var(--color-info);
+                        font-size: 14px;
+                        margin-right: 5px;
+                    }
+
+
                 }
 
-                &:hover {
-                    background-color: #D6EEEE;
-                }
 
                 .name {
                     text-align: left;
-                }
-
-                .text-badge {
-                    border-radius: 5px;
-                    -webkit-border-radius: 5px;
-                    -moz-border-radius: 5px;
-                    -ms-border-radius: 5px;
-                    -o-border-radius: 5px;
-                    font-size: 11px;
                 }
             }
         }

@@ -36,12 +36,12 @@ function TopBar({ oneDay, staff }) {
         })
     }
 
-    useEffect(() => {
-        if (!location?.state?.from_date || !location?.state?.to_date) {
-            navigate('/admin')
-        }
-        // eslint-disable-next-line
-    }, [])
+    // useEffect(() => {
+    //     if (!location?.state?.from_date || !location?.state?.to_date) {
+    //         navigate('/admin')
+    //     }
+    //     // eslint-disable-next-line
+    // }, [])
 
     const handleAllDayDownload = () => {
         setLoading('all')
@@ -160,9 +160,6 @@ function TopBar({ oneDay, staff }) {
     return (
         <div className='staff-work-top-bar'>
             <div className="container">
-                <div>
-                    <Title sub={'Work analyze table'} />
-                </div>
                 <div className="border">
                     <div className="top">
                         <div>

@@ -1,0 +1,57 @@
+@use "sass:color";
+@use '../../../assets/scss/ui/var-color' as *;
+
+.staff-base-analyze {
+
+    .box-div {
+        background-color: #{color.adjust($aws-color-primary, $alpha : -0.8)};
+        margin-top: 15px;
+        padding: 15px 15px;
+        border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        -ms-border-radius: 10px;
+        -o-border-radius: 10px;
+
+
+        .section-div {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+
+            .item-div {
+                text-align: center;
+
+                p {
+                    font-weight: 600;
+                    font-size: 14px;
+                }
+
+                &:first-child {
+                    h1 {
+                        color: var(--text-primary);
+                    }
+                }
+
+                &:nth-child(2) {
+                    h1 {
+                        color: var(--color-success);
+                    }
+                }
+
+                &:nth-child(3) {
+                    h1 {
+                        color: var(--color-error);
+                    }
+                }
+
+                &:last-child {
+                    h1 {
+                        color: var(--color-info);
+                    }
+                }
+            }
+
+        }
+    }
+
+}
