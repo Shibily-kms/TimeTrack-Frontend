@@ -1,4 +1,4 @@
-@import '../../../assets/scss/color.scss';
+
 @import '../../../assets/scss/model.scss';
 
 
@@ -24,7 +24,7 @@
                 button {
                     @include normalButton();
                     width: 100%;
-                    background-color: $red_color;
+                    background-color: var(--color-error);
                 }
 
                 .hide {

@@ -25,6 +25,7 @@ function Punching({ punch }) {
                     userAxios.post('/punch/in', { date_time: new Date(), do_type: 'software', designation: user?.designation?.designation }).then((response) => {
                         if (!workDetails?.name) {
                             const obj = {
+                                _id : response?.data?._id,
                                 name: user?._id,
                                 date: YYYYMMDDFormat(new Date()),
                                 designation: user?.designation?.designation,

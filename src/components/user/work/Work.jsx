@@ -83,7 +83,7 @@ function Work({ inWork }) {
     return (
         <div className='enter-today-div'>
             <Modal modal={modal} setModal={setModal} />
-            {workDetails?.name && <div className='border-div'>
+            <div className='border-div'>
                 <div className="section-div section-one">
                     <div className="title">
                         <h4>{allRgWork ? 'All' : 'Today'} Regular Works</h4>
@@ -139,7 +139,6 @@ function Work({ inWork }) {
                     </div>
                 </div>
             </div>
-            }
         </div>
     )
 }

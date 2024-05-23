@@ -39,7 +39,7 @@ const Dashboard = ({ setPageHead }) => {
     },
     {
         type: "spline",
-        name: "Staffs",
+        name: "Workers",
         axisYType: "secondary",
         showInLegend: true,
         dataPoints: [

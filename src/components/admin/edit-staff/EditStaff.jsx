@@ -151,7 +151,7 @@ function EditStaff({ setModal, setData, editId }) {
 
                         </div>
                         <div className="actions">
-                            <SingleButton type={'submit'} name={'Update Staff'} loading={loading === 'submit'} />
+                            <SingleButton type={'submit'} classNames={'lg btn-tertiary'} name={'Update Staff'} loading={loading === 'submit'} />
                         </div>
                     </form>}
             </div>

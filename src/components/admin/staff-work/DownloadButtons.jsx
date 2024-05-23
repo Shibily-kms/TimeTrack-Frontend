@@ -63,32 +63,15 @@ function DownloadButton({ oneDay, staff }) {
         datas.forEach((staff, index) => {
             const sheetName = staff.full_name;
             const workSheetData = staff.dates.flatMap((date) => {
-                const punch = {
+                const punch = date?.punch_list?.map((obj, indx) => ({
                     date: date.date,
-                    type: 'Punch',
+                    type: `Punch ${indx + 1}`,
                     work: '',
-                    start: stringToLocalTime(date.punch.in),
-                    end: stringToLocalTime(date.punch.out),
-                    duration: getTimeFromSecond(date.punch.duration) || '0m'
-                }
-                let overTime = {
-                    date: date.date,
-                    type: 'Over time',
-                    work: '',
-                    start: stringToLocalTime(date.over_time.in),
-                    end: stringToLocalTime(date.over_time.out),
-                    duration: getTimeFromSecond(date.over_time.duration) || '0m'
-                }
-                overTime = date?.over_time?.in ? [overTime] : []
-                let lunchBreak = {
-                    date: date.date,
-                    type: 'Lunch break',
-                    work: '',
-                    start: stringToLocalTime(date.lunch_break.start),
-                    end: stringToLocalTime(date.lunch_break.end),
-                    duration: getTimeFromSecond(date.lunch_break.duration) || '0m'
-                }
-                lunchBreak = date?.lunch_break?.start ? [lunchBreak] : []
+                    start: stringToLocalTime(obj?.in),
+                    end: stringToLocalTime(obj?.out),
+                    duration: getTimeFromSecond(obj?.duration) || '0m'
+                }))
+
                 const regular = date.regular_work.map((workObj) => ({
                     date: date.date,
                     type: 'Regular work',
@@ -105,15 +88,8 @@ function DownloadButton({ oneDay, staff }) {
                     end: stringToLocalTime(workObj.end),
                     duration: null
                 }));
-                const breaks = date.break.map((obj, idx) => ({
-                    date: date.date,
-                    type: `Break ${idx + 1}`,
-                    work: '',
-                    start: stringToLocalTime(obj.start),
-                    end: stringToLocalTime(obj.end),
-                    duration: getTimeFromSecond(obj.duration) || '0m'
-                }));
-                return [punch, ...regular, ...extra, ...breaks, ...overTime, ...lunchBreak, '']
+
+                return [...punch, ...regular, ...extra, '']
             })
 
             const worksheet = XLSX.utils.json_to_sheet(workSheetData);

@@ -11,6 +11,7 @@ import { useSearchParams } from 'react-router-dom'
 import { setAdminActivePage, toast } from '../../../redux/features/user/systemSlice'
 import { useDispatch } from 'react-redux'
 import { analyzeDateHelper, analyzeStaffHelper, analyzeStaffMonthReport } from '../../../assets/javascript/work-helper'
+import SpinWithMessage from '../../../components/common/spinners/SpinWithMessage'
 
 const WorkAnalyze = ({ setPageHead }) => {
 
@@ -134,7 +135,7 @@ const WorkAnalyze = ({ setPageHead }) => {
         </form>
       </div>
       <div className="analyze-content-div">
-        {loading ? <>loading</>
+        {loading ? <SpinWithMessage load height={'400px'}/>
           : dateAlzList?.[0]
             ? <DateBasie dateAlzList={dateAlzList} selectDay={selectDay} setSelectDay={setSelectDay} />
             : <StaffBasie staffAlzList={staffAlzList} monthReport={monthReport} />
