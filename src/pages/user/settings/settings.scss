@@ -1,0 +1,49 @@
+@use "sass:color";
+@use '../../../assets/scss/ui/var-color' as *;
+@import '../../../assets/scss/model.scss';
+
+
+.settings-page-div {
+    .section-border {
+        .option-div {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            align-items: center;
+            padding: 15px 10px;
+            border-bottom: 1px solid var(--border-primary);
+            cursor: pointer;
+
+            &:last-child {
+                border-bottom: 0;
+            }
+
+            &:hover {
+                background-color: var(--background-c2);
+            }
+
+            .left {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+
+                svg {
+                    font-size: 25px;
+                }
+
+                h4 {
+                    font-size: 15px;
+                    font-weight: 600;
+                    @include threeDots();
+                }
+
+            }
+
+            .right {
+                >svg {
+                    font-size: 22px;
+                }
+            }
+        }
+    }
+}

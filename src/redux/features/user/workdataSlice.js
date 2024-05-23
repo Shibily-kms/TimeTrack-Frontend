@@ -12,9 +12,9 @@ const initialState = {
 export const getPunchDetails = createAsyncThunk('user/punch-details', async (body, thunkAPI) => {
 
     try {
-        return await userAxios.get('/punch-details')
+        return await userAxios.get('/punch/today-data')
     } catch (error) {
-        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+        const message = (error && error.message) || error.message || error.toString()
         return thunkAPI.rejectWithValue(message)
     }
 })
@@ -36,36 +36,17 @@ export const workDataSlice = createSlice({
         clearWorkData: (state) => {
             state.workDetails = null
         },
-        resetOfflineData: (state, action) => {
-            state.workDetails.break = action.payload
-            state.workDetails.offBreak = []
-            state.workDetails.regular_work = []
-            state.workDetails.extra_work = []
-            if (state.workDetails.lunch_break.duration) {
-                state.workDetails.lunch_break.save = true
-            }
-        },
         doStartBreak: (state, action) => {
-            state.workDetails.break = action.payload
-            if (action.payload?.br_id) state.workDetails.offBreak.push(action.payload)
+            state.workDetails.break = [...(state.workDetails.break || []), action.payload]
         },
         doEndBreak: (state, action) => {
-            if (action.payload.offline) {
-                if (action.payload?.br_id) {
-                    state.workDetails.offBreak.forEach(obj => {
-                        if (obj.br_id === action.payload.br_id) {
-                            obj.end = action.payload.end
-                            obj.duration = action.payload.duration
-                        }
-                    });
-                } else {
-                    state.workDetails.offBreak.push(action.payload)
+            state.workDetails.break.forEach(obj => {
+                if (obj?.br_id === action.payload?.br_id || obj?._id === action.payload?._id) {
+                    obj.end = action.payload.end
+                    obj.duration = action.payload.duration
+                    obj.want_sync = action.payload?.want_sync
                 }
-            }
-            state.workDetails.break = action.payload
-        },
-        addRegularWork: (state, action) => {
-            state.workDetails.regular_work.push(action.payload)
+            });
         },
         addExtraWork: (state, action) => {
             state.workDetails.extra_work.push(action.payload)
@@ -92,8 +73,7 @@ export const workDataSlice = createSlice({
             })
             .addCase(getPunchDetails.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.workDetails = { ...action.payload.data?.data, offBreak: [] }
-                state.workDetails.lunch_break = { ...action.payload.data?.data?.lunch_break, save: true } || {}
+                state.workDetails = action.payload.data
             })
             .addCase(getPunchDetails.rejected, (state, action) => {
                 state.isLoading = false;

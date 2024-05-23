@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import * as XLSX from 'xlsx';
 import './style.scss'
-import { BiLoaderAlt } from 'react-icons/bi'
 import { getTimeFromSecond } from '../../../assets/javascript/date-helper'
+import SingleButton from '../../common/buttons/SingleButton';
 
 function SCReport({ report, thisMonth, date }) {
     const [loading, setLoading] = useState(false)
@@ -40,8 +40,14 @@ function SCReport({ report, thisMonth, date }) {
                 Name: data.full_name,
                 Days: data.worked_days,
                 Hours: getTimeFromSecond(data.worked_time + data.used_CF) || "0m",   // Don't use for this month
-                "Total Salary": data.allowed_salary
+                Attendance: data.allowed_salary,
+                Allowance: data?.allowance?.reduce((acc, cur) => acc + cur?.amount, 0) || 0,
+                Incentive: data?.incentive?.reduce((acc, cur) => acc + cur?.amount, 0) || 0,
+                'For Round': data?.for_round_amount || 0,
+                'Total Salary': 0,
             }
+            obj['Total Salary'] = obj.Attendance + obj.Allowance + obj.Incentive + obj['For Round'];
+          
             workSheetData.push(obj)
             return obj;
         })
@@ -60,10 +66,7 @@ function SCReport({ report, thisMonth, date }) {
     return (
         <div className='SCReport'>
             {!thisMonth && report[0] &&
-                <button onClick={handleDownload}>
-                    {loading ? <span className='loading-icon'><BiLoaderAlt /></span> : <span>SC</span>}
-                    <span className='text' title='Salary Calculation Report'>Report</span>
-                </button>
+                <SingleButton name={'SC Report'} loading={loading} onClick={handleDownload} title='Salary Calculation Report' />
             }
         </div>
     )

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import LoginComp from '../../../components/common/login/Login'
 import { reset } from '../../../redux/features/admin/authSlice'
 import { useSelector, useDispatch } from 'react-redux'
-import { toast } from 'react-hot-toast'
+import { toast } from '../../../redux/features/user/systemSlice'
 import { useNavigate } from 'react-router-dom'
 
 function Login() {
@@ -12,10 +12,10 @@ function Login() {
 
   useEffect(() => {
     if (isError) {
-      toast.error(message)
+      dispatch(toast.push.error({ message }))
       dispatch(reset())
     }
-    if (admin?.token) {
+    if (admin?.token && localStorage.getItem('_aws_temp_tkn_adn')) {
       navigate('/admin')
     }
   })

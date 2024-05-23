@@ -1,0 +1,63 @@
+.leave-action-div {
+    .list-item {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        margin: 8px 0;
+        font-size: 14px;
+
+        p {
+            &:nth-child(2) {
+                text-align: end;
+            }
+        }
+    }
+
+    .info-item {
+        text-align: center;
+        font-size: 15px;
+        font-weight: 600;
+
+    }
+
+    .approve {
+        color: var(--color-success);
+    }
+
+    .reject {
+        color: var(--color-error);
+    }
+
+    .pending {
+        color: var(--color-info);
+    }
+
+    .bold-text {
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--color-info);
+    }
+
+    .form-inputs {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .button-div {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+
+        >div {
+            width: 100%;
+
+            button {
+                width: 100%;
+                min-width: 100%;
+            }
+
+        }
+
+    }
+}

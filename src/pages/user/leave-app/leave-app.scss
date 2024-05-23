@@ -1,0 +1,119 @@
+.leave-app-page-div {
+
+    .app-icon-div {
+        position: fixed;
+        bottom: 80px;
+        right: 20px;
+    }
+
+    .item-list-div {
+        display: flex;
+
+        flex-direction: column;
+        gap: 15px;
+
+        .item-box {
+            background-color: var(--background-opt-secondary-9);
+            display: grid;
+            grid-template-columns: 40px auto;
+            gap: 15px;
+            border-radius: 15px;
+            -webkit-border-radius: 15px;
+            -moz-border-radius: 15px;
+            -ms-border-radius: 15px;
+            -o-border-radius: 15px;
+            position: relative;
+
+            .left-div {
+
+                background-color: var(--background-secondary);
+                display: grid;
+                place-content: center;
+                border-top-left-radius: 15px;
+                border-bottom-left-radius: 15px;
+
+                p {
+                    transform: rotate(-90deg);
+                    -webkit-transform: rotate(-90deg);
+                    -moz-transform: rotate(-90deg);
+                    -ms-transform: rotate(-90deg);
+                    -o-transform: rotate(-90deg);
+                    font-size: 14px;
+                    font-weight: 600;
+                    color: var(--text-secondary);
+                    text-align: center;
+                    min-width: max-content;
+                }
+
+            }
+
+            .Approved {
+                background-color: var(--color-success);
+            }
+
+            .Rejected {
+                background-color: var(--color-error);
+            }
+
+            .Cancelled {
+                background-color: var(--color-error);
+            }
+
+
+            .border-div {
+                padding: 15px 15px 15px 0;
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+
+                .text-list {
+                    display: flex;
+                    justify-content: space-between;
+
+                    p {
+                        font-size: 13px;
+                        font-weight: 500;
+
+                        &:nth-child(2) {
+                            text-align: end;
+                        }
+                    }
+
+                    .bold-text {
+                        font-size: 14px;
+                        font-weight: 600;
+                        color: var(--color-warning);
+                    }
+
+                    .reg-text {
+                        color: var(--color-info);
+                    }
+
+                    .approve-text {
+                        color: var(--color-success);
+                    }
+
+                    .reject-text {
+                        color: var(--color-error);
+                    }
+                }
+            }
+
+            .action-div {
+                position: absolute;
+                right: 5px;
+                bottom: 5px;
+            }
+        }
+    }
+
+    .report-info-div {
+        text-align: center;
+        padding: 20px 10px;
+
+        p {
+            font-size: 14px;
+        }
+    }
+
+}

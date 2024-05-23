@@ -1,0 +1,22 @@
+@use "sass:color";
+@use '../../../assets/scss/ui/var-color' as *;
+
+
+.qr-generator-page-div {
+
+    table {
+        tbody {
+            .deleted-item {
+                color: var(--color-error);
+                background-color: #{color.adjust($aws-color-light-theme-red, $alpha : -0.8)};
+            }
+
+            .button-div {
+                display: flex;
+                justify-content: center;
+                gap: 10px;
+            }
+
+        }
+    }
+}

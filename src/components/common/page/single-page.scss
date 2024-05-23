@@ -1,0 +1,178 @@
+@use "sass:color";
+@use '../../../assets/scss/ui/var-color' as *;
+@import '../../../assets/scss/model.scss';
+
+
+.single-page-body {
+    width: 100%;
+    position: relative;
+    user-select: none;
+
+    .single-page-header-div {
+        z-index: 15;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        transition: ease-in-out .5s;
+        -webkit-transition: ease-in-out .5s;
+        -moz-transition: ease-in-out .5s;
+        -ms-transition: ease-in-out .5s;
+        -o-transition: ease-in-out .5s;
+
+        .border {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 55px;
+            padding: 0px 5%;
+            background-color: var(--background-tertiary);
+            box-shadow: var(--shadow-01);
+            color: #{$aws-color-neutral-light-70};
+
+            .left {
+                display: flex;
+                align-items: center;
+                gap: 0 10px;
+
+                svg {
+                    font-size: 25px;
+                    margin-right: -10px;
+                    cursor: pointer;
+                }
+
+                img {
+                    width: 35px;
+                    height: 35px;
+                    cursor: pointer;
+                    opacity: 1;
+                }
+
+                h3 {
+                    font-size: 25px;
+                    cursor: pointer;
+                    font-weight: 600;
+                }
+            }
+
+
+            .right {
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                gap: 10px;
+                display: flex;
+
+                .round-icon-button {
+                    width: 32px;
+                    height: 32px;
+                    background-color: var(--background-opt-primary-6);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-size: 24px;
+                    border-radius: 100px;
+                    -webkit-border-radius: 100px;
+                    -moz-border-radius: 100px;
+                    -ms-border-radius: 100px;
+                    -o-border-radius: 100px;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+
+    .single-page-body-div {
+        display: flex;
+        justify-content: center;
+        padding: 0 15px;
+
+        .page-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 50px 0 30px 0;
+
+            .page-title-div {
+                margin: 15px 0;
+
+                h3 {
+                    font-size: 25px;
+                    font-weight: 700;
+                    @include threeDots();
+                }
+
+                p {
+                    font-size: 15px;
+                    font-weight: 500;
+                    color: var(--text-c2);
+                }
+
+            }
+
+            .page-content-div{
+                margin-bottom: 80px;
+            }
+        }
+    }
+
+    .single-page-menu-div {
+        position: fixed;
+        z-index: 15;
+        left: 0;
+        bottom: 0;
+        background-color: var(--background-c1);
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        padding: 5px 15px;
+        height: 55px;
+        @include boxShadow();
+
+        .menu-div {
+            width: 100%;
+            max-width: 600px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            align-items: center;
+            gap: 10px;
+
+            .item-div {
+                text-align: center;
+                cursor: pointer;
+
+                svg {
+                    font-size: 28px;
+                }
+
+                p {
+                    font-size: 12px;
+                    margin-top: -5px;
+                    font-weight: 500;
+                }
+            }
+
+            .active-item {
+                color: #{$aws-color-light-theme-primary-60};
+            }
+        }
+
+
+
+    }
+}
+
+@media screen and (max-width:500px) {
+    .single-page-body {
+        .single-page-header-div {
+            .border {
+                .left {
+
+                    h3 {
+                        display: none;
+                    }
+                }
+
+            }
+        }
+    }
+}

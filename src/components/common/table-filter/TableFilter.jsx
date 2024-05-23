@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import './table-filter.scss'
-import { FiSearch } from 'react-icons/fi'
 import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io'
+import NormalInput from '../../common/inputs/NormalInput'
+import SingleButton from '../../common/buttons/SingleButton'
 
 
 function TableFilter({ children, srlNo, topRight }) {
@@ -39,13 +40,14 @@ function TableFilter({ children, srlNo, topRight }) {
     }
 
     useEffect(() => {
-        setTableBody(childrenBody.slice(rowCount * (page - 1), rowCount * page))
+        setTableBody(childrenBody?.slice(rowCount * (page - 1), rowCount * page))
     }, [rowCount, page, childrenBody])
 
 
     useEffect(() => {
-        setChildrenBody(children.props.children[1].props.children)
-        setTableBody(children.props.children[1].props.children.slice(rowCount * (page - 1), rowCount * page))
+        setChildrenBody(children?.props?.children?.[1]?.props?.children)
+        setTableBody(children?.props?.children?.[1]?.props?.children?.slice(rowCount * (page - 1), rowCount * page))
+        // eslint-disable-next-line 
     }, [children])
 
     return (
@@ -54,8 +56,7 @@ function TableFilter({ children, srlNo, topRight }) {
                 <div className="table-filter-left">
                     {/* Search */}
                     <div className="text-input-div">
-                        <input type="text" id='search' name='search' value={searchText} required onChange={handleSearch} />
-                        <label htmlFor="search">Search</label>
+                        <NormalInput id={'search'} name='search' value={searchText} isRequired={false} onChangeFun={handleSearch} label='Search' />
                     </div>
                 </div>
                 <div className="table-filter-right">
@@ -74,7 +75,7 @@ function TableFilter({ children, srlNo, topRight }) {
                     </thead>
                     <tbody>
                         {tableBody?.map((row, index) => (
-                            <tr key={index}>
+                            <tr key={index} className={row?.props?.className}>
                                 {srlNo ? <td>{(rowCount * (page - 1)) + index + 1}</td> : ""}
                                 {row?.props?.children?.map((col) => {
                                     return col;
@@ -101,12 +102,10 @@ function TableFilter({ children, srlNo, topRight }) {
                         <p>{(page - 1) * rowCount + 1}-{Math.min(rowCount * page, childrenBody?.length)} of {childrenBody?.length}</p>
                     </div>
                     <div className="pagination-buttons">
-                        <button className={(page - 1) * rowCount + 1 !== 1 ? '' : 'hide'}
-                            onClick={() => (page - 1) * rowCount + 1 !== 1 ? handlePagination(-1) : ''}>
-                            <IoIosArrowBack /></button>
-                        <button className={Math.min(rowCount * page, childrenBody?.length) !== childrenBody?.length ? '' : 'hide'}
-                            onClick={() => Math.min(rowCount * page, childrenBody?.length) !== childrenBody?.length ? handlePagination(1) : ''}>
-                            <IoIosArrowForward /></button>
+                        <SingleButton stIcon={<IoIosArrowBack />} classNames={(page - 1) * rowCount + 1 !== 1 ? 'btn-primary' : 'btn-gray'}
+                            onClick={() => (page - 1) * rowCount + 1 !== 1 ? handlePagination(-1) : ''} />
+                        <SingleButton stIcon={<IoIosArrowForward />} classNames={Math.min(rowCount * page, childrenBody?.length) !== childrenBody?.length ? 'btn-primary' : 'btn-gray'}
+                            onClick={() => Math.min(rowCount * page, childrenBody?.length) !== childrenBody?.length ? handlePagination(1) : ''} />
 
                     </div>
                 </div>

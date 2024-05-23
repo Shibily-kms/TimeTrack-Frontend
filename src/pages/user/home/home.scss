@@ -1,0 +1,129 @@
+@use "sass:color";
+@use '../../../assets/scss/ui/var-color' as *;
+@import '../../../assets/scss/model.scss';
+
+.home-page {
+    .profile-section {
+        margin-bottom: 15px;
+
+        .birth-box {
+            text-align: center;
+            padding: 30px 5px 15px 5px;
+        }
+    }
+
+    .section-one-div {
+        .section-content {
+            display: flex;
+            gap: 15px;
+
+            .big-button {
+                background-color: #{color.adjust($aws-color-light-theme-green-40,$alpha : -0.3)};
+                padding: 20px 10px;
+                border-radius: 8px;
+                -webkit-border-radius: 8px;
+                -moz-border-radius: 8px;
+                -ms-border-radius: 8px;
+                -o-border-radius: 8px;
+                text-align: center;
+                cursor: pointer;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 5px;
+
+                svg {
+                    font-size: 32px;
+                }
+
+                p {
+                    font-size: 14px;
+                    font-weight: 500;
+                }
+
+
+                &:last-child {
+                    background-color: #{color.adjust($aws-color-light-theme-blue-40,$alpha : -0.3)};
+                }
+            }
+
+            .scanner {
+                background-color: #{color.adjust($aws-color-light-theme-yellow-40,$alpha : -0.3)};
+            }
+
+            .software {
+                background-color: #{color.adjust($aws-color-light-theme-green-40,$alpha : -0.3)};
+            }
+        }
+    }
+
+    .section-two-div {
+        margin-top: 20px;
+
+        .sub-title-div {
+            h4 {
+                font-size: 20px;
+                font-weight: 700;
+            }
+        }
+
+        .section-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            margin-top: 15px;
+            gap: 25px 10px;
+
+            .app-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 5px;
+
+                .icon-div {
+                    width: 50px;
+                    height: 50px;
+                    background-color: var(--background-primary);
+                    display: grid;
+                    place-content: center;
+                    color: #{$aws-color-white};
+                    cursor: pointer;
+
+                    svg {
+                        font-size: 35px;
+                    }
+
+                    border-radius: 15px;
+                    -webkit-border-radius: 15px;
+                    -moz-border-radius: 15px;
+                    -ms-border-radius: 15px;
+                    -o-border-radius: 15px;
+                }
+
+                p {
+                    font-size: 12px;
+                    font-weight: 500;
+                    @include threeDots(2);
+                    text-align: center;
+                }
+            }
+        }
+
+    }
+}
+
+
+@media screen and (max-width:350px) {
+    .home-page {
+
+        .section-two-div {
+
+            .section-content {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+
+        }
+    }
+}

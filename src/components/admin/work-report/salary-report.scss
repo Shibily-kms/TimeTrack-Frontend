@@ -1,0 +1,70 @@
+@import '../../../assets/scss/model.scss';
+
+.salary-report-div {
+
+    .total-show {
+        text-align: center;
+        padding: 15px 0;
+    }
+
+    form {
+        .small-input-div {
+            display: grid;
+            grid-template-columns: 1fr 1fr 16px;
+            gap: 10px;
+            align-items: center;
+            padding: 8px 0;
+            user-select: none;
+
+
+            input {
+                font-size: 15px;
+                width: 100%;
+                border: none;
+                outline: none;
+                border-bottom: 1px solid var(--text-c3);
+                background-color: var(--background-c1);
+
+                &:nth-child(2) {
+                    text-align: end;
+                }
+
+                &:focus {
+                    border-bottom: 1px solid var(--text-tertiary);
+
+                }
+
+                &:disabled{
+                    border-bottom: none;
+                    color: var(--text-primary);
+                }
+            }
+
+            span {
+                font-size: 15px;
+                width: 100%;
+                @include threeDots();
+
+                &:nth-child(2) {
+                    text-align: end;
+                }
+
+            }
+
+            svg {
+                min-width: 17px;
+                cursor: pointer;
+            }
+
+        }
+
+        .sub-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 7px;
+            color: var(--text-c3);
+
+        }
+    }
+}

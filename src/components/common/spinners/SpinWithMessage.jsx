@@ -1,20 +1,28 @@
 import React from 'react'
 import './spin-with-message.scss'
-import { BiLoaderAlt } from 'react-icons/bi'
+import { MdOutlineDataSaverOff } from "react-icons/md";
 
-function SpinWithMessage({ icon, message = '', spin = true }) {
+function SpinWithMessage({ icon, message = '', load = false, fullView = false, bottomContent = null, height }) {
 
     return (
-        <div className='spin-with-message'>
-            <div className="spinner-body">
-                <div className={spin ? "load-div spin-div" : "load-div"}>
-                    {icon ? icon : <BiLoaderAlt />}
+        <div className={fullView ? 'spin-with-full-view' : 'spin-with-message'} style={{ height: height }}>
+            {load
+                ? <div className="loading-image">
+                    <div className="loader"></div>
                 </div>
-                {message && <div className="message">
-                    <p>{message}</p>
+                : <div className={"load-div"}>
+                    {icon || <MdOutlineDataSaverOff />}
                 </div>
-                }
+            }
+
+            {message && !load && <div className="message">
+                <p>{message}</p>
             </div>
+            }
+
+            {bottomContent && <div className="bottom-div">
+                {bottomContent}
+            </div>}
         </div>
     )
 }

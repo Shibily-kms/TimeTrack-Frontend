@@ -1,71 +1,124 @@
-import React, { useEffect } from 'react'
-import { Routes, Route, Navigate } from 'react-router-dom'
+import React, { useEffect, Suspense, lazy, useState } from 'react'
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import Login from '../pages/user/login/Login'
-import Home from '../pages/user/home/Home'
-import WorkDetails from '../pages/user/work-details/Work_details'
-import NotFound from '../pages/user/not-found/NotFound '
 import { userAxios } from '../config/axios'
-import { resetOfflineData, doPunchOUt } from '../redux/features/user/workdataSlice'
-import { setUser } from '../redux/features/user/authSlice'
-import { toast } from 'react-hot-toast'
+import { clearWorkData, setWorkData } from '../redux/features/user/workdataSlice'
+import { setUser, logOut } from '../redux/features/user/authSlice'
+import { getPunchDetails } from '../redux/features/user/workdataSlice'
+import PageLoading from '../components/common/spinners/PageLoading'
+import SinglePage from '../components/common/page/SinglePage'
+import NotFound from '../pages/user/not-found/NotFound '
+import { toast } from '../redux/features/user/systemSlice'
+import { clearRegularWork, clearSyncRegularWork } from '../redux/features/user/dayWorksSlice'
+
+
+const Home = lazy(() => import('../pages/user/home/Home'))
+const WorkDetails = lazy(() => import('../pages/user/work-details/Work_details'))
+const PunchWork = lazy(() => import('../pages/user/punch-work/PunchWork'))
+const MorePage = lazy(() => import('../pages/user/more/MorePage'))
+const Settings = lazy(() => import('../pages/user/settings/Settings'))
+const Profile = lazy(() => import('../pages/user/profile/Profile'))
+const EditProfile = lazy(() => import('../pages/user/profile/EditProfile'))
+const PunchReport = lazy(() => import('../pages/user/punch-report/PunchReport'))
+const LeaveApp = lazy(() => import('../pages/user/leave-app/LeaveApp'))
 
 
 function User() {
 
   let isAuthenticated = false
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const { user } = useSelector((state) => state.userAuth)
-  const { internet } = useSelector((state) => state.network)
+  const { internet } = useSelector((state) => state.systemInfo)
   const { workDetails } = useSelector((state) => state.workData)
+  const { regular } = useSelector((state) => state.dayWorks)
+  const [pageHead, setPageHead] = useState({ title: null, desc: null })
 
-  if (user?.token) {
+  if (user?.token && localStorage.getItem('_aws_temp_tkn')) {
     isAuthenticated = true
   }
 
   useEffect(() => {
+
+    // Offline data Sync to Server
     if (internet) {
-      if (workDetails?.offBreak?.[0] || workDetails?.regular_work?.[0] || workDetails?.extra_work?.[0] ||
-        workDetails?.lunch_break?.save === false) {
-        userAxios.post('/offline-recollect', workDetails).then((response) => {
-          dispatch(resetOfflineData(response.data.data))
+      // Check any data for sync
+
+
+      const syncRegularWork = regular?.filter((item) => item?.want_sync)
+      const syncExtraWork = workDetails?.extra_work?.filter((item) => item?.want_sync)
+
+      if (syncRegularWork?.[0] || syncExtraWork?.[0]) {
+
+        dispatch(toast.push.info({ id: 'OFF_SYNC', message: 'Sync offline data...', icon: 'MdCloudSync', autoClose: false, doClose: false }))
+
+        userAxios.post('/offline-recollect', {
+          punch_id: workDetails._id,
+          regular_work: syncRegularWork,
+          extra_work: syncExtraWork,
+          updated_date: workDetails?.updated_date || null
+        }).then((response) => {
+          // Set all work data form new response
+          dispatch(setWorkData(response.data))
+          // Clear regular work sync id
+          dispatch(clearSyncRegularWork())
+          // clear alert
+          dispatch(toast.pull.single('OFF_SYNC'))
+
         }).catch((error) => {
-          toast.error(error.response.data.message)
-          if (error.response.data.statusCode !== 409) {
-            dispatch(resetOfflineData(error.response.data.data))
-          } else {
-            dispatch(doPunchOUt(error.response.data.data.punch_out))
-          }
+          dispatch(toast.pull.single('OFF_SYNC'))
+          dispatch(toast.push.error({ message: error.message }))
         })
       }
     }
     // eslint-disable-next-line
-  }, [internet, workDetails?.over_time?.in])
+  }, [internet])
+
 
   useEffect(() => {
     // Change Title
     document.title = `Staff Works`;
     if (user) {
-      userAxios.get(`/profile?staffId=${user?._id}`).then((response) => {
-        dispatch(setUser({ ...user, ...response.data.data }))
-      }).catch((error) => {
-        toast.error(error.response.data.message)
+      userAxios.get(`/auth/check-active`).then((response) => {
+        dispatch(setUser({ ...user, ...response.data }))
+      }).catch(() => {
+        dispatch(clearWorkData())
+        dispatch(clearRegularWork())
+        dispatch(logOut())
+        navigate('/login')
       })
+    }
+
+    // Get Work Enter Details
+    if (internet) {
+      dispatch(getPunchDetails())
     }
     // eslint-disable-next-line
   }, [])
 
-
-
   return (
-    <Routes>
-      <Route path='/' element={<PrivateRoute element={<Home />} isAuthenticated={isAuthenticated} />} />
-      <Route path='/enter-work-details' element={<PrivateRoute element={<WorkDetails />} isAuthenticated={isAuthenticated} />} />
-      <Route path='/login' element={<Login />} />
+    <SinglePage pageHead={pageHead}>
+      <Suspense fallback={<PageLoading />}>
+        <Routes>
+          <Route path='/' element={<PrivateRoute element={<Home setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+          <Route path='/punch-report' element={<PrivateRoute element={<PunchReport setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+          <Route path='/settings' element={<PrivateRoute element={<Settings setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+          <Route path='/more' element={<PrivateRoute element={<MorePage setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
 
-      {/* 404 Route */}
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+          <Route path='/punch-work' element={<PrivateRoute element={<PunchWork setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+          <Route path='/enter-today' element={<PrivateRoute element={<WorkDetails setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+
+          <Route path='/profile' element={<PrivateRoute element={<Profile setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+          <Route path='/profile/edit' element={<PrivateRoute element={<EditProfile setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+
+          <Route path='/leave-app' element={<PrivateRoute element={<LeaveApp setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+
+
+          {/* 404 Route */}
+          <Route path="/*" element={<NotFound setPageHead={setPageHead} />} />
+        </Routes>
+      </Suspense>
+    </SinglePage>
   )
 }
 
