@@ -3,6 +3,7 @@ import './style.scss'
 import AlertBar from './AlertBar'
 import { useSelector } from 'react-redux'
 import { MdCloudSync } from "react-icons/md";
+import { HiStatusOffline, HiStatusOnline } from 'react-icons/hi';
 
 
 const ToasterB = () => {
@@ -10,7 +11,9 @@ const ToasterB = () => {
 
 
   const iconMap = {
-    MdCloudSync: <MdCloudSync />
+    MdCloudSync: <MdCloudSync />,
+    HiStatusOnline: <HiStatusOnline />,
+    HiStatusOffline: <HiStatusOffline />
   };
 
 

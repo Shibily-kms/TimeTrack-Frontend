@@ -28,6 +28,7 @@ const requestConfigUserFunction = (config) => {
     let userToken = localStorage.getItem('_aws_temp_tkn')
     if (userToken) {
         config.headers['Authorization'] = `Bearer ${userToken}`;
+        config.timeout = 6000
     }
     return config
 }
@@ -44,8 +45,11 @@ const responseConfigUserFunction = (response) => {
 const responseErrorUserFunction = (error) => {
     if (error.response && error.response.status === 401) {
         handleUserTokenError();
+    } else if (error.code === 'ECONNABORTED') {
+        return Promise.reject({ ...error.response.data, message: 'No proper internet connection' });
     }
-    return Promise.reject(error.response.data);
+
+    return Promise.reject(error?.response?.data || { message: error?.message });
 }
 
 // Add an interceptor to userAxios for request
@@ -70,6 +74,7 @@ const requestConfigAdminFunction = (config) => {
     let adminToken = localStorage.getItem('_aws_temp_tkn_adn')
     if (adminToken) {
         config.headers['Authorization'] = `Bearer ${adminToken}`;
+        config.timeout = 6000
     }
     return config
 }
@@ -86,8 +91,10 @@ const responseConfigAdminFunction = (response) => {
 const responseErrorAdminFunction = (error) => {
     if (error.response && error.response.status === 401) {
         handleAdminTokenError();
+    } else if (error.code === 'ECONNABORTED') {
+        return Promise.reject({ ...error.response.data, message: 'No proper internet connection' });
     }
-    return Promise.reject(error.response.data);
+    return Promise.reject(error?.response?.data || { message: error?.message });
 }
 
 
