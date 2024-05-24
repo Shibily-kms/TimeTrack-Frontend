@@ -73,7 +73,7 @@ function Home({ setPageHead }) {
             <div className="icon-div" style={{ backgroundColor: "#4c0c87" }}
               onClick={() => user?._id === admin?.temp_id
                 ? navigate('/admin')
-                : navigate(`/v1/0auth?temp_id=${user?._id}&location=Staff_Admin&redirect_url=http://localhost:3000/admin`)}>
+                : navigate(`/v1/0auth?temp_id=${user?._id}&location=Staff_Admin&redirect_url=http://staff.alliancedev.in/admin`)}>
               <MdAdminPanelSettings />
             </div>
             <p>Staff Admin</p>

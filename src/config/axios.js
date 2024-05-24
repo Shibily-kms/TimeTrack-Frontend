@@ -1,5 +1,5 @@
 import axios from 'axios'
-export const baseUrl = 'http://192.168.1.57'
+export const baseUrl = 'http:staff.alliancedev.in'
 
 const baseSetup = {
     userAxios: axios.create({
@@ -21,7 +21,7 @@ const baseSetup = {
 
 const handleUserTokenError = () => {
     // Redirect the user to the login page or perform any other necessary action
-    window.location.href = `${baseUrl}:3000/login`
+    window.location.href = `${baseUrl}/login`
 }
 
 const requestConfigUserFunction = (config) => {
@@ -63,7 +63,7 @@ baseSetup.userAxios.interceptors.response.use(
 
 const handleAdminTokenError = () => {
     // Redirect the user to the login page or perform any other necessary action
-    window.location.href = `${baseUrl}:3000/admin/login`
+    window.location.href = `${baseUrl}/admin/login`
 }
 
 const requestConfigAdminFunction = (config) => {
