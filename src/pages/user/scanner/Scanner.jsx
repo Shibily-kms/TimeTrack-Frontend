@@ -184,16 +184,17 @@ const Scanner = React.memo(() => {
         <div className='scanner-page-div'>
             {/* {scanning && */}
             {!res?.status && !qrCodeText &&
-                <Webcam
-                    audio={false}
-                    ref={webcamRef}
-                    screenshotFormat="image/jpeg"
-                    width="100%"
-                    height='100%'
-                    videoConstraints={{
-                        facingMode: "environment"  // This might help on mobile to use the rear camera by default
-                    }}
-                />}
+                <div className="camera-div">
+                    <Webcam
+                        audio={false}
+                        ref={webcamRef}
+                        screenshotFormat="image/jpeg"
+                        height='100%'
+                        videoConstraints={{
+                            facingMode: "environment"  // This might help on mobile to use the rear camera by default
+                        }}
+                    />
+                </div>}
             <div className="content-div">
                 {!res?.status && !qrCodeText &&
                     <div className="box-0-div">
@@ -243,10 +244,6 @@ const Scanner = React.memo(() => {
                     loading === 'fetch' && <SpinWithMessage load height={'80vh'} />
                 }
             </div>
-
-
-
-
         </div>
     )
 })
