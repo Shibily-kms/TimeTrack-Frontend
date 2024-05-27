@@ -73,7 +73,7 @@ function Home({ setPageHead }) {
             <div className="icon-div" style={{ backgroundColor: "#4c0c87" }}
               onClick={() => user?._id === admin?.temp_id
                 ? navigate('/admin')
-                : navigate(`/v1/0auth?temp_id=${user?._id}&location=Staff_Admin&redirect_url=http://staff.alliancedev.in/admin`)}>
+                : navigate(`/v1/0auth?temp_id=${user?._id}&location=Staff_Admin&redirect_url=http://staff.alliancewatersolutions.com/admin`)}>
               <MdAdminPanelSettings />
             </div>
             <p>Staff Admin</p>
@@ -81,7 +81,7 @@ function Home({ setPageHead }) {
 
           {(user?.origins_list?.includes('Accounting')) && <div className="app-item">
             <div className="icon-div" style={{ backgroundColor: "#521f08" }}
-              onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>
+              onClick={() => window.location.href = `http://accounting.alliancewatersolutions.com/?id=${user?._id}`}>
               <FaIndianRupeeSign />
             </div>
             <p>Accounting <br></br> App</p>
@@ -90,7 +90,7 @@ function Home({ setPageHead }) {
           {(user?.origins_list?.includes('Sales') || user?.origins_list?.includes('SalesPro')
             || user?.origins_list?.includes('Installation')) && <div className="app-item">
               <div className="icon-div" style={{ backgroundColor: "#0c1663" }}
-                onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>
+                onClick={() => window.location.href = `http://sales.alliancewatersolutions.com/?id=${user?._id}`}>
                 <FaStore />
               </div>
               <p>Sales App</p>
@@ -98,7 +98,7 @@ function Home({ setPageHead }) {
 
           {(user?.origins_list?.includes('PR_Service')) && <div className="app-item">
             <div className="icon-div" style={{ backgroundColor: "#52082f" }}
-              onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>
+              onClick={() => window.location.href = `http://purifier.alliancewatersolutions.com/?id=${user?._id}`}>
               <MdOutlineMiscellaneousServices />
             </div>
             <p>Purifier Service</p>
@@ -106,7 +106,7 @@ function Home({ setPageHead }) {
 
           {(user?.origins_list?.includes('PR_Admin')) && <div className="app-item">
             <div className="icon-div" style={{ backgroundColor: "#085212" }}
-              onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>
+              onClick={() => window.location.href = `http://purifier.alliancewatersolutions.com/admin/?id=${user?._id}`}>
               <IoLogoAppleAr />
             </div>
             <p>Purifier Admin</p>
@@ -115,7 +115,7 @@ function Home({ setPageHead }) {
           {(user?.origins_list?.includes('ControlNex') || user?.origins_list?.includes('Customer_Info')) &&
             <div className="app-item">
               <div className="icon-div" style={{ backgroundColor: "#046b5f" }}
-                onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>
+                onClick={() => window.location.href = `http://controlnex.alliancewatersolutions.com/?id=${user?._id}`}>
                 <HiUserGroup />
               </div>
               <p>ControlNex <br></br> App</p>
@@ -123,7 +123,7 @@ function Home({ setPageHead }) {
 
           {(user?.origins_list?.includes('WH_Service')) && <div className="app-item">
             <div className="icon-div" style={{ backgroundColor: "#4c046b" }}
-              onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>
+              onClick={() => window.location.href = `http://wholehouse.alliancewatersolutions.com/?id=${user?._id}`}>
               <MdOutlineMiscellaneousServices />
             </div>
             <p>Whole house <br></br> Service</p>
@@ -131,7 +131,7 @@ function Home({ setPageHead }) {
 
           {(user?.origins_list?.includes('WH_Admin')) && <div className="app-item">
             <div className="icon-div" style={{ backgroundColor: "#336b04" }}
-              onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>
+              onClick={() => window.location.href = `http://wholehouse.alliancewatersolutions.com/admin/?id=${user?._id}`}>
               <IoLogoAppleAr />
             </div>
             <p>Whole house <br></br> Admin</p>

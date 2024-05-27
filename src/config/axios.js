@@ -1,5 +1,5 @@
 import axios from 'axios'
-export const baseUrl = 'http:staff.alliancedev.in'
+export const baseUrl = 'http://staff.alliancewatersolutions.com'
 
 const baseSetup = {
     userAxios: axios.create({
