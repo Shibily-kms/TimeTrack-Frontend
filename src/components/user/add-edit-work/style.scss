@@ -1,0 +1,43 @@
+@use '../../../assets/scss/ui/var-color' as *;
+
+.addEditRegWork-div {
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+
+        .select-button-option-div {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            justify-content: center;
+            gap: 15px 10px;
+            // margin: 10px 0px 20px 0px;
+
+            .option-div {
+                text-align: center;
+
+                div {
+                    background-color: var(--background-c3);
+                    padding: 7px 9px;
+                    border-radius: 100px;
+                    -webkit-border-radius: 100px;
+                    -moz-border-radius: 100px;
+                    -ms-border-radius: 100px;
+                    -o-border-radius: 100px;
+                    font-size: 14px;
+                    font-weight: 500;
+                    cursor: pointer;
+                }
+            }
+
+            .selected {
+                div {
+                    background-color: var(--background-tertiary);
+                    color: #{$aws-color-white};
+                }
+            }
+        }
+    }
+
+
+}

@@ -1,6 +1,9 @@
 {
   "short_name": "Alliance",
   "name": "Alliance",
+  "permissions": [
+    "camera"
+  ],
   "icons": [
     {
       "src": "favicon.ico",
@@ -19,7 +22,7 @@
     }
   ],
   "start_url": ".",
-  "display": "minimal-ui",
+  "display": "fullscreen",
   "theme_color": "#000000",
   "background_color": "#ffffff",
   "orientation": "portrait",

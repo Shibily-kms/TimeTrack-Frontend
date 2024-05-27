@@ -49,7 +49,7 @@ function DateBar({ data, selected, setSelected }) {
                         return <div key={index} className={`item-box ${day.day === 'SUN' && 'sunday'} 
                         ${selected.date === day.date && selected.month === day.month && selected.year === day.year && 'active'}`}
                             onClick={() => setSelected({ date: day.date, month: day.month, year: day.year, count: day.attendanceCount })
-                            }>
+                            } >
                             <div className="content" title={`${day.date}-${day.month + 1}-${day.year}`}>
                                 <h3>{day.date}</h3>
                                 <h5>{day.day}</h5>

@@ -3,7 +3,7 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import adminAuthReducer from '../features/admin/authSlice'
 import userAuthSlice from '../features/user/authSlice'
-import networkSlice from '../features/user/networkSlice'
+import systemSlice from '../features/user/systemSlice'
 import workdataSlice from '../features/user/workdataSlice';
 import dayWorksSlice from '../features/user/dayWorksSlice';
 
@@ -17,7 +17,7 @@ const rootReducer = combineReducers({
     adminAuth: adminAuthReducer,
     // user
     userAuth: userAuthSlice,
-    network: networkSlice,
+    systemInfo: systemSlice,
     workData: workdataSlice,
     dayWorks: dayWorksSlice
 });

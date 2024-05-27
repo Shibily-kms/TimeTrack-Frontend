@@ -1,49 +1,45 @@
 import React from 'react'
 import './work-details.scss'
 import { useSelector } from 'react-redux'
+import { convertIsoToAmPm, getTimeFromSecond } from '../../../assets/javascript/date-helper'
+import SpinnerWithMessage from '../../../components/common/spinners/SpinWithMessage'
+import { IoFingerPrint } from "react-icons/io5";
+import { BsQrCodeScan } from "react-icons/bs";
 
 function WorkDetails() {
     const { workDetails } = useSelector((state) => state.workData)
+    const { user } = useSelector((state) => state.userAuth)
 
     return (
         <div className="semi-work-details">
-            {workDetails?.punch_in && <div className="border">
-                <div className="list-body">
-                    <div className="list-head">
-                        <span></span>
-                        <span>IN</span>
-                        <span>OUT</span>
+            <div className="border">
+                {workDetails?.name
+                    ? <div className="list-body">
+                        <div className="table-title-div">
+                            <h3>Today Work Report</h3>
+                        </div>
+                        <div className="list-head">
+                            <span></span>
+                            <span>In</span>
+                            <span>Out</span>
+                            <span>Duration</span>
+                        </div>
+
+                        {workDetails?.punch_list?.map((item, index) => <div className="list-item">
+                            <span>Punch {index + 1}</span>
+                            <span>{convertIsoToAmPm(new Date(item.in))}</span>
+                            <span>{item.out ? convertIsoToAmPm(new Date(item.out)) : '-'}</span>
+                            {item?.out
+                                ? <span>{getTimeFromSecond((new Date(item?.out) - new Date(item.in)) / 1000) || '0m'}</span>
+                                : <span>-</span>}
+                        </div>)}
+
                     </div>
-                    {workDetails.punch_in && <>
-                        <div className="list-item">
-                            <span>Punch</span>
-                            <span>{new Date(workDetails.punch_in).toLocaleTimeString()}</span>
-                            <span>{workDetails.punch_out ? new Date(workDetails.punch_out).toLocaleTimeString() : '-'}</span>
-                        </div>
-                    </>}
-                    {workDetails?.break?.start && <>
-                        <div className="list-item">
-                            <span>Last Break</span>
-                            <span>{new Date(workDetails?.break?.start).toLocaleTimeString()}</span>
-                            <span>{workDetails?.break?.end ? new Date(workDetails?.break?.end).toLocaleTimeString() : '-'}</span>
-                        </div>
-                    </>}
-                    {workDetails?.lunch_break?.start && <>
-                        <div className="list-item">
-                            <span>Lunch </span>
-                            <span>{new Date(workDetails?.lunch_break?.start).toLocaleTimeString()}</span>
-                            <span>{workDetails?.lunch_break?.end ? new Date(workDetails?.lunch_break?.end).toLocaleTimeString() : '-'}</span>
-                        </div>
-                    </>}
-                    {workDetails?.over_time?.in && <>
-                        <div className="list-item">
-                            <span>Over Time </span>
-                            <span>{new Date(workDetails?.over_time?.in).toLocaleTimeString()}</span>
-                            <span>{workDetails?.over_time?.out ? new Date(workDetails?.over_time?.out).toLocaleTimeString() : '-'}</span>
-                        </div>
-                    </>}
-                </div>
-            </div>}
+                    : <div >
+                        <SpinnerWithMessage fullView={true} icon={user?.punch_type === 'scanner' ? <BsQrCodeScan /> : <IoFingerPrint />}
+                            message={user?.punch_type === 'scanner' ? 'Scan QR Code for start work!' : 'Click punch In button for start work!'} />
+                    </div>}
+            </div>
         </div>
     )
 }

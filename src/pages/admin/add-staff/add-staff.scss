@@ -1,0 +1,53 @@
+
+@import '../../../assets/scss/model.scss';
+
+.add-staff-page {
+    margin-top: 20px;
+
+    .boarder {
+        margin-top: 20px;
+
+        form {
+            .sections {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+            }
+
+            .actions {
+                display: flex;
+                justify-content: flex-end;
+                margin-top: 20px;
+
+                button {
+                    width: 300px;
+                }
+
+
+            }
+        }
+    }
+
+    @media screen and (max-width:650px) {
+        .boarder {
+            form {
+                .sections {
+                    grid-template-columns: 1fr;
+                }
+
+                .actions {
+                    display: block;
+                    margin-top: 20px;
+
+                    button {
+                        width: 100%;
+                    }
+
+
+                }
+            }
+
+        }
+    }
+
+}

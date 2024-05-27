@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import './edit-work-data.scss'
-import { IoClose } from 'react-icons/io5'
-import { BiLoaderAlt } from 'react-icons/bi'
 import { adminAxios } from '../../../config/axios'
-import { toast } from 'react-hot-toast'
+import { toast } from '../../../redux/features/user/systemSlice'
+import NormalInput from '../../common/inputs/NormalInput'
+import SingleButton from '../../common/buttons/SingleButton'
+import { useDispatch } from 'react-redux'
 
-function EditWorkData({ data, closeModal }) {
+function EditWorkData({ data, setModal }) {
+    const dispatch = useDispatch();
     const [loading, setLoading] = useState(false)
     const [form, setForm] = useState({ punch_in: null, punch_out: null })
 
@@ -17,22 +19,21 @@ function EditWorkData({ data, closeModal }) {
     }
 
     const handelSubmit = (e) => {
-        setLoading(true)
         e.preventDefault();
         const ask = window.confirm('Are you sure you want to update this work?')
-        
+
         if (ask) {
+            setLoading(true)
             const date = `${data.year}-${(data.month + 1).toString().padStart(2, '0')}-${data.date.toString().padStart(2, '0')}`
 
-            adminAxios.put('/work-analyze', { ...form, date, staff_id: data.staff_id }).then((response) => {
+            adminAxios.put('/work-analyze', { ...form, date, staff_id: data.staff_id }).then(() => {
                 setLoading(false)
-                toast.success('Updated. Refresh now!')
-                closeModal({ open: false })
+                dispatch(toast.push.success({ message: 'Updated. Refresh now!' }))
+                setModal({ open: false })
             }).catch((error) => {
-                toast.error(error.response.data.message)
+                dispatch(toast.push.error({ message: error.message }))
             })
         }
-
     }
 
     useEffect(() => {
@@ -44,34 +45,13 @@ function EditWorkData({ data, closeModal }) {
 
     return (
         <div className='edit-work-data'>
-            <div className="box-div">
-                <div className="head">
-                    <h5 className="title">Edit data</h5>
-                    <div className="icon-div" onClick={() => closeModal()}>
-                        <IoClose />
-                    </div>
-                </div>
-                <div className="body-content">
-                    <form action="" onSubmit={handelSubmit}>
-                        <div className="text-input-div">
-                            <input type="time" id='punch_in' name='punch_in' value={form.punch_in || ''}
-                                onChange={handleChange} />
-                            <label htmlFor="punch_in">Punch In</label>
-                        </div>
-
-                        <div className="text-input-div">
-                            <input type="time" id='punch_out' name='punch_out' value={form.punch_out || ''}
-                                onChange={handleChange} />
-                            <label htmlFor="punch_out">Punch Out</label>
-                        </div>
-
-                        <div className="actions">
-                            <button type={loading === 'submit' ? 'button' : 'submit'} >
-                                {loading === 'submit' ? <span className='loading-icon'><BiLoaderAlt /></span> : 'Update'}</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+            <form action="" onSubmit={handelSubmit}>
+                <NormalInput label='Punch In' id={'punch_in'} name='punch_in' value={form.punch_in || ''} onChangeFun={handleChange} type='time' />
+                <NormalInput label='Punch Out' id={'punch_out'} name='punch_out' value={form.punch_out || ''} onChangeFun={handleChange} type='time'
+                    isRequired={false} />
+                <SingleButton name={'Update'} type={loading === 'submit' ? 'button' : 'submit'}
+                    loading={loading === 'submit'} style={{ width: '100%' }} classNames={'lg btn-tertiary'} />
+            </form>
         </div>
     )
 }

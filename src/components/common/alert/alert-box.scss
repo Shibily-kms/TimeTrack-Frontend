@@ -1,0 +1,54 @@
+@use "sass:color";
+@use '../../../assets/scss/ui/var-color' as *;
+
+.alert-box-div {
+    background-color: #{color.adjust($aws-color-primary,$alpha : -0.8)};
+    padding: 10px 15px;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    display: grid;
+    grid-template-columns: 30px auto;
+    color: var(--text-tertiary);
+    border: 1px solid var(--text-tertiary);
+
+    .icon-section {
+        svg {
+            font-size: 18px;
+        }
+    }
+
+    .content-section {
+        span {
+            font-size: 14px;
+            text-align: justify;
+        }
+    }
+
+}
+
+.alt-success {
+    background-color: #{color.adjust($aws-color-light-theme-green,$alpha : -0.8)};
+    color: #{$aws-color-light-theme-green};
+    border: 1px solid #{$aws-color-light-theme-green};
+}
+
+.alt-error {
+    background-color: #{color.adjust($aws-color-light-theme-red,$alpha : -0.8)};
+    color: #{$aws-color-light-theme-red};
+    border: 1px solid #{$aws-color-light-theme-red};
+}
+
+.alt-warning {
+    background-color: #{color.adjust($aws-color-light-theme-yellow,$alpha : -0.8)};
+    color: #{$aws-color-light-theme-yellow};
+    border: 1px solid #{$aws-color-light-theme-yellow};
+}
+
+.alt-info {
+    background-color: #{color.adjust($aws-color-light-theme-blue,$alpha : -0.8)};
+    color: #{$aws-color-light-theme-blue};
+    border: 1px solid #{$aws-color-light-theme-blue};
+}

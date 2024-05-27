@@ -1,0 +1,45 @@
+.punch-report-page-div {
+    .month-report-div {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+
+        .item-div {
+            text-align: center;
+            border-right: 1px dashed var(--border-secondary);
+            width: 100%;
+            padding: 5px;
+
+            p {
+                font-weight: 600;
+                font-size: 14px;
+            }
+
+            &:first-child {
+                h2 {
+                    color: var(--text-primary);
+                }
+            }
+
+            &:nth-child(2) {
+                h2 {
+                    color: var(--color-success);
+                }
+            }
+
+            &:nth-child(3) {
+                h2 {
+                    color: var(--color-error);
+                }
+            }
+
+            &:last-child {
+                h2 {
+                    color: var(--color-info);
+                }
+                border-right: none;
+            }
+        }
+
+    }
+}

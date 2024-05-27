@@ -1,34 +1,36 @@
-import React from 'react'
-import Header from '../../../components/user/header/Header'
+import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import './not-found.scss'
-import Gif404 from '../../../assets/images/404.gif'
 import { useNavigate } from 'react-router-dom'
+import SingleButton from '../../../components/common/buttons/SingleButton'
 
-function NotFound() {
+function NotFound({ setPageHead }) {
     const { user } = useSelector((state) => state.userAuth)
     const navigate = useNavigate()
+
+    useEffect(() => {
+        setPageHead({ title: "" })
+    })
+
     return (
         <div className='not-found'>
-            <div className="header">
-                <Header />
-            </div>
-            <div className="content-div">
-                <div className="content">
-                    <div className="image">
-                        <img src={Gif404} alt="" />
-                    </div>
-                    <div className="text">
-                        {user ?
-                            <button onClick={() => navigate('/')}>Home Page</button>
-                            :
-                            <button onClick={() => navigate('/login')}>Login</button>
-                        }
-                    </div>
+
+            <main class="main">
+                <div class="image">
+                    <img id="big_image" src="https://mjavadh.github.io/4X4-Collection/Fantasy/Black%20Box/assets/astronaut.png" alt="#" />
                 </div>
-            </div>
+
+                <div class="text-404">
+                    <h1>4 0 4</h1>
+                    <p>Page not found!</p>
+                    <SingleButton name={'Go to Home'} classNames={'btn-secondary'} onClick={() => navigate(user ? '/' : '/admin')} />
+                </div>
+            </main>
+
+
+
         </div>
     )
 }
 
-export default NotFound 
+export default NotFound

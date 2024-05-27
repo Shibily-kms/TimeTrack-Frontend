@@ -1,62 +1,49 @@
-import React, { useState } from 'react'
-import Header from '../../../components/admin/header/Header'
-import TopBar from '../../../components/admin/staff-work/TopBar'
+import React, { useEffect, useState } from 'react'
 import './date-basie.scss'
-import DateWorkAnalyze from '../../../components/admin/staff-work/DateWorkAnalyze'
-import ViewModal from '../../../components/admin/staff-work/ViewModal'
-import EditWorkData from '../../../components/admin/staff-work/EditWorkData'
+import DateBar from '../../../components/admin/staff-work/DateBar'
+import TableForAnalyze from '../../../components/admin/staff-work/TableForAnalyze'
 
-function DateBasie() {
-    const [viewModal, setViewModal] = useState({ open: false })
-    const [editModal, setEditModal] = useState({ open: false })
-    const [selected, setSelected] = useState({})
+function DateBasie({ dateAlzList, selectDay, setSelectDay }) {
+    const [tableData, setTableData] = useState({})
 
-    const closeViewModal = () => {
-        setViewModal({ open: false })
-        setEditModal({ open: false })
-    }
+    useEffect(() => {
+        // eslint-disable-next-line
+        dateAlzList.map((day) => {
+            if (selectDay.date === day.date && selectDay.month === day.month && selectDay.year === day.year) {
+                setTableData(day)
+            }
+        })
+        // eslint-disable-next-line
+    }, [selectDay])
 
-    const openViewModal = (data, info, type) => {
-        setViewModal({ data, info, type, open: true })
-    }
-    const openEditModal = (data) => {
-        setEditModal({ data, open: true })
-    }
 
     return (
-        <div className='staff-works'>
-            <div className='main'>
-                <div className="header-div">
-                    <Header />
+        <div className='date-works-basie'>
+
+            <DateBar data={dateAlzList} selected={selectDay} setSelected={setSelectDay} />
+
+            <div className="section-div">
+                <div className="item-div">
+                    <h1>{tableData?.staff?.length || 0}</h1>
+                    <p>Total Staff</p>
                 </div>
-                <div >
-                    <TopBar oneDay={selected} />
+                <div className="item-div">
+                    <h1>{tableData?.attendanceCount || 0}</h1>
+                    <p>Total Attendance</p>
                 </div>
-                <div >
-                    <DateWorkAnalyze openModal={openViewModal} openEditModal={openEditModal} selected={selected} setSelected={setSelected} />
+                <div className="item-div">
+                    <h1>{(tableData?.staff?.length - tableData?.attendanceCount) || 0}</h1>
+                    <p>Total Leave</p>
                 </div>
             </div>
-            {viewModal.open &&
-                <div className="modal-border-div">
-                    <div className="border">
-                        <div className="modal-shadow" onClick={() => closeViewModal()}></div>
-                        <div className="modal-place-div">
-                            <ViewModal data={viewModal.data} info={viewModal.info}
-                                type={viewModal.type} closeModal={closeViewModal} />
-                        </div>
-                    </div>
-                </div>
-            }
-            {editModal.open &&
-                <div className="modal-border-div">
-                    <div className="border">
-                        <div className="modal-shadow" onClick={() => closeViewModal()}></div>
-                        <div className="modal-div">
-                            <EditWorkData data={editModal.data} closeModal={closeViewModal} />
-                        </div>
-                    </div>
-                </div>
-            }
+
+            <TableForAnalyze tableData={tableData.staff} details={{
+                day: tableData.day,
+                date: tableData.date,
+                month: tableData.month,
+                year: tableData.year
+            }} selectDay={selectDay} />
+
         </div>
     )
 }

@@ -1,0 +1,229 @@
+@import '../../../assets/scss/model.scss';
+
+.dashboard-page-div {
+    margin-top: 20px;
+
+    .color-temp-div {
+        position: fixed;
+        width: 100%;
+        height: 100vh;
+        z-index: -1;
+
+        .box-one {
+            position: fixed;
+            background: rgb(53, 152, 255);
+            background: radial-gradient(circle, rgba(53, 151, 255, 0.212) 0%, rgba(4, 43, 7, 0) 44%);
+            width: 70%;
+            height: 70%;
+            left: -250px;
+            top: 50px;
+        }
+
+        .box-two {
+            position: fixed;
+            background: rgb(53, 152, 255);
+            background: radial-gradient(circle, rgba(225, 255, 53, 0.164) 0%, rgba(4, 43, 7, 0) 44%);
+            width: 100%;
+            height: 100%;
+            right: -50%;
+            bottom: -30%;
+        }
+
+        .box-three {
+            position: fixed;
+            background: rgb(53, 152, 255);
+            background: radial-gradient(circle, rgba(53, 255, 137, 0.151) 0%, rgba(4, 43, 7, 0) 44%);
+            width: 100%;
+            height: 100%;
+            right: 0%;
+            bottom: -50%;
+        }
+
+        .box-four {
+            position: fixed;
+            background: rgb(53, 152, 255);
+            background: radial-gradient(circle, rgba(191, 53, 255, 0.151) 0%, rgba(4, 43, 7, 0) 44%);
+            width: 100%;
+            height: 100%;
+            right: -30%;
+            top: -50%;
+        }
+    }
+
+    .content-div {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+
+        .sub-box-div {
+            background-color: red;
+            border-radius: 12px;
+            -webkit-border-radius: 12px;
+            -moz-border-radius: 12px;
+            -ms-border-radius: 12px;
+            -o-border-radius: 12px;
+            padding: 10px 15px;
+            background-color: var(--blur-box-primary);
+            backdrop-filter: blur(15px);
+
+            .head-div {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 10px;
+
+                .left {
+                    h3 {
+                        font-size: 17px;
+                    }
+
+                    p {
+                        font-size: 13px;
+                        color: var(--text-c2);
+                        margin-top: -2px;
+                    }
+                }
+            }
+
+            .sub-content-div {
+                height: auto;
+                width: 100%;
+                max-width: 100%;
+                overflow-x: auto;
+                @include scrollBar();
+                margin-top: 15px;
+
+            }
+        }
+
+        .sub-one {
+            width: calc(60% - 7px);
+
+            .sub-content-div {
+                display: flex;
+                gap: 10px;
+                justify-content: space-between;
+
+                .summery-item-div {
+                    background-color: rgba(0, 158, 92, 0.200);
+                    min-width: 120px;
+                    border-radius: 15px;
+                    -webkit-border-radius: 15px;
+                    -moz-border-radius: 15px;
+                    -ms-border-radius: 15px;
+                    -o-border-radius: 15px;
+                    padding: 35px 10px 10px 10px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: flex-end;
+
+                    svg {
+                        font-size: 25px;
+                        color: rgb(0, 158, 92);
+                    }
+
+                    .number-div {
+                        display: flex;
+                        align-items: flex-end;
+
+                        h3 {
+                            font-size: 26px;
+                        }
+
+                        p {
+                            font-size: 14px;
+                            font-weight: 600;
+                            color: var(--text-c1);
+                        }
+                    }
+
+                    .desi-div {
+                        p {
+                            font-size: 14px;
+                            font-weight: 600;
+                            color: var(--text-c2);
+                            margin-top: 5px;
+                        }
+                    }
+
+                    &:nth-child(2) {
+                        background-color: rgba(145, 118, 0, 0.2);
+
+                        svg {
+                            color: rgb(145, 118, 0);
+                        }
+                    }
+
+                    &:nth-child(3) {
+                        background-color: rgba(171, 0, 187, 0.2);
+
+                        svg {
+                            color: rgb(171, 0, 187);
+                        }
+                    }
+
+                    &:nth-child(4) {
+                        background-color: rgba(0, 65, 187, 0.2);
+
+                        svg {
+                            color: rgb(0, 65, 187);
+                        }
+                    }
+
+                }
+            }
+        }
+
+        .sub-two {
+            width: calc(40% - 7px);
+
+            .sub-content-div {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+            }
+        }
+
+        .sub-three {
+            width: calc(40% - 7px);
+
+            .sub-content-div {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+            }
+        }
+
+        .sub-four {
+            width: calc(60% - 7px);
+
+            .head-div {
+
+                select {
+                    outline: none;
+                    border: none;
+                }
+            }
+
+            .sub-content-div {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+
+            }
+        }
+
+    }
+
+    @media screen and (max-width:780px) {
+        .content-div {
+
+            .sub-one,
+            .sub-two,
+            .sub-three,
+            .sub-four {
+                width: calc(100% - 7px);
+            }
+        }
+    }
+}
