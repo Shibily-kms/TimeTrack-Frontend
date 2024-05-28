@@ -162,8 +162,10 @@ const analyzeStaffMonthReport = (thisMonth, staffData, staffMSR, analyzeData) =>
 
     // Percentage 
     attendancePercentage = parseInt((attendedHours * 100) / workingHours) || 0
-    let forThisMonth = new Date().getDate() * dayWorkingHours || 0
-    wantedPercentage = thisMonth ? parseInt((attendedHours * 100) / forThisMonth) || 0 : workingHours ? 100 : 0
+    const thisMonthLastDay = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate()
+    const dayValue = parseFloat(workingDays / thisMonthLastDay).toFixed(2)
+    let forThisMonth = (dayValue * new Date().getDate()) * dayWorkingHours || 0
+    wantedPercentage = thisMonth ? parseInt((forThisMonth * 100) / workingHours) || 0 : workingHours ? 100 : 0
 
     return {
         monthWorkingDays: workingDays,

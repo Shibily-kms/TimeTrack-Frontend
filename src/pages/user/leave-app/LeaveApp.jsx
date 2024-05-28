@@ -4,11 +4,12 @@ import SingleButton from '../../../components/common/buttons/SingleButton'
 import SpinWithMessage from '../../../components/common/spinners/SpinWithMessage'
 import Modal from '../../../components/common/modal/Modal'
 import LeaveReg from '../../../components/user/leave-reg/LeaveReg'
-import { GrEdit } from 'react-icons/gr'
+import { FaPlus } from "react-icons/fa6";
 import { userAxios } from '../../../config/axios'
 import { useDispatch } from 'react-redux'
 import { toast } from '../../../redux/features/user/systemSlice'
 import { YYYYMMDDFormat } from '../../../assets/javascript/date-helper'
+import { TbListDetails } from "react-icons/tb";
 
 
 const LeaveApp = ({ setPageHead }) => {
@@ -122,8 +123,8 @@ const LeaveApp = ({ setPageHead }) => {
                         </div>
                     }
                 </div>)}
-                {loading === 'fetch'
-                    ? <SpinWithMessage load />
+                {loading === 'fetch' || !data?.[0]
+                    ? <SpinWithMessage load={loading === 'fetch'} message='Empty letters' height={'300px'} icon={<TbListDetails />} />
                     : <>
                         {count > page * 10
                             ? < SingleButton name={'Show more'} style={{ width: '100%' }} classNames={'lg btn-secondary'} onClick={() => setPage(page + 1)} />
@@ -132,7 +133,7 @@ const LeaveApp = ({ setPageHead }) => {
             </div>
 
             <div className="app-icon-div">
-                <SingleButton stIcon={<GrEdit />} classNames={'icon-only btn-tertiary'} style={{ padding: '15px', fontSize: '25px', borderRadius: '100px' }}
+                <SingleButton title={'Register leave'} stIcon={<FaPlus />} classNames={'icon-only btn-tertiary'} style={{ padding: '15px', fontSize: '25px', borderRadius: '100px' }}
                     onClick={handleOpenModal} />
             </div>
         </div>

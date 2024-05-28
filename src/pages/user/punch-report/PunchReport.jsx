@@ -15,7 +15,6 @@ const PunchReport = ({ setPageHead }) => {
     const { user } = useSelector((state) => state.userAuth)
     const [workDates, setWorkDates] = useState({})
     const [modal, setModal] = useState({ status: false })
-    const [loading, setLoading] = useState('fetch')
     const [monthReport, setMonthReport] = useState({})
 
     const handleClickDay = (date) => {
@@ -91,7 +90,7 @@ const PunchReport = ({ setPageHead }) => {
 
                     }}
                     onClickDay={(value) => handleClickDay(value)}
-                    minDate={new Date(2024, 0, 1)}
+                    minDate={new Date(2023, 5, 7)}
                     maxDate={new Date()}
                     onActiveStartDateChange={handleChangeMonth}
                 />
@@ -109,7 +108,7 @@ const PunchReport = ({ setPageHead }) => {
                 </div>
                 <div className="item-div">
                     <p>Pending</p>
-                    <h2>{monthReport.pending_days}d</h2>
+                    <h2>{monthReport.pending_days >= 0 ? monthReport.pending_days : 0}d</h2>
                     <h4>{getTimeFromSecond(monthReport.pending_hours)}</h4>
                 </div>
                 <div className="item-div">
