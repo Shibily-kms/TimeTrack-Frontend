@@ -25,7 +25,7 @@ function StaffBasie({ staffAlzList, monthReport }) {
                         </div>
                         <div className="item-div">
                             <p>Pending</p>
-                            <h1>{monthReport.monthLeaveDays}d</h1>
+                            <h1>{monthReport.monthLeaveDays >= 0 ? monthReport.monthLeaveDays : 0}d</h1>
                             <h4>{getTimeFromSecond(monthReport.monthLeaveHours)}</h4>
                         </div>
                         <div className="item-div">

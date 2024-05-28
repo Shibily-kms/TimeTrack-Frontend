@@ -62,7 +62,7 @@ function Designations({ setPageHead }) {
             <Modal modal={modal} setModal={setModal} />
             <div className="table-div">
                 {data?.[0] ?
-                    <TableFilter srlNo={true} topRight={<SingleButton name={'Designation'} stIcon={<FaPlus />} classNames={'md btn-tertiary'}
+                    <TableFilter srlNo={true} topRight={admin?.pro_admin && <SingleButton name={'Designation'} stIcon={<FaPlus />} classNames={'md btn-tertiary'}
                         onClick={() => openModal('Create Designation', <AddDesignation setData={setData} setModel={setModal} />)} />}>
                         <table id="list">
                             <thead>
