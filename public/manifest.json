@@ -22,7 +22,7 @@
     }
   ],
   "start_url": ".",
-  "display": "fullscreen",
+  "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff",
   "orientation": "portrait",
@@ -35,6 +35,22 @@
   "url_handlers": [
     {
       "origin": "https://*.alliancewatersolutions.com"
+    }
+  ],
+  "scope": "/",
+  "description": "Alliance Water Solutions application for managing water solutions efficiently.",
+  "shortcuts": [
+    {
+      "name": "Admin",
+      "short_name": "admin",
+      "description": "Go to the Admin Dashboard",
+      "url": "/admin",
+      "icons": [
+        {
+          "src": "favicon.ico",
+          "sizes": "192x192"
+        }
+      ]
     }
   ]
 }

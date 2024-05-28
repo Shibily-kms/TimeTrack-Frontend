@@ -238,7 +238,7 @@ const Scanner = React.memo(() => {
                     </div>
 
                     <SingleButton name={'Close'} classNames={'lg'} style={{ width: "100%" }}
-                        onClick={() => navigate('/?page=home')} />
+                        onClick={() => navigate(-1)} />
                 </div>}
                 {
                     loading === 'fetch' && <SpinWithMessage load height={'80vh'} />
