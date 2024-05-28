@@ -79,7 +79,7 @@ function Home({ setPageHead }) {
             <p>Staff Admin</p>
           </div>}
 
-          {(user?.origins_list?.includes('Accounting')) && <div className="app-item">
+          {(user?.origins_list?.includes('Accountant')) && <div className="app-item">
             <div className="icon-div" style={{ backgroundColor: "#521f08" }}
               onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>
               <FaIndianRupeeSign />
