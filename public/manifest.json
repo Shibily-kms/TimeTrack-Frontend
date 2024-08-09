@@ -1,6 +1,10 @@
 {
   "short_name": "Alliance",
-  "name": "Alliance",
+  "name": "Alliance App",
+  "version": "2.1.0",
+  "author": "Alliance Water Solutions Pvt. ltd",
+  "license": "MIT",
+  "description": "Application for Alliance Water Solutions Staff & Management",
   "permissions": [
     "camera"
   ],
@@ -11,14 +15,64 @@
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
+      "src": "image/logo/brand-192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "logo512.png",
+      "src": "image/logo/brand-192.png",
       "type": "image/png",
       "sizes": "512x512"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "image/screen-shorts/screenshort-desktop-home.jpg",
+      "sizes": "1280x720",
+      "type": "image/jpg",
+      "form_factor": "wide"
+    },
+    {
+      "src": "image/screen-shorts/screenshort-desktop-profile.jpg",
+      "sizes": "1280x720",
+      "type": "image/jpg",
+      "form_factor": "wide"
+    },
+    {
+      "src": "image/screen-shorts/screenshort-desktop-report.jpg",
+      "sizes": "1280x720",
+      "type": "image/jpg",
+      "form_factor": "wide"
+    },
+    {
+      "src": "image/screen-shorts/screenshort-desktop-more.jpg",
+      "sizes": "1280x720",
+      "type": "image/jpg",
+      "form_factor": "wide"
+    },
+    {
+      "src": "image/screen-shorts/screenshort-mobile-home.jpg",
+      "sizes": "375x667",
+      "type": "image/jpg",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "image/screen-shorts/screenshort-mobile-profile.jpg",
+      "sizes": "375x667",
+      "type": "image/jpg",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "image/screen-shorts/screenshort-mobile-report.jpg",
+      "sizes": "375x667",
+      "type": "image/jpg",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "image/screen-shorts/screenshort-mobile-more.jpg",
+      "sizes": "375x667",
+      "type": "image/jpg",
+      "form_factor": "narrow"
     }
   ],
   "start_url": ".",
@@ -26,31 +80,60 @@
   "theme_color": "#000000",
   "background_color": "#ffffff",
   "orientation": "portrait",
-  "related_applications": [
-    {
-      "platform": "webapp",
-      "url": "https://www.staff.alliancewatersolutions.com/manifest.json"
-    }
-  ],
+  "related_applications": [],
   "url_handlers": [
     {
       "origin": "https://*.alliancewatersolutions.com"
     }
   ],
   "scope": "/",
-  "description": "Alliance Water Solutions application for managing water solutions efficiently.",
   "shortcuts": [
     {
-      "name": "Admin",
-      "short_name": "admin",
+      "name": "Controller App",
+      "short_name": "controller",
       "description": "Go to the Admin Dashboard",
       "url": "/admin",
       "icons": [
         {
-          "src": "favicon.ico",
+          "src": "image/logo/admin-icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Punch Scanner",
+      "short_name": "Scanner",
+      "description": "Use Scanner of punch",
+      "url": "/scanner?page=more",
+      "icons": [
+        {
+          "src": "image/logo/qr-icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Leave letter",
+      "short_name": "leave letter",
+      "description": "Go to the Leave letter list",
+      "url": "/leave-app?page=more",
+      "icons": [
+        {
+          "src": "image/logo/letter-icon-192.png",
           "sizes": "192x192"
         }
       ]
     }
+  ],
+  "id": "/",
+  "protocol_handlers": [
+    {
+      "protocol": "web+alliance",
+      "url": "/?url=%s"
+    }
+  ],
+  "display_override": [
+    "standalone",
+    "window-controls-overlay"
   ]
 }

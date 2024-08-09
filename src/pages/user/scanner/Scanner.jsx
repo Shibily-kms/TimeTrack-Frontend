@@ -87,7 +87,7 @@ const Scanner = React.memo(() => {
                         };
                         image.src = imageSrc;
                     }
-                }, 1000);
+                }, 10);
 
                 return () => {
                     clearInterval(scanInterval);
