@@ -81,11 +81,13 @@ function User() {
     if (user) {
       userAxios.get(`/auth/check-active`).then((response) => {
         dispatch(setUser({ ...user, ...response.data }))
-      }).catch(() => {
+      }).catch((error) => {
+        console.log(error)
         dispatch(clearWorkData())
         dispatch(clearRegularWork())
         dispatch(logOut())
         navigate('/login')
+        console.log('L7')
       })
     }
 

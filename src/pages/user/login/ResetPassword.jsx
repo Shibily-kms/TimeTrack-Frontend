@@ -1,0 +1,107 @@
+import React, { useEffect, useState } from 'react'
+import './style.scss'
+import LoginImage from '../../../assets/images/forgot-password.png'
+import NormalInput from '../../../components/common/inputs/NormalInput'
+import SingleButton from '../../../components/common/buttons/SingleButton'
+import { toast } from '../../../redux/features/user/systemSlice'
+import { useDispatch } from 'react-redux'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { userAxios } from '../../../config/axios'
+import { RxEyeClosed, RxEyeOpen } from 'react-icons/rx';
+
+const ResetPassword = () => {
+    const [form, setForm] = useState({ newPass: null, confirm: null })
+    const [loading, setLoading] = useState(false)
+    const [show, setShow] = useState(false)
+    const dispatch = useDispatch()
+    const location = useLocation()
+    const navigate = useNavigate()
+
+    const handleChange = (e) => {
+        setForm({
+            ...form,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        function isValidPassword(password) {
+            const pattern = /^\S+$/;
+            return pattern.test(password);
+        }
+
+        if (form?.newPass.length < 6) {
+            dispatch(toast.push.error({ message: 'Password must have 6 letters' }))
+            return;
+        }
+        if (form.newPass !== form.confirm) {
+            dispatch(toast.push.error({ message: 'Password not match !' }))
+            return;
+        }
+
+        if (!isValidPassword(form.newPass)) {
+            dispatch(toast.push.error({ message: "Clear Space in password" }));
+            return;
+        }
+
+        setLoading(true)
+        userAxios.post('/new-password', { ...form, mobile_number: location.state.mobile_number }).then(() => {
+            dispatch(toast.push.success({ message: 'Your Password is changed. Login now!' }))
+            setLoading(false)
+            navigate('/login')
+            console.log('L3')
+        }).catch((error) => {
+            dispatch(toast.push.error({ message: error.message }))
+            setLoading(false)
+            console.log('L4')
+        })
+    }
+
+    useEffect(() => {
+        if (!location?.state || !location?.state?.mobile_number) {
+            navigate('/login')
+        }
+    }, [location?.state])
+
+    return (
+        <div className="log-div forgot-password-div">
+            <div className="login-comp">
+                <div className="left-div">
+                    <img src={LoginImage} alt='login-svg' />
+                </div>
+                <div className="right-div">
+                    <div className="section-div top-section">
+                        <h1>Reset Password</h1>
+                        <p>Enter new password for reset.</p>
+                    </div>
+                    <div className="section-div  input-section">
+                        <form onSubmit={handleSubmit}>
+                            <NormalInput label={'New Password'} name='newPass' id={'newPass'} type={show ? 'text' : 'password'}
+                                onChangeFun={handleChange} value={form?.newPass} rightIcon={show ? <RxEyeOpen /> : <RxEyeClosed />}
+                                rightIconAction={() => setShow(!show)} />
+
+                            <NormalInput label={'Confirm Password'} name='confirm' id={'confirm'} type={show ? 'text' : 'password'}
+                                onChangeFun={handleChange} value={form?.confirm} rightIcon={show ? <RxEyeOpen /> : <RxEyeClosed />}
+                                rightIconAction={() => setShow(!show)} />
+
+                            <SingleButton type={'submit'} name={'Submit'} classNames={'lg btn-tertiary txt-center'}
+                                style={{ width: '100%' }} loading={loading} />
+
+                        </form>
+                        <div className="description">
+                            <p>Please create a new password for your account. Your new password should be strong and unique,
+                                containing at least 6 characters. After entering your new password, confirm it by typing it
+                                again in the confirmation field. Once submitted, you'll be able to log in with your new password.</p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    )
+}
+
+export default ResetPassword

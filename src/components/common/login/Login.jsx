@@ -44,7 +44,7 @@ function Login({ admin }) {
     <div>
       <div className="login-comp">
         <div className="left-div">
-          <img src={LoginImage} alt='login-svg'/>
+          <img src={LoginImage} alt='login-svg' />
         </div>
         <div className="right-div">
 
@@ -65,6 +65,10 @@ function Login({ admin }) {
 
               <SingleButton type={'submit'} name={'Log In'} classNames={'lg btn-tertiary txt-center'}
                 style={{ width: '100%' }} loading={isLoading} />
+
+              {!admin && <div className="forgot-option">
+                <p onClick={() => navigate('/forgot-password')}>Forgot Password ?</p>
+              </div>}
             </form>
           </div>
         </div>

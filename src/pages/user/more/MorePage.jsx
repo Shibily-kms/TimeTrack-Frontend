@@ -11,6 +11,7 @@ import { clearWorkData } from '../../../redux/features/user/workdataSlice';
 import { clearRegularWork } from '../../../redux/features/user/dayWorksSlice';
 import { logOut } from '../../../redux/features/user/authSlice'
 import { useDispatch, useSelector } from 'react-redux';
+import { ui_version } from '../../../assets/javascript/const-data'
 
 const MorePage = ({ setPageHead }) => {
     const [searchParams, setSearchParams] = useSearchParams()
@@ -35,6 +36,7 @@ const MorePage = ({ setPageHead }) => {
             dispatch(clearRegularWork())
             dispatch(logOut())
             navigate('/login')
+            console.log('L5')
         }
     }
 
@@ -82,7 +84,7 @@ const MorePage = ({ setPageHead }) => {
 
             <div className="software-info">
                 <p>©Alliance water solutions®</p>
-                <p>version 2.0.0</p>
+                <p>version {ui_version}</p>
             </div>
         </div>
     )

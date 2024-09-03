@@ -131,7 +131,11 @@ function AllStaffs({ setPageHead }) {
                 </>
                     :
                     <div className='no-data'>
-                        <SpinWithMessage icon={<IoTrashBin />} message={'Empty list'} load={loading === 'initialData'} fullView />
+                        <SpinWithMessage icon={<IoTrashBin />} message={'Empty list'} load={loading === 'initialData'} fullView bottomContent={<>
+                            {admin?.pro_admin && <SingleButton name={'Create New Staff'} stIcon={<FaPlus />}
+                                classNames={'btn-tertiary'} onClick={() => navigate('/admin/staff-list/add-staff')} />
+                            }
+                        </>} />
                     </div>
                 }
             </div>

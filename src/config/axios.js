@@ -22,6 +22,7 @@ const baseSetup = {
 const handleUserTokenError = () => {
     // Redirect the user to the login page or perform any other necessary action
     window.location.href = `${baseUrl}:3000/login`
+    console.log('L1')
 }
 
 const requestConfigUserFunction = (config) => {
@@ -38,11 +39,13 @@ const requestErrorUserFunction = (error) => {
 }
 
 const responseConfigUserFunction = (response) => {
+    console.log(response,'res')
     // Handle successful responses here if needed
     return response.data;
 }
 
 const responseErrorUserFunction = (error) => {
+    console.log(error,'err')
     if (error.response && error.response.status === 401) {
         handleUserTokenError();
     } else if (error.code === 'ECONNABORTED') {

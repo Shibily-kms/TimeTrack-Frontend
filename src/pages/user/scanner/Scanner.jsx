@@ -41,6 +41,7 @@ const Scanner = React.memo(() => {
             try {
                 if (!user?._id) {
                     navigate('/login')
+                    console.log('L6')
                     return;
                 }
 

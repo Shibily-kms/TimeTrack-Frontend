@@ -6,7 +6,7 @@ import { FaCheckCircle } from "react-icons/fa";
 import { TimeBasedGreeting } from '../../../assets/javascript/date-helper'
 import { GoDotFill } from "react-icons/go";
 import { getUserProfileImagePath } from '../../../assets/javascript/find-helpers';
-import { MdKeyboardDoubleArrowDown } from "react-icons/md";
+import { ui_version } from '../../../assets/javascript/const-data'
 
 const ProfileCard = () => {
     const { user } = useSelector((state) => state.userAuth)
@@ -29,7 +29,7 @@ const ProfileCard = () => {
             </div>
             <div className="bottom-section-div">
                 <div>
-                    <p>Version 2.0.0</p>
+                    <p>Version {ui_version}</p>
                 </div>
                 <Badge icon={<FaCheckCircle />} className={user?.status === 'Active' ? 'lg success-fill' : "sm error-fill"} text={user?.status || 'Left the company'} />
             </div>

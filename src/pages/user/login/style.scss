@@ -1,0 +1,193 @@
+@use '../../../assets/scss/ui/var-color' as *;
+
+.log-div {
+    .login-comp {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        padding: 10px 10%;
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+
+        .left-div {
+
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            width: 55%;
+
+            img {
+                width: 100%;
+                height: fit-content;
+            }
+        }
+
+        .right-div {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            .section-div {
+                width: 400px;
+            }
+
+            .top-section {
+                padding: 30px 30px 15px 30px;
+                border-radius: 20px 20px 0px 0px;
+                -webkit-border-radius: 20px 20px 0px 0px;
+                -moz-border-radius: 20px 20px 0px 0px;
+                -ms-border-radius: 20px 20px 0px 0px;
+                -o-border-radius: 20px 20px 0px 0px;
+                background-color: var(--background-opt-primary-5);
+
+                p {
+                    color: var(--text-c3);
+                }
+            }
+
+            .input-section {
+                padding: 15px 30px 30px 30px;
+                border-radius: 0px 0px 20px 20px;
+                -webkit-border-radius: 0px 0px 20px 20px;
+                -moz-border-radius: 0px 0px 20px 20px;
+                -ms-border-radius: 0px 0px 20px 20px;
+                -o-border-radius: 0px 0px 20px 20px;
+                background-color: var(--background-opt-primary-5);
+
+
+                form {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 15px;
+
+                    .otp-input-group {
+                        display: flex;
+                        gap: 5px;
+
+                        input {
+                            width: 100%;
+                            height: 50px;
+                            font-size: 25px;
+                            font-weight: 500;
+                            text-align: center;
+                            outline: none;
+                            border: none;
+                            border: 1px var(--border-primary) solid;
+                            border-radius: 5px;
+                            -webkit-border-radius: 5px;
+                            -moz-border-radius: 5px;
+                            -ms-border-radius: 5px;
+                            -o-border-radius: 5px;
+                            background-color: var(--background-primary);
+
+                            &:focus {
+                                outline: 1px solid var(--border-tertiary);
+                                border-color: var(--border-tertiary);
+                            }
+
+                            &::-webkit-outer-spin-button,
+                            &::-webkit-inner-spin-button {
+                                -webkit-appearance: none;
+                                margin: 0;
+                            }
+                        }
+
+
+                    }
+
+                    p {
+                        font-size: 14px;
+                        font-weight: 600;
+                    }
+
+                    .re-send {
+                        color: var(--text-tertiary);
+                        cursor: pointer;
+                    }
+                }
+
+                .description {
+                    margin-top: 15px;
+
+                    p {
+                        color: var(--text-c2);
+                        cursor: pointer;
+                        font-size: 13px;
+                    }
+                }
+            }
+        }
+
+    }
+
+    @media screen and (max-width:#{$screen-lg}) {
+
+        .login-comp {
+            display: flex;
+            justify-content: center;
+            position: relative;
+
+            .left-div {
+                position: absolute;
+                width: 100%;
+                height: 100vh;
+                left: -50%;
+
+                img {
+                    width: 100%;
+                }
+            }
+
+            .right-div {
+                z-index: 1;
+            }
+
+        }
+    }
+
+    @media screen and (max-width:500px) {
+        .login-comp {
+            display: block;
+            padding: 10px 15px;
+            display: grid;
+            place-content: center;
+
+            .left-div {
+
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                position: relative;
+                width: 50%;
+                height: auto;
+                left: auto;
+
+                img {
+                    width: 100%;
+                    height: fit-content;
+                }
+            }
+
+            .right-div {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+
+                .section-div {
+                    width: 100%;
+                }
+
+                .top-section {
+                    padding: 15px 15px 15px 15px;
+
+                }
+
+                .input-section {
+                    padding: 15px 15px 15px 15px;
+                }
+            }
+
+        }
+    }
+}

@@ -13,9 +13,7 @@ import { RiFileList3Line, RiFileList3Fill, RiSettingsLine, RiSettingsFill } from
 import { IoPricetagsSharp, IoPricetagsOutline } from 'react-icons/io5'
 import { setAdminActivePage } from '../../../redux/features/user/systemSlice'
 import { getUserProfileImagePath } from '../../../assets/javascript/find-helpers'
-
-
-
+import { ui_version } from '../../../assets/javascript/const-data'
 
 
 function AdminPage({ pageHead, children }) {
@@ -108,7 +106,7 @@ function AdminPage({ pageHead, children }) {
                         </div>
                         <div className="software-info">
                             <p>@Alliance water solutions</p>
-                            <p>version 2.0.0</p>
+                            <p>version {ui_version}</p>
                         </div>
                     </div>
                     <div className="bottom-div">

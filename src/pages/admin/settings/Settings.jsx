@@ -33,6 +33,7 @@ const Settings = ({ setPageHead }) => {
                 navigate('/admin/login')
             } else {
                 navigate('/')
+                console.log('L2')
             }
         }
 

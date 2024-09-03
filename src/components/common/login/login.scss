@@ -60,6 +60,13 @@
                 flex-direction: column;
                 gap: 15px;
             }
+
+            .forgot-option{
+                p{
+                    color: var(--text-c2);
+                    cursor: pointer;
+                }
+            }
         }
     }
 
