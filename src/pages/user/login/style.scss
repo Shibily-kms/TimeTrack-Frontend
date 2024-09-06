@@ -1,65 +1,75 @@
 @use '../../../assets/scss/ui/var-color' as *;
 
-.log-div {
-    .login-comp {
-        display: flex;
-        justify-content: center;
-        gap: 15px;
-        padding: 10px 10%;
-        width: 100%;
-        height: 100vh;
-        overflow: hidden;
+.auth-comp-main-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 10% 45px;
+
+    .auth-comp {
+        display: grid;
+        align-items: flex-start;
+        grid-template-columns: 1fr 330px;
+        gap: 40px;
+        width: 780px;
+        height: max-content;
+        overflow: auto;
 
         .left-div {
-
             display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            width: 55%;
+            flex-direction: column;
+            align-items: flex-start;
+            height: fit-content;
 
-            img {
-                width: 100%;
-                height: fit-content;
+            .image-div {
+                width: 60px;
+                height: 60px;
+                border-radius: 100%;
+                border: 1px solid var(--border-c1);
+                overflow: hidden;
+
+                img {
+                    width: 100%;
+                }
             }
+
+            h3 {
+                font-size: 40px;
+                font-weight: 400;
+                margin-top: 15px;
+            }
+
+            p {
+                font-size: 15px;
+                font-weight: 400;
+                color: var(--text-c2);
+            }
+
         }
 
         .right-div {
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            height: fit-content;
 
-            .section-div {
-                width: 400px;
-            }
-
-            .top-section {
-                padding: 30px 30px 15px 30px;
-                border-radius: 20px 20px 0px 0px;
-                -webkit-border-radius: 20px 20px 0px 0px;
-                -moz-border-radius: 20px 20px 0px 0px;
-                -ms-border-radius: 20px 20px 0px 0px;
-                -o-border-radius: 20px 20px 0px 0px;
-                background-color: var(--background-opt-primary-5);
+            .description {
+                margin-top: 15px;
 
                 p {
-                    color: var(--text-c3);
+                    color: var(--text-c2);
+                    cursor: pointer;
+                    font-size: 13px;
+                    font-weight: 400;
                 }
             }
 
             .input-section {
-                padding: 15px 30px 30px 30px;
-                border-radius: 0px 0px 20px 20px;
-                -webkit-border-radius: 0px 0px 20px 20px;
-                -moz-border-radius: 0px 0px 20px 20px;
-                -ms-border-radius: 0px 0px 20px 20px;
-                -o-border-radius: 0px 0px 20px 20px;
-                background-color: var(--background-opt-primary-5);
-
-
                 form {
                     display: flex;
                     flex-direction: column;
                     gap: 15px;
+
 
                     .otp-input-group {
                         display: flex;
@@ -100,94 +110,70 @@
                         font-size: 14px;
                         font-weight: 600;
                     }
-
-                    .re-send {
-                        color: var(--text-tertiary);
-                        cursor: pointer;
-                    }
                 }
 
-                .description {
-                    margin-top: 15px;
-
+                .forgot-option {
                     p {
-                        color: var(--text-c2);
+                        color: var(--color-info);
                         cursor: pointer;
-                        font-size: 13px;
+                        font-size: 14px;
+                        margin-bottom: 5px;
+                        text-decoration: underline;
+                        font-weight: 500;
+                        width: fit-content;
                     }
                 }
             }
+
+            .re-send {
+                color: var(--text-tertiary);
+                cursor: pointer;
+            }
         }
 
     }
+}
 
-    @media screen and (max-width:#{$screen-lg}) {
+@media screen and (max-width : 700px) {
+    .auth-comp-main-div {
+        padding: 10% 25px;
 
-        .login-comp {
-            display: flex;
-            justify-content: center;
-            position: relative;
+        .auth-comp {
+            grid-template-columns: 1fr;
+            width: 350px;
 
             .left-div {
-                position: absolute;
-                width: 100%;
-                height: 100vh;
-                left: -50%;
 
-                img {
-                    width: 100%;
+                h3 {
+                    font-size: 35px;
                 }
-            }
 
-            .right-div {
-                z-index: 1;
-            }
+                p {
+                    font-size: 16px;
+                }
 
+            }
         }
     }
+}
 
-    @media screen and (max-width:500px) {
-        .login-comp {
-            display: block;
-            padding: 10px 15px;
-            display: grid;
-            place-content: center;
+@media screen and (max-width : 400px) {
+    .auth-comp-main-div {
+        padding: 10% 25px;
+
+        .auth-comp {
+            grid-template-columns: 1fr;
+            width: 100%;
 
             .left-div {
+                h3 {
+                    font-size: 30px;
+                }
 
-                display: flex;
-                justify-content: flex-end;
-                align-items: center;
-                position: relative;
-                width: 50%;
-                height: auto;
-                left: auto;
-
-                img {
-                    width: 100%;
-                    height: fit-content;
+                p {
+                    font-size: 15px;
                 }
             }
-
-            .right-div {
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-
-                .section-div {
-                    width: 100%;
-                }
-
-                .top-section {
-                    padding: 15px 15px 15px 15px;
-
-                }
-
-                .input-section {
-                    padding: 15px 15px 15px 15px;
-                }
-            }
-
         }
     }
 }

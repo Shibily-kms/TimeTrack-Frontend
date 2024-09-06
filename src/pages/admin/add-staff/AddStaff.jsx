@@ -7,13 +7,14 @@ import SelectInput from '../../../components/common/inputs/SelectInput'
 import SingleButton from '../../../components/common/buttons/SingleButton';
 import AlertBox from '../../../components/common/alert/AlertBox';
 import MobileInput from '../../../components/common/inputs/MobileInput';
+import { createStaffFormValidation } from '../../../assets/javascript/validation-functions';
 import { useDispatch } from 'react-redux';
 import { PiDotFill } from "react-icons/pi";
 
 
 const AddStaff = ({ setPageHead }) => {
     const dispatch = useDispatch()
-    const [form, setFrom] = useState({})
+    const [form, setForm] = useState({})
     const [designations, setDesignations] = useState([])
     const [loading, setLoading] = useState('')
     const months = ['Jun', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
@@ -26,14 +27,14 @@ const AddStaff = ({ setPageHead }) => {
     ]
 
     const handleChange = (e) => {
-        setFrom({
+        setForm({
             ...form,
             [e.target.name]: e.target.value
         })
     }
 
     const handleMobileNumber = (mobData) => {
-        setFrom({
+        setForm({
             ...form,
             [mobData.name]: mobData?.number
                 ? {
@@ -47,19 +48,22 @@ const AddStaff = ({ setPageHead }) => {
     const handleSubmit = (e) => {
         e.preventDefault()
         setLoading('submit')
-        if (form.first_name[0] === ' ' || form.last_name[0] === ' ' || form.sid[0] === ' ') {
-            dispatch(toast.push.error({ message: 'Space is not accepted as the first character' }))
+
+        const validation = createStaffFormValidation(form)
+        if (validation) {
+            dispatch(toast.push[validation[0]]({ message: validation[1] }))
             setLoading('')
             return
         }
-        adminAxios.post('/staff', form).then(() => {
-            dispatch(toast.push.success({ message: 'Success, new customer created' }))
-            setLoading('')
-            setFrom({})
-        }).catch((error) => {
-            dispatch(toast.push.error({ message: error.message }))
-            setLoading('')
-        })
+
+        // adminAxios.post('/staff', form).then(() => {
+        //     dispatch(toast.push.success({ message: 'Success, new customer created' }))
+        //     setLoading('')
+        //     setForm({})
+        // }).catch((error) => {
+        //     dispatch(toast.push.error({ message: error.message }))
+        //     setLoading('')
+        // })
     }
 
     useEffect(() => {
@@ -124,8 +128,15 @@ const AddStaff = ({ setPageHead }) => {
                     </div>
 
                     <div className="actions">
-                        <SingleButton name={'Create New'} classNames={'lg btn-tertiary'} type={'submit'} loading={loading === 'submit'} />
+                        <SingleButton name={'Create New'} classNames={'xl btn-tertiary'} type={'submit'} loading={loading === 'submit'} />
                     </div>
+
+                    <p className='smallTD1'>
+                        The Staff Creation Form, managed by HR, collects essential information, including personal details, work-related data,
+                        and account authentication credentials like the primary phone number and password. This form ensures that all necessary
+                        staff information is securely gathered and organized, streamlining the onboarding process and supporting efficient HR
+                        operations. It is a crucial tool for maintaining accurate employee records and ensuring secure access to staff accounts.
+                    </p>
                 </form>
             </div>
         </div>

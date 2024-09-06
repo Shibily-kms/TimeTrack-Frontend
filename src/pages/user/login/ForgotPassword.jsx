@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import './style.scss'
-import LoginImage from '../../../assets/images/forgot-password.png'
-import NormalInput from '../../../components/common/inputs/NormalInput'
+import Image from '../../../assets/images/alliance-logo.png'
 import SingleButton from '../../../components/common/buttons/SingleButton'
 import { toast } from '../../../redux/features/user/systemSlice'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { userAxios } from '../../../config/axios'
+import MobileInput from '../../../components/common/inputs/MobileInput'
 
 const ForgotPassword = () => {
     const OtpLength = 6;
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [mobileNumber, setMobileNumber] = useState('');
+    const [mobileNumber, setMobileNumber] = useState({});
     const [otpActive, setOtpActive] = useState(false)
     const [otp, setOtp] = useState(new Array(OtpLength).fill(""));
     const [loading, setLoading] = useState(false)
@@ -23,17 +23,17 @@ const ForgotPassword = () => {
     const verifyOtp = () => {
         const enteredOtp = otp.join('');
         setLoading(true)
-        userAxios.post('/auth/otp-v/verify', {
-            country_code: '91',
-            mobile_number: mobileNumber,
+        userAxios.post('/v2/auth/otp-v/verify', {
+            country_code: mobileNumber.country_code,
+            mobile_number: mobileNumber.number,
             way_type: 'sms',
             otp: enteredOtp
         }).then(() => {
             setLoading(false)
-            navigate('/setup-new-password', {
+            navigate('/auth/setup-new-password', {
                 state: {
-                    country_code: '91',
-                    mobile_number: mobileNumber,
+                    country_code: mobileNumber.country_code,
+                    mobile_number: mobileNumber.number,
                     for: 'reset password'
                 }
             })
@@ -77,6 +77,15 @@ const ForgotPassword = () => {
 
     };
 
+    const handleMobileNumber = (mobData) => {
+        if (mobData?.number) {
+            setMobileNumber({
+                country_code: mobData?.country_code || null,
+                number: mobData?.number || null
+            })
+        }
+    }
+
     useEffect(() => {
         const timer = counter > 0 && setInterval(() => setCounter(counter - 1), 1000);
 
@@ -91,11 +100,11 @@ const ForgotPassword = () => {
     //? Forgot Password
 
     const sendOtp = () => {
-        userAxios.post('/auth/otp-v/send', {
-            country_code: '91',
-            mobile_number: mobileNumber,
+        userAxios.post('/v2/auth/otp-v/send', {
+            country_code: mobileNumber.country_code,
+            mobile_number: mobileNumber.number,
             way_type: 'sms'
-        }).then((response) => {
+        }).then(() => {
             setOtpActive(true)
             setLoading(false)
         }).catch((error) => {
@@ -110,35 +119,38 @@ const ForgotPassword = () => {
         setCounter(300)
     }
 
-    const handleChange = (e) => {
-        setMobileNumber(e.target.value)
-    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (mobileNumber.length !== 10) {
-            dispatch(toast.push.error({ message: 'Enter a valid 10-digit mobile number' }))
+        if (mobileNumber?.number < 7) {
+            dispatch(toast.push.error({ message: 'Enter valid Primary number formate' }))
             return;
         }
-
         setLoading(true)
         sendOtp()
     }
 
     return (
-        <div className="log-div forgot-password-div">
-            <div className="login-comp">
+        <div className="auth-comp-main-div">
+            <div className="auth-comp">
                 <div className="left-div">
-                    <img src={LoginImage} alt='login-svg' />
+                    <div className="image-div">
+                        <img src={Image} alt='login-svg' />
+                    </div>
+                    {otpActive
+                        ? <>
+                            <h3>Verify OTP</h3>
+                            <p>Enter you received OTP for verification.</p>
+                        </>
+                        : <>
+                            <h3>Forgot Password</h3>
+                            <p>Enter your mobile number for OTP verification.</p>
+                        </>}
                 </div>
                 <div className="right-div">
                     {otpActive
                         ? <>
-                            <div className="section-div top-section">
-                                <h1>Verify OTP</h1>
-                                <p>Enter you received OTP for verification.</p>
-                            </div>
                             <div className="section-div  input-section">
                                 <form onSubmit={handleOtpSubmit}>
                                     <div className="otp-input-group">
@@ -173,14 +185,11 @@ const ForgotPassword = () => {
                             </div>
                         </>
                         : <>
-                            <div className="section-div top-section">
-                                <h1>Forgot Password</h1>
-                                <p>Enter your mobile number for OTP verification.</p>
-                            </div>
                             <div className="section-div  input-section">
                                 <form onSubmit={handleSubmit}>
-                                    <NormalInput label={'Primary mobile number'} name='mobile' id='mobile'
-                                        onChangeFun={handleChange} value={mobileNumber} type={'number'} />
+                                    <MobileInput onChangeFun={handleMobileNumber} name='primary_number'
+                                        value={`${mobileNumber?.country_code}${mobileNumber?.number}`}
+                                        label='Primary number' onlyCountries={['in']} />
 
                                     <SingleButton type={'submit'} name={'Submit & Send OTP'} classNames={'lg btn-tertiary txt-center'}
                                         style={{ width: '100%' }} loading={loading} />

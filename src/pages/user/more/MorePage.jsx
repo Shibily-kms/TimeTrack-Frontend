@@ -35,8 +35,7 @@ const MorePage = ({ setPageHead }) => {
             dispatch(clearWorkData())
             dispatch(clearRegularWork())
             dispatch(logOut())
-            navigate('/login')
-            console.log('L5')
+            navigate('/auth/sign-in')
         }
     }
 

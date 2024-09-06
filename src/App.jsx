@@ -56,14 +56,14 @@ function App() {
       <Suspense fallback={<PageLoading />}>
         <Routes>
           {/* WithOut Header and Footer */}
-          <Route path='/login' element={<UserLogin />} />
-          <Route path='/forgot-password' element={<ForgotPassword />} />
-          <Route path='/setup-new-password' element={<ResetPassword />} />
+          <Route path='/auth/sign-in' element={<UserLogin />} />
+          <Route path='/auth/forgot-password' element={<ForgotPassword />} />
+          <Route path='/auth/setup-new-password' element={<ResetPassword />} />
           <Route path='/qr-code' element={<QrCodeView />} />
           <Route path='/scanner' element={<Scanner />} />
           <Route path='/v1/0auth' element={<ZeroAuth />} />
 
-          <Route path='/admin/login' element={<AdminLogin />} />
+          <Route path='/admin/sign-in' element={<AdminLogin />} />
 
           {/* Routes */}
           <Route element={<Admin />} path='/admin/*' />

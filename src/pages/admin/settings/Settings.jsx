@@ -30,10 +30,9 @@ const Settings = ({ setPageHead }) => {
         if (ask) {
             dispatch(logOut())
             if (admin?.pro_admin) {
-                navigate('/admin/login')
+                navigate('/admin/sign-in')
             } else {
                 navigate('/')
-                console.log('L2')
             }
         }
 

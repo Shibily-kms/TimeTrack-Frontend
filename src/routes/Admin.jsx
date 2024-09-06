@@ -66,7 +66,7 @@ function PrivateRoute({ element, isAuthenticated }) {
       <Route path='/' element={element} />
     </Routes>
   ) : (
-    <Navigate to="/admin/login" />
+    <Navigate to="/admin/sign-in" />
   )
 }
 

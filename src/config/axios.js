@@ -1,4 +1,5 @@
 import axios from 'axios'
+import Cookies from 'js-cookie';
 export const baseUrl = 'http://192.168.1.57'
 
 const baseSetup = {
@@ -19,14 +20,45 @@ const baseSetup = {
 
 /* -------------- User Config ---------------*/
 
-const handleUserTokenError = () => {
-    // Redirect the user to the login page or perform any other necessary action
-    window.location.href = `${baseUrl}:3000/login`
-    console.log('L1')
+const handleUserLogOut = () => {
+    Cookies.remove('ACC_ID');
+    Cookies.remove('AUTH');
+    Cookies.remove('_acc_tkn');
+    Cookies.remove('_rfs_tkn');
+
+    window.location.href = `${baseUrl}:3000/auth/sign-in`
+}
+
+const handleUserTokenError = async (originalRequest) => {
+    originalRequest._retry = true;
+
+    // Call the refresh token API to get a new access token
+    try {
+        const refreshToken = Cookies.get('_rfs_tkn'); // Retrieve the refresh token
+        const { data } = await axios.post(`${baseUrl}:8000/v2/auth/rotate-token`, { refresh_token: refreshToken }, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        console.log(data)
+        const cookieOptions = {
+            secure: false,
+            sameSite: 'lax',
+            path: '/'
+        };
+
+        Cookies.set('_acc_tkn', data?.data?.access_token, cookieOptions);
+        originalRequest.headers['Authorization'] = `Bearer ${data?.data?.access_token}`;
+
+        return userAxios(originalRequest); // Retry original request with new access token
+    } catch (err) {
+        handleUserLogOut()
+    }
+
 }
 
 const requestConfigUserFunction = (config) => {
-    let userToken = localStorage.getItem('_aws_temp_tkn')
+    let userToken = Cookies.get('_acc_tkn')
     if (userToken) {
         config.headers['Authorization'] = `Bearer ${userToken}`;
         config.timeout = 6000
@@ -39,20 +71,19 @@ const requestErrorUserFunction = (error) => {
 }
 
 const responseConfigUserFunction = (response) => {
-    console.log(response,'res')
     // Handle successful responses here if needed
     return response.data;
 }
 
-const responseErrorUserFunction = (error) => {
-    console.log(error,'err')
-    if (error.response && error.response.status === 401) {
-        handleUserTokenError();
+const responseErrorUserFunction = async (error) => {
+    const originalRequest = error.config;
+    if (error.response && error.response.status === 401 && !originalRequest._retry) {
+        await handleUserTokenError(originalRequest);
     } else if (error.code === 'ECONNABORTED') {
         return Promise.reject({ ...error.response.data, message: 'No proper internet connection' });
     }
 
-    return Promise.reject(error?.response?.data || { message: error?.message });
+    return Promise.reject({ message: 'Network Error' });
 }
 
 // Add an interceptor to userAxios for request
@@ -70,7 +101,7 @@ baseSetup.userAxios.interceptors.response.use(
 
 const handleAdminTokenError = () => {
     // Redirect the user to the login page or perform any other necessary action
-    window.location.href = `${baseUrl}:3000/admin/login`
+    window.location.href = `${baseUrl}:3000/admin/sign-in`
 }
 
 const requestConfigAdminFunction = (config) => {

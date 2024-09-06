@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './style.scss'
-import LoginImage from '../../../assets/images/forgot-password.png'
+import Image from '../../../assets/images/alliance-logo.png'
 import NormalInput from '../../../components/common/inputs/NormalInput'
 import SingleButton from '../../../components/common/buttons/SingleButton'
 import { toast } from '../../../redux/features/user/systemSlice'
@@ -47,35 +47,38 @@ const ResetPassword = () => {
         }
 
         setLoading(true)
-        userAxios.post('/new-password', { ...form, mobile_number: location.state.mobile_number }).then(() => {
+        userAxios.post('/new-password', {
+            ...form,
+            country_code: location.state.country_code,
+            mobile_number: location.state.mobile_number
+        }).then(() => {
             dispatch(toast.push.success({ message: 'Your Password is changed. Login now!' }))
             setLoading(false)
-            navigate('/login')
-            console.log('L3')
+            navigate('/auth/sign-in')
         }).catch((error) => {
             dispatch(toast.push.error({ message: error.message }))
             setLoading(false)
-            console.log('L4')
         })
     }
 
     useEffect(() => {
         if (!location?.state || !location?.state?.mobile_number) {
-            navigate('/login')
+            navigate('/auth/sign-in')
         }
     }, [location?.state])
 
     return (
-        <div className="log-div forgot-password-div">
-            <div className="login-comp">
+        <div className="auth-comp-main-div">
+            <div className="auth-comp">
                 <div className="left-div">
-                    <img src={LoginImage} alt='login-svg' />
+                    <div className="image-div">
+                        <img src={Image} alt='login-svg' />
+                    </div>
+                    <h3>Reset Password</h3>
+                    <p>Enter new password for reset.</p>
+
                 </div>
                 <div className="right-div">
-                    <div className="section-div top-section">
-                        <h1>Reset Password</h1>
-                        <p>Enter new password for reset.</p>
-                    </div>
                     <div className="section-div  input-section">
                         <form onSubmit={handleSubmit}>
                             <NormalInput label={'New Password'} name='newPass' id={'newPass'} type={show ? 'text' : 'password'}
