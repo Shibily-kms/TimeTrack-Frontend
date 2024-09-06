@@ -1,5 +1,6 @@
 import axios from 'axios'
 import Cookies from 'js-cookie';
+import { userLogOut } from '../routes/User';
 export const baseUrl = 'http://192.168.1.57'
 
 const baseSetup = {
@@ -20,15 +21,6 @@ const baseSetup = {
 
 /* -------------- User Config ---------------*/
 
-const handleUserLogOut = () => {
-    Cookies.remove('ACC_ID');
-    Cookies.remove('AUTH');
-    Cookies.remove('_acc_tkn');
-    Cookies.remove('_rfs_tkn');
-
-    window.location.href = `${baseUrl}:3000/auth/sign-in`
-}
-
 const handleUserTokenError = async (originalRequest) => {
     originalRequest._retry = true;
 
@@ -40,7 +32,7 @@ const handleUserTokenError = async (originalRequest) => {
                 'Content-Type': 'application/json'
             }
         });
-        console.log(data)
+   
         const cookieOptions = {
             secure: false,
             sameSite: 'lax',
@@ -52,7 +44,7 @@ const handleUserTokenError = async (originalRequest) => {
 
         return userAxios(originalRequest); // Retry original request with new access token
     } catch (err) {
-        handleUserLogOut()
+        userLogOut()
     }
 
 }
@@ -76,11 +68,15 @@ const responseConfigUserFunction = (response) => {
 }
 
 const responseErrorUserFunction = async (error) => {
+
     const originalRequest = error.config;
+
     if (error.response && error.response.status === 401 && !originalRequest._retry) {
         await handleUserTokenError(originalRequest);
     } else if (error.code === 'ECONNABORTED') {
         return Promise.reject({ ...error.response.data, message: 'No proper internet connection' });
+    } else if (error.response.status === 'error') {
+        return Promise.reject({ message: error.message });
     }
 
     return Promise.reject({ message: 'Network Error' });

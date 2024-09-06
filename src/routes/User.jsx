@@ -43,39 +43,39 @@ function User() {
     isAuthenticated = true
   }
 
-  // useEffect(() => {
+  useEffect(() => {
 
-  //   // Offline data Sync to Server
-  //   if (internet) {
-  //     // Check any data for sync
-  //     const syncRegularWork = regular?.filter((item) => item?.want_sync)
-  //     const syncExtraWork = workDetails?.extra_work?.filter((item) => item?.want_sync)
+    // Offline data Sync to Server
+    if (internet) {
+      // Check any data for sync
+      const syncRegularWork = regular?.filter((item) => item?.want_sync)
+      const syncExtraWork = workDetails?.extra_work?.filter((item) => item?.want_sync)
 
-  //     if (syncRegularWork?.[0] || syncExtraWork?.[0]) {
+      if (syncRegularWork?.[0] || syncExtraWork?.[0]) {
 
-  //       dispatch(toast.push.info({ id: 'OFF_SYNC', message: 'Sync offline data...', icon: 'MdCloudSync', autoClose: false, doClose: false }))
+        dispatch(toast.push.info({ id: 'OFF_SYNC', message: 'Sync offline data...', icon: 'MdCloudSync', autoClose: false, doClose: false }))
 
-  //       userAxios.post('/offline-recollect', {
-  //         punch_id: workDetails._id,
-  //         regular_work: syncRegularWork,
-  //         extra_work: syncExtraWork,
-  //         updated_date: workDetails?.updated_date || null
-  //       }).then((response) => {
-  //         // Set all work data form new response
-  //         dispatch(setWorkData(response.data))
-  //         // Clear regular work sync id
-  //         dispatch(clearSyncRegularWork())
-  //         // clear alert
-  //         dispatch(toast.pull.single('OFF_SYNC'))
+        userAxios.post('/offline-recollect', {
+          punch_id: workDetails._id,
+          regular_work: syncRegularWork,
+          extra_work: syncExtraWork,
+          updated_date: workDetails?.updated_date || null
+        }).then((response) => {
+          // Set all work data form new response
+          dispatch(setWorkData(response.data))
+          // Clear regular work sync id
+          dispatch(clearSyncRegularWork())
+          // clear alert
+          dispatch(toast.pull.single('OFF_SYNC'))
 
-  //       }).catch((error) => {
-  //         dispatch(toast.pull.single('OFF_SYNC'))
-  //         dispatch(toast.push.error({ message: error.message }))
-  //       })
-  //     }
-  //   }
-  //   // eslint-disable-next-line
-  // }, [internet])
+        }).catch((error) => {
+          dispatch(toast.pull.single('OFF_SYNC'))
+          dispatch(toast.push.error({ message: error.message }))
+        })
+      }
+    }
+    // eslint-disable-next-line
+  }, [internet])
 
 
   useEffect(() => {
@@ -83,30 +83,23 @@ function User() {
     document.title = `Time Track | Alliance`;
     if (ACC_ID && DVC_ID && acc_tkn && rfs_tkn) {
       userAxios.get('/v2/worker/initial-info').then((response) => {
-
+        dispatch(setUser({ ...(user || {}), ...response.data, refresh_token: Cookies.get('_rfs_tkn') }))
       })
 
-
-
-      // userAxios.get(`/auth/check-active`).then((response) => {
-      //   dispatch(setUser({ ...user, ...response.data }))
-      // }).catch((error) => {
-      //   dispatch(clearWorkData())
-      //   dispatch(clearRegularWork())
-      //   dispatch(logOut())
-      //   navigate('/auth/sign-in')
-      // })
+      //  Get Work Enter Details
+      if (internet) {
+        dispatch(getPunchDetails())
+      }
+    } else {
+      userLogOut(dispatch, navigate)
     }
 
-    // Get Work Enter Details
-    // if (internet) {
-    //   dispatch(getPunchDetails())
-    // }
     // eslint-disable-next-line
   }, [])
 
   return (
     <SinglePage pageHead={pageHead}>
+      <RotateToken />
       <Suspense fallback={<PageLoading />}>
         <Routes>
           <Route path='/' element={<PrivateRoute element={<Home setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
@@ -122,7 +115,6 @@ function User() {
 
           <Route path='/leave-app' element={<PrivateRoute element={<LeaveApp setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
 
-
           {/* 404 Route */}
           <Route path="/*" element={<NotFound setPageHead={setPageHead} />} />
         </Routes>
@@ -130,6 +122,10 @@ function User() {
     </SinglePage>
   )
 }
+
+export default User
+
+
 
 function PrivateRoute({ element, isAuthenticated }) {
   return isAuthenticated ? (
@@ -141,4 +137,39 @@ function PrivateRoute({ element, isAuthenticated }) {
   )
 }
 
-export default User
+export function userLogOut(dispatch, navigate) {
+
+  dispatch(clearWorkData())
+  dispatch(clearRegularWork())
+  dispatch(logOut())
+  navigate('/auth/sign-in')
+
+  return false
+}
+
+export function RotateToken() {
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+
+      const refreshToken = Cookies.get('_rfs_tkn'); // Retrieve the refresh token
+
+      userAxios.post('/v2/auth/rotate-token', { refresh_token: refreshToken }).then((response) => {
+
+        const cookieOptions = {
+          secure: false,
+          sameSite: 'lax',
+          path: '/'
+        };
+
+        Cookies.set('_acc_tkn', response?.data?.access_token, cookieOptions);
+
+      })
+    }, 1000 * 60 * 30); // 1 second interval
+
+    return () => clearInterval(interval); // Cleanup interval on unmount
+  }, [])
+
+  return <>
+  </>
+}

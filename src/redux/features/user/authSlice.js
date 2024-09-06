@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import Cookies from 'js-cookie';
 
 
 const initialState = {
@@ -23,7 +24,11 @@ export const userAuthSlice = createSlice({
             state.user = action.payload
         },
         logOut: (state) => {
-            localStorage.removeItem('_aws_temp_tkn');
+            Cookies.remove('ACC_ID');
+            Cookies.remove('AUTH');
+            Cookies.remove('_acc_tkn');
+            Cookies.remove('_rfs_tkn');
+
             state.user = null
         }
     }
