@@ -9,16 +9,18 @@ import { adminAxios, userAxios } from '../../../config/axios';
 import { addNewRegularWork, updateRegularWork } from '../../../redux/features/user/dayWorksSlice'
 
 const AddEditRegWork = ({ updateData, setModal, admin, staff_id, setData }) => {
-    const baseApiAxios = admin ? adminAxios : userAxios
+
     const [form, setForm] = useState({
         title: updateData?.title || '',
-        type: updateData?.repeat_type || 'daily',
-        days: [...(updateData?.weekly || []), ...(updateData?.monthly || [])]
+        type: updateData?.repeat_type || '',
+        days: [...(updateData?.weekly || []), ...(updateData?.monthly || [])],
+        date: updateData?.one_time_assign || null
     })
     const dispatch = useDispatch()
     const [loading, setLoading] = useState(false)
 
     const repeatTypes = [
+        { option: 'No repeat', value: '', selected: updateData?.repeat_type === '' },
         { option: 'Daily', value: 'daily', selected: updateData?.repeat_type === 'daily' },
         { option: 'Weekly', value: 'weekly', selected: updateData?.repeat_type === 'weekly' },
         { option: 'Monthly', value: 'monthly', selected: updateData?.repeat_type === 'monthly' }
@@ -38,7 +40,8 @@ const AddEditRegWork = ({ updateData, setModal, admin, staff_id, setData }) => {
             setForm({
                 ...form,
                 [e.target.name]: e.target.value,
-                days: []
+                days: [],
+                date: null
             })
         }
     }
@@ -59,7 +62,7 @@ const AddEditRegWork = ({ updateData, setModal, admin, staff_id, setData }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (form?.type !== 'daily' && form?.days.length < 1) {
+        if (form?.type && form?.type !== 'daily' && form?.days.length < 1) {
             dispatch(toast.push.error({ message: 'Select any days' }))
             return;
         }
@@ -67,7 +70,8 @@ const AddEditRegWork = ({ updateData, setModal, admin, staff_id, setData }) => {
         setLoading(true)
 
         if (updateData) {
-            baseApiAxios.put('/regular-work', { ...form, work_Id: updateData._id }).then((response) => {
+
+            userAxios.put('/regular-work?AC_CODE=ttur_default', { ...form, work_Id: updateData._id }).then((response) => {
                 if (admin) {
                     setData((state) => {
                         return state?.map((item) => {
@@ -88,7 +92,7 @@ const AddEditRegWork = ({ updateData, setModal, admin, staff_id, setData }) => {
                 setLoading(false)
             })
         } else {
-            baseApiAxios.post('/regular-work', { ...form, self: admin ? false : true, staff_id }).then((response) => {
+            userAxios.post('/v2/todo/new?AC_CODE=ttur_default', { ...form, self: admin ? false : true, staff_id }).then((response) => {
                 if (admin) {
                     setData((state) => ([...state, response.data]))
                 } else {
@@ -109,7 +113,8 @@ const AddEditRegWork = ({ updateData, setModal, admin, staff_id, setData }) => {
         <div className="addEditRegWork-div">
             <form action="" onSubmit={handleSubmit}>
                 <NormalInput label='Title' name='title' type={'text'} value={form?.title} onChangeFun={handleChange} />
-                <SelectInput label='Repeat' values={repeatTypes} name='type' onChangeFun={handleChange} />
+                <SelectInput label='Repeat' values={repeatTypes} name='type' onChangeFun={handleChange} isRequired={false} />
+                {!form?.type && <NormalInput label='Schedule to' name='date' type={'date'} value={form?.date} onChangeFun={handleChange} isRequired={false} />}
                 <div className="select-button-option-div">
                     {/* Weekly */}
                     {form.type === 'weekly' && weeks.map((day, index) => <div key={day} className={form?.days.includes(day) ? "option-div selected" : "option-div"}>

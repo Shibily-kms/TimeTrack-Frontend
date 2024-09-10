@@ -32,11 +32,12 @@ const handleUserTokenError = async (originalRequest) => {
                 'Content-Type': 'application/json'
             }
         });
-   
+
         const cookieOptions = {
             secure: false,
             sameSite: 'lax',
-            path: '/'
+            path: '/',
+            expires: 40
         };
 
         Cookies.set('_acc_tkn', data?.data?.access_token, cookieOptions);
@@ -70,16 +71,16 @@ const responseConfigUserFunction = (response) => {
 const responseErrorUserFunction = async (error) => {
 
     const originalRequest = error.config;
-
+  
     if (error.response && error.response.status === 401 && !originalRequest._retry) {
         await handleUserTokenError(originalRequest);
     } else if (error.code === 'ECONNABORTED') {
         return Promise.reject({ ...error.response.data, message: 'No proper internet connection' });
-    } else if (error.response.status === 'error') {
-        return Promise.reject({ message: error.message });
+    } else if (error.response?.data?.statusCode >= 400 && error.response?.data?.statusCode < 500) {
+        return Promise.reject({ message: error.response?.data?.message });
     }
 
-    return Promise.reject({ message: 'Network Error' });
+    return Promise.reject({ message: 'Unknown Error' });
 }
 
 // Add an interceptor to userAxios for request

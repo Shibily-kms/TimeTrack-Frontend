@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import './home.scss'
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -13,6 +13,7 @@ import { BiMath } from "react-icons/bi";
 import ProfileCard from '../../../components/user/profile-card/ProfileCard';
 import { YYYYMMDDFormat } from '../../../assets/javascript/date-helper';
 import { MdCleaningServices } from "react-icons/md";
+import { userAxios } from '../../../config/axios';
 
 
 
@@ -20,7 +21,19 @@ function Home({ setPageHead }) {
   const [searchParams, setSearchParams] = useSearchParams()
   const { user } = useSelector((state) => state.userAuth)
   const { admin } = useSelector((state) => state.adminAuth)
+  const { workDetails } = useSelector((state) => state.workData)
   const navigate = useNavigate()
+  const [userData, setUserData] = useState({})
+  const [inWork, setInWork] = useState(false)
+
+  useEffect(() => {
+    const lastPunchData = workDetails?.punch_list?.[workDetails?.punch_list.length - 1] || {}
+    if (lastPunchData?.in && !lastPunchData?.out) {
+      setInWork(true)
+    }
+
+    // eslint-disable-next-line
+  }, [workDetails])
 
   useEffect(() => {
     if (!searchParams.get('page')) {
@@ -28,13 +41,17 @@ function Home({ setPageHead }) {
     }
     setPageHead(() => ({ title: null }))
 
+    userAxios.get(`/v2/worker/profile/${user.acc_id}?initial=Yes`).then((response) => {
+      setUserData(response?.data)
+    })
+
     // eslint-disable-next-line
   }, [])
 
   return (
     <div className='home-page'>
       <div className="profile-section">
-        <ProfileCard />
+        <ProfileCard data={userData} inWork={inWork} />
         {user?.dob?.slice(5) === YYYYMMDDFormat(new Date())?.slice(5) && <div className="birth-box">
           <picture>
             <source srcset="https://fonts.gstatic.com/s/e/notoemoji/latest/1f389/512.webp" type="image/webp" />
@@ -47,12 +64,12 @@ function Home({ setPageHead }) {
       </div>
       <div className="section-one-div">
         <div className="section-content">
-          {(user?.punch_type === 'scanner' || !user?.punch_type) &&
+          {(!user?.punch_type || user?.punch_type === 'scanner' || (user?.punch_type === 'firstInScanner' && !workDetails?.punch_list?.[0])) &&
             <div className="big-button scanner" onClick={() => navigate('/scanner')}>
               <BsQrCodeScan />
               <p>Scanner</p>
             </div>}
-          {user?.punch_type === 'software' &&
+          {(user?.punch_type === 'software' || (user?.punch_type === 'firstInScanner' && workDetails?.punch_list?.[0])) &&
             <div className="big-button software" onClick={() => navigate('/punch-work?page=more')}>
               <IoFingerPrint />
               <p>Punch to Work</p>

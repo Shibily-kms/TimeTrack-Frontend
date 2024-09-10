@@ -22,13 +22,13 @@ function Punching({ punch }) {
             if (confirm) {
                 if (internet) {
                     setLoading('punchIn')
-                    userAxios.post('/punch/in', { date_time: new Date(), do_type: 'software', designation: user?.designation?.designation }).then((response) => {
+                    userAxios.post('/punch/in', { do_type: 'software', designation: user?.designation }).then((response) => {
                         if (!workDetails?.name) {
                             const obj = {
-                                _id : response?.data?._id,
-                                name: user?._id,
+                                _id: response?.data?._id,
+                                name: user?.acc_id,
                                 date: YYYYMMDDFormat(new Date()),
-                                designation: user?.designation?.designation,
+                                designation: user?.designation,
                                 regular_work: [],
                                 extra_work: [],
                                 punch_list: [
@@ -56,7 +56,6 @@ function Punching({ punch }) {
                             }))
 
                         }
-                        dispatch(toast.push.success({ message: response.message }))
                         setLoading('')
                     }).catch((error) => {
                         setLoading('')
@@ -76,7 +75,7 @@ function Punching({ punch }) {
             if (confirm) {
                 if (internet) {
                     setLoading('punchOut')
-                    userAxios.post('/punch/out', { date_time: new Date(), do_type: 'software' }).then((response) => {
+                    userAxios.post('/punch/out', { do_type: 'software' }).then((response) => {
                         const lastPunchData = workDetails?.punch_list?.[workDetails?.punch_list.length - 1] || {}
                         dispatch(setWorkData({
                             ...workDetails,
@@ -91,7 +90,6 @@ function Punching({ punch }) {
                                 return item
                             })
                         }))
-                        dispatch(toast.push.success({ message: response.message }))
                         setLoading('')
                     }).catch((error) => {
                         dispatch(toast.push.error({ message: error.message }))

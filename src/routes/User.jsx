@@ -18,10 +18,11 @@ const WorkDetails = lazy(() => import('../pages/user/work-details/Work_details')
 const PunchWork = lazy(() => import('../pages/user/punch-work/PunchWork'))
 const MorePage = lazy(() => import('../pages/user/more/MorePage'))
 const Settings = lazy(() => import('../pages/user/settings/Settings'))
-const Profile = lazy(() => import('../pages/user/profile/Profile'))
-const EditProfile = lazy(() => import('../pages/user/profile/EditProfile'))
+const MyAccount = lazy(() => import('../pages/user/my-account/MyAccount'))
+const EditProfile = lazy(() => import('../components/user/my-account-sub/EditProfile'))
 const PunchReport = lazy(() => import('../pages/user/punch-report/PunchReport'))
 const LeaveApp = lazy(() => import('../pages/user/leave-app/LeaveApp'))
+const Profile = lazy(() => import('../components/user/my-account/Profile'))
 
 
 function User() {
@@ -107,10 +108,20 @@ function User() {
           <Route path='/settings' element={<PrivateRoute element={<Settings setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
           <Route path='/more' element={<PrivateRoute element={<MorePage setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
 
-          <Route path='/punch-work' element={<PrivateRoute element={<PunchWork setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+          {(user?.punch_type === 'software' || (user?.punch_type === 'firstInScanner' && workDetails.punch_list?.[0])) &&
+            <Route path='/punch-work' element={<PrivateRoute element={<PunchWork setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />}
           <Route path='/enter-today' element={<PrivateRoute element={<WorkDetails setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
 
-          <Route path='/profile' element={<PrivateRoute element={<Profile setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+          <Route path='/my-account' element={<PrivateRoute element={<MyAccount setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} >
+            {/* Sub-routes of MyAccount */}
+            <Route index element={<Profile />} />  {/* This will render when /my-account is accessed */}
+            <Route path='profile' element={<Profile />} />
+            <Route path='your-device' element={<Profile />} />
+            <Route path='security-privacy' element={<Profile />} />
+            <Route path='origin-access' element={<Profile />} />
+          </Route>
+
+
           <Route path='/profile/edit' element={<PrivateRoute element={<EditProfile setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
 
           <Route path='/leave-app' element={<PrivateRoute element={<LeaveApp setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
@@ -127,14 +138,8 @@ export default User
 
 
 
-function PrivateRoute({ element, isAuthenticated }) {
-  return isAuthenticated ? (
-    <Routes>
-      <Route path='/' element={element} />
-    </Routes>
-  ) : (
-    <Navigate to="/auth/sign-in" />
-  )
+function PrivateRoute({ element, isAuthenticated, }) {
+  return isAuthenticated ? element : <Navigate to="/auth/sign-in" />;
 }
 
 export function userLogOut(dispatch, navigate) {
@@ -159,7 +164,8 @@ export function RotateToken() {
         const cookieOptions = {
           secure: false,
           sameSite: 'lax',
-          path: '/'
+          path: '/',
+          expires: 40
         };
 
         Cookies.set('_acc_tkn', response?.data?.access_token, cookieOptions);

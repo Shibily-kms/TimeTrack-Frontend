@@ -1,4 +1,4 @@
-.user-profile-div {
+.my-account-div {
     .profile-div {
         margin-bottom: 20px;
         user-select: none;
@@ -59,63 +59,55 @@
         .sub-menu-div {
             display: flex;
             justify-content: center;
-            gap: 10px;
+            overflow: auto;
+            padding: 5px 0;
 
             .item-div {
-                display: flex;
-                flex-direction: column;
-                gap: 5px;
-                align-items: center;
-                border: var(--border-primary) 1px solid;
-                border-radius: 10px;
-                -webkit-border-radius: 10px;
-                -moz-border-radius: 10px;
-                -ms-border-radius: 10px;
-                -o-border-radius: 10px;
-                padding: 5px 5px;
-                width: 100%;
+            
+                padding: 10px 30px;
                 cursor: pointer;
                 user-select: none;
+                width: max-content;
+                border-bottom: var(--text-c3) 1px solid;
 
                 &:hover {
-                    border: var(--border-tertiary) 1px solid;
+                    color: var(--text-tertiary);
                 }
 
-                svg {
-                    font-size: 22px;
+                p {
+                    font-size: 14px;
+                    font-weight: 500;
+                    width: max-content;
+                }
+            }
+
+            .active-item {
+                position: relative;
+
+                p {
                     color: var(--text-tertiary);
                 }
 
                 span {
-                    font-size: 12px;
+                    position: absolute;
+                    width: 70%;
+                    height: 4px;
+                    border-radius: 15px 15px 0 0;
+                    left: 0;
+                    bottom: 0;
+                    left: 50%;
+                    transform: translate(-50%, 0);
+                    background-color: var(--background-tertiary);
+
                 }
             }
         }
     }
 
-    .list-details-div {
-        margin-bottom: 30px;
-        h4 {
-            font-size: 19px;
-            margin-bottom: 8px;
-        }
-
-        .list-item-div {
-            display: grid;
-            grid-template-columns: 35% 65%;
-            gap: 5px;
-            margin: 10px 0;
-
-            span {
-                &:first-child {
-                    color: var(--text-c2);
-                    font-size: 14px;
-                }
-
-                &:last-child {
-                    color: var(--text-c1);
-                    font-size: 14px;
-                }
+    @media screen and (max-width:600px) {
+        .profile-div {
+            .sub-menu-div {
+                justify-content: flex-start;
             }
         }
     }

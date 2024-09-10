@@ -150,7 +150,8 @@ export const loginTokenSetup = async (acc_id, dispatch, navigate) => {
             secure: false, // Set to `true` in production (for HTTPS)
             // domain: '.domain.com', // Allows cookie sharing across subdomains
             sameSite: 'lax', // Helps prevent CSRF attacks , use 'strict' on host,
-            path: '/'
+            path: '/',
+            expires : 40 
         };
 
         Cookies.set('_acc_tkn', tokenResponse?.data?.access_token, cookieOptions);

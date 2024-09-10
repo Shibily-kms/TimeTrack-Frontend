@@ -24,7 +24,7 @@ function Work_details({ setPageHead }) {
       if (workDetails?.date !== YYYYMMDDFormat(new Date())) {
         dispatch(getPunchDetails())
       }
-      userAxios.get('/regular-work').then((works) => {
+      userAxios.get('/v2/todo/list?AC_CODE=ttur_default').then((works) => {
         dispatch(setRegularWork(works.data))
       }).catch((error) => {
         dispatch(toast.push.error({ message: error.message }))

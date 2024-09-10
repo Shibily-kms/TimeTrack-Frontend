@@ -39,7 +39,7 @@ const Scanner = React.memo(() => {
         async function setupWebcamAndScanner() {
 
             try {
-                if (!user?._id) {
+                if (!user?.acc_id) {
                     navigate('/auth/sign-in')
                     return;
                 }
@@ -96,7 +96,7 @@ const Scanner = React.memo(() => {
             } catch (err) {
                 setRes({
                     status: 'error',
-                    title: 'Error accessing the camera',
+                    title: 'Camera access denied',
                     message: 'Please ensure your device settings allow camera access for this website.',
                     icon: <BiSolidCameraOff />
                 })
@@ -131,8 +131,8 @@ const Scanner = React.memo(() => {
                 if (BEFORE59MIN_TIME < GEN_TIME) {
                     // QR Code is Ok
                     userAxios.post('/punch/by-qr', {
-                        qrId: QR_ID, userId: user?._id, date_time: new Date(),
-                        designation: user?.designation?.designation
+                        qrId: QR_ID, userId: user?.acc_id,
+                        designation: user?.designation
                     })
                         .then((response) => {
                             dispatch(getPunchDetails())

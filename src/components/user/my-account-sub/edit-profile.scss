@@ -1,0 +1,11 @@
+.edit-profile-div {
+    form {
+        .input-section {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin: 15px 0;
+
+        }
+    }
+}

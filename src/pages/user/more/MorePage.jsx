@@ -44,7 +44,7 @@ const MorePage = ({ setPageHead }) => {
         <div className="more-page-div">
             <Modal modal={modal} setModal={() => setModal({ status: false })} />
             <div className="section-border">
-                <div className="option-div" onClick={() => navigate('/profile?page=more')}>
+                <div className="option-div" onClick={() => navigate('/my-account/profile?page=more')}>
                     <div className="left">
                         <IoPersonCircleOutline />
                         <h4>Profile</h4>
@@ -53,7 +53,7 @@ const MorePage = ({ setPageHead }) => {
                         <IoArrowForwardOutline />
                     </div>
                 </div>
-                {user?.punch_type === 'software' &&
+                {(user?.punch_type === 'software' || user?.punch_type === 'firstInScanner') &&
                     <div className="option-div" onClick={() => navigate('/scanner?page=more')}>
                         <div className="left">
                             <BsQrCodeScan />

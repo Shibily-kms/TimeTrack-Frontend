@@ -80,12 +80,11 @@ const RegularWorkCard = ({ allWork, data, setData, openWorkModal, inWork, admin 
                 <div>
                     <p>{data?.title}</p>
                     {allWork && <>
-                        {data?.repeat_type === 'monthly'
-                            ? <small>Monthly : {data?.monthly?.length === 31 ? "All Days" : [...data?.monthly]?.sort((a, b) => a - b)?.map((day) => (`${day}, `))}</small>
-                            : data?.repeat_type === 'weekly'
-                                ? <small>Weekly : {data?.weekly?.length === 7 ? "All Days" : [...data.weekly].sort((a, b) => a - b).map(day => `${daysOfWeek[day]}, `)}</small>
-                                : <small>Daily : Interval : 1</small>}
-
+                        {data?.repeat_type === 'monthly' && <small>Monthly : {data?.monthly?.length === 31 ? "All Days" : [...data?.monthly]?.sort((a, b) => a - b)?.map((day) => (`${day}, `))}</small>}
+                        {data?.repeat_type === 'weekly' && <small>Weekly : {data?.weekly?.length === 7 ? "All Days" : [...data.weekly].sort((a, b) => a - b).map(day => `${daysOfWeek[day]}, `)}</small>}
+                        {data?.repeat_type === 'daily' && <small>Daily : Interval : 1</small>}
+                        {(data?.one_time && !data?.one_time_scheduled) && <small>No Repeat</small>}
+                        {(data?.one_time && data?.one_time_scheduled) && <small>Scheduled to {new Date(data?.one_time_scheduled).toDateString()}</small>}
                     </>
                     }
                 </div>

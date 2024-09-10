@@ -8,13 +8,14 @@ import { addExtraWork } from '../../../redux/features/user/workdataSlice'
 import { HiPlus } from "react-icons/hi";
 import { FaListCheck, FaCheck } from "react-icons/fa6";
 import { IoSend } from "react-icons/io5";
-import { convertIsoToAmPm } from '../../../assets/javascript/date-helper'
+import { convertIsoToAmPm, stringToLocalTime, YYYYMMDDFormat } from '../../../assets/javascript/date-helper'
 import SpinnerWithMessage from '../../common/spinners/SpinWithMessage'
 import SingleButton from '../../../components/common/buttons/SingleButton'
 import Modal from '../../common/modal/Modal'
 import AddEditRegWork from '../add-edit-work/AddEditRegWork'
 import RegularWorkCard from '../regular-work-card/RegularWorkCard'
 import NormalInput from '../../common/inputs/NormalInput'
+import { RiTodoLine } from "react-icons/ri";
 
 function Work({ inWork }) {
     const dispatch = useDispatch()
@@ -22,10 +23,12 @@ function Work({ inWork }) {
     const { workDetails } = useSelector((state) => state.workData)
     const { internet } = useSelector((state) => state.systemInfo)
     const { regular } = useSelector((state) => state.dayWorks)
+    const { user } = useSelector((state) => state.userAuth)
     const [loading, setLoading] = useState('')
     const [modal, setModal] = useState({ status: false })
     const [allRgWork, setAllRgWork] = useState(false)
     const [noTodayWorks, setNoTodayWorks] = useState(true)
+    const [doWorks, setDoWorks] = useState()
 
     const dayOfWeekNumber = new Date().getDay();
     const dayOfMonthNumber = new Date().getDate();
@@ -71,7 +74,8 @@ function Work({ inWork }) {
     useEffect(() => {
         regular?.map((work) => {
             if (work?.interval === 1 || work?.weekly.includes(dayOfWeekNumber)
-                || work?.monthly.includes(dayOfMonthNumber)) {
+                || work?.monthly.includes(dayOfMonthNumber) || work?.one_time_scheduled === YYYYMMDDFormat(new Date())
+                || (work?.one_time && !work?.one_time_scheduled) || !work?.finished) {
                 setNoTodayWorks(false)
                 return true;
             }
@@ -80,13 +84,20 @@ function Work({ inWork }) {
         // eslint-disable-next-line
     }, [regular])
 
+    useEffect(() => {
+        userAxios.get(`/analyze/staff-work-data?from_date=${YYYYMMDDFormat(new Date())}&to_date=${YYYYMMDDFormat(new Date())}&staff_id=${user?.acc_id}&type=staff-basie`)
+            .then((response) => {
+                setDoWorks(response?.data?.[0]?.dates?.[0]?.regular_work || [])
+            })
+    }, [])
+
     return (
         <div className='enter-today-div'>
             <Modal modal={modal} setModal={setModal} />
             <div className='border-div'>
                 <div className="section-div section-one">
                     <div className="title">
-                        <h4>{allRgWork ? 'All' : 'Today'} Regular Works</h4>
+                        <h4>{allRgWork ? 'All' : 'Today'} Schedules</h4>
                         <div className='buttons-div'>
                             <SingleButton classNames={'sm btn-tertiary'} style={{ fontSize: '11px' }}
                                 name={'New'} stIcon={<HiPlus />}
@@ -96,19 +107,40 @@ function Work({ inWork }) {
                                 name={'All'} stIcon={allRgWork && <FaCheck />} onClick={() => setAllRgWork(!allRgWork)} />
                         </div>
                     </div>
+                    {(!allRgWork && doWorks?.[0]) &&
+                        <div className="work-list-div">
+                            <div className="border">
+                                <div className="list-body">
+                                    <div className="list-head">
+                                        <span></span>
+                                        <span>Time</span>
+                                        <span>ToDo</span>
+                                    </div>
+                                    {doWorks?.map((work, index) => <div key={work.start} className="list-item">
+                                        <span>{index + 1}</span>
+                                        <span>{stringToLocalTime(work?.start)}</span>
+                                        <span>{work?.work}</span>
+                                    </div>)}
+                                </div>
+                            </div>
+                        </div>}
+
                     <div className="content-div">
-                        {((noTodayWorks && !allRgWork) || !regular?.[0]) ? <SpinnerWithMessage message='No regular works' height={'200px'} icon={<FaListCheck />} spin={false} />
-                            // eslint-disable-next-line
-                            : regular?.map((work) => {
-                                if (work?.interval === 1 || work?.weekly.includes(dayOfWeekNumber)
-                                    || work?.monthly.includes(dayOfMonthNumber) || allRgWork) {
-                                    return <RegularWorkCard key={work._id} allWork={allRgWork} data={work} openWorkModal={openWorkModal} inWork={inWork} />
-                                }
-                            })
-                        }
+                        {((noTodayWorks && !allRgWork) || !regular?.[0]) &&
+                            <SpinnerWithMessage message='No Schedules' height={'200px'} icon={<RiTodoLine />} spin={false} />}
+
+                        {regular?.map((work) => {
+                            if (allRgWork) {
+                                return <RegularWorkCard key={work._id} allWork={allRgWork} data={work} openWorkModal={openWorkModal} inWork={inWork} />
+                            } else if ((work?.interval === 1 || work?.weekly.includes(dayOfWeekNumber)
+                                || work?.monthly.includes(dayOfMonthNumber) || work?.one_time_scheduled === YYYYMMDDFormat(new Date())
+                                || (work?.one_time && !work?.one_time_scheduled)) && !work?.finished) {
+                                return <RegularWorkCard key={work._id} allWork={allRgWork} data={work} openWorkModal={openWorkModal} inWork={inWork} />
+                            }
+                        })}
                     </div>
                 </div>
-                <div className="section-div section-two">
+                {!allRgWork && <div className="section-div section-two">
                     <div className="title">
                         <h4>Extra works</h4>
                     </div>
@@ -137,7 +169,7 @@ function Work({ inWork }) {
                                 loading={loading} />
                         </form>
                     </div>
-                </div>
+                </div>}
             </div>
         </div>
     )
