@@ -1,15 +1,14 @@
 import React, { useState } from 'react'
-import './change-password.scss'
 import { userAxios } from '../../../config/axios'
 import { toast } from '../../../redux/features/user/systemSlice'
 import { RxEyeClosed, RxEyeOpen } from 'react-icons/rx';
-import NormalInput from '../../../components/common/inputs/NormalInput'
-import SingleButton from '../../../components/common/buttons/SingleButton'
+import NormalInput from '../../common/inputs/NormalInput'
+import SingleButton from '../../common/buttons/SingleButton'
 import { useDispatch } from 'react-redux'
 
 
-function ChangePassword({ setModal }) {
-    const [form, setForm] = useState({ current: null, newPass: null, confirm: null })
+function ChangePassword({ setModal, setUserData }) {
+    const [form, setForm] = useState({ current_password: null, new_password: null, confirm: null })
     const [loading, setLoading] = useState(false)
     const [show, setShow] = useState(false)
     const dispatch = useDispatch()
@@ -29,25 +28,28 @@ function ChangePassword({ setModal }) {
             return pattern.test(password);
         }
 
-        if (form?.newPass.length < 6) {
+        if (form?.new_password.length < 6) {
             dispatch(toast.push.error({ message: 'Password must have 6 letters' }))
             return;
         }
-        if (form.newPass !== form.confirm) {
+        if (form.new_password !== form.confirm) {
             dispatch(toast.push.error({ message: 'Password not match !' }))
             return;
         }
 
-        if (!isValidPassword(form.newPass)) {
+        if (!isValidPassword(form.new_password)) {
             dispatch(toast.push.error({ message: "Clear Space in password" }));
             return;
         }
 
         setLoading(true)
-        userAxios.post('/change-password', form).then((response) => {
-            dispatch(toast.push.success({ message: response.message }))
+        userAxios.post('/v2/auth/change-text-password', form).then(() => {
             setLoading(false)
             setModal({ status: false })
+            setUserData((state) => ({
+                ...state,
+                last_tp_changed: new Date()
+            }))
         }).catch((error) => {
             dispatch(toast.push.error({ message: error.message }))
             setLoading(false)
@@ -59,20 +61,20 @@ function ChangePassword({ setModal }) {
     return (
         <div className="change-password-div">
             <div className="inputs">
-                <form onSubmit={handleSubmit}>
-                    <NormalInput label={'Current Password'} name='current' id={'current'} type={show ? 'text' : 'password'}
-                        onChangeFun={handleChange} value={form?.current} rightIcon={show ? <RxEyeOpen /> : <RxEyeClosed />}
+                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                    <NormalInput label={'Current Password'} name='current_password' id={'current'} type={show ? 'text' : 'password'}
+                        onChangeFun={handleChange} value={form?.current_password} rightIcon={show ? <RxEyeOpen /> : <RxEyeClosed />}
                         rightIconAction={() => setShow(!show)} />
 
-                    <NormalInput label={'New Password'} name='newPass' id={'newPass'} type={show ? 'text' : 'password'}
-                        onChangeFun={handleChange} value={form?.newPass} rightIcon={show ? <RxEyeOpen /> : <RxEyeClosed />}
+                    <NormalInput label={'New Password'} name='new_password' id={'newPass'} type={show ? 'text' : 'password'}
+                        onChangeFun={handleChange} value={form?.new_password} rightIcon={show ? <RxEyeOpen /> : <RxEyeClosed />}
                         rightIconAction={() => setShow(!show)} />
 
                     <NormalInput label={'Confirm Password'} name='confirm' id={'confirm'} type={show ? 'text' : 'password'}
                         onChangeFun={handleChange} value={form?.confirm} rightIcon={show ? <RxEyeOpen /> : <RxEyeClosed />}
                         rightIconAction={() => setShow(!show)} />
 
-                    <SingleButton name={'Update'} loading={loading} classNames={'lg btn-tertiary'} style={{ width: '100%' }} />
+                    <SingleButton name={'Update Password'} loading={loading} classNames={'lg btn-tertiary'} style={{ width: '100%' }} />
                 </form>
             </div >
         </div >

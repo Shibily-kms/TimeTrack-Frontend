@@ -61,9 +61,11 @@ const SingleContact = ({ type, label, contact, setModal, setUserData }) => {
 
     const sendOtp = () => {
         userAxios.post('/v2/auth/otp-v/send', {
+            acc_id: user?.acc_id,
             country_code: form?.contact?.country_code,
             mobile_number: form?.contact?.number,
-            way_type: 'sms'
+            way_type: 'sms',
+            by_acc: true
         }).then(() => {
             setLoading(false)
         }).catch((error) => {
@@ -82,10 +84,10 @@ const SingleContact = ({ type, label, contact, setModal, setUserData }) => {
         const enteredOtp = otp.join('');
         setLoading(true)
         userAxios.post('/v2/auth/otp-v/verify', {
-            country_code: form?.contact?.country_code,
-            mobile_number: form?.contact?.number,
+            acc_id: user?.acc_id,
             way_type: 'sms',
-            otp: enteredOtp
+            otp: enteredOtp,
+            by_acc: true
         }).then(() => {
             updateContact(new Date())
             setOtpAction(false)

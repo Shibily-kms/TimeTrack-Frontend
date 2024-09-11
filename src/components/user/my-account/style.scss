@@ -88,14 +88,97 @@
                 }
             }
 
-            .action-allow{
-                &:hover{
+            .action-allow {
+                &:hover {
                     background: var(--background-c2);
                     cursor: pointer;
                 }
             }
         }
 
+    }
+
+    .listCard3-div {
+        border: 1px solid var(--text-c3);
+        border-radius: 15px;
+        padding: 15px;
+        margin-bottom: 20px;
+        display: grid;
+        grid-template-columns: 100px auto;
+
+        .listCard3-left-div {
+            .icon-div {
+                width: 70px;
+                height: 70px;
+                border-radius: 100%;
+                background-color: var(--background-c2);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                svg {
+                    font-size: 45px;
+                }
+            }
+        }
+
+        .listCard3-right-div {
+            .list-head-div {
+                padding: 0 10px;
+
+                h3 {
+                    font-size: 18px;
+                    font-weight: 500;
+                }
+            }
+
+            .list-item-div {
+
+
+                &:last-child {
+
+                    .list-item {
+                        border-bottom: none;
+                    }
+                }
+
+                .list-item {
+                    border-bottom: 1px solid var(--text-c3);
+                    padding: 15px 10px;
+                    position: relative;
+
+                    &:hover {
+                        background: var(--background-c2);
+                        cursor: pointer;
+                    }
+
+
+                    .item-content {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 5px;
+
+                        p {
+                            font-size: 14px;
+                            color: var(--text-c1);
+                        }
+
+                    }
+
+                    .item-right-div {
+                        position: absolute;
+                        right: 10px;
+                        top: 50%;
+                        transform: translate(0, -50%);
+
+                        svg {
+                            font-size: 22px;
+                        }
+                    }
+
+                }
+            }
+        }
     }
 
 
@@ -112,6 +195,31 @@
                                 font-size: 13px;
                             }
                         }
+                    }
+                }
+            }
+        }
+
+        .listCard3-div {
+            border: 1px solid var(--text-c3);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: 70px auto;
+
+            .listCard3-left-div {
+                .icon-div {
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 100%;
+                    background-color: var(--background-c2);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    svg {
+                        font-size: 35px;
                     }
                 }
             }

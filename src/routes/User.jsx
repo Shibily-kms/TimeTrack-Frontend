@@ -11,6 +11,7 @@ import SinglePage from '../components/common/page/SinglePage'
 import NotFound from '../pages/user/not-found/NotFound '
 import { toast } from '../redux/features/user/systemSlice'
 import { clearRegularWork, clearSyncRegularWork } from '../redux/features/user/dayWorksSlice'
+import { doSignOut } from '../assets/javascript/auth-helper'
 
 
 const Home = lazy(() => import('../pages/user/home/Home'))
@@ -23,6 +24,8 @@ const EditProfile = lazy(() => import('../components/user/my-account-sub/EditPro
 const PunchReport = lazy(() => import('../pages/user/punch-report/PunchReport'))
 const LeaveApp = lazy(() => import('../pages/user/leave-app/LeaveApp'))
 const Profile = lazy(() => import('../components/user/my-account/Profile'))
+const Devices = lazy(() => import('../components/user/my-account/Devices'))
+const SecurityPrivacy = lazy(() => import('../components/user/my-account/SecurityPrivacy'))
 
 
 function User() {
@@ -92,7 +95,7 @@ function User() {
         dispatch(getPunchDetails())
       }
     } else {
-      userLogOut(dispatch, navigate)
+      doSignOut()
     }
 
     // eslint-disable-next-line
@@ -116,8 +119,8 @@ function User() {
             {/* Sub-routes of MyAccount */}
             <Route index element={<Profile />} />  {/* This will render when /my-account is accessed */}
             <Route path='profile' element={<Profile />} />
-            <Route path='your-device' element={<Profile />} />
-            <Route path='security-privacy' element={<Profile />} />
+            <Route path='your-device' element={<Devices />} />
+            <Route path='security-privacy' element={<SecurityPrivacy />} />
             <Route path='origin-access' element={<Profile />} />
           </Route>
 
@@ -140,16 +143,6 @@ export default User
 
 function PrivateRoute({ element, isAuthenticated, }) {
   return isAuthenticated ? element : <Navigate to="/auth/sign-in" />;
-}
-
-export function userLogOut(dispatch, navigate) {
-
-  dispatch(clearWorkData())
-  dispatch(clearRegularWork())
-  dispatch(logOut())
-  navigate('/auth/sign-in')
-
-  return false
 }
 
 export function RotateToken() {

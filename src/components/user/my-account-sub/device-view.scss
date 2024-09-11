@@ -1,0 +1,48 @@
+.device-view-sub-div {
+    .device-view-head-div {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        width: 100%;
+        align-items: center;
+        text-align: center;
+
+        .icon-div {
+            width: 90px;
+            height: 90px;
+            border-radius: 100%;
+            background-color: var(--background-c2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            svg {
+                font-size: 60px;
+            }
+        }
+
+        .title-div {
+            h4 {
+                font-size: 19px;
+            }
+
+            p {
+                font-size: 14px;
+                color: var(--text-c1);
+            }
+        }
+    }
+
+    .content-div {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+
+        p {
+            font-size: 15px;
+            font-weight: 500;
+        }
+    }
+}

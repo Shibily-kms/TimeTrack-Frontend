@@ -8,7 +8,7 @@ import Modal from '../../../components/common/modal/Modal'
 import ChangeTheme from '../../../components/user/change-theme/ChangeTheme';
 import { useDispatch, useSelector } from 'react-redux';
 import { BsCircleHalf } from "react-icons/bs";
-import ChangePassword from '../../../components/user/change-password/ChangePassword';
+import ChangePassword from '../../../components/user/my-account-sub/ChangePassword';
 import { userAxios } from '../../../config/axios';
 import { setUser } from '../../../redux/features/user/authSlice';
 import { getPunchDetails } from '../../../redux/features/user/workdataSlice';

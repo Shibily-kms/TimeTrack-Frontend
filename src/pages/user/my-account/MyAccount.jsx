@@ -50,10 +50,6 @@ const MyAccount = ({ setPageHead }) => {
                         <p>Security & Privacy</p>
                         <span></span>
                     </div>
-                    <div className={lastPath === 'origin-access' ? "item-div active-item" : 'item-div'} onClick={() => navigate('/my-account/origin-access')}>
-                        <p>Origin Access</p>
-                        <span></span>
-                    </div>
                 </div>
             </div>
             <div className="list-details-div">

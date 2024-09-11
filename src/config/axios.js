@@ -1,6 +1,6 @@
 import axios from 'axios'
 import Cookies from 'js-cookie';
-import { userLogOut } from '../routes/User';
+import { doSignOut } from '../assets/javascript/auth-helper';
 export const baseUrl = 'http://192.168.1.57'
 
 const baseSetup = {
@@ -45,7 +45,7 @@ const handleUserTokenError = async (originalRequest) => {
 
         return userAxios(originalRequest); // Retry original request with new access token
     } catch (err) {
-        userLogOut()
+        doSignOut()
     }
 
 }
@@ -71,15 +71,17 @@ const responseConfigUserFunction = (response) => {
 const responseErrorUserFunction = async (error) => {
 
     const originalRequest = error.config;
-  
+
     if (error.response && error.response.status === 401 && !originalRequest._retry) {
         await handleUserTokenError(originalRequest);
+    } else if (error.response.status === 403 || error.response.status === 401) {
+        doSignOut(error.response.status === 403)
     } else if (error.code === 'ECONNABORTED') {
         return Promise.reject({ ...error.response.data, message: 'No proper internet connection' });
     } else if (error.response?.data?.statusCode >= 400 && error.response?.data?.statusCode < 500) {
         return Promise.reject({ message: error.response?.data?.message });
     }
-
+  
     return Promise.reject({ message: 'Unknown Error' });
 }
 

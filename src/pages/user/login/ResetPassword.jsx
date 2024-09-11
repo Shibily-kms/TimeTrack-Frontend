@@ -10,7 +10,7 @@ import { userAxios } from '../../../config/axios'
 import { RxEyeClosed, RxEyeOpen } from 'react-icons/rx';
 
 const ResetPassword = () => {
-    const [form, setForm] = useState({ newPass: null, confirm: null })
+    const [form, setForm] = useState({ new_password: null, confirm: null })
     const [loading, setLoading] = useState(false)
     const [show, setShow] = useState(false)
     const dispatch = useDispatch()
@@ -32,22 +32,22 @@ const ResetPassword = () => {
             return pattern.test(password);
         }
 
-        if (form?.newPass.length < 6) {
+        if (form?.new_password.length < 6) {
             dispatch(toast.push.error({ message: 'Password must have 6 letters' }))
             return;
         }
-        if (form.newPass !== form.confirm) {
+        if (form.new_password !== form.confirm) {
             dispatch(toast.push.error({ message: 'Password not match !' }))
             return;
         }
 
-        if (!isValidPassword(form.newPass)) {
+        if (!isValidPassword(form.new_password)) {
             dispatch(toast.push.error({ message: "Clear Space in password" }));
             return;
         }
 
         setLoading(true)
-        userAxios.post('/new-password', {
+        userAxios.post('/v2/auth/reset-text-password', {
             ...form,
             country_code: location.state.country_code,
             mobile_number: location.state.mobile_number
@@ -81,8 +81,8 @@ const ResetPassword = () => {
                 <div className="right-div">
                     <div className="section-div  input-section">
                         <form onSubmit={handleSubmit}>
-                            <NormalInput label={'New Password'} name='newPass' id={'newPass'} type={show ? 'text' : 'password'}
-                                onChangeFun={handleChange} value={form?.newPass} rightIcon={show ? <RxEyeOpen /> : <RxEyeClosed />}
+                            <NormalInput label={'New Password'} name='new_password' id={'new_password'} type={show ? 'text' : 'password'}
+                                onChangeFun={handleChange} value={form?.new_password} rightIcon={show ? <RxEyeOpen /> : <RxEyeClosed />}
                                 rightIconAction={() => setShow(!show)} />
 
                             <NormalInput label={'Confirm Password'} name='confirm' id={'confirm'} type={show ? 'text' : 'password'}

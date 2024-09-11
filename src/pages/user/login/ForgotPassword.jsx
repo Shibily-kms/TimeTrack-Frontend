@@ -3,7 +3,7 @@ import './style.scss'
 import Image from '../../../assets/images/alliance-logo.png'
 import SingleButton from '../../../components/common/buttons/SingleButton'
 import { toast } from '../../../redux/features/user/systemSlice'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { userAxios } from '../../../config/axios'
 import MobileInput from '../../../components/common/inputs/MobileInput'
@@ -18,6 +18,7 @@ const ForgotPassword = () => {
     const [loading, setLoading] = useState(false)
     const [counter, setCounter] = useState(90); // 90 seconds = 1 minutes and 30 seconds
     const [isResendVisible, setIsResendVisible] = useState(false);
+    const { user } = useSelector((state) => state.userAuth)
 
     //? Verify Otp
     const verifyOtp = () => {
@@ -27,7 +28,8 @@ const ForgotPassword = () => {
             country_code: mobileNumber.country_code,
             mobile_number: mobileNumber.number,
             way_type: 'sms',
-            otp: enteredOtp
+            otp: enteredOtp,
+            by_number: true
         }).then(() => {
             setLoading(false)
             navigate('/auth/setup-new-password', {
@@ -103,7 +105,8 @@ const ForgotPassword = () => {
         userAxios.post('/v2/auth/otp-v/send', {
             country_code: mobileNumber.country_code,
             mobile_number: mobileNumber.number,
-            way_type: 'sms'
+            way_type: 'sms',
+            by_number: true
         }).then(() => {
             setOtpActive(true)
             setLoading(false)
