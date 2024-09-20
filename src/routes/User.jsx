@@ -12,6 +12,7 @@ import NotFound from '../pages/user/not-found/NotFound '
 import { toast } from '../redux/features/user/systemSlice'
 import { clearRegularWork, clearSyncRegularWork } from '../redux/features/user/dayWorksSlice'
 import { doSignOut } from '../assets/javascript/auth-helper'
+import RotateToken from '../components/common/rotateToken/RotateToken';
 
 
 const Home = lazy(() => import('../pages/user/home/Home'))
@@ -85,17 +86,9 @@ function User() {
   useEffect(() => {
     // Change Title
     document.title = `Time Track | Alliance`;
-    if (ACC_ID && DVC_ID && acc_tkn && rfs_tkn) {
-      userAxios.get('/v2/worker/initial-info').then((response) => {
-        dispatch(setUser({ ...(user || {}), ...response.data, refresh_token: Cookies.get('_rfs_tkn') }))
-      })
 
-      //  Get Work Enter Details
-      if (internet) {
-        dispatch(getPunchDetails())
-      }
-    } else {
-      doSignOut()
+    if (internet) {
+      dispatch(getPunchDetails())
     }
 
     // eslint-disable-next-line
@@ -111,7 +104,7 @@ function User() {
           <Route path='/settings' element={<PrivateRoute element={<Settings setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
           <Route path='/more' element={<PrivateRoute element={<MorePage setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
 
-          {(user?.punch_type === 'software' || (user?.punch_type === 'firstInScanner' && workDetails.punch_list?.[0])) &&
+          {(user?.punch_type === 'software' || (user?.punch_type === 'firstInScanner' && workDetails?.punch_list?.[0])) &&
             <Route path='/punch-work' element={<PrivateRoute element={<PunchWork setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />}
           <Route path='/enter-today' element={<PrivateRoute element={<WorkDetails setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
 
@@ -145,30 +138,3 @@ function PrivateRoute({ element, isAuthenticated, }) {
   return isAuthenticated ? element : <Navigate to="/auth/sign-in" />;
 }
 
-export function RotateToken() {
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-
-      const refreshToken = Cookies.get('_rfs_tkn'); // Retrieve the refresh token
-
-      userAxios.post('/v2/auth/rotate-token', { refresh_token: refreshToken }).then((response) => {
-
-        const cookieOptions = {
-          secure: false,
-          sameSite: 'lax',
-          path: '/',
-          expires: 40
-        };
-
-        Cookies.set('_acc_tkn', response?.data?.access_token, cookieOptions);
-
-      })
-    }, 1000 * 60 * 30); // 1 second interval
-
-    return () => clearInterval(interval); // Cleanup interval on unmount
-  }, [])
-
-  return <>
-  </>
-}

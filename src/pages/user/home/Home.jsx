@@ -41,7 +41,7 @@ function Home({ setPageHead }) {
     }
     setPageHead(() => ({ title: null }))
 
-    userAxios.get(`/v2/worker/profile/${user.acc_id}?initial=Yes`).then((response) => {
+    userAxios.get(`/v2/worker/profile/${user?.acc_id}?initial=Yes`).then((response) => {
       setUserData(response?.data)
     })
 
@@ -82,21 +82,24 @@ function Home({ setPageHead }) {
       </div>
 
       <div className="section-two-div">
-        {user?.origins_list?.[0] && <div className="sub-title-div">
+        {user?.allowed_origins?.[0] && <div className="sub-title-div">
           <h4>App access</h4>
         </div>}
         <div className="section-content">
-          {user?.origins_list?.includes('Staff_Admin') && <div className="app-item">
+          {/* Staff Admin */}
+          {user?.allowed_origins?.includes('ttcr_default') && <div className="app-item">
             <div className="icon-div" style={{ backgroundColor: "#4c0c87" }}
-              onClick={() => user?._id === admin?.temp_id
-                ? navigate('/admin')
-                : navigate(`/v1/0auth?temp_id=${user?._id}&location=Staff_Admin&redirect_url=http://localhost:3000/admin`)}>
+              onClick={() => navigate('/admin')}>
               <MdAdminPanelSettings />
             </div>
-            <p>Staff Admin</p>
+            <p>TT Controller</p>
           </div>}
 
-          {(user?.origins_list?.includes('Accountant')) && <div className="app-item">
+
+
+
+
+          {(user?.allowed_origins?.includes('Accountant')) && <div className="app-item">
             <div className="icon-div" style={{ backgroundColor: "#521f08" }}
               onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>
               <FaIndianRupeeSign />
@@ -104,8 +107,8 @@ function Home({ setPageHead }) {
             <p>Accounting <br></br> App</p>
           </div>}
 
-          {(user?.origins_list?.includes('Sales') || user?.origins_list?.includes('SalesPro')
-            || user?.origins_list?.includes('Installation')) && <div className="app-item">
+          {(user?.allowed_origins?.includes('Sales') || user?.allowed_origins?.includes('SalesPro')
+            || user?.allowed_origins?.includes('Installation')) && <div className="app-item">
               <div className="icon-div" style={{ backgroundColor: "#0c1663" }}
                 onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>
                 <FaStore />
@@ -113,7 +116,7 @@ function Home({ setPageHead }) {
               <p>Sales App</p>
             </div>}
 
-          {(user?.origins_list?.includes('PR_Service')) && <div className="app-item">
+          {(user?.allowed_origins?.includes('PR_Service')) && <div className="app-item">
             <div className="icon-div" style={{ backgroundColor: "#52082f" }}
               onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>
               <MdOutlineMiscellaneousServices />
@@ -121,7 +124,7 @@ function Home({ setPageHead }) {
             <p>Purifier Service</p>
           </div>}
 
-          {(user?.origins_list?.includes('PR_Admin')) && <div className="app-item">
+          {(user?.allowed_origins?.includes('PR_Admin')) && <div className="app-item">
             <div className="icon-div" style={{ backgroundColor: "#085212" }}
               onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>
               <IoLogoAppleAr />
@@ -129,7 +132,7 @@ function Home({ setPageHead }) {
             <p>Purifier Admin</p>
           </div>}
 
-          {(user?.origins_list?.includes('ControlNex') || user?.origins_list?.includes('Customer_Info')) &&
+          {(user?.allowed_origins?.includes('ControlNex') || user?.allowed_origins?.includes('Customer_Info')) &&
             <div className="app-item">
               <div className="icon-div" style={{ backgroundColor: "#046b5f" }}
                 onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>
@@ -138,7 +141,7 @@ function Home({ setPageHead }) {
               <p>ControlNex <br></br> App</p>
             </div>}
 
-          {(user?.origins_list?.includes('WH_Service')) && <div className="app-item">
+          {(user?.allowed_origins?.includes('WH_Service')) && <div className="app-item">
             <div className="icon-div" style={{ backgroundColor: "#4c046b" }}
               onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>
               <MdOutlineMiscellaneousServices />
@@ -146,7 +149,7 @@ function Home({ setPageHead }) {
             <p>Whole house <br></br> Service</p>
           </div>}
 
-          {(user?.origins_list?.includes('WH_Admin')) && <div className="app-item">
+          {(user?.allowed_origins?.includes('WH_Admin')) && <div className="app-item">
             <div className="icon-div" style={{ backgroundColor: "#336b04" }}
               onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>
               <IoLogoAppleAr />

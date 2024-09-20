@@ -20,4 +20,11 @@
         gap: 15px;
 
     }
+
+    .custom-calendar-theme {
+        --rmdp-primary: #4caf50; /* Primary color */
+        --rmdp-background: #f0f8ff; /* Background color */
+        --rmdp-color: #333; /* Text color */
+        --rmdp-border: #4caf50; /* Border color */
+      }
 }

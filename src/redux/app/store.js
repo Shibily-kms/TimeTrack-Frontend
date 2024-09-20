@@ -1,4 +1,4 @@
-import { configureStore, combineReducers } from '@reduxjs/toolkit'
+import { configureStore, combineReducers, getDefaultMiddleware } from '@reduxjs/toolkit'
 import { persistStore, persistReducer } from 'redux-persist';
 import createIdbStorage from "@piotr-cz/redux-persist-idb-storage";
 import adminAuthReducer from '../features/admin/authSlice'
@@ -34,7 +34,13 @@ const rootReducer = combineReducers({
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-    reducer: persistedReducer
+    reducer: persistedReducer,
+    middleware: getDefaultMiddleware({
+        serializableCheck: {
+            // Ignore these action types
+            ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE'],
+        },
+    }),
 })
 
 export const persistor = persistStore(store);

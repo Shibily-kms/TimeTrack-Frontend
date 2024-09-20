@@ -32,7 +32,7 @@ const AllStaffModal = ({ setModal }) => {
               rightContent={<Badge text={staff?.status} className={
                 staff?.status === 'IN'
                   ? 'success-fill'
-                  : staff?.status === 'OUT'
+                  : (staff?.status === 'OUT' || staff?.status === 'LEAVE')
                     ? 'error-fill'
                     : 'warning-fill'
               } />}

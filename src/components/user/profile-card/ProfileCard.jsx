@@ -32,7 +32,7 @@ const ProfileCard = ({ data, inWork }) => {
                 <div>
                     <p>Version {ui_version}</p>
                 </div>
-                <Badge icon={inWork ? <FaCheck /> : <FaTimes />} className={inWork ? "md success-fill" : 'md error-fill'}
+                <Badge className={inWork ? "md success-fill" : 'md error-fill'}
                     text={inWork ? "On work" : 'Out of work'} />
             </div>
         </div>

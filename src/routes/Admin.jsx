@@ -3,7 +3,8 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import NotFound from '../pages/admin/not-found/NotFound '
 import PageLoading from '../components/common/spinners/PageLoading'
 import AdminPage from '../components/common/page/AdminPage'
-import { useSelector } from 'react-redux'
+import Cookies from 'js-cookie';
+
 
 const Dashboard = lazy(() => import('../pages/admin/dashboard/Dashboard'));
 const AllStaffs = lazy(() => import('../pages/admin/all-staffs/AllStaffs'))
@@ -19,16 +20,21 @@ const LeaveApp = lazy(() => import('../pages/admin/leave-app/LeaveApp'))
 
 function Admin() {
   let isAuthenticated = false
-  const { admin } = useSelector((state) => state.adminAuth)
-  const [pageHead, setPageHead] = useState({ title: null, desc: null, right: null })
 
-  if (admin?.token && localStorage.getItem('_aws_temp_tkn_adn')) {
+  const [pageHead, setPageHead] = useState({ title: null, desc: null, right: null })
+  const acc_tkn = Cookies.get('_acc_tkn');
+  const rfs_tkn = Cookies.get('_rfs_tkn');
+  const ACC_ID = Cookies.get('ACC_ID');
+  const DVC_ID = Cookies.get('DVC_ID');
+
+  if (acc_tkn && ACC_ID && DVC_ID && rfs_tkn) {
     isAuthenticated = true
   }
 
   useEffect(() => {
-    // Change Title 
-    document.title = `Staff Works | Admin Panel`;
+    // Change Title
+    document.title = `Time Track | Controller`;
+
   }, [])
 
   return (
@@ -43,12 +49,8 @@ function Admin() {
           <Route path='/analyze/salary-reports' element={<PrivateRoute element={<MonthlyReports setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
           <Route path='/analyze/work-analyze' element={<PrivateRoute element={<WorkAnalyze setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
           <Route path='/leave-letters' element={<PrivateRoute element={<LeaveApp setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
-
-          {admin?.pro_admin && <>
-            <Route path='/staff-list/add-staff' element={<PrivateRoute element={<AddStaff setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
-            <Route path='/qr-generator' element={<PrivateRoute element={<QrGenerator setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
-          </>}
-
+          <Route path='/staff-list/add-staff' element={<PrivateRoute element={<AddStaff setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+          <Route path='/qr-generator' element={<PrivateRoute element={<QrGenerator setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
 
 
           {/* 404 Route */}

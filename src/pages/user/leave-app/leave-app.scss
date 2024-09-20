@@ -4,60 +4,109 @@
         position: fixed;
         bottom: 80px;
         right: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
     }
 
     .item-list-div {
         display: flex;
-
         flex-direction: column;
         gap: 15px;
 
         .item-box {
             background-color: var(--background-opt-secondary-9);
             display: grid;
-            grid-template-columns: 40px auto;
+            grid-template-columns: 40px 1fr 15px;
             gap: 15px;
             border-radius: 15px;
             -webkit-border-radius: 15px;
             -moz-border-radius: 15px;
             -ms-border-radius: 15px;
             -o-border-radius: 15px;
+            padding: 15px;
             position: relative;
+            cursor: pointer;
 
-            .left-div {
-
+            .item-icon-status {
+                width: 40px;
+                height: 40px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: var(--background-primary);
                 background-color: var(--background-secondary);
-                display: grid;
-                place-content: center;
-                border-top-left-radius: 15px;
-                border-bottom-left-radius: 15px;
+                border-radius: 8px;
 
-                p {
-                    transform: rotate(-90deg);
-                    -webkit-transform: rotate(-90deg);
-                    -moz-transform: rotate(-90deg);
-                    -ms-transform: rotate(-90deg);
-                    -o-transform: rotate(-90deg);
-                    font-size: 14px;
-                    font-weight: 600;
-                    color: var(--text-secondary);
-                    text-align: center;
-                    min-width: max-content;
+                svg {
+                    font-size: 25px;
                 }
-
             }
 
             .Approved {
+                color: white;
                 background-color: var(--color-success);
             }
 
             .Rejected {
+                color: white;
                 background-color: var(--color-error);
             }
 
             .Cancelled {
-                background-color: var(--color-error);
+                color: white;
+                background-color: var(--color-warning);
             }
+
+            .Edited {
+                color: white;
+                background-color: var(--color-info);
+            }
+
+            .item-text-div {
+                display: flex;
+                flex-direction: column;
+                gap: 3px;
+
+                p {
+                    font-size: 14px;
+                    font-weight: 500;
+                    color: var(--text-c2);
+                }
+
+                h4 {
+                    font-weight: 600;
+                    font-size: 15px;
+                }
+
+                .action-text {
+                    position: absolute;
+                    bottom: 3px;
+                    right: 15px;
+                    font-size: 12px;
+
+                }
+            }
+
+            .arrow-icon-div {
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
             .border-div {

@@ -21,7 +21,8 @@ function AdminPage({ pageHead, children }) {
     const dispatch = useDispatch()
     const { adminActivePage } = useSelector((state) => state.systemInfo)
     const { admin } = useSelector((state) => state.adminAuth)
-    const userProfileImage = getUserProfileImagePath(admin?.user_name);
+    const { user } = useSelector((state) => state.userAuth)
+    const userProfileImage = getUserProfileImagePath(user?.first_name);
 
     const clickMenuItem = (url, page) => {
         dispatch(setAdminActivePage(page))
@@ -115,8 +116,8 @@ function AdminPage({ pageHead, children }) {
                                 <img src={userProfileImage || AllianceLogo} alt='profile' />
                             </div>
                             <div className="name-div">
-                                <h4>{admin?.user_name}</h4>
-                                <p>{admin?.designation || 'Pro Admin'}</p>
+                                <h4>{user?.first_name} {user?.last_name}</h4>
+                                <p>{user?.designation}</p>
                             </div>
                         </div>
                     </div>

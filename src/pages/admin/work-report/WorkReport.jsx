@@ -33,6 +33,7 @@ function WorkReport({ setPageHead }) {
         adminAxios.get(`/analyze/salary-report?date=${dateForm}`).then((response) => {
             adminAxios.get('/staff/all-list?all=yes').then((result) => {
                 const report = workReportHelper(response.data, result.data, dateForm)
+                console.log(report)
                 setData(report)
                 setLoading(false)
             })

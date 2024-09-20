@@ -3,25 +3,23 @@ import Cookies from 'js-cookie';
 import { doSignOut } from '../assets/javascript/auth-helper';
 export const baseUrl = 'http://192.168.1.57'
 
+const apiHeaders = { 'Content-Type': 'application/json' }
+
+
+//* Base Setup
 const baseSetup = {
-    userAxios: axios.create({
-        baseURL: `${baseUrl}:8000/`,
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }),
-    adminAxios: axios.create({
-        baseURL: `${baseUrl}:8000/admin/`,
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
+    userAxios: axios.create({ baseURL: `${baseUrl}:8000/`, headers: apiHeaders }),
+    adminAxios: axios.create({ baseURL: `${baseUrl}:8000/admin/`, headers: apiHeaders })
+
+
+    //? v2.1
+
 }
 
 
-/* -------------- User Config ---------------*/
+//*  Response and Request Config Functions
 
-const handleUserTokenError = async (originalRequest) => {
+const handleTokenError = async (originalRequest) => {
     originalRequest._retry = true;
 
     // Call the refresh token API to get a new access token
@@ -50,30 +48,30 @@ const handleUserTokenError = async (originalRequest) => {
 
 }
 
-const requestConfigUserFunction = (config) => {
+const requestConfigFunction = (config) => {
     let userToken = Cookies.get('_acc_tkn')
     if (userToken) {
         config.headers['Authorization'] = `Bearer ${userToken}`;
-        config.timeout = 6000
+        config.timeout = 10000
     }
     return config
 }
 
-const requestErrorUserFunction = (error) => {
+const requestErrorFunction = (error) => {
     return Promise.reject(error);
 }
 
-const responseConfigUserFunction = (response) => {
+const responseConfigFunction = (response) => {
     // Handle successful responses here if needed
     return response.data;
 }
 
-const responseErrorUserFunction = async (error) => {
+const responseErrorFunction = async (error) => {
 
     const originalRequest = error.config;
 
     if (error.response && error.response.status === 401 && !originalRequest._retry) {
-        await handleUserTokenError(originalRequest);
+        await handleTokenError(originalRequest);
     } else if (error.response.status === 403 || error.response.status === 401) {
         doSignOut(error.response.status === 403)
     } else if (error.code === 'ECONNABORTED') {
@@ -81,65 +79,25 @@ const responseErrorUserFunction = async (error) => {
     } else if (error.response?.data?.statusCode >= 400 && error.response?.data?.statusCode < 500) {
         return Promise.reject({ message: error.response?.data?.message });
     }
-  
+
     return Promise.reject({ message: 'Unknown Error' });
 }
 
-// Add an interceptor to userAxios for request
-baseSetup.userAxios.interceptors.request.use(
-    requestConfigUserFunction, requestErrorUserFunction
-)
-
-// Add an interceptor to userAxios for response errors
-baseSetup.userAxios.interceptors.response.use(
-    responseConfigUserFunction, responseErrorUserFunction
-);
 
 
-/* -------------- Admin Config ---------------*/
+//* API interceptors
 
-const handleAdminTokenError = () => {
-    // Redirect the user to the login page or perform any other necessary action
-    window.location.href = `${baseUrl}:3000/admin/sign-in`
-}
+//? userAuth
+baseSetup.userAxios.interceptors.request.use(requestConfigFunction, requestErrorFunction)
+baseSetup.userAxios.interceptors.response.use(responseConfigFunction, responseErrorFunction);
 
-const requestConfigAdminFunction = (config) => {
-    let adminToken = localStorage.getItem('_aws_temp_tkn_adn')
-    if (adminToken) {
-        config.headers['Authorization'] = `Bearer ${adminToken}`;
-        config.timeout = 6000
-    }
-    return config
-}
-
-const requestErrorAdminFunction = (error) => {
-    return Promise.reject(error);
-}
-
-const responseConfigAdminFunction = (response) => {
-    // Handle successful responses here if needed
-    return response.data;
-}
-
-const responseErrorAdminFunction = (error) => {
-    if (error.response && error.response.status === 401) {
-        handleAdminTokenError();
-    } else if (error.code === 'ECONNABORTED') {
-        return Promise.reject({ ...error.response.data, message: 'No proper internet connection' });
-    }
-    return Promise.reject(error?.response?.data || { message: error?.message });
-}
+//? adminAuth
+baseSetup.adminAxios.interceptors.request.use(requestConfigFunction, requestErrorFunction)
+baseSetup.adminAxios.interceptors.response.use(responseConfigFunction, responseErrorFunction);
 
 
-// Add an interceptor to adminAxios for request
-baseSetup.adminAxios.interceptors.request.use(
-    requestConfigAdminFunction, requestErrorAdminFunction
-)
 
-// Add an interceptor to adminAxios for response errors
-baseSetup.adminAxios.interceptors.response.use(
-    responseConfigAdminFunction, responseErrorAdminFunction
-);
+
 
 export const { userAxios, adminAxios } = baseSetup
 

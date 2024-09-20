@@ -39,11 +39,7 @@ const Scanner = React.memo(() => {
         async function setupWebcamAndScanner() {
 
             try {
-                if (!user?.acc_id) {
-                    navigate('/auth/sign-in')
-                    return;
-                }
-
+              
                 // Check for camera permissions
                 const permissionStatus = await navigator.permissions.query({ name: 'camera' });
 
