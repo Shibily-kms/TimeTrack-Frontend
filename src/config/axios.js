@@ -9,10 +9,12 @@ const apiHeaders = { 'Content-Type': 'application/json' }
 //* Base Setup
 const baseSetup = {
     userAxios: axios.create({ baseURL: `${baseUrl}:8000/`, headers: apiHeaders }),
-    adminAxios: axios.create({ baseURL: `${baseUrl}:8000/admin/`, headers: apiHeaders })
+    adminAxios: axios.create({ baseURL: `${baseUrl}:8000/admin/`, headers: apiHeaders }),
 
 
     //? v2.1
+    workerAxios: axios.create({ baseURL: `${baseUrl}:8000/v2/worker/`, headers: apiHeaders }),
+    leaveAxios: axios.create({ baseURL: `${baseUrl}:8000/v2/L2/`, headers: apiHeaders })
 
 }
 
@@ -95,10 +97,18 @@ baseSetup.userAxios.interceptors.response.use(responseConfigFunction, responseEr
 baseSetup.adminAxios.interceptors.request.use(requestConfigFunction, requestErrorFunction)
 baseSetup.adminAxios.interceptors.response.use(responseConfigFunction, responseErrorFunction);
 
+//? worker
+baseSetup.workerAxios.interceptors.request.use(requestConfigFunction, requestErrorFunction)
+baseSetup.workerAxios.interceptors.response.use(responseConfigFunction, responseErrorFunction);
+
+//? leave
+baseSetup.leaveAxios.interceptors.request.use(requestConfigFunction, requestErrorFunction)
+baseSetup.leaveAxios.interceptors.response.use(responseConfigFunction, responseErrorFunction);
 
 
 
 
-export const { userAxios, adminAxios } = baseSetup
+
+export const { userAxios, adminAxios, workerAxios, leaveAxios } = baseSetup
 
 

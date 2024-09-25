@@ -30,7 +30,7 @@ const Profile = () => {
 
     useEffect(() => {
         setLoading('fetch')
-        userAxios.get(`/v2/worker/profile/${user?.acc_id}?profession=Yes`).then((response) => {
+        userAxios.get(`/v2/worker/account/${user?.acc_id}?profession=Yes`).then((response) => {
             setUserData(response.data)
             setLoading('')
         }).catch((error) => {

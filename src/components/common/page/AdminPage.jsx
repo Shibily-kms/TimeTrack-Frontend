@@ -20,7 +20,6 @@ function AdminPage({ pageHead, children }) {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const { adminActivePage } = useSelector((state) => state.systemInfo)
-    const { admin } = useSelector((state) => state.adminAuth)
     const { user } = useSelector((state) => state.userAuth)
     const userProfileImage = getUserProfileImagePath(user?.first_name);
 
@@ -64,16 +63,21 @@ function AdminPage({ pageHead, children }) {
                     </div>
                     <div className="content-div">
                         <div className="menu-item-list">
+                            {/* Dashboard */}
                             <div className={adminActivePage === 'dashboard' ? "menu-item active-menu" : "menu-item"}
                                 onClick={() => clickMenuItem('/admin', 'dashboard')}>
                                 {adminActivePage === 'dashboard' ? <MdSpaceDashboard /> : <MdOutlineSpaceDashboard />}
                                 <span>Dashboard</span>
                             </div>
-                            <div className={adminActivePage === 'staff-list' ? "menu-item active-menu" : "menu-item"}
-                                onClick={() => clickMenuItem('/admin/staff-list', 'staff-list')}>
-                                {adminActivePage === 'staff-list' ? <PiUserListFill /> : <PiUserListBold />}
-                                <span>Staff List</span>
-                            </div>
+                            
+                            {/* Staff list */}
+                            {user?.allowed_origins?.some(access => ['ttcr_stfAcc_read', 'ttcr_stfAcc_write'].includes(access)) &&
+                                <div className={adminActivePage === 'staff-list' ? "menu-item active-menu" : "menu-item"}
+                                    onClick={() => clickMenuItem('/admin/staff-list', 'staff-list')}>
+                                    {adminActivePage === 'staff-list' ? <PiUserListFill /> : <PiUserListBold />}
+                                    <span>Staff List</span>
+                                </div>}
+
                             <div className={adminActivePage === 'leave-letters' ? "menu-item active-menu" : "menu-item"}
                                 onClick={() => clickMenuItem('/admin/leave-letters', 'leave-letters')}>
                                 {adminActivePage === 'leave-letters' ? <RiFileList3Fill /> : <RiFileList3Line />}
@@ -89,11 +93,11 @@ function AdminPage({ pageHead, children }) {
                                 {adminActivePage === 'salary-reports' ? <FaIndianRupeeSign /> : <LuIndianRupee />}
                                 <span>Salary Reports</span>
                             </div>
-                            {admin?.pro_admin && <div className={adminActivePage === 'qr-generator' ? "menu-item active-menu" : "menu-item"}
+                            <div className={adminActivePage === 'qr-generator' ? "menu-item active-menu" : "menu-item"}
                                 onClick={() => clickMenuItem('/admin/qr-generator', 'qr-generator')}>
                                 {adminActivePage === 'qr-generator' ? <LuQrCode /> : <LuQrCode />}
                                 <span>QR Generator</span>
-                            </div>}
+                            </div>
                             <div className={adminActivePage === 'designation-list' ? "menu-item active-menu" : "menu-item"}
                                 onClick={() => clickMenuItem('/admin/designation-list', 'designation-list')}>
                                 {adminActivePage === 'designation-list' ? <IoPricetagsSharp /> : <IoPricetagsOutline />}

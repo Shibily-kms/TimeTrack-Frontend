@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './add-staff.scss'
-import { adminAxios } from '../../../config/axios'
+import { adminAxios, workerAxios } from '../../../config/axios'
 import { setAdminActivePage, toast } from '../../../redux/features/user/systemSlice'
 import NormalInput from '../../../components/common/inputs/NormalInput';
 import SelectInput from '../../../components/common/inputs/SelectInput'
@@ -10,12 +10,17 @@ import MobileInput from '../../../components/common/inputs/MobileInput';
 import { createStaffFormValidation } from '../../../assets/javascript/validation-functions';
 import { useDispatch } from 'react-redux';
 import { PiDotFill } from "react-icons/pi";
+import { work_modes, e_types } from '../../../assets/javascript/const-data';
+import { useNavigate } from 'react-router-dom';
 
 
 const AddStaff = ({ setPageHead }) => {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const [form, setForm] = useState({})
     const [designations, setDesignations] = useState([])
+    const [workMode, setWorkMode] = useState([])
+    const [eType, setETypes] = useState([])
     const [loading, setLoading] = useState('')
     const months = ['Jun', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
@@ -56,30 +61,33 @@ const AddStaff = ({ setPageHead }) => {
             return
         }
 
-        // adminAxios.post('/staff', form).then(() => {
-        //     dispatch(toast.push.success({ message: 'Success, new customer created' }))
-        //     setLoading('')
-        //     setForm({})
-        // }).catch((error) => {
-        //     dispatch(toast.push.error({ message: error.message }))
-        //     setLoading('')
-        // })
+        workerAxios.post('/new-account', form).then(() => {
+            dispatch(toast.push.success({ message: 'New account created' }))
+            navigate('/admin/staff-list')
+        }).catch((error) => {
+            dispatch(toast.push.error({ message: error.message }))
+            setLoading('')
+        })
     }
 
     useEffect(() => {
         adminAxios.get('/designations').then((response) => {
             setDesignations(response?.data?.map((single) => ({ option: single.designation, value: single._id })) || [])
         })
+        setWorkMode(work_modes.map((a) => ({ option: a, value: a })) || [])
+        setETypes(e_types.map((a) => ({ option: a, value: a })) || [])
 
-        setPageHead({ title: 'Create new staff' })
+        setPageHead({ title: 'Create staff account' })
         dispatch(setAdminActivePage('staff-list'))
         // eslint-disable-next-line
     }, [])
+
 
     return (
         <div className='add-staff-page'>
             <AlertBox messages={[
                 <><span><PiDotFill /> <b>Primary Phone Number:</b> Ensure a valid primary phone number is entered, as this number will be used to send OTPs for account verification.</span><br></br></>,
+                <><span><PiDotFill /> <b>Official Phone Number:</b> This number will be used to display on customer side and send official information via SMS or Whatsapp.</span><br></br></>,
                 <><span><PiDotFill /> <b>Password :</b> For the initial login, staff members can either use their date of birth in the format YYYYMMDD (e.g., 19990513) or set up a new password using the "Forgot Password" option.</span><br></br></>,
             ]} />
             <div className="boarder">
@@ -118,6 +126,8 @@ const AddStaff = ({ setPageHead }) => {
                         <SelectInput name='designation' id={'designation'} values={designations} onChangeFun={handleChange} label='Designation'
                             firstOption={{ option: 'Select...', value: '' }} />
                         <NormalInput name='sid' id={'sid'} value={form?.sid} onChangeFun={handleChange} label='Staff ID (SRL NO)' />
+                        <MobileInput onChangeFun={handleMobileNumber} name='official_number' value={`${form?.official_number?.country_code}${form?.official_number?.number}`}
+                            label='Official number' onlyCountries={['in']} isRequired={false}/>
                         <NormalInput label='Monthly Salary' name='current_salary' type='number' id={'current_salary'} value={form?.current_salary}
                             min={'0'} onChangeFun={handleChange} />
                         <NormalInput label={`Working Days (${months[new Date().getMonth()]})`} name='current_working_days' type='number' id={'current_working_days'} value={form?.current_working_days}
@@ -125,10 +135,14 @@ const AddStaff = ({ setPageHead }) => {
                         <NormalInput label='Hours in a Day (HH:MM)' name='current_working_time' id={'current_working_time'} value={form?.current_working_time}
                             pattern="([01][0-9]|2[0-3]):[0-5][0-9]" onChangeFun={handleChange} />
                         <NormalInput name='join_date' id={'join_date'} type='date' value={form?.join_date} onChangeFun={handleChange} label='Join Date' />
+                        <SelectInput name='work_mode' id={'work_mode'} values={workMode} onChangeFun={handleChange} label='Work mode'
+                            firstOption={{ option: 'Select...', value: '' }} />
+                        <SelectInput name='e_type' id={'e_type'} values={eType} onChangeFun={handleChange} label='Employment type'
+                            firstOption={{ option: 'Select...', value: '' }} />
                     </div>
 
                     <div className="actions">
-                        <SingleButton name={'Create New'} classNames={'xl btn-tertiary'} type={'submit'} loading={loading === 'submit'} />
+                        <SingleButton name={'Create Account'} classNames={'xl btn-tertiary'} type={'submit'} loading={loading === 'submit'} />
                     </div>
 
                     <p className='smallTD1'>

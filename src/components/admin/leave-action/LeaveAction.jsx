@@ -1,61 +1,90 @@
 import React, { useEffect, useState } from 'react'
 import './leave-action.scss'
-import NormalInput from '../../common/inputs/NormalInput'
 import SingleButton from '../../common/buttons/SingleButton'
-import { adminAxios } from '../../../config/axios'
+import { adminAxios, leaveAxios } from '../../../config/axios'
 import { YYYYMMDDFormat } from '../../../assets/javascript/date-helper'
 import { toast } from '../../../redux/features/user/systemSlice'
 import { useDispatch } from 'react-redux'
+import { GoTrash } from 'react-icons/go'
+import { TbAlertTriangle, TbCheck, TbX } from 'react-icons/tb'
 
-const LeaveAction = ({ data, setData, setModal }) => {
+const LeaveAction = ({ singleData, setData, setModal }) => {
     const dispatch = useDispatch()
-    const [totalLeave, setTotalLeave] = useState(0)
-    const [form, setForm] = useState({ from_date: data?.apply_leave?.from_date, to_date: data?.apply_leave?.to_date })
+    const [totalLeave, setTotalLeave] = useState(null)
+    const [form, setForm] = useState(singleData?.requested_days || [])
     const [loading, setLoading] = useState('')
 
     const months = ['Jun', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
-    const handleChange = (e) => {
-        setForm({
-            ...form,
-            [e.target.name]: e.target.value
-        })
+    const handleChangeDate = (e, dayIndex) => {
+        setForm((state) => {
+            const newState = [...state]; // Create a copy of the current state
+            newState[dayIndex] = [...newState[dayIndex]]; // Create a copy of the specific day array
+            newState[dayIndex][0] = e.target.value; // Update the value at the specified index
+            return newState; // Return the updated state
+        });
     }
 
-    const handleApprove = () => {
-        if (!form?.from_date || !form?.to_date) {
-            dispatch(toast.push.error({ message: 'Fill the inputs' }))
-            return;
-        }
+    const handleChangeTime = (e, dayIndex) => {
+        setForm((state) => {
+            const newState = [...state]; // Create a copy of the current state
+            newState[dayIndex] = [...newState[dayIndex]]; // Create a copy of the specific day array
+            switch (e.target.value) {
+                case '1':
+                    newState[dayIndex][2] = '09:30';
+                    newState[dayIndex][3] = '13:00';
+                    break;
+                case '2':
+                    newState[dayIndex][2] = '13:30';
+                    newState[dayIndex][3] = '17:30';
+                    break;
+                case '3':
+                    newState[dayIndex][2] = '09:30';
+                    newState[dayIndex][3] = '17:30';
+                    break;
 
-        if (form?.from_date > form?.to_date) {
-            dispatch(toast.push.error({ message: 'End date is not valid' }))
-            return;
-        }
+                default:
+                    newState[dayIndex][2] = '';
+                    newState[dayIndex][3] = '';
+                    break;
+            }
+
+            return newState; // Return the updated state
+        });
+    }
+
+    const handleDayDelete = (index) => {
+        setForm((state) => state.filter((value, idx) => idx !== index))
+    }
+
+    const handleApprove = (e) => {
+        e.preventDefault();
 
         const ask = window.confirm('Approve this application ?')
         if (ask) {
             setLoading('approve')
-            adminAxios.post('/leave-application/approve', { ...form, _id: data._id, leave_type: data?.leave_type }).then(() => {
-                dispatch(toast.push.success({ message: 'Leave Approved' }))
-                const betweenDays = Math.round((new Date(form?.to_date) - new Date(form?.from_date)) / (1000 * 60 * 60 * 24)) + 1
-                setData((state) => state.map((item) => {
-                    if (item._id === data._id) {
-                        return {
-                            ...item,
-                            leave_status: 'Approved',
-                            approved_leave: {
-                                from_date: form?.from_date,
-                                to_date: data?.leave_type === 'Full' ? form?.to_date : form?.from_date,
-                                days: data?.leave_type === 'Full' ? betweenDays : .5  // .5 === 0.5
-                            },
-                            approved_date_time: new Date()
-                        }
-                    }
-                    return item
-                }))
-                setModal({ status: false })
+            leaveAxios.put('/action/approve', { days: form, _id: singleData._id }).then(() => {
+
+                setModal({ status: false });
                 setLoading('')
+
+                setData((prevData) => {
+                    const updatedData = prevData.map(item => {
+                        if (item._id === singleData._id) {
+                            return {
+                                ...item,
+                                leave_status: 'Approved',
+                                approved_days: form,
+                                action_date_time: new Date(),
+                                action_by: 'You'
+                            };
+                        }
+                        return item;
+                    });
+
+                    return updatedData;
+                });
+
             }).catch((error) => {
                 dispatch(toast.push.error({ message: error.message }))
                 setLoading('')
@@ -68,19 +97,21 @@ const LeaveAction = ({ data, setData, setModal }) => {
         const ask = window.confirm('Reject this application ?')
         if (ask) {
             setLoading('reject')
-            adminAxios.post('/leave-application/reject', { _id: data._id }).then(() => {
-                dispatch(toast.push.success({ message: 'Leave Rejected' }))
-
-                setData((state) => state.map((item) => {
-                    if (item._id === data._id) {
-                        return {
-                            ...item,
-                            leave_status: 'Rejected',
-                            rejected_date_time: new Date()
+            leaveAxios.put('/action/reject', { _id: singleData._id }).then(() => {
+                setData((state) => {
+                    const updatedData = state.map((item) => {
+                        if (item._id === singleData._id) {
+                            return {
+                                ...item,
+                                leave_status: 'Rejected',
+                                action_date_time: new Date(),
+                                action_by: 'You'
+                            };
                         }
-                    }
-                    return item
-                }))
+                        return item;
+                    });
+                    return [...updatedData];
+                });
                 setModal({ status: false })
                 setLoading('')
             }).catch((error) => {
@@ -95,15 +126,14 @@ const LeaveAction = ({ data, setData, setModal }) => {
         const ask = window.confirm('Cancel this application ?')
         if (ask) {
             setLoading('cancel')
-            adminAxios.delete(`/leave-application/cancel?_id=${data._id}`).then(() => {
-                dispatch(toast.push.success({ message: 'Leave Cancelled' }))
-
+            leaveAxios.delete(`/action/cancel?_id=${singleData._id}`).then(() => {
                 setData((state) => state.map((item) => {
-                    if (item._id === data._id) {
+                    if (item._id === singleData._id) {
                         return {
                             ...item,
                             leave_status: 'Cancelled',
-                            cancelled_date_time: new Date()
+                            action_date_time: new Date(),
+                            action_by: 'You'
                         }
                     }
                     return item
@@ -119,8 +149,8 @@ const LeaveAction = ({ data, setData, setModal }) => {
     }
 
     useEffect(() => {
-        if (data?.leave_status === 'Pending' || data?.leave_status === 'Approved') {
-            adminAxios.get(`/leave-application/total-leave?staff_id=${data?.staff_id}&month=${YYYYMMDDFormat(new Date()).slice(0, 7)}`).then((response) => {
+        if (singleData?.leave_status === 'Pending' || singleData?.leave_status === 'Approved') {
+            leaveAxios.get(`/staff/total-leave?staff_id=${singleData?.staff_id}&month=${YYYYMMDDFormat(new Date()).slice(0, 7)}`).then((response) => {
                 setTotalLeave(response?.data?.total_leave || 0)
             })
         }
@@ -129,70 +159,82 @@ const LeaveAction = ({ data, setData, setModal }) => {
 
     return (
         <div className="leave-action-div">
-            {(data?.leave_status === 'Pending' || data?.leave_status === 'Approved') && <div className="list-item bold-text">
+            {(singleData?.leave_status === 'Pending' || singleData?.leave_status === 'Approved') && <div className="list-item bold-text">
                 <p>{months[new Date().getMonth()]} Total Leave</p>
-                <p>{totalLeave} Days</p>
+                <p>{totalLeave === null ? '...' : `${totalLeave} Day(s)`}</p>
             </div>}
-            <div className="list-item">
-                <p>Leave Type</p>
-                <p>{data?.leave_type} Day</p>
-            </div>
-            <div className="list-item">
-                <p>Request {data?.leave_type === 'Full' && 'From'} Date</p>
-                <p>{new Date(data?.apply_leave?.from_date).toDateString()}</p>
-            </div>
-            {data?.leave_type === 'Full' && <div className="list-item">
-                <p>Request End Date</p>
-                <p>{new Date(data?.apply_leave?.to_date).toDateString()}</p>
-            </div>}
-            <div className="list-item">
-                <p>Request Days</p>
-                <p>{data?.apply_leave?.days}d</p>
-            </div>
-            {data?.leave_status === 'Approved' && <>
-                <div className="list-item">
-                    <p>Approved {data?.leave_type === 'Full' && 'From'} Date</p>
-                    <p>{new Date(data?.approved_leave?.from_date).toDateString()}</p>
-                </div>
-                {data?.leave_type === 'Full' && <div className="list-item">
-                    <p>Approved End Date</p>
-                    <p>{new Date(data?.approved_leave?.to_date).toDateString()}</p>
-                </div>}
-                <div className="list-item">
-                    <p>Approved Days</p>
-                    <p>{data?.approved_leave?.days}d</p>
-                </div>
-            </>}
             <div className="list-item">
                 <p>Reason</p>
-                <p>{data?.leave_reason}</p>
+                <p>{singleData?.leave_reason}</p>
             </div>
             <div className="list-item">
                 <p>Comment</p>
-                <p>{data?.comment || 'Nill'}</p>
+                <p>{singleData?.comment || 'Nill'}</p>
             </div>
-            {data?.leave_status !== 'Pending' && <div className={data?.leave_status === 'Approved'
-                ? "info-item approve"
-                : data?.leave_status === 'Pending'
-                    ? 'info-item pending'
-                    : 'info-item reject'}>
-                <p>{data?.leave_status} On {new Date(data?.cancelled_date_time || data?.rejected_date_time || data?.approved_date_time).toDateString()}</p>
+            <form action="" onSubmit={handleApprove} >
+                {singleData?.leave_status !== 'Approved' && <div className="section-div">
+                    <h4>Requested days</h4>
+                    <div className="list-days">
+                        {form?.map((day, index) => {
+                            return <div className="list" key={day[0]}>
+                                <input name='date' type='date' value={day[0]} disabled={singleData?.leave_status !== 'Pending'}
+                                    required onChange={(e) => handleChangeDate(e, index)} />
+                                <select name='type' disabled={singleData?.leave_status !== 'Pending'} onChange={(e) => handleChangeTime(e, index)} required>
+                                    <option value={''}>Select...</option>
+                                    {day[1] === '0.5' && <option value={1} selected={day[1] === '0.5' && day[2] === '09:30'}>Before noon</option>}
+                                    {day[1] === '0.5' && <option value={2} selected={day[1] === '0.5' && day[2] === '13:30'}>After noon</option>}
+                                    {day[1] === '1' && <option value={3} selected={day[1] === '1'}>Full day</option>}
+                                </select>
+                                {form[1] && singleData?.leave_status === 'Pending' &&
+                                    <div className="icon reject" onClick={() => handleDayDelete(index)}> <GoTrash /></div>}
+                            </div>
+                        })}
+                    </div>
+                </div>}
+
+                <div className="button-div">
+                    {singleData?.leave_status === 'Pending' &&
+                        < SingleButton type={'button'} name={'Reject'} classNames={'btn-danger'} loading={loading === 'reject'} onClick={handleReject} />}
+
+                    {singleData?.leave_status === 'Pending' &&
+                        <SingleButton type={'submit'} name={'Approve'} classNames={'btn-success'} loading={loading === 'approve'} />}
+                </div>
+            </form>
+
+            {singleData?.leave_status === 'Approved' && <div className="section-div">
+                <h4>Approved days</h4>
+                <div className="list-days">
+                    {singleData?.approved_days?.map((day, index) => {
+                        return <div className="list" key={day[0]}>
+                            <input name='date' type='date' value={day[0]} disabled />
+                            <select name='type' disabled >
+                                {day[1] === '0.5' && <option value={1} selected={day[1] === '0.5' && day[2] === '09:30'}>Before noon</option>}
+                                {day[1] === '0.5' && <option value={2} selected={day[1] === '0.5' && day[2] === '13:30'}>After noon</option>}
+                                {day[1] === '1' && <option value={3} selected={day[1] === '1'}>Full day</option>}
+                            </select>
+                        </div>
+                    })}
+                </div>
             </div>}
-            {data?.leave_status === 'Pending' && <div className="form-inputs">
-                <NormalInput label={data?.leave_type === 'Full' ? 'From Date' : 'Date'} name='from_date' type='date'
-                    value={form?.from_date} style={{ width: '100%' }} onChangeFun={handleChange} />
-                {data?.leave_type === 'Full' && <NormalInput label='End Date' name='to_date' type='date'
-                    value={form?.to_date} onChangeFun={handleChange} min={form?.from_date} />}
-            </div>}
+
+
+            {singleData?.leave_status !== 'Pending' &&
+                < div className="status-view-bar">
+                    <div className={`icon-status ${singleData?.leave_status} ${singleData.edited && 'Edited'}`}>
+                        {singleData?.leave_status === 'Approved' && <TbCheck />}
+                        {singleData?.leave_status === 'Rejected' && <TbAlertTriangle />}
+                        {singleData?.leave_status === 'Cancelled' && <TbX />}
+                        <h4>{singleData.edited && 'Modified and'}{singleData.self_action && 'Self'} {singleData?.leave_status}</h4>
+                    </div>
+                    <p>{singleData.self_action ? 'Self' : singleData?.action_by} {singleData?.leave_status} on {new Date(singleData?.action_date_time).toDateString()}</p>
+                </div>}
+
+
             <div className="button-div">
-                {data?.leave_status === 'Pending' && < SingleButton name={'Reject'} classNames={'btn-danger'}
-                    loading={loading === 'reject'} onClick={handleReject} />}
-                {data?.leave_status === 'Pending' && <SingleButton name={'Approve'} classNames={'btn-success'}
-                    onClick={handleApprove} loading={loading === 'approve'} />}
-                {data?.leave_status === 'Pending' || data?.leave_status === 'Approved'
+                {singleData?.leave_status === 'Approved'
                     && < SingleButton name={'Cancel'} loading={loading === 'cancel'} onClick={handleCancel} />}
             </div>
-        </div>
+        </div >
     )
 }
 

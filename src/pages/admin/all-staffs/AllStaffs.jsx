@@ -1,20 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import './all-staffs.scss'
-import EditStaff from '../../../components/admin/edit-staff/EditStaff'
 import TableFilter from '../../../components/common/table-filter/TableFilter'
 import SpinWithMessage from '../../../components/common/spinners/SpinWithMessage'
-import StaffSettings from '../../../components/admin/staff-settings/StaffSettings'
-import { adminAxios } from '../../../config/axios'
+import {  workerAxios } from '../../../config/axios'
 import { getTimeFromSecond } from '../../../assets/javascript/date-helper'
 import { setAdminActivePage, toast } from '../../../redux/features/user/systemSlice'
-import { IoTrashBin } from 'react-icons/io5'
 import { useDispatch, useSelector } from 'react-redux'
 import Modal from '../../../components/common/modal/Modal'
 import SingleButton from '../../../components/common/buttons/SingleButton'
 import { useNavigate } from 'react-router-dom'
-import { GrEdit } from "react-icons/gr";
-import { FaCheck, FaPlus } from "react-icons/fa6";
-import { FiSettings } from "react-icons/fi";
+import { FaCheck, FaPlus, FaUsers } from "react-icons/fa6";
+import Badge from '../../../components/common/badge/Badge'
 
 
 function AllStaffs({ setPageHead }) {
@@ -24,11 +20,11 @@ function AllStaffs({ setPageHead }) {
     const [data, setData] = useState([])
     const [modal, setModal] = useState({ status: false })
     const [allStaff, setAllStaff] = useState(false)
-    const { admin } = useSelector((state) => state.adminAuth)
+    const { user } = useSelector((state) => state.userAuth)
 
 
     const getActiveStaffList = () => {
-        adminAxios.get('/staff/all-list').then((response) => {
+        workerAxios.get('/account/list').then((response) => {
             setData(response.data)
             setLoading('')
         }).catch((error) => {
@@ -38,7 +34,7 @@ function AllStaffs({ setPageHead }) {
     }
 
     const getAllStaffList = () => {
-        adminAxios.get('/staff/all-list?all=yes').then((response) => {
+        workerAxios.get('/account/list?all=yes').then((response) => {
             setData(response.data)
             setLoading('')
         }).catch((error) => {
@@ -78,10 +74,9 @@ function AllStaffs({ setPageHead }) {
             <Modal modal={modal} setModal={setModal} />
             <div className="table-div">
                 {data?.[0] ? <>
-                    <TableFilter srlNo={true} topRight={<div className='button-div'>
-                        {admin?.pro_admin && <SingleButton name={'Staff'} stIcon={<FaPlus />}
-                            classNames={'btn-tertiary'} onClick={() => navigate('/admin/staff-list/add-staff')} />
-                        }
+                    <TableFilter srlNo={true} topRight={user?.allowed_origins?.includes('ttcr_stfAcc_write') && <div className='button-div'>
+                        <SingleButton name={'Staff Account'} stIcon={<FaPlus />}
+                            classNames={'btn-tertiary'} onClick={() => navigate('/admin/staff-list/account/new')} />
                         <SingleButton name={'All Staffs'} stIcon={allStaff && <FaCheck />}
                             classNames={allStaff ? 'btn-primary' : 'btn-gray'} onClick={handleAllButton} loading={loading === 'listing'} />
                     </div>}>
@@ -93,36 +88,30 @@ function AllStaffs({ setPageHead }) {
                                     <th>Mobile No</th>
                                     <th>Work Details</th>
                                     <th>Salary</th>
-                                    {admin?.pro_admin && <th>Control</th>}
                                 </tr>
                             </thead>
                             <tbody>
                                 {data.map((value) => {
                                     return <tr key={value._id} className={value?.delete ? 'deleted-item' : ""}>
 
-                                        <td style={{ cursor: "pointer" }} title='Click for show profile details' onClick={() => navigate(`/admin/staff-list/${value._id}/view`)}>
-                                            {value?.first_name + ' ' + value?.last_name}<br></br><small>{value?.sid}</small>
+                                        <td style={{ cursor: "pointer" }} title='Click for show profile details' onClick={() => navigate(`/admin/staff-list/${value._id}/profile`)}>
+                                            {value?.full_name}<br></br><small>{value?.sid}</small>
                                         </td>
-                                        <td style={{ cursor: "pointer" }} onClick={() => navigate(`/admin/staff-list/${value._id}/view`)}>
-                                            {value.designation.designation}
+                                        <td style={{ cursor: "pointer" }} onClick={() => navigate(`/admin/staff-list/${value._id}/profile`)}>
+                                            {value.designation.designation}<br></br>
+                                            <small>{value?.e_type} / {value?.work_mode}</small>
                                         </td>
-                                        <td onClick={() => navigate(`/admin/staff-list/${value._id}/view`)}>{value.contact1}</td>
-                                        <td onClick={() => navigate(`/admin/staff-list/${value._id}/view`)}>
+                                        <td style={{ cursor: "pointer" }} onClick={() => navigate(`/admin/staff-list/${value._id}/profile`)}>
+                                            +{value?.primary_number?.country_code} {value?.primary_number?.number}
+                                            <br></br> {!value?.primary_number?.verified && <Badge text={'Unverified'} className={'error-fill'} />}
+                                        </td>
+                                        <td style={{ cursor: "pointer" }} onClick={() => navigate(`/admin/staff-list/${value._id}/profile`)}>
                                             {getTimeFromSecond(value.current_working_time) || 'Om'} x {value.current_working_days || 0}d
                                             <br></br><small>{getTimeFromSecond(value.current_working_time * value.current_working_days)}</small>
                                         </td>
-                                        <td onClick={() => navigate(`/admin/staff-list/${value._id}/view`)}>₹{value.current_salary || 0}.00</td>
-                                        {admin?.pro_admin && <td>
-                                            {!value?.delete &&
-                                                <div className="button-div">
-                                                    <SingleButton title='Edit' classNames={'icon-only btn-blue'} stIcon={<GrEdit />}
-                                                        onClick={() => openModal('Edit Staff', <EditStaff setModal={setModal} setData={setData} editId={value._id} />, '600px')} />
-                                                    <SingleButton title='Staff Settings' classNames={'icon-only btn-primary '} stIcon={<FiSettings />}
-                                                        onClick={() => openModal('Settings', <StaffSettings setModal={setModal} staffId={value._id} />)} />
-                                                </div>}
+                                        <td style={{ cursor: "pointer" }} onClick={() => navigate(`/admin/staff-list/${value._id}/profile`)}>₹{value.current_salary || 0}.00</td>
 
-                                        </td>}
-                                        <td style={{ display: 'none' }}>{value?.sid}</td>
+                                        <td style={{ display: 'none' }}>{value?.sid} {value?.e_type} {value?.work_mode}</td>
                                     </tr>
                                 })}
                             </tbody>
@@ -131,11 +120,13 @@ function AllStaffs({ setPageHead }) {
                 </>
                     :
                     <div className='no-data'>
-                        <SpinWithMessage icon={<IoTrashBin />} message={'Empty list'} load={loading === 'initialData'} fullView bottomContent={<>
-                            {admin?.pro_admin && <SingleButton name={'Create New Staff'} stIcon={<FaPlus />}
-                                classNames={'btn-tertiary'} onClick={() => navigate('/admin/staff-list/add-staff')} />
-                            }
-                        </>} />
+                        <SpinWithMessage icon={<FaUsers />} message={'Crate a staff account using below button.'} load={loading === 'initialData'} height={'85vh'}
+                            bottomContent={
+                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                    <SingleButton name={'Staff Account'} stIcon={<FaPlus />}
+                                        classNames={'btn-tertiary'} onClick={() => navigate('/admin/staff-list/account/new')} />
+                                </div>
+                            } />
                     </div>
                 }
             </div>

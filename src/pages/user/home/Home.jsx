@@ -41,7 +41,7 @@ function Home({ setPageHead }) {
     }
     setPageHead(() => ({ title: null }))
 
-    userAxios.get(`/v2/worker/profile/${user?.acc_id}?initial=Yes`).then((response) => {
+    userAxios.get(`/v2/worker/account/${user?.acc_id}?initial=Yes`).then((response) => {
       setUserData(response?.data)
     })
 
@@ -87,13 +87,13 @@ function Home({ setPageHead }) {
         </div>}
         <div className="section-content">
           {/* Staff Admin */}
-          {user?.allowed_origins?.includes('ttcr_default') && <div className="app-item">
+          {user?.allowed_origins?.some((access) => access?.slice(0, 4) === 'ttcr') && (<div className="app-item">
             <div className="icon-div" style={{ backgroundColor: "#4c0c87" }}
               onClick={() => navigate('/admin')}>
               <MdAdminPanelSettings />
             </div>
             <p>TT Controller</p>
-          </div>}
+          </div>)}
 
 
 

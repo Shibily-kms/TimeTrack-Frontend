@@ -48,7 +48,7 @@ function TableFilter({ children, srlNo, topRight }) {
         setChildrenBody(children?.props?.children?.[1]?.props?.children)
         setTableBody(children?.props?.children?.[1]?.props?.children?.slice(rowCount * (page - 1), rowCount * page))
         // eslint-disable-next-line 
-    }, [children])
+    }, [children?.props?.children?.[1]?.props?.children?.length])
 
     return (
         <div className="table-filter">

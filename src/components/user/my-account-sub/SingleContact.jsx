@@ -43,7 +43,7 @@ const SingleContact = ({ type, label, contact, setModal, setUserData }) => {
     const updateContact = (verified) => {
 
         setLoading(true)
-        userAxios.put(`/v2/worker/profile/${user?.acc_id}/contact?AC_CODE=ttur_default`, {
+        userAxios.put(`/v2/worker/account/${user?.acc_id}/contact?AC_CODE=ttur_default`, {
             type: label,
             contact: { ...(form?.contact || {}), verified: verified || null }
         }).then(() => {

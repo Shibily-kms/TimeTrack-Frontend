@@ -29,7 +29,7 @@ const WorkAnalyze = ({ setPageHead }) => {
     setLoading('fetch')
     adminAxios.get(`/analyze/staff-work-data?from_date=${searchParams.get('month') + '-01'}&to_date=${searchParams.get('month') + '-31'}&type=${searchParams.get('staff') === 'all' ? 'date-basie' : 'staff-basie'}&staff_id=${searchParams.get('staff') !== 'all' ? searchParams.get('staff') : ''}`)
       .then(async (response) => {
-        console.log(response)
+   
         if (searchParams.get('staff') === 'all' || !searchParams.get('staff')) {
           // Date basie
           const analyzedData = analyzeDateHelper(

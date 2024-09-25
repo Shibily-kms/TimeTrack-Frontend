@@ -22,7 +22,7 @@ const SecurityPrivacy = () => {
 
     useEffect(() => {
         setLoading('fetch')
-        userAxios.get(`/v2/worker/profile/${user?.acc_id}`).then((response) => {
+        userAxios.get(`/v2/worker/account/${user?.acc_id}`).then((response) => {
             setUserData(response.data)
             setLoading('')
         }).catch((error) => {
