@@ -216,6 +216,47 @@ const workReportHelper = (data, staffs, date) => {
     return reportData;
 }
 
+const salaryReportYearBaseHelper = (data, year) => {
+    const prevent = data?.sort((a, b) => a.data - b.date)
+    const currentYYYYMM = YYYYMMDDFormat(new Date()).slice(0, 7)
+    let month = 0
+    let i = 0
+
+    const reports = []
+
+    while (month < 12) {
+
+        if (YYYYMMDDFormat(new Date(year, month)).slice(0, 7) === currentYYYYMM) {
+            break;
+        }
+
+        if (prevent?.[i]?.date === YYYYMMDDFormat(new Date(year, month)).slice(0, 7)) {
+            reports.push(prevent?.[i])
+            month++
+            i++
+        } else {
+            reports.push({
+                date: YYYYMMDDFormat(new Date(year, month)).slice(0, 7),
+                message: 'Report not available',
+                full_name: prevent[i]?.full_name,
+                allowed_salary: 0,
+                day_hours: 0,
+                extra_time: 0,
+                monthly_salary: 0,
+                used_CF: 0,
+                worked_days: 0,
+                worked_time: 0,
+                working_days: 0,
+                balance_CF: 0
+            })
+            month++
+        }
+    }
+
+
+    return reports
+}
+
 const punchDataHelper = (workDetails, setPunch) => {
     const lastPunchData = workDetails?.punch_list?.[workDetails?.punch_list.length - 1] || {}
 
@@ -230,4 +271,4 @@ const punchDataHelper = (workDetails, setPunch) => {
     }
 }
 
-export { analyzeDateHelper, analyzeStaffHelper, workReportHelper, punchDataHelper, analyzeStaffMonthReport }
+export { analyzeDateHelper, analyzeStaffHelper, workReportHelper, punchDataHelper, analyzeStaffMonthReport, salaryReportYearBaseHelper }

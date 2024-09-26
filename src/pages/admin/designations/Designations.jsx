@@ -69,7 +69,7 @@ function Designations({ setPageHead }) {
                                 <tr>
                                     <th>Designation</th>
                                     <th>Staffs Count</th>
-                                    {admin?.pro_admin && <th>Control</th>}
+                                    <th>Control</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -77,14 +77,14 @@ function Designations({ setPageHead }) {
                                     return <tr key={value._id}>
                                         <td>{value.designation}</td>
                                         <td style={{ textAlign: 'center' }}>{value.name.length}</td>
-                                        {admin?.pro_admin && <td style={{ textAlign: 'center' }}>
+                                        <td style={{ textAlign: 'center' }}>
                                             <div className='buttons' >
                                                 <SingleButton title='Edit' classNames={'icon-only btn-blue'} stIcon={<GrEdit />}
                                                     onClick={() => openModal('Edit Designation', <EditDesignation setModal={setModal} setData={setData} editData={value} />)} />
                                                 <SingleButton title='Delete' classNames={'icon-only btn-danger '} stIcon={<GoTrash />} onClick={() => handleDelete(value._id)}
                                                     loading={loading === value._id} />
                                             </div>
-                                        </td>}
+                                        </td>
                                     </tr>
                                 })}
                             </tbody>

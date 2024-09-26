@@ -85,6 +85,7 @@ function Admin() {
 
 
 function PrivateRoute({ element, isAuthenticated }) {
+  return element
   return isAuthenticated ? (
     <Routes>
       <Route path='/' element={element} />

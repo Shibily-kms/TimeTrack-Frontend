@@ -85,6 +85,21 @@ export const origins_head_list = [
                     },
                 ]
             },
+            {
+                id: 'ttcr_rprt',
+                title: 'Reports',
+                description: 'Staff salary report and others',
+                origins: [
+                    {
+                        key: 'ttcr_rprt_read',
+                        name: 'Read'
+                    },
+                    {
+                        key: 'ttcr_rprt_write',
+                        name: 'Read and Write'
+                    },
+                ]
+            },
         ]
     },
     {

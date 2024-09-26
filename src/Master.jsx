@@ -9,6 +9,7 @@ import { userAxios } from './config/axios'
 import { setUser } from './redux/features/user/authSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { doSignOut } from './assets/javascript/auth-helper'
+import RotateToken from './components/common/rotateToken/RotateToken'
 
 const Master = () => {
     const dispatch = useDispatch()
@@ -34,16 +35,19 @@ const Master = () => {
 
 
     return (
-        <Routes>
-            {/* Without Header and Footer */}
-            <Route path='/qr-code' element={<QrCodeView />} />
-            <Route path='/scanner' element={<Scanner />} />
+        <>
+            <RotateToken />
+            <Routes>
+                {/* Without Header and Footer */}
+                <Route path='/qr-code' element={<QrCodeView />} />
+                <Route path='/scanner' element={<Scanner />} />
 
 
-            {/* Main Root */}
-            <Route element={<Admin />} path='/admin/*' />
-            <Route element={<User />} path='/*' />
-        </Routes>
+                {/* Main Root */}
+                <Route element={<Admin />} path='/admin/*' />
+                <Route element={<User />} path='/*' />
+            </Routes>
+        </>
     )
 }
 

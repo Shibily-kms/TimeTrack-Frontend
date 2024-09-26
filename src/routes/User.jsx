@@ -96,7 +96,7 @@ function User() {
 
   return (
     <SinglePage pageHead={pageHead}>
-      <RotateToken />
+    
       <Suspense fallback={<PageLoading />}>
         <Routes>
           <Route path='/' element={<PrivateRoute element={<Home setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />

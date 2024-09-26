@@ -15,12 +15,12 @@ function NotFound({ setPageHead }) {
     return (
         <div className='not-found'>
 
-            <main class="main">
-                <div class="image">
+            <main className="main">
+                <div className="image">
                     <img id="big_image" src="https://mjavadh.github.io/4X4-Collection/Fantasy/Black%20Box/assets/astronaut.png" alt="#" />
                 </div>
 
-                <div class="text-404">
+                <div className="text-404">
                     <h1>4 0 4</h1>
                     <p>Page not found!</p>
                     <SingleButton name={'Go to Home'} classNames={'btn-secondary'} onClick={() => navigate(user ? '/' : '/admin')} />

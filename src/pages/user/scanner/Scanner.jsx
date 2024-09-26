@@ -195,8 +195,8 @@ const Scanner = React.memo(() => {
                 {!res?.status && !qrCodeText &&
                     <div className="box-0-div">
                         {/* First Child Div */}
-                        <div class="scan-box-div">
-                            <div class="hole">
+                        <div className="scan-box-div">
+                            <div className="hole">
                                 <div className="one"></div>
                                 <div className="two"></div>
                                 <div className="three"></div>
