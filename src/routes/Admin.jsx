@@ -60,13 +60,18 @@ function Admin() {
           {user?.allowed_origins?.includes('ttcr_stfAcc_write') &&
             <Route path='/staff-list/account/new' element={<PrivateRoute element={<AddStaff setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />}
 
+          {/* Leave letter */}
+          {user?.allowed_origins?.some(access => ['ttcr_l2_read', 'ttcr_l2_write'].includes(access)) &&
+            <Route path='/leave-letters' element={<PrivateRoute element={<LeaveApp setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />}
+
+          {/* Analyzes */}
+          {user?.allowed_origins?.some(access => ['ttcr_anlz_read', 'ttcr_anlz_write'].includes(access)) &&
+            <Route path='/analyze/work-analyze' element={<PrivateRoute element={<WorkAnalyze setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />}
 
 
           <Route path='/designation-list' element={<PrivateRoute element={<Designations setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
           <Route path='/settings' element={<PrivateRoute element={<Settings setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
           <Route path='/analyze/salary-reports' element={<PrivateRoute element={<MonthlyReports setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
-          <Route path='/analyze/work-analyze' element={<PrivateRoute element={<WorkAnalyze setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
-          <Route path='/leave-letters' element={<PrivateRoute element={<LeaveApp setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
           <Route path='/qr-generator' element={<PrivateRoute element={<QrGenerator setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
 
 

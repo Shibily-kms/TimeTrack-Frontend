@@ -70,6 +70,21 @@ export const origins_head_list = [
                     },
                 ]
             },
+            {
+                id: 'ttcr_anlz',
+                title: 'Analyzes',
+                description: 'Analyze and control staff work, efficiency',
+                origins: [
+                    {
+                        key: 'ttcr_anlz_read',
+                        name: 'Read'
+                    },
+                    {
+                        key: 'ttcr_anlz_write',
+                        name: 'Read and Write'
+                    },
+                ]
+            },
         ]
     },
     {

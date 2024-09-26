@@ -2,21 +2,25 @@ import React, { useEffect, useState } from 'react'
 import './table-for-analyze.scss';
 import { stringToLocalTime, getTimeFromSecond } from '../../../assets/javascript/date-helper'
 import { BsArrowsFullscreen } from 'react-icons/bs'
-// import { GrEdit } from 'react-icons/gr'
 import TableFilter from '../../common/table-filter/TableFilter'
 import Badge from '../../common/badge/Badge'
 import Modal from '../../common/modal/Modal'
 import ViewModal from '../../admin/staff-work/ViewModal'
-// import EditWorkData from '../../admin/staff-work/EditWorkData'
+import EditWorkData from '../../admin/staff-work/EditWorkData'
 import SingleButton from '../../common/buttons/SingleButton';
 import DownloadButtons from './DownloadButtons';
+import { GrEdit } from 'react-icons/gr';
+import { useSearchParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 function TableForAnalyze({ tableData, details, selectDay, staffBasie }) {
     const [today, setToday] = useState(false)
-    // eslint-disable-next-line
     const [yesterday, setYesterday] = useState(false)
     const [modal, setModal] = useState({ status: false })
     const months = ['Jun', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    const [searchParams] = useSearchParams()
+    const { user } = useSelector((state) => state.userAuth)
+
 
     useEffect(() => {
         if (!staffBasie) {
@@ -26,9 +30,9 @@ function TableForAnalyze({ tableData, details, selectDay, staffBasie }) {
                 setToday(false)
             }
             let currentDate = new Date();
-            currentDate.setDate(currentDate.getDate() - 1);
+            currentDate.setDate(currentDate.getDate() - 7);
 
-            if (currentDate.getDate() === details?.date && currentDate.getMonth() === details?.month && currentDate.getFullYear() === details?.year) {
+            if (currentDate.getDate() <= details?.date && currentDate.getMonth() <= details?.month && currentDate.getFullYear() <= details?.year) {
                 setYesterday(true)
             } else {
                 setYesterday(false)
@@ -107,20 +111,15 @@ function TableForAnalyze({ tableData, details, selectDay, staffBasie }) {
 
                                         <td>
                                             <div className='button-div'>
-
-                                                {/* {!staffBasie && (today || yesterday) && obj?.punch?.in &&
+                                                {!staffBasie && yesterday && obj?.punch_list?.[0]?.in && user?.allowed_origins.includes('ttcr_anlz_write') &&
                                                     <SingleButton title='Edit' classNames={'icon-only btn-blue '} stIcon={<GrEdit />}
-                                                        onClick={() => openModal('Edit', <EditWorkData data={
+                                                        onClick={() => openModal('Update punch', <EditWorkData data={
                                                             {
                                                                 staff_id: obj?.staff_id,
-                                                                punch: obj?.punch,
-                                                                over_time: obj?.over_time,
-                                                                date: obj.date,
-                                                                month: obj.month,
-                                                                year: obj.year,
-                                                                day: obj.day
+                                                                punch_list: obj?.punch_list,
+                                                                date: `${searchParams.get('month')}-${(details.date).toString().padStart(2, '0')}`
                                                             }
-                                                        } setModal={setModal} />)} />} */}
+                                                        } setModal={setModal} />)} />}
 
                                                 <SingleButton title='Expand' classNames={'icon-only btn-primary '} stIcon={<BsArrowsFullscreen />}
                                                     onClick={() => openModal('Expand', <ViewModal data={obj} info={

@@ -9,17 +9,14 @@ import SpinWithMessage from '../../../components/common/spinners/SpinWithMessage
 import TableFilter from '../../../components/common/table-filter/TableFilter';
 import LeaveAction from '../../../components/admin/leave-action/LeaveAction';
 import { readTheLetters } from '../../../assets/javascript/l2-helper';
+import { RiFileList3Fill } from 'react-icons/ri';
 
 const LeaveApp = ({ setPageHead }) => {
     const dispatch = useDispatch()
     const [loading, setLoading] = useState('fetch')
     const [data, setData] = useState([])
     const [modal, setModal] = useState({ status: false })
-
-
-    const handleActionLeave = (singleData) => {
-        setModal({ status: true, title: singleData?.token_id, content: <LeaveAction singleData={singleData} setData={setData} setModal={setModal} /> })
-    }
+    const { user } = useSelector((state) => state.userAuth)
 
     useEffect(() => {
         setPageHead({ title: 'Leave Letters', desc: 'Last 15 days actions and current pending applications' })
@@ -39,8 +36,8 @@ const LeaveApp = ({ setPageHead }) => {
     return (
         <div className="leave-app-page-div">
             <Modal modal={modal} setModal={setModal} />
-            {loading === 'fetch'
-                ? <SpinWithMessage load height={'300px'} />
+            {loading === 'fetch' || !data?.[0]
+                ? <SpinWithMessage load={loading === 'fetch'} height={'400px'} icon={<RiFileList3Fill />} message='No new leave letter request' />
                 : <TableFilter >
                     <table>
                         <thead>
@@ -69,7 +66,7 @@ const LeaveApp = ({ setPageHead }) => {
                                     ${item?.edited ? 'Modified & approved' : item?.leave_status}`} /></td>
                                 <td>
                                     <div className="button-div" style={{ display: 'flex', justifyContent: 'center' }}>
-                                        <SingleButton title={'Copy Link'} name={'Action'}
+                                        <SingleButton title={'Copy Link'} name={user?.allowed_origins.includes('ttcr_l2_write') ? 'Action' : 'View'}
                                             onClick={() => setModal({
                                                 status: true,
                                                 title: item?.token_id,

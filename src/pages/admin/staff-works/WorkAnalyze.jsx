@@ -6,12 +6,13 @@ import SelectInput from '../../../components/common/inputs/SelectInput'
 import StaffBasie from './StaffBasie'
 import DateBasie from './DateBasie'
 import { ImSearch } from "react-icons/im";
-import { adminAxios } from '../../../config/axios'
+import { adminAxios, workerAxios } from '../../../config/axios'
 import { useSearchParams } from 'react-router-dom'
 import { setAdminActivePage, toast } from '../../../redux/features/user/systemSlice'
 import { useDispatch } from 'react-redux'
 import { analyzeDateHelper, analyzeStaffHelper, analyzeStaffMonthReport } from '../../../assets/javascript/work-helper'
 import SpinWithMessage from '../../../components/common/spinners/SpinWithMessage'
+import { YYYYMMDDFormat } from '../../../assets/javascript/date-helper'
 
 const WorkAnalyze = ({ setPageHead }) => {
 
@@ -29,7 +30,7 @@ const WorkAnalyze = ({ setPageHead }) => {
     setLoading('fetch')
     adminAxios.get(`/analyze/staff-work-data?from_date=${searchParams.get('month') + '-01'}&to_date=${searchParams.get('month') + '-31'}&type=${searchParams.get('staff') === 'all' ? 'date-basie' : 'staff-basie'}&staff_id=${searchParams.get('staff') !== 'all' ? searchParams.get('staff') : ''}`)
       .then(async (response) => {
-   
+
         if (searchParams.get('staff') === 'all' || !searchParams.get('staff')) {
           // Date basie
           const analyzedData = analyzeDateHelper(
@@ -40,11 +41,13 @@ const WorkAnalyze = ({ setPageHead }) => {
           )
           setDateAlzList(analyzedData)
           setStaffAlzList([])
+
+          const thisMonth = YYYYMMDDFormat(new Date()).slice(0, 7)
           setSelectDay({
-            date: analyzedData[0]?.date,
-            month: analyzedData[0]?.month,
-            year: analyzedData[0]?.year,
-            count: analyzedData[0]?.attendanceCount
+            date: searchParams.get('month') === thisMonth ? analyzedData[analyzedData?.length - 1]?.date : analyzedData[0]?.date,
+            month: searchParams.get('month') === thisMonth ? analyzedData[analyzedData?.length - 1]?.month : analyzedData[0]?.month,
+            year: searchParams.get('month') === thisMonth ? analyzedData[analyzedData?.length - 1]?.year : analyzedData[0]?.year,
+            count: searchParams.get('month') === thisMonth ? analyzedData[analyzedData?.length - 1]?.attendanceCount : analyzedData[0]?.attendanceCount
           })
           setLoading('')
 
@@ -107,7 +110,7 @@ const WorkAnalyze = ({ setPageHead }) => {
     setPageHead({ title: 'Work Analyze' })
     dispatch(setAdminActivePage('work-analyze'))
 
-    adminAxios.get('/staff/all-list?all=yes').then((response) => {
+    workerAxios.get('/account/list?all=yes').then((response) => {
       const list = response.data?.map((person) => ({
         ...person,
         option: `${person?.full_name} ${person?.delete ? '(Removed)' : ''}`,
@@ -117,7 +120,7 @@ const WorkAnalyze = ({ setPageHead }) => {
       setStaffs(list)
       fetchData(list)
     })
-    
+
     // eslint-disable-next-line
   }, [])
 
@@ -135,7 +138,7 @@ const WorkAnalyze = ({ setPageHead }) => {
         </form>
       </div>
       <div className="analyze-content-div">
-        {loading ? <SpinWithMessage load height={'400px'}/>
+        {loading ? <SpinWithMessage load height={'400px'} />
           : dateAlzList?.[0]
             ? <DateBasie dateAlzList={dateAlzList} selectDay={selectDay} setSelectDay={setSelectDay} />
             : <StaffBasie staffAlzList={staffAlzList} monthReport={monthReport} />

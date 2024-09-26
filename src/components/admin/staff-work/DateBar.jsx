@@ -4,6 +4,7 @@ import './date-bar.scss'
 
 function DateBar({ data, selected, setSelected }) {
     const scrollContainerRef = useRef(null);
+    const selectedRef = useRef(null); // Ref for the selected active date
     const [showLeftArrow, setShowLeftArrow] = useState(false);
     const [showRightArrow, setShowRightArrow] = useState(true);
 
@@ -15,6 +16,12 @@ function DateBar({ data, selected, setSelected }) {
             scrollContainer.scrollLeft = 0;
         }
     }, [data]);
+
+    useEffect(() => {
+        if (selectedRef.current) {
+            selectedRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }
+    }, [selected, data]);
 
     const handleScroll = () => {
         const scrollContainer = scrollContainerRef.current;
@@ -48,6 +55,7 @@ function DateBar({ data, selected, setSelected }) {
                     {data.map((day, index) => {
                         return <div key={index} className={`item-box ${day.day === 'SUN' && 'sunday'} 
                         ${selected.date === day.date && selected.month === day.month && selected.year === day.year && 'active'}`}
+                        ref={selected.date === day.date && selected.month === day.month && selected.year === day.year ? selectedRef : null}
                             onClick={() => setSelected({ date: day.date, month: day.month, year: day.year, count: day.attendanceCount })
                             } >
                             <div className="content" title={`${day.date}-${day.month + 1}-${day.year}`}>

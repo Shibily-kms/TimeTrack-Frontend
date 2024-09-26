@@ -69,7 +69,7 @@ function AdminPage({ pageHead, children }) {
                                 {adminActivePage === 'dashboard' ? <MdSpaceDashboard /> : <MdOutlineSpaceDashboard />}
                                 <span>Dashboard</span>
                             </div>
-                            
+
                             {/* Staff list */}
                             {user?.allowed_origins?.some(access => ['ttcr_stfAcc_read', 'ttcr_stfAcc_write'].includes(access)) &&
                                 <div className={adminActivePage === 'staff-list' ? "menu-item active-menu" : "menu-item"}
@@ -77,17 +77,23 @@ function AdminPage({ pageHead, children }) {
                                     {adminActivePage === 'staff-list' ? <PiUserListFill /> : <PiUserListBold />}
                                     <span>Staff List</span>
                                 </div>}
+                            {/* Leave letter */}
+                            {user?.allowed_origins?.some(access => ['ttcr_l2_read', 'ttcr_l2_write'].includes(access)) &&
+                                <div className={adminActivePage === 'leave-letters' ? "menu-item active-menu" : "menu-item"}
+                                    onClick={() => clickMenuItem('/admin/leave-letters', 'leave-letters')}>
+                                    {adminActivePage === 'leave-letters' ? <RiFileList3Fill /> : <RiFileList3Line />}
+                                    <span>Leave letters</span>
+                                </div>}
+                            {/* Work analyze */}
+                            {user?.allowed_origins?.some(access => ['ttcr_anlz_read', 'ttcr_anlz_write'].includes(access)) &&
+                                <div className={adminActivePage === 'work-analyze' ? "menu-item active-menu" : "menu-item"}
+                                    onClick={() => clickMenuItem(`/admin/analyze/work-analyze?month=${new Date().toISOString().split('T')[0].slice(0, 7)}&staff=all`, 'work-analyze')}>
+                                    {adminActivePage === 'work-analyze' ? <MdWorkHistory /> : <MdOutlineWorkHistory />}
+                                    <span>Work Analyze</span>
+                                </div>}
 
-                            <div className={adminActivePage === 'leave-letters' ? "menu-item active-menu" : "menu-item"}
-                                onClick={() => clickMenuItem('/admin/leave-letters', 'leave-letters')}>
-                                {adminActivePage === 'leave-letters' ? <RiFileList3Fill /> : <RiFileList3Line />}
-                                <span>Leave letters</span>
-                            </div>
-                            <div className={adminActivePage === 'work-analyze' ? "menu-item active-menu" : "menu-item"}
-                                onClick={() => clickMenuItem(`/admin/analyze/work-analyze?month=${new Date().toISOString().split('T')[0].slice(0, 7)}&staff=all`, 'work-analyze')}>
-                                {adminActivePage === 'work-analyze' ? <MdWorkHistory /> : <MdOutlineWorkHistory />}
-                                <span>Work Analyze</span>
-                            </div>
+
+
                             <div className={adminActivePage === 'salary-reports' ? "menu-item active-menu" : "menu-item"}
                                 onClick={() => clickMenuItem('/admin/analyze/salary-reports', 'salary-reports')}>
                                 {adminActivePage === 'salary-reports' ? <FaIndianRupeeSign /> : <LuIndianRupee />}

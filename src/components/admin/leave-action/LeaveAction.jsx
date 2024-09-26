@@ -4,7 +4,7 @@ import SingleButton from '../../common/buttons/SingleButton'
 import { adminAxios, leaveAxios } from '../../../config/axios'
 import { YYYYMMDDFormat } from '../../../assets/javascript/date-helper'
 import { toast } from '../../../redux/features/user/systemSlice'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { GoTrash } from 'react-icons/go'
 import { TbAlertTriangle, TbCheck, TbX } from 'react-icons/tb'
 
@@ -13,6 +13,7 @@ const LeaveAction = ({ singleData, setData, setModal }) => {
     const [totalLeave, setTotalLeave] = useState(null)
     const [form, setForm] = useState(singleData?.requested_days || [])
     const [loading, setLoading] = useState('')
+    const { user } = useSelector((state) => state.userAuth)
 
     const months = ['Jun', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
@@ -60,35 +61,37 @@ const LeaveAction = ({ singleData, setData, setModal }) => {
     const handleApprove = (e) => {
         e.preventDefault();
 
-        const ask = window.confirm('Approve this application ?')
-        if (ask) {
-            setLoading('approve')
-            leaveAxios.put('/action/approve', { days: form, _id: singleData._id }).then(() => {
+        if (user?.allowed_origins.includes('ttcr_l2_write')) {
+            const ask = window.confirm('Approve this application ?')
+            if (ask) {
+                setLoading('approve')
+                leaveAxios.put('/action/approve', { days: form, _id: singleData._id }).then(() => {
 
-                setModal({ status: false });
-                setLoading('')
+                    setModal({ status: false });
+                    setLoading('')
 
-                setData((prevData) => {
-                    const updatedData = prevData.map(item => {
-                        if (item._id === singleData._id) {
-                            return {
-                                ...item,
-                                leave_status: 'Approved',
-                                approved_days: form,
-                                action_date_time: new Date(),
-                                action_by: 'You'
-                            };
-                        }
-                        return item;
+                    setData((prevData) => {
+                        const updatedData = prevData.map(item => {
+                            if (item._id === singleData._id) {
+                                return {
+                                    ...item,
+                                    leave_status: 'Approved',
+                                    approved_days: form,
+                                    action_date_time: new Date(),
+                                    action_by: 'You'
+                                };
+                            }
+                            return item;
+                        });
+
+                        return updatedData;
                     });
 
-                    return updatedData;
-                });
-
-            }).catch((error) => {
-                dispatch(toast.push.error({ message: error.message }))
-                setLoading('')
-            })
+                }).catch((error) => {
+                    dispatch(toast.push.error({ message: error.message }))
+                    setLoading('')
+                })
+            }
         }
     }
 
@@ -192,13 +195,16 @@ const LeaveAction = ({ singleData, setData, setModal }) => {
                     </div>
                 </div>}
 
-                <div className="button-div">
-                    {singleData?.leave_status === 'Pending' &&
-                        < SingleButton type={'button'} name={'Reject'} classNames={'btn-danger'} loading={loading === 'reject'} onClick={handleReject} />}
+                {user?.allowed_origins.includes('ttcr_l2_write') &&
+                    <div className="button-div">
+                        {singleData?.leave_status === 'Pending' &&
+                            < SingleButton type={'button'} name={'Reject'} classNames={'btn-danger'} loading={loading === 'reject'} onClick={handleReject} />}
 
-                    {singleData?.leave_status === 'Pending' &&
-                        <SingleButton type={'submit'} name={'Approve'} classNames={'btn-success'} loading={loading === 'approve'} />}
-                </div>
+                        {singleData?.leave_status === 'Pending' &&
+                            <SingleButton type={'submit'} name={'Approve'} classNames={'btn-success'} loading={loading === 'approve'} />}
+                    </div>
+                }
+
             </form>
 
             {singleData?.leave_status === 'Approved' && <div className="section-div">
@@ -230,10 +236,11 @@ const LeaveAction = ({ singleData, setData, setModal }) => {
                 </div>}
 
 
-            <div className="button-div">
-                {singleData?.leave_status === 'Approved'
-                    && < SingleButton name={'Cancel'} loading={loading === 'cancel'} onClick={handleCancel} />}
-            </div>
+            {user?.allowed_origins.includes('ttcr_l2_write') &&
+                <div className="button-div">
+                    {singleData?.leave_status === 'Approved'
+                        && < SingleButton name={'Cancel'} loading={loading === 'cancel'} onClick={handleCancel} />}
+                </div>}
         </div >
     )
 }
