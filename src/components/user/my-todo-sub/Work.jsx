@@ -10,10 +10,10 @@ import { FaListCheck, FaCheck } from "react-icons/fa6";
 import { IoSend } from "react-icons/io5";
 import { convertIsoToAmPm, stringToLocalTime, YYYYMMDDFormat } from '../../../assets/javascript/date-helper'
 import SpinnerWithMessage from '../../common/spinners/SpinWithMessage'
-import SingleButton from '../../../components/common/buttons/SingleButton'
+import SingleButton from '../../common/buttons/SingleButton'
 import Modal from '../../common/modal/Modal'
 import AddEditRegWork from '../add-edit-work/AddEditRegWork'
-import RegularWorkCard from '../regular-work-card/RegularWorkCard'
+import RegularWorkCard from '../todo-item/RegularWorkCard'
 import NormalInput from '../../common/inputs/NormalInput'
 import { RiTodoLine } from "react-icons/ri";
 

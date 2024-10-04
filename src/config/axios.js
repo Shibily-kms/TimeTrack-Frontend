@@ -15,7 +15,8 @@ const baseSetup = {
     //? v2.1
     workerAxios: axios.create({ baseURL: `${baseUrl}:8000/v2/worker/`, headers: apiHeaders }),
     leaveAxios: axios.create({ baseURL: `${baseUrl}:8000/v2/L2/`, headers: apiHeaders }),
-    workAxios: axios.create({ baseURL: `${baseUrl}:8000/v2/work/`, headers: apiHeaders })
+    workAxios: axios.create({ baseURL: `${baseUrl}:8000/v2/work/`, headers: apiHeaders }),
+    ttv2Axios: axios.create({ baseURL: `${baseUrl}:8000/v2/`, headers: apiHeaders })
 
 }
 
@@ -111,9 +112,14 @@ baseSetup.workAxios.interceptors.request.use(requestConfigFunction, requestError
 baseSetup.workAxios.interceptors.response.use(responseConfigFunction, responseErrorFunction);
 
 
+//? time track v2 all
+baseSetup.ttv2Axios.interceptors.request.use(requestConfigFunction, requestErrorFunction)
+baseSetup.ttv2Axios.interceptors.response.use(responseConfigFunction, responseErrorFunction);
 
 
 
-export const { userAxios, adminAxios, workerAxios, leaveAxios, workAxios } = baseSetup
+
+
+export const { userAxios, adminAxios, workerAxios, leaveAxios, workAxios, ttv2Axios } = baseSetup
 
 

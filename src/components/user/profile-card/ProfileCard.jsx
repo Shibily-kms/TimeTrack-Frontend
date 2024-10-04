@@ -2,19 +2,15 @@ import React from 'react'
 import './profile-card.scss'
 import { useSelector } from 'react-redux'
 import Badge from '../../common/badge/Badge'
-import { FaCheckCircle } from "react-icons/fa";
 import { TimeBasedGreeting } from '../../../assets/javascript/date-helper'
 import { GoDotFill } from "react-icons/go";
 import { getUserProfileImagePath } from '../../../assets/javascript/find-helpers';
 import { ui_version } from '../../../assets/javascript/const-data'
-import { FaCheck, FaTimes } from "react-icons/fa";
 
 const ProfileCard = ({ data, inWork }) => {
     const { user } = useSelector((state) => state.userAuth)
-
-
-
     const userProfileImage = getUserProfileImagePath(user?.last_name);
+    
 
     return (
         <div className="profile-card-div">

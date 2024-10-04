@@ -18,7 +18,6 @@ function WorkReportTable({ report, setData, thisMonth, staffBase }) {
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
     const openModal = (title, data, type) => {
-        console.log(data)
         if (type === 'view' && data?.allowed_salary <= 0) {
             return;
         }

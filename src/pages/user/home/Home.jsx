@@ -2,25 +2,22 @@ import React, { useEffect, useState } from 'react'
 import './home.scss'
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { BsQrCodeScan } from "react-icons/bs";
-import { IoFingerPrint, IoLogoAppleAr } from "react-icons/io5";
+import { IoLogoAppleAr } from "react-icons/io5";
 import { MdOutlineMiscellaneousServices, MdAdminPanelSettings } from "react-icons/md";
 import { FaIndianRupeeSign } from "react-icons/fa6";
 import { FaStore } from "react-icons/fa";
-import { LuListPlus } from "react-icons/lu";
 import { HiUserGroup } from "react-icons/hi2";
-import { BiMath } from "react-icons/bi";
 import ProfileCard from '../../../components/user/profile-card/ProfileCard';
 import { YYYYMMDDFormat } from '../../../assets/javascript/date-helper';
-import { MdCleaningServices } from "react-icons/md";
 import { userAxios } from '../../../config/axios';
+import WorkDetails from '../../../components/user/semi-work-details/WorkDetails';
+
 
 
 
 function Home({ setPageHead }) {
   const [searchParams, setSearchParams] = useSearchParams()
   const { user } = useSelector((state) => state.userAuth)
-  const { admin } = useSelector((state) => state.adminAuth)
   const { workDetails } = useSelector((state) => state.workData)
   const navigate = useNavigate()
   const [userData, setUserData] = useState({})
@@ -30,8 +27,9 @@ function Home({ setPageHead }) {
     const lastPunchData = workDetails?.punch_list?.[workDetails?.punch_list.length - 1] || {}
     if (lastPunchData?.in && !lastPunchData?.out) {
       setInWork(true)
+    } else if (lastPunchData?.out) {
+      setInWork(false)
     }
-
     // eslint-disable-next-line
   }, [workDetails])
 
@@ -62,23 +60,8 @@ function Home({ setPageHead }) {
           <p></p>
         </div>}
       </div>
-      <div className="section-one-div">
-        <div className="section-content">
-          {(!user?.punch_type || user?.punch_type === 'scanner' || (user?.punch_type === 'firstInScanner' && !workDetails?.punch_list?.[0])) &&
-            <div className="big-button scanner" onClick={() => navigate('/scanner')}>
-              <BsQrCodeScan />
-              <p>Scanner</p>
-            </div>}
-          {(user?.punch_type === 'software' || (user?.punch_type === 'firstInScanner' && workDetails?.punch_list?.[0])) &&
-            <div className="big-button software" onClick={() => navigate('/punch-work?page=more')}>
-              <IoFingerPrint />
-              <p>Punch to Work</p>
-            </div>}
-          <div className="big-button" onClick={() => navigate('/enter-today?page=more')}>
-            <LuListPlus />
-            <p>Enter today</p>
-          </div>
-        </div>
+      <div className="work-section">
+        <WorkDetails />
       </div>
 
       <div className="section-two-div">

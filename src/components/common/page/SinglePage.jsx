@@ -4,8 +4,8 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import AllianceLogo from '../../../assets/images/alliance-logo.png'
 import { IoPersonCircleOutline, IoChevronBack } from "react-icons/io5";
-import { TbReport } from "react-icons/tb";
-import { RiSettingsLine, RiMoreFill, RiHome6Line } from "react-icons/ri";
+import { TbCheckbox, TbReport } from "react-icons/tb";
+import { RiMoreFill, RiHome6Line } from "react-icons/ri";
 import { HiStatusOffline, HiStatusOnline } from "react-icons/hi";
 import { toast } from '../../../redux/features/user/systemSlice'
 
@@ -82,13 +82,13 @@ function SinglePage({ pageHead, children }) {
                         <RiHome6Line />
                         <p>Home</p>
                     </div>
+                    <div className={searchParams.get('page') === 'my-todo' ? "item-div active-item" : "item-div"} onClick={() => navigate('/my-todo/?page=my-todo')}>
+                        <TbCheckbox />
+                        <p>My ToDo</p>
+                    </div>
                     <div className={searchParams.get('page') === 'report' ? "item-div active-item" : "item-div"} onClick={() => navigate('/punch-report/?page=report')}>
                         <TbReport />
                         <p>Report</p>
-                    </div>
-                    <div className={searchParams.get('page') === 'settings' ? "item-div active-item" : "item-div"} onClick={() => navigate('/settings/?page=settings')}>
-                        <RiSettingsLine />
-                        <p>Settings</p>
                     </div>
                     <div className={searchParams.get('page') === 'more' ? "item-div active-item" : "item-div"} onClick={() => navigate('/more/?page=more')}>
                         <RiMoreFill />

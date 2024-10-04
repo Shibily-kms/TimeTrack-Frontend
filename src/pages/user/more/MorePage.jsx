@@ -12,6 +12,7 @@ import { clearRegularWork } from '../../../redux/features/user/dayWorksSlice';
 import { logOut } from '../../../redux/features/user/authSlice'
 import { useDispatch, useSelector } from 'react-redux';
 import { ui_version } from '../../../assets/javascript/const-data'
+import { RiSettingsLine } from 'react-icons/ri';
 
 const MorePage = ({ setPageHead }) => {
     const [searchParams, setSearchParams] = useSearchParams()
@@ -68,6 +69,15 @@ const MorePage = ({ setPageHead }) => {
                     <div className="left">
                         <LuFileEdit />
                         <h4>Leave Application</h4>
+                    </div>
+                    <div className="right">
+                        <IoArrowForwardOutline />
+                    </div>
+                </div>
+                <div className="option-div" onClick={() => navigate('/settings?page=more')}>
+                    <div className="left">
+                        <RiSettingsLine />
+                        <h4>Privacy & Settings</h4>
                     </div>
                     <div className="right">
                         <IoArrowForwardOutline />

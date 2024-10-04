@@ -7,7 +7,8 @@ import SpinWithMessage from '../../common/spinners/SpinWithMessage';
 import { findAgeFromDate } from '../../../assets/javascript/find-helpers';
 import {
     TbCalendarSmile, TbGenderBigender, TbCalendarPlus, TbClockPlay, TbArrowForwardUpDouble, TbCash,
-    TbPhone, TbPhoneCheck, TbPhoneIncoming
+    TbPhone, TbPhoneCheck, TbPhoneIncoming,
+    TbSettingsAutomation
 } from "react-icons/tb";
 import SingleButton from '../../common/buttons/SingleButton';
 import { GrEdit } from "react-icons/gr";
@@ -134,6 +135,19 @@ const Profile = () => {
                             </div>
                             <div className="listCard2-listing">
                                 <div className="listing-icon">
+                                    <TbSettingsAutomation />
+                                </div>
+                                <div className="listing-item">
+                                    <div className="listing-label">
+                                        <p>Work mode</p>
+                                    </div>
+                                    <div className="listing-value">
+                                        <p>{userData?.e_type} / {userData?.work_mode}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="listCard2-listing">
+                                <div className="listing-icon">
                                     <TbClockPlay />
                                 </div>
                                 <div className="listing-item">
@@ -168,7 +182,7 @@ const Profile = () => {
                                     </div>
                                     <div className="listing-value">
                                         <p>{userData?.current_salary || 'No Salary'} INR</p>
-                                        <span className='link'>Last 6 Month Report</span>
+                                        {/* <span className='link'>Last 6 Month Report</span> */}
                                     </div>
                                 </div>
                             </div>

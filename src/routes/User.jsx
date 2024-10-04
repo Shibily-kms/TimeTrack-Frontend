@@ -16,12 +16,11 @@ import RotateToken from '../components/common/rotateToken/RotateToken';
 
 
 const Home = lazy(() => import('../pages/user/home/Home'))
-const WorkDetails = lazy(() => import('../pages/user/work-details/Work_details'))
-const PunchWork = lazy(() => import('../pages/user/punch-work/PunchWork'))
+const MyTodo = lazy(() => import('../pages/user/my-todo/MyTodo'))
+
 const MorePage = lazy(() => import('../pages/user/more/MorePage'))
 const Settings = lazy(() => import('../pages/user/settings/Settings'))
 const MyAccount = lazy(() => import('../pages/user/my-account/MyAccount'))
-const EditProfile = lazy(() => import('../components/user/my-account-sub/EditProfile'))
 const PunchReport = lazy(() => import('../pages/user/punch-report/PunchReport'))
 const LeaveApp = lazy(() => import('../pages/user/leave-app/LeaveApp'))
 const Profile = lazy(() => import('../components/user/my-account/Profile'))
@@ -96,17 +95,21 @@ function User() {
 
   return (
     <SinglePage pageHead={pageHead}>
-    
+
       <Suspense fallback={<PageLoading />}>
         <Routes>
+          {/* Home */}
           <Route path='/' element={<PrivateRoute element={<Home setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+
+          {/* Todo */}
+          <Route path='/my-todo' element={<PrivateRoute element={<MyTodo setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+
+
           <Route path='/punch-report' element={<PrivateRoute element={<PunchReport setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
           <Route path='/settings' element={<PrivateRoute element={<Settings setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
           <Route path='/more' element={<PrivateRoute element={<MorePage setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
 
-          {(user?.punch_type === 'software' || (user?.punch_type === 'firstInScanner' && workDetails?.punch_list?.[0])) &&
-            <Route path='/punch-work' element={<PrivateRoute element={<PunchWork setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />}
-          <Route path='/enter-today' element={<PrivateRoute element={<WorkDetails setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+
 
           <Route path='/my-account' element={<PrivateRoute element={<MyAccount setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} >
             {/* Sub-routes of MyAccount */}
@@ -118,7 +121,7 @@ function User() {
           </Route>
 
 
-          <Route path='/profile/edit' element={<PrivateRoute element={<EditProfile setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+
 
           <Route path='/leave-app' element={<PrivateRoute element={<LeaveApp setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
 
