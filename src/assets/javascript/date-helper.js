@@ -15,7 +15,7 @@ function stringToLocalTime(time = '', ifSecond = false) {    // 14:15:23  ==> 02
 
 const YYYYMMDDFormat = (ISOdate, symbol = '-') => {
     symbol = symbol ? symbol : ''
-    const year = ISOdate.getFullYear();
+    const year = ISOdate?.getFullYear();
     const month = String(ISOdate.getMonth() + 1).padStart(2, '0');
     const day = String(ISOdate.getDate()).padStart(2, '0');
 

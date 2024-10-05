@@ -10,7 +10,7 @@ import SingleButton from '../../../components/common/buttons/SingleButton'
 import { HiPlus } from 'react-icons/hi'
 import { FaListCheck } from 'react-icons/fa6'
 import RegularWorkCard from '../../../components/user/todo-item/RegularWorkCard'
-import AddEditRegWork from '../../../components/user/add-edit-work/AddEditRegWork'
+import AddEditTodo from '../../../components/user/add-edit-todo/AddEditTodo'
 import DeleteStaff from '../../../components/admin/models/DeleteStaff'
 import Modal from '../../../components/common/modal/Modal'
 import Badge from '../../../components/common/badge/Badge'
@@ -33,7 +33,7 @@ const StaffProfile = ({ setPageHead }) => {
 
   const openWorkModal = (title, data) => {
     setModal({
-      status: true, content: <AddEditRegWork setModal={setModal} updateData={data} admin={true} staff_id={staff_id}
+      status: true, content: <AddEditTodo setModal={setModal} updateData={data} admin={true} staff_id={staff_id}
         setData={setRegular} />, title
     })
   }

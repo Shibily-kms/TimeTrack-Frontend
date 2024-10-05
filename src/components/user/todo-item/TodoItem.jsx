@@ -1,69 +1,94 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './style.scss'
 import { useDispatch, useSelector } from 'react-redux';
 import { FaCheck, FaXmark } from "react-icons/fa6";
-import { convertIsoToAmPm, formateDateToDayText } from '../../../assets/javascript/date-helper'
-import { userAxios } from '../../../config/axios';
+import { convertIsoToAmPm, formateDateToDayText, YYYYMMDDFormat } from '../../../assets/javascript/date-helper'
+import { ttv2Axios, userAxios } from '../../../config/axios';
 import { completeRegularWork } from '../../../redux/features/user/dayWorksSlice'
 import { toast } from '../../../redux/features/user/systemSlice'
 import { PiSpinnerBold } from "react-icons/pi";
 import { offlineRegularWork } from '../../../assets/javascript/offline-helper';
 import { IoRepeatOutline } from "react-icons/io5";
 
-const TodoItem = ({ data, inWork }) => {
+const TodoItem = ({ data, inWork, newTaskFn, setAllTodo }) => {
 
     const { workDetails } = useSelector((state) => state.workData)
     const { internet } = useSelector((state) => state.systemInfo)
+    const { user } = useSelector((state) => state?.userAuth)
     const [loading, setLoading] = useState('')
     const dispatch = useDispatch()
 
     const handleDoWork = (id) => {
-        const ask = window.confirm('Are you check the todo ?')
-        if (ask) {
-            if (!inWork) {
-                return dispatch(toast.push.error({ message: 'Please enter to work' }))
-            }
 
-            setLoading('do' + id)
-            if (internet) {
-                userAxios.get(`/regular-work/${workDetails._id}/do?work=${data.title}`).then((response) => {
-                    setLoading('')
-                    dispatch(completeRegularWork(response.data))
-                    dispatch(toast.push.success({ message: 'Successfully completed' }))
-                }).catch((error) => {
-                    setLoading('')
-                    dispatch(toast.push.error({ message: error.message }))
-                })
-            } else {
-                const oneRegWork = offlineRegularWork(data?.title)
-                dispatch(completeRegularWork(oneRegWork))
-                dispatch(toast.push.success({ message: 'Regular work added' }))
-                setLoading('')
-            }
+        if (!inWork) {
+            return dispatch(toast.push.error({ message: 'Please enter to work' }))
         }
+
+        if (internet) {
+            setLoading('do' + id)
+            ttv2Axios.post(`/todo/task/do`, { task_id: data?._id }).then((response) => {
+                setAllTodo((state) => {
+                    let currentState = state?.map((task) => {
+                        if (task?._id === data?._id) {
+                            return {
+                                ...task,
+                                frequency: 0,
+                                interval: 0,
+                                periods: [],
+                                action_date: new Date(),
+                                action_by: user?.acc_id,
+                                status: 2
+                            }
+                        }
+                        return task
+                    })
+
+                    if (response?.data) {
+                        currentState = [response.data, ...currentState]
+                    }
+
+                    return currentState
+                })
+                setLoading('')
+            }).catch((error) => {
+                setLoading('')
+                dispatch(toast.push.error({ message: error.message }))
+            })
+        } else {
+            dispatch(toast.push.error({ message: 'Network is low' }))
+        }
+
     }
 
     return (
         <div className="todo-item-div">
-            <div className="left-div">
-                {data?.status === 1 ? <div className="checkbox">{loading === `do${data._id}`
-                    ? <span className='loading-icon'><PiSpinnerBold /></span>
-                    : ""}</div> : ""}
+            <div className="checkbox-todo-div">
+                {data?.status === 1 ? <div className={`checkbox priority${data?.priority}`} onClick={() => handleDoWork(data?._id)}>
+                    {loading === `do${data._id}`
+                        ? <span className='loading-icon'><PiSpinnerBold /></span>
+                        : ""}</div> : ""}
                 {data?.status === 2 ? <div className="checkbox do-box">{loading === `do${data._id}`
                     ? <span className='loading-icon'><PiSpinnerBold /></span>
                     : <FaCheck />}</div> : ""}
                 {data?.status === -1 ? <div className="checkbox wont-box">{loading === `do${data._id}`
                     ? <span className='loading-icon'><PiSpinnerBold /></span>
                     : <FaXmark />}</div> : ""}
-
-                <div className='todo-text'>
-                    <p>{data?.title}</p>
-                </div>
             </div>
-            {data?.due_date ? <div className="right-div">
-                {data?.frequency ? <IoRepeatOutline /> : ''}
-                <p className='expire'>{formateDateToDayText(new Date(data?.due_date))} {!data?.is_daily && convertIsoToAmPm(new Date(data?.due_date))}</p>
-            </div> : ""}
+
+            <div className="content-todo-div" onClick={() => (newTaskFn(data))}>
+                <div className="left-div">
+                    <div className='todo-text'>
+                        <p>{data?.title}</p>
+                    </div>
+                </div>
+                {data?.due_date ? <div className="right-div">
+                    {data?.frequency ? <IoRepeatOutline /> : ''}
+                    <p className={YYYYMMDDFormat(new Date()) > YYYYMMDDFormat(new Date(data?.due_date)) ? 'expire' : ''}>
+                        {formateDateToDayText(new Date(data?.due_date))}{!data?.is_daily && ', ' + convertIsoToAmPm(new Date(data?.due_date))}
+                    </p>
+                </div> : ""}
+            </div>
+
         </div >
     )
 }

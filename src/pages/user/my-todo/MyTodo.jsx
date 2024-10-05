@@ -14,14 +14,17 @@ import SingleButton from '../../../components/common/buttons/SingleButton'
 import TodayTodo from '../../../components/user/my-todo-sub/TodayTodo'
 import { FaPlus } from 'react-icons/fa6'
 import { GoTrash } from 'react-icons/go'
+import Modal from '../../../components/common/modal/Modal'
+import AddEditTodo from '../../../components/user/add-edit-todo/AddEditTodo'
 
 
 function Work_details({ setPageHead }) {
   const { workDetails } = useSelector((state) => state.workData)
+  const { user } = useSelector((state) => state.userAuth)
   const [inWork, setInWork] = useState(false)
   const [activeTab, setActiveTab] = useState('today')
   const [allTodo, setAllTodo] = useState([])
-  const [todoNumber, setTodoNumber] = useState(0)
+  const [modal, setModal] = useState({ state: false })
 
   useEffect(() => {
     setPageHead({ title: 'My Todo' })
@@ -37,18 +40,21 @@ function Work_details({ setPageHead }) {
     // eslint-disable-next-line
   }, [workDetails])
 
-  useEffect(() => {
-    const totalLength = Object.values(allTodo).reduce((acc, arr) => acc + arr.length, 0);
-    setTodoNumber(totalLength)
-  }, [allTodo])
 
-  const openNewTaskModal = () => {
-    
+
+  const openNewTaskModal = (updateData) => {
+    setModal({
+      status: true,
+      title: updateData ? 'Task' : 'New Task',
+      content: <AddEditTodo setModal={setModal} staff_id={user?.acc_id} setData={setAllTodo}
+        updateData={updateData} withData={updateData ? true : false} inWork={inWork} />
+    })
   }
 
 
   return (
     <div className='my-todo-page-div'>
+      <Modal modal={modal} setModal={setModal} />
       <div className="sub-menu-div">
         <SingleButton name={'Today'} classNames={activeTab === 'today' ? 'sm btn-tertiary' : 'sm btn-primary'}
           onClick={() => setActiveTab('today')} />
@@ -62,12 +68,12 @@ function Work_details({ setPageHead }) {
 
 
       <div className="sub-components-div">
-        {activeTab === 'today' && <TodayTodo inWork={inWork} allTodo={allTodo} setAllTodo={setAllTodo} />}
+        {activeTab === 'today' && <TodayTodo inWork={inWork} allTodo={allTodo} setAllTodo={setAllTodo} newTaskFn={openNewTaskModal} />}
       </div>
 
-      {todoNumber > 0 && <div className="app-icon-div">
+      {allTodo?.[0] && <div className="app-icon-div">
         {activeTab !== 'trash' && <SingleButton title={'Add to todo'} stIcon={<FaPlus />} classNames={'icon-only btn-tertiary'}
-          style={{ padding: '15px', fontSize: '25px', borderRadius: '100px' }} onClick={openNewTaskModal} />}
+          style={{ padding: '15px', fontSize: '25px', borderRadius: '100px' }} onClick={() => openNewTaskModal()} />}
         {activeTab === 'trash' && <SingleButton title={'Permanently delete'} stIcon={<GoTrash />} classNames={'icon-only btn-danger'}
           style={{ padding: '15px', fontSize: '25px', borderRadius: '100px' }} />}
       </div>}

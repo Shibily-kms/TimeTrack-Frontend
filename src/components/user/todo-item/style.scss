@@ -1,18 +1,12 @@
 .todo-item-div {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     gap: 10px;
     padding: 12px 10px;
     border-bottom: var(--border-secondary) 1px dashed;
     cursor: pointer;
 
-
-    .left-div {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-
+    .checkbox-todo-div {
         .checkbox {
             display: flex;
             justify-content: center;
@@ -52,32 +46,47 @@
             color: white;
             border: none;
         }
-
-
-        p {
-            font-size: 14px;
-        }
     }
 
-    .right-div {
-        width: max-content;
+    .content-todo-div {
         display: flex;
-        justify-content: center;
-        gap: 5px;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
 
-        svg {
-            color: var(--text-c2);
+        .left-div {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            p {
+                font-size: 14px;
+            }
         }
 
-        p {
-            font-size: 12px;
+        .right-div {
             width: max-content;
-            color: var(--text-tertiary);
-        }
+            display: flex;
+            justify-content: center;
+            gap: 5px;
 
-        .expire {
-            color: var(--color-error);
-        }
+            svg {
+                color: var(--text-c2);
+            }
 
+            p {
+                font-size: 12px;
+                width: max-content;
+                color: var(--text-tertiary);
+            }
+
+            .expire {
+                color: var(--color-error);
+            }
+
+        }
     }
+
+
 }

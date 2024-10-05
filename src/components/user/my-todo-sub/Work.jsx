@@ -12,7 +12,7 @@ import { convertIsoToAmPm, stringToLocalTime, YYYYMMDDFormat } from '../../../as
 import SpinnerWithMessage from '../../common/spinners/SpinWithMessage'
 import SingleButton from '../../common/buttons/SingleButton'
 import Modal from '../../common/modal/Modal'
-import AddEditRegWork from '../add-edit-work/AddEditRegWork'
+import AddEditRegWork from '../add-edit-todo/AddEditTodo'
 import RegularWorkCard from '../todo-item/RegularWorkCard'
 import NormalInput from '../../common/inputs/NormalInput'
 import { RiTodoLine } from "react-icons/ri";

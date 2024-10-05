@@ -7,71 +7,84 @@ import SpinWithMessage from '../../common/spinners/SpinWithMessage'
 import { TbCheckbox } from 'react-icons/tb'
 import SingleButton from '../../common/buttons/SingleButton'
 import { FaPlus } from 'react-icons/fa6'
+import { todayDataCategories } from '../../../assets/javascript/todo-helpers'
 
 
-const TodayTodo = ({ inWork, allTodo, setAllTodo }) => {
+const TodayTodo = ({ inWork, allTodo, setAllTodo, newTaskFn }) => {
     const [loading, setLoading] = useState('fetch')
+    const [todoList, setTodoList] = useState([])
 
     useEffect(() => {
         setLoading('fetch')
         ttv2Axios.get(`/todo/task?to_date=${YYYYMMDDFormat(new Date())}`).then((response) => {
-            setAllTodo({
-                overdue: response?.data?.overdue || [],
-                update: response.data?.update || [],
-                completed: []
+            ttv2Axios.get(`/todo/task/completed?from_date=${YYYYMMDDFormat(new Date())}&to_date=${YYYYMMDDFormat(new Date())}`).then((result) => {
+                setAllTodo([
+                    ...(response?.data?.overdue || []),
+                    ...(response?.data?.update || []),
+                    ...(result?.data?.completed || []),
+                    ...(result?.data?.wontDo || []),
+                ])
+                setLoading('')
             })
-            setLoading('')
         })
     }, [])
+
+    useEffect(() => {
+        const todayData = todayDataCategories(allTodo || [])
+        setTodoList(todayData)
+    }, [allTodo])
 
     return (
         <div className="todo-list-sub-page-div">
             {loading === 'fetch'
                 ? <SpinWithMessage load height={'400px'} />
                 : <>
-                    {allTodo?.overdue?.[0] && <div className="section-div">
+                    {todoList?.overdue?.[0] && allTodo?.[0] && <div className="section-div">
                         <div className="heading">
                             <div className="left">
                                 <h4>Overdue</h4>
                             </div>
                             <div className="right">
-                                <p>{allTodo?.overdue?.length}</p>
+                                <p>{todoList?.overdue?.length}</p>
                             </div>
                         </div>
                         <div className="list-border-div">
-                            {allTodo?.overdue?.map((todo) => <TodoItem key={todo._id} data={todo} inWork={inWork} />)}
+                            {todoList?.overdue?.map((todo) => <TodoItem key={todo._id} data={todo} inWork={inWork} newTaskFn={newTaskFn}
+                                setAllTodo={setAllTodo} />)}
                         </div>
                     </div>}
-                    {allTodo?.update?.[0] && <div className="section-div">
+                    {todoList?.update?.[0] && allTodo?.[0] && <div className="section-div">
                         <div className="heading">
                             <div className="left">
                                 <h4>Today</h4>
                             </div>
                             <div className="right">
-                                <p>{allTodo?.update?.length}</p>
+                                <p>{todoList?.update?.length}</p>
                             </div>
                         </div>
                         <div className="list-border-div">
-                            {allTodo?.update?.map((todo) => <TodoItem key={todo._id} data={todo} inWork={inWork} />)}
+                            {todoList?.update?.map((todo) => <TodoItem key={todo._id} data={todo} inWork={inWork} newTaskFn={newTaskFn}
+                                setAllTodo={setAllTodo} />)}
                         </div>
                     </div>}
-                    {allTodo?.completed?.[0] && <div className="section-div">
+                    {todoList?.completed?.[0] && allTodo?.[0] && <div className="section-div">
                         <div className="heading">
                             <div className="left">
                                 <h4>Completed</h4>
                             </div>
                             <div className="right">
-                                <p>{allTodo?.completed?.length}</p>
+                                <p>{todoList?.completed?.length}</p>
                             </div>
                         </div>
                         <div className="list-border-div">
-                            {allTodo?.completed?.map((todo) => <TodoItem key={todo._id} data={todo} inWork={inWork} />)}
+                            {todoList?.completed?.map((todo) => <TodoItem key={todo._id} data={todo} inWork={inWork} newTaskFn={newTaskFn}
+                                setAllTodo={setAllTodo} />)}
                         </div>
                     </div>}
-                    {(allTodo?.overdue?.length + allTodo?.update?.length + allTodo?.completed?.length) < 1 &&
+                    {!allTodo?.[0] &&
                         <SpinWithMessage icon={<TbCheckbox />} message='Add your today task using below button' height={'300px'}
                             bottomContent={<div style={{ display: 'flex', justifyContent: 'center' }}>
-                                <SingleButton name={'New Task'} classNames={'btn-tertiary'} stIcon={<FaPlus />} />
+                                <SingleButton name={'New Task'} classNames={'btn-tertiary'} stIcon={<FaPlus />} onClick={() => newTaskFn()} />
                             </div>} />}
                 </>}
         </div>

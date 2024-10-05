@@ -1,0 +1,204 @@
+@use '../../../assets/scss/ui/var-color' as *;
+
+.add-edit-todo-div {
+    .action-buttons-div {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 15px;
+
+        button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 12px;
+            border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            -ms-border-radius: 5px;
+            -o-border-radius: 5px;
+            outline: none;
+            min-width: 70px;
+            cursor: pointer;
+
+            span {
+                font-size: 11px;
+            }
+
+            svg {
+                font-size: 25px;
+            }
+        }
+
+        .edit-button {
+            color: var(--color-info);
+            border: 1px solid var(--color-info);
+            background-color: #0085f231;
+        }
+
+        .do-button {
+            color: var(--color-success);
+            border: 1px solid var(--color-success);
+            background-color: #009a452f;
+        }
+
+        .undo-button {
+            color: var(--color-warning);
+            border: 1px solid var(--color-warning);
+            background-color: #eeda0528;
+        }
+
+        .wont-button {
+            color: #f23800;
+            border: 1px solid #f23800;
+            background-color: #f238002a;
+        }
+
+        .delete-button {
+            color: var(--color-error);
+            border: 1px solid var(--color-error);
+            background-color: #d3003838;
+        }
+    }
+
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+
+        .form-group-div {
+            display: flex;
+            gap: 10px;
+
+            >div {
+                width: 100%;
+            }
+        }
+
+
+        .select-button-option-div {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            justify-content: center;
+            gap: 15px 10px;
+            // margin: 10px 0px 20px 0px;
+
+            .option-div {
+                text-align: center;
+
+                div {
+                    background-color: var(--background-c3);
+                    padding: 7px 9px;
+                    border-radius: 100px;
+                    -webkit-border-radius: 100px;
+                    -moz-border-radius: 100px;
+                    -ms-border-radius: 100px;
+                    -o-border-radius: 100px;
+                    font-size: 14px;
+                    font-weight: 500;
+                    cursor: pointer;
+                }
+            }
+
+            .selected {
+                div {
+                    background-color: var(--background-tertiary);
+                    color: #{$aws-color-white};
+                }
+            }
+        }
+
+        .priority-inputs {
+            display: flex;
+            gap: 10px;
+
+            button {
+                background-color: var(--background-opt-primary-5);
+                color: var(--text-primary);
+            }
+
+            .priority1 {
+                color: var(--color-info);
+            }
+
+            .priority2 {
+                color: var(--color-warning)
+            }
+
+            .priority3 {
+                color: var(--color-error)
+            }
+
+            .active {
+                border: 1px solid var(--text-tertiary);
+            }
+        }
+    }
+
+    .task-single-view-div {
+        h3 {
+            margin-bottom: 7px;
+            font-weight: 600;
+        }
+
+        .content {
+            font-size: 15px;
+            color: var(--text-c2);
+            margin-bottom: 10px;
+        }
+
+        .sub {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+
+            .s-one {
+                p {
+                    font-size: 13px;
+                }
+
+                .expire {
+                    color: var(--color-error);
+                }
+            }
+
+            .s-two {
+                display: flex;
+                gap: 10px;
+
+                span {
+                    svg {
+                        font-size: 20px;
+                    }
+                }
+
+                .repeat {
+                    color: var(--text-tertiary);
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+
+                    p {
+                        font-size: 13px;
+                    }
+                }
+
+                .priority1 {
+                    color: var(--color-info);
+                }
+
+                .priority2 {
+                    color: var(--color-warning)
+                }
+
+                .priority3 {
+                    color: var(--color-error)
+                }
+            }
+        }
+    }
+
+
+}
