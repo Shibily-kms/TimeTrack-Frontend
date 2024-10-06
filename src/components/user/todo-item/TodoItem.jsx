@@ -1,24 +1,25 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import './style.scss'
 import { useDispatch, useSelector } from 'react-redux';
 import { FaCheck, FaXmark } from "react-icons/fa6";
 import { convertIsoToAmPm, formateDateToDayText, YYYYMMDDFormat } from '../../../assets/javascript/date-helper'
-import { ttv2Axios, userAxios } from '../../../config/axios';
-import { completeRegularWork } from '../../../redux/features/user/dayWorksSlice'
+import { ttv2Axios } from '../../../config/axios';
 import { toast } from '../../../redux/features/user/systemSlice'
 import { PiSpinnerBold } from "react-icons/pi";
-import { offlineRegularWork } from '../../../assets/javascript/offline-helper';
 import { IoRepeatOutline } from "react-icons/io5";
 
 const TodoItem = ({ data, inWork, newTaskFn, setAllTodo }) => {
 
-    const { workDetails } = useSelector((state) => state.workData)
     const { internet } = useSelector((state) => state.systemInfo)
     const { user } = useSelector((state) => state?.userAuth)
     const [loading, setLoading] = useState('')
     const dispatch = useDispatch()
 
     const handleDoWork = (id) => {
+
+        if (data?.deleted_by) {
+            return;
+        }
 
         if (!inWork) {
             return dispatch(toast.push.error({ message: 'Please enter to work' }))
@@ -63,7 +64,7 @@ const TodoItem = ({ data, inWork, newTaskFn, setAllTodo }) => {
     return (
         <div className="todo-item-div">
             <div className="checkbox-todo-div">
-                {data?.status === 1 ? <div className={`checkbox priority${data?.priority}`} onClick={() => handleDoWork(data?._id)}>
+                {data?.status === 1 ? <div className={`checkbox priority${data?.priority}`} onClick={() => handleDoWork(data?._id)} >
                     {loading === `do${data._id}`
                         ? <span className='loading-icon'><PiSpinnerBold /></span>
                         : ""}</div> : ""}
@@ -83,7 +84,9 @@ const TodoItem = ({ data, inWork, newTaskFn, setAllTodo }) => {
                 </div>
                 {data?.due_date ? <div className="right-div">
                     {data?.frequency ? <IoRepeatOutline /> : ''}
-                    <p className={YYYYMMDDFormat(new Date()) > YYYYMMDDFormat(new Date(data?.due_date)) ? 'expire' : ''}>
+                    <p className={[-1, 2].includes(data?.status) ? 'completed'
+                        : YYYYMMDDFormat(new Date()) > YYYYMMDDFormat(new Date(data?.due_date))
+                            ? 'expire' : ""}>
                         {formateDateToDayText(new Date(data?.due_date))}{!data?.is_daily && ', ' + convertIsoToAmPm(new Date(data?.due_date))}
                     </p>
                 </div> : ""}

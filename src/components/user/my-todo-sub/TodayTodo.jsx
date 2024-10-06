@@ -27,6 +27,8 @@ const TodayTodo = ({ inWork, allTodo, setAllTodo, newTaskFn }) => {
                 setLoading('')
             })
         })
+        
+        // eslint-disable-next-line
     }, [])
 
     useEffect(() => {

@@ -1,21 +1,18 @@
 import React, { useState } from 'react'
 import './my-todo.scss'
-import { userAxios } from '../../../config/axios'
-import Work from '../../../components/user/my-todo-sub/Work'
-import WorkDetails from '../../../components/user/semi-work-details/WorkDetails'
-import SpinWithMessage from '../../../components/common/spinners/SpinWithMessage'
+import { ttv2Axios } from '../../../config/axios'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getPunchDetails } from '../../../redux/features/user/workdataSlice'
-import { setRegularWork } from '../../../redux/features/user/dayWorksSlice'
 import { toast } from '../../../redux/features/user/systemSlice'
-import { YYYYMMDDFormat } from '../../../assets/javascript/date-helper'
 import SingleButton from '../../../components/common/buttons/SingleButton'
 import TodayTodo from '../../../components/user/my-todo-sub/TodayTodo'
 import { FaPlus } from 'react-icons/fa6'
-import { GoTrash } from 'react-icons/go'
 import Modal from '../../../components/common/modal/Modal'
 import AddEditTodo from '../../../components/user/add-edit-todo/AddEditTodo'
+import SevenDays from '../../../components/user/my-todo-sub/SevenDays'
+import AllTodo from '../../../components/user/my-todo-sub/AllTodo'
+import { AiOutlineClear } from 'react-icons/ai'
+import TrashTodo from '../../../components/user/my-todo-sub/TrashTodo'
 
 
 function Work_details({ setPageHead }) {
@@ -25,6 +22,8 @@ function Work_details({ setPageHead }) {
   const [activeTab, setActiveTab] = useState('today')
   const [allTodo, setAllTodo] = useState([])
   const [modal, setModal] = useState({ state: false })
+  const dispatch = useDispatch()
+  const { internet } = useSelector((state) => state.systemInfo)
 
   useEffect(() => {
     setPageHead({ title: 'My Todo' })
@@ -40,8 +39,6 @@ function Work_details({ setPageHead }) {
     // eslint-disable-next-line
   }, [workDetails])
 
-
-
   const openNewTaskModal = (updateData) => {
     setModal({
       status: true,
@@ -49,6 +46,23 @@ function Work_details({ setPageHead }) {
       content: <AddEditTodo setModal={setModal} staff_id={user?.acc_id} setData={setAllTodo}
         updateData={updateData} withData={updateData ? true : false} inWork={inWork} />
     })
+  }
+
+  const handleErase = () => {
+
+    const ask = window.confirm('Are you delete permanently ?')
+    if (ask) {
+      if (internet) {
+        ttv2Axios.delete(`/todo/task/erase`).then(() => {
+          setAllTodo([])
+        }).catch((error) => {
+          dispatch(toast.push.error({ message: error.message }))
+        })
+      } else {
+        dispatch(toast.push.error({ message: 'Network is low' }))
+      }
+    }
+
   }
 
 
@@ -69,13 +83,16 @@ function Work_details({ setPageHead }) {
 
       <div className="sub-components-div">
         {activeTab === 'today' && <TodayTodo inWork={inWork} allTodo={allTodo} setAllTodo={setAllTodo} newTaskFn={openNewTaskModal} />}
+        {activeTab === 'nextSeven' && <SevenDays inWork={inWork} allTodo={allTodo} setAllTodo={setAllTodo} newTaskFn={openNewTaskModal} />}
+        {activeTab === 'all' && <AllTodo inWork={inWork} allTodo={allTodo} setAllTodo={setAllTodo} newTaskFn={openNewTaskModal} />}
+        {activeTab === 'trash' && <TrashTodo inWork={inWork} allTodo={allTodo} setAllTodo={setAllTodo} newTaskFn={openNewTaskModal} />}
       </div>
 
       {allTodo?.[0] && <div className="app-icon-div">
         {activeTab !== 'trash' && <SingleButton title={'Add to todo'} stIcon={<FaPlus />} classNames={'icon-only btn-tertiary'}
           style={{ padding: '15px', fontSize: '25px', borderRadius: '100px' }} onClick={() => openNewTaskModal()} />}
-        {activeTab === 'trash' && <SingleButton title={'Permanently delete'} stIcon={<GoTrash />} classNames={'icon-only btn-danger'}
-          style={{ padding: '15px', fontSize: '25px', borderRadius: '100px' }} />}
+        {activeTab === 'trash' && <SingleButton title={'Permanently delete'} stIcon={<AiOutlineClear />} classNames={'icon-only btn-danger'}
+          style={{ padding: '15px', fontSize: '25px', borderRadius: '100px' }} onClick={handleErase} />}
       </div>}
     </div>
   )

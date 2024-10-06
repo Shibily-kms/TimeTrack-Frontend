@@ -9,7 +9,6 @@ import { getTimeFromSecond } from '../../../assets/javascript/date-helper'
 import SingleButton from '../../../components/common/buttons/SingleButton'
 import { HiPlus } from 'react-icons/hi'
 import { FaListCheck } from 'react-icons/fa6'
-import RegularWorkCard from '../../../components/user/todo-item/RegularWorkCard'
 import AddEditTodo from '../../../components/user/add-edit-todo/AddEditTodo'
 import DeleteStaff from '../../../components/admin/models/DeleteStaff'
 import Modal from '../../../components/common/modal/Modal'
@@ -218,7 +217,7 @@ const StaffProfile = ({ setPageHead }) => {
         </div>
 
         {/* Regular work */}
-        {loading !== 'fetch' && !data?.delete && user?.allowed_origins?.includes('ttcr_stfAcc_write') &&
+        {/* {loading !== 'fetch' && !data?.delete && user?.allowed_origins?.includes('ttcr_stfAcc_write') &&
           <div className="reg-work-div" id="title3">
             <div className="title">
               <h3>Regular Works</h3>
@@ -234,7 +233,7 @@ const StaffProfile = ({ setPageHead }) => {
               }
             </div>
 
-          </div>}
+          </div>} */}
 
       </div>
       <div className="section-two-div">

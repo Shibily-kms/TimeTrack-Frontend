@@ -78,8 +78,7 @@ function Punching({ punch }) {
                     userAxios.post('/punch/out', { do_type: 'software' }).then((response) => {
                         const lastPunchData = workDetails?.punch_list?.[workDetails?.punch_list.length - 1] || {}
                         const workData = {
-                            ...
-                            workDetails,
+                            ...workDetails,
                             punch_list: workDetails?.punch_list?.map((item) => {
                                 if (item.in === lastPunchData.in) {
                                     return {
