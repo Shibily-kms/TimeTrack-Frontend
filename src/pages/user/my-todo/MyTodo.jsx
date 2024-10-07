@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './my-todo.scss'
-import { ttv2Axios } from '../../../config/axios'
+import { ttSv2Axios } from '../../../config/axios'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from '../../../redux/features/user/systemSlice'
@@ -53,7 +53,7 @@ function Work_details({ setPageHead }) {
     const ask = window.confirm('Are you delete permanently ?')
     if (ask) {
       if (internet) {
-        ttv2Axios.delete(`/todo/task/erase`).then(() => {
+        ttSv2Axios.delete(`/todo/task/erase`).then(() => {
           setAllTodo([])
         }).catch((error) => {
           dispatch(toast.push.error({ message: error.message }))

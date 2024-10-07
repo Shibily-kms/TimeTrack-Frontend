@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './todo.scss'
 import TodoItem from '../todo-item/TodoItem'
-import { ttv2Axios } from '../../../config/axios'
+import { ttSv2Axios } from '../../../config/axios'
 import SpinWithMessage from '../../common/spinners/SpinWithMessage'
 import { TbCheckbox } from 'react-icons/tb'
 import SingleButton from '../../common/buttons/SingleButton'
@@ -15,7 +15,7 @@ const AllTodo = ({ inWork, allTodo, setAllTodo, newTaskFn }) => {
 
     useEffect(() => {
         setLoading('fetch')
-        ttv2Axios.get(`/todo/task`).then((response) => {
+        ttSv2Axios.get(`/todo/task`).then((response) => {
             setAllTodo([
                 ...(response?.data?.overdue || []),
                 ...(response?.data?.update || [])

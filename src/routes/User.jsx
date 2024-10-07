@@ -17,7 +17,6 @@ import RotateToken from '../components/common/rotateToken/RotateToken';
 
 const Home = lazy(() => import('../pages/user/home/Home'))
 const MyTodo = lazy(() => import('../pages/user/my-todo/MyTodo'))
-
 const MorePage = lazy(() => import('../pages/user/more/MorePage'))
 const Settings = lazy(() => import('../pages/user/settings/Settings'))
 const MyAccount = lazy(() => import('../pages/user/my-account/MyAccount'))
@@ -105,7 +104,7 @@ function User() {
           <Route path='/my-todo' element={<PrivateRoute element={<MyTodo setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
 
 
-          <Route path='/punch-report' element={<PrivateRoute element={<PunchReport setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+          <Route path='/monthly-report' element={<PrivateRoute element={<PunchReport setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
           <Route path='/settings' element={<PrivateRoute element={<Settings setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
           <Route path='/more' element={<PrivateRoute element={<MorePage setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
 

@@ -5,7 +5,7 @@ import SpinWithMessage from '../../../components/common/spinners/SpinWithMessage
 import Modal from '../../../components/common/modal/Modal'
 import LeaveReg from '../../../components/user/leave-letter/LeaveReg'
 import { FaPlus } from "react-icons/fa6";
-import { userAxios } from '../../../config/axios'
+import { ttSv2Axios, userAxios } from '../../../config/axios'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from '../../../redux/features/user/systemSlice'
 import { YYYYMMDDFormat } from '../../../assets/javascript/date-helper'
@@ -62,7 +62,7 @@ const LeaveApp = ({ setPageHead }) => {
     useEffect(() => {
         setPageHead({ title: "Leave Application" })
         setLoading('fetch')
-        userAxios.get(`/v2/L2/leaves?AC_CODE=ttur_default&page=${page}&limit=${limit}&staff_id=${user?.acc_id}`).then((response) => {
+        ttSv2Axios.get(`/L2/leaves?page=${page}&limit=${limit}&staff_id=${user?.acc_id}`).then((response) => {
             const letters = readTheLetters(response?.data?.list || [])
             setData([...data, ...letters])
             setCount(response.data?.count || 0)

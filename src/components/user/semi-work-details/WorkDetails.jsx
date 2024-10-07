@@ -1,17 +1,27 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './work-details.scss'
-import { useSelector } from 'react-redux'
-import { convertIsoToAmPm, getTimeFromSecond } from '../../../assets/javascript/date-helper'
+import { useDispatch, useSelector } from 'react-redux'
+import { convertIsoToAmPm, getTimeFromSecond, YYYYMMDDFormat } from '../../../assets/javascript/date-helper'
 import SpinnerWithMessage from '../../../components/common/spinners/SpinWithMessage'
 import { IoFingerPrint } from "react-icons/io5";
 import { BsQrCodeScan } from "react-icons/bs";
 import PunchWork from '../../../pages/user/punch-work/PunchWork'
 import { useNavigate } from 'react-router-dom'
+import { getPunchDetails } from '../../../redux/features/user/workdataSlice'
 
 function WorkDetails() {
     const { workDetails } = useSelector((state) => state.workData)
     const { user } = useSelector((state) => state.userAuth)
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        if (workDetails?.date !== YYYYMMDDFormat(new Date())) {
+            dispatch(getPunchDetails())
+        }
+
+        // eslint-disable-next-line
+    }, [])
 
     return (
         <div className="semi-work-details">

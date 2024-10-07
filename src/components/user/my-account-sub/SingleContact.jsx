@@ -3,7 +3,7 @@ import './single-contact.scss'
 import NormalInput from '../../common/inputs/NormalInput'
 import MobileInput from '../../common/inputs/MobileInput'
 import SingleButton from '../../common/buttons/SingleButton'
-import { userAxios } from '../../../config/axios'
+import { ttSv2Axios, userAxios } from '../../../config/axios'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from '../../../redux/features/user/systemSlice'
 
@@ -43,7 +43,7 @@ const SingleContact = ({ type, label, contact, setModal, setUserData }) => {
     const updateContact = (verified) => {
 
         setLoading(true)
-        userAxios.put(`/v2/worker/account/${user?.acc_id}/contact?AC_CODE=ttur_default`, {
+        ttSv2Axios.put(`/worker/account/${user?.acc_id}/contact?AC_CODE=ttur_default`, {
             type: label,
             contact: { ...(form?.contact || {}), verified: verified || null }
         }).then(() => {
@@ -60,7 +60,7 @@ const SingleContact = ({ type, label, contact, setModal, setUserData }) => {
     }
 
     const sendOtp = () => {
-        userAxios.post('/v2/auth/otp-v/send', {
+        ttSv2Axios.post('/auth/otp-v/send', {
             acc_id: user?.acc_id,
             country_code: form?.contact?.country_code,
             mobile_number: form?.contact?.number,
@@ -83,7 +83,7 @@ const SingleContact = ({ type, label, contact, setModal, setUserData }) => {
     const verifyOtp = () => {
         const enteredOtp = otp.join('');
         setLoading(true)
-        userAxios.post('/v2/auth/otp-v/verify', {
+        ttSv2Axios.post('/auth/otp-v/verify', {
             acc_id: user?.acc_id,
             way_type: 'sms',
             otp: enteredOtp,

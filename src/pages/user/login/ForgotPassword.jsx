@@ -5,7 +5,7 @@ import SingleButton from '../../../components/common/buttons/SingleButton'
 import { toast } from '../../../redux/features/user/systemSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { userAxios } from '../../../config/axios'
+import { ttSv2Axios, userAxios } from '../../../config/axios'
 import MobileInput from '../../../components/common/inputs/MobileInput'
 
 const ForgotPassword = () => {
@@ -24,7 +24,7 @@ const ForgotPassword = () => {
     const verifyOtp = () => {
         const enteredOtp = otp.join('');
         setLoading(true)
-        userAxios.post('/v2/auth/otp-v/verify', {
+        ttSv2Axios.post('/auth/otp-v/verify', {
             country_code: mobileNumber.country_code,
             mobile_number: mobileNumber.number,
             way_type: 'sms',
@@ -102,7 +102,7 @@ const ForgotPassword = () => {
     //? Forgot Password
 
     const sendOtp = () => {
-        userAxios.post('/v2/auth/otp-v/send', {
+        ttSv2Axios.post('/auth/otp-v/send', {
             country_code: mobileNumber.country_code,
             mobile_number: mobileNumber.number,
             way_type: 'sms',

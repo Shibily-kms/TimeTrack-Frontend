@@ -9,7 +9,7 @@ import { FaStore } from "react-icons/fa";
 import { HiUserGroup } from "react-icons/hi2";
 import ProfileCard from '../../../components/user/profile-card/ProfileCard';
 import { YYYYMMDDFormat } from '../../../assets/javascript/date-helper';
-import { userAxios } from '../../../config/axios';
+import { ttSv2Axios } from '../../../config/axios';
 import WorkDetails from '../../../components/user/semi-work-details/WorkDetails';
 
 
@@ -39,7 +39,7 @@ function Home({ setPageHead }) {
     }
     setPageHead(() => ({ title: null }))
 
-    userAxios.get(`/v2/worker/account/${user?.acc_id}?initial=Yes`).then((response) => {
+    ttSv2Axios.get(`/worker/account/${user?.acc_id}?initial=Yes`).then((response) => {
       setUserData(response?.data)
     })
 

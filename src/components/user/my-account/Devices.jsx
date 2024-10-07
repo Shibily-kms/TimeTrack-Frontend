@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './style.scss'
-import { userAxios } from '../../../config/axios';
+import { ttSv2Axios, userAxios } from '../../../config/axios';
 import Cookies from 'js-cookie';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from '../../../redux/features/user/systemSlice';
@@ -25,7 +25,7 @@ const Devices = () => {
     const doTerminateDevice = (deviceId, deviceType) => {
         const ask = window.confirm('Are you confirm this is not your device ?')
         if (ask) {
-            userAxios.delete(`/v2/worker/${user?.acc_id}/device/${deviceId}`).then(() => {
+            ttSv2Axios.delete(`/worker/${user?.acc_id}/device/${deviceId}`).then(() => {
                 setDevices((state) =>
                     state?.map((singleType) => {
                         if (singleType.device_type === deviceType) {
@@ -58,7 +58,7 @@ const Devices = () => {
 
     useEffect(() => {
         setLoading('fetch')
-        userAxios.get(`/v2/worker/${user?.acc_id}/device`).then((response) => {
+        ttSv2Axios.get(`/worker/${user?.acc_id}/device`).then((response) => {
             setDevices(response.data)
             setLoading('')
         }).catch((error) => {

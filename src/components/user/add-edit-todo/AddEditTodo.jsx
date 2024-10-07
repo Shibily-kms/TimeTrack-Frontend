@@ -5,7 +5,7 @@ import SelectInput from '../../common/inputs/SelectInput'
 import SingleButton from '../../common/buttons/SingleButton';
 import { toast } from '../../../redux/features/user/systemSlice'
 import { useDispatch, useSelector } from 'react-redux';
-import {  ttv2Axios } from '../../../config/axios';
+import {  ttSv2Axios } from '../../../config/axios';
 import { GoTrash } from 'react-icons/go';
 import { LuPencil } from 'react-icons/lu';
 import { HiCheck, HiFlag } from 'react-icons/hi';
@@ -93,7 +93,7 @@ const AddEditTodo = ({ updateData, withData, setModal, admin, staff_id, setData,
         // Create new one
         if (!withData) {
             const url = admin ? null : '/todo/task'
-            ttv2Axios.post(url, form).then((response) => {
+            ttSv2Axios.post(url, form).then((response) => {
                 setData((state) => [response.data, ...state])
                 setModal({ status: false })
                 setLoading('')
@@ -102,7 +102,7 @@ const AddEditTodo = ({ updateData, withData, setModal, admin, staff_id, setData,
 
         if (withData) {
             const url = admin ? null : `/todo/task/${updateData?._id}`
-            ttv2Axios.put(url, form).then((response) => {
+            ttSv2Axios.put(url, form).then((response) => {
                 setData((state) => state?.map((task) => {
                     if (task._id === updateData?._id) {
                         return response?.data
@@ -124,7 +124,7 @@ const AddEditTodo = ({ updateData, withData, setModal, admin, staff_id, setData,
 
         if (internet) {
             setLoading('do')
-            ttv2Axios.post(`/todo/task/do`, { task_id: id }).then((response) => {
+            ttSv2Axios.post(`/todo/task/do`, { task_id: id }).then((response) => {
                 setData((state) => {
                     let currentState = state?.map((task) => {
                         if (task?._id === id) {
@@ -166,7 +166,7 @@ const AddEditTodo = ({ updateData, withData, setModal, admin, staff_id, setData,
 
         if (internet) {
             setLoading('undo')
-            ttv2Axios.post(`/todo/task/undo`, { task_id: id }).then(() => {
+            ttSv2Axios.post(`/todo/task/undo`, { task_id: id }).then(() => {
                 setData((state) => {
                     let currentState = state?.map((task) => {
                         if (task?._id === id) {
@@ -200,7 +200,7 @@ const AddEditTodo = ({ updateData, withData, setModal, admin, staff_id, setData,
 
         if (internet) {
             setLoading('wontDo')
-            ttv2Axios.post(`/todo/task/wont-do`, { task_id: id }).then((response) => {
+            ttSv2Axios.post(`/todo/task/wont-do`, { task_id: id }).then((response) => {
                 setData((state) => {
                     let currentState = state?.map((task) => {
                         if (task?._id === id) {
@@ -238,7 +238,7 @@ const AddEditTodo = ({ updateData, withData, setModal, admin, staff_id, setData,
     const handleRemove = (id) => {
         if (internet) {
             setLoading('remove')
-            ttv2Axios.delete(`/todo/task/${id}`).then(() => {
+            ttSv2Axios.delete(`/todo/task/${id}`).then(() => {
                 setData((state) => state?.filter((task) => task?._id !== id))
                 setModal({ status: false })
                 setLoading('')
@@ -255,7 +255,7 @@ const AddEditTodo = ({ updateData, withData, setModal, admin, staff_id, setData,
 
         if (internet) {
             setLoading('undo')
-            ttv2Axios.post(`/todo/task/restore`, { task_id: id }).then(() => {
+            ttSv2Axios.post(`/todo/task/restore`, { task_id: id }).then(() => {
                 setData((state) => state?.filter((task) => task?._id !== id))
                 setModal({ status: false })
                 setLoading('')
@@ -272,7 +272,7 @@ const AddEditTodo = ({ updateData, withData, setModal, admin, staff_id, setData,
 
         if (internet) {
             setLoading('remove')
-            ttv2Axios.delete(`/todo/task/erase?task_id=${id}`).then(() => {
+            ttSv2Axios.delete(`/todo/task/erase?task_id=${id}`).then(() => {
                 setData((state) => state?.filter((task) => task?._id !== id))
                 setModal({ status: false })
                 setLoading('')

@@ -29,7 +29,6 @@ function ChangeTheme() {
                     onClick={() => handleChangeTheme('dark')}>
                     <MdDarkMode />
                     <p>Dark</p>
-                    <span className='bottom-ab'><Badge text={'Beta'} className={'success-fill'} /></span>
                 </div>
                 <div className={theme === 'light' ? "box-input-div active" : "box-input-div"}
                     onClick={() => handleChangeTheme('light')}>

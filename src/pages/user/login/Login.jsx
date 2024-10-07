@@ -10,7 +10,7 @@ import SingleButton from '../../../components/common/buttons/SingleButton';
 import MobileInput from '../../../components/common/inputs/MobileInput'
 import { toast } from '../../../redux/features/user/systemSlice'
 import { getDeviceAndBrowserInfo, deviceIdBuilder } from '../../../assets/javascript/device-helpers'
-import { userAxios } from '../../../config/axios';
+import { ttSv2Axios, userAxios } from '../../../config/axios';
 import { setUser } from '../../../redux/features/user/authSlice'
 
 function Login() {
@@ -62,7 +62,7 @@ function Login() {
         }
 
         setLoading(true)
-        userAxios.post('/v2/auth/account-sign-in', loginCredentials).then(async (signResponse) => {
+        ttSv2Axios.post('/auth/account-sign-in', loginCredentials).then(async (signResponse) => {
 
             if (signResponse?.data?.redirect) {
                 // Redirect to 2FA 
@@ -143,7 +143,7 @@ export const loginTokenSetup = async (acc_id, dispatch, navigate) => {
         new_device: !dvcId && await getDeviceAndBrowserInfo()
     }
 
-    userAxios.post('/v2/auth/take-token', tokenCredentials).then((tokenResponse) => {
+    ttSv2Axios.post('/auth/take-token', tokenCredentials).then((tokenResponse) => {
 
         // Data store in cookie
         const cookieOptions = {

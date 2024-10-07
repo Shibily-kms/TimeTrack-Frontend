@@ -3,7 +3,7 @@ import './leave-reg.scss'
 import SingleButton from '../../common/buttons/SingleButton'
 import NormalInput from '../../common/inputs/NormalInput'
 import SelectInput from '../../common/inputs/SelectInput'
-import { userAxios } from '../../../config/axios'
+import { ttSv2Axios, userAxios } from '../../../config/axios'
 import { toast } from '../../../redux/features/user/systemSlice'
 import { useDispatch } from 'react-redux'
 import { YYYYMMDDFormat } from '../../../assets/javascript/date-helper'
@@ -74,7 +74,7 @@ const LeaveReg = ({ setModal, setData }) => {
             days.push([form?.from_date, leave_type, start_time, end_time])
         }
 
-        userAxios.post('/v2/L2/apply', {
+        ttSv2Axios.post('/L2/apply', {
             requested_days: days || [],
             reason: form?.reason || null,
             comment: form?.comment || null

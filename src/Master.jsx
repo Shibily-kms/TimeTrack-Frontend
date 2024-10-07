@@ -5,7 +5,7 @@ import User from './routes/User'
 import QrCodeView from './pages/admin/qr-code-view/QrCodeView'
 import Scanner from './pages/user/scanner/Scanner'
 import Cookies from 'js-cookie';
-import { userAxios } from './config/axios'
+import { ttSv2Axios, userAxios } from './config/axios'
 import { setUser } from './redux/features/user/authSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { doSignOut } from './assets/javascript/auth-helper'
@@ -23,7 +23,7 @@ const Master = () => {
 
         // Check Authentication
         if (ACC_ID && DVC_ID && acc_tkn && rfs_tkn) {
-            userAxios.get('/v2/worker/initial-info').then((response) => {
+            ttSv2Axios.get('/worker/initial-info').then((response) => {
                 dispatch(setUser({ ...(user || {}), ...response.data, refresh_token: Cookies.get('_rfs_tkn') }))
             })
         } else {

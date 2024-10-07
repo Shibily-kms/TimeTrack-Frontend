@@ -86,7 +86,7 @@ function SinglePage({ pageHead, children }) {
                         <TbCheckbox />
                         <p>My ToDo</p>
                     </div>
-                    <div className={searchParams.get('page') === 'report' ? "item-div active-item" : "item-div"} onClick={() => navigate('/punch-report/?page=report')}>
+                    <div className={searchParams.get('page') === 'report' ? "item-div active-item" : "item-div"} onClick={() => navigate('/monthly-report/?page=report')}>
                         <TbReport />
                         <p>Report</p>
                     </div>

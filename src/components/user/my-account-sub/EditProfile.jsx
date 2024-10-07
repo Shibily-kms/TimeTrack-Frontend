@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './edit-profile.scss'
 import { useDispatch, useSelector } from 'react-redux'
-import { userAxios } from '../../../config/axios'
+import { ttSv2Axios, userAxios } from '../../../config/axios'
 import { toast } from '../../../redux/features/user/systemSlice'
 import NormalInput from '../../common/inputs/NormalInput'
 import SelectInput from '../../common/inputs/SelectInput'
@@ -47,7 +47,7 @@ const EditProfile = ({ userData, setUserData, setModal }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         setLoading('update')
-        userAxios.put(`/v2/worker/account/${user?.acc_id}/address?AC_CODE=ttur_default`, form).then(() => {
+        ttSv2Axios.put(`/worker/account/${user?.acc_id}/address?AC_CODE=ttur_default`, form).then(() => {
             setUserData((state) => ({
                 ...state,
                 gender: form.gender || null,

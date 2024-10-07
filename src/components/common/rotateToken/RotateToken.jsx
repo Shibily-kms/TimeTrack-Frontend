@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import Cookies from 'js-cookie';
-import { userAxios } from '../../../config/axios';
+import { ttSv2Axios, userAxios } from '../../../config/axios';
 
 const RotateToken = () => {
 
@@ -9,7 +9,7 @@ const RotateToken = () => {
 
             const refreshToken = Cookies.get('_rfs_tkn'); // Retrieve the refresh token
 
-            userAxios.post('/v2/auth/rotate-token', { refresh_token: refreshToken }).then((response) => {
+            ttSv2Axios.post('/auth/rotate-token', { refresh_token: refreshToken }).then((response) => {
 
                 const cookieOptions = {
                     secure: false,

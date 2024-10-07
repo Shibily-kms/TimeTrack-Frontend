@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './todo.scss'
 import TodoItem from '../todo-item/TodoItem'
-import { ttv2Axios } from '../../../config/axios'
+import { ttSv2Axios } from '../../../config/axios'
 import SpinWithMessage from '../../common/spinners/SpinWithMessage'
 import { removedTodoCategories } from '../../../assets/javascript/todo-helpers'
 import { FcEmptyTrash } from 'react-icons/fc'
@@ -13,7 +13,7 @@ const TrashTodo = ({ inWork, allTodo, setAllTodo, newTaskFn }) => {
 
     useEffect(() => {
         setLoading('fetch')
-        ttv2Axios.get(`/todo/task/removed`).then((response) => {
+        ttSv2Axios.get(`/todo/task/removed`).then((response) => {
             setAllTodo(response?.data)
             setLoading('')
         })

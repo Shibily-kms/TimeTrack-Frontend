@@ -14,7 +14,7 @@ const LetterView = ({ data, cancelLeave }) => {
                     {data?.leave_status === 'Approved' && <TbCheck />}
                     {data?.leave_status === 'Rejected' && <TbAlertTriangle />}
                     {data?.leave_status === 'Cancelled' && <TbX />}
-                    <h4>{data.edited && 'Modified and'}{data.self_action && 'Self'} {data?.leave_status}</h4>
+                    <h4>{data.edited && 'Modified and'}{data.self_action && ' Self'} {data?.leave_status}</h4>
                 </div>
                 <p>On {data?.action_date_time ? new Date(data?.action_date_time).toDateString() : new Date(data?.reg_date_time).toDateString()}</p>
             </div>
@@ -41,7 +41,7 @@ const LetterView = ({ data, cancelLeave }) => {
                 {data?.comment && <p className='texts'>{data?.comment || 'Nill'}</p>}
             </div>
 
-            {(data?.leave_status === 'Pending' || (data?.leave_status === 'Approved' && data?.approved_days?.[0]?.[0] <= YYYYMMDDFormat(new Date()))) && <div className="action-div">
+            {(data?.leave_status === 'Pending' || (data?.leave_status === 'Approved' && data?.approved_days?.[0]?.[0] >= YYYYMMDDFormat(new Date()))) && <div className="action-div">
                 <p>Do you want to cancel this leave?</p>
                 <SingleButton name={'Cancel'} style={{ width: '100%' }} onClick={() => cancelLeave(data?._id)} />
             </div>}

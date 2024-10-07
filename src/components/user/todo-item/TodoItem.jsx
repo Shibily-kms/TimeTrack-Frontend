@@ -3,7 +3,7 @@ import './style.scss'
 import { useDispatch, useSelector } from 'react-redux';
 import { FaCheck, FaXmark } from "react-icons/fa6";
 import { convertIsoToAmPm, formateDateToDayText, YYYYMMDDFormat } from '../../../assets/javascript/date-helper'
-import { ttv2Axios } from '../../../config/axios';
+import { ttSv2Axios } from '../../../config/axios';
 import { toast } from '../../../redux/features/user/systemSlice'
 import { PiSpinnerBold } from "react-icons/pi";
 import { IoRepeatOutline } from "react-icons/io5";
@@ -27,7 +27,7 @@ const TodoItem = ({ data, inWork, newTaskFn, setAllTodo }) => {
 
         if (internet) {
             setLoading('do' + id)
-            ttv2Axios.post(`/todo/task/do`, { task_id: data?._id }).then((response) => {
+            ttSv2Axios.post(`/todo/task/do`, { task_id: data?._id }).then((response) => {
                 setAllTodo((state) => {
                     let currentState = state?.map((task) => {
                         if (task?._id === data?._id) {

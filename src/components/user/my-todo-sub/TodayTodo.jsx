@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './todo.scss'
 import TodoItem from '../todo-item/TodoItem'
-import { ttv2Axios } from '../../../config/axios'
+import { ttSv2Axios } from '../../../config/axios'
 import { YYYYMMDDFormat } from '../../../assets/javascript/date-helper'
 import SpinWithMessage from '../../common/spinners/SpinWithMessage'
 import { TbCheckbox } from 'react-icons/tb'
@@ -16,8 +16,8 @@ const TodayTodo = ({ inWork, allTodo, setAllTodo, newTaskFn }) => {
 
     useEffect(() => {
         setLoading('fetch')
-        ttv2Axios.get(`/todo/task?to_date=${YYYYMMDDFormat(new Date())}`).then((response) => {
-            ttv2Axios.get(`/todo/task/completed?from_date=${YYYYMMDDFormat(new Date())}&to_date=${YYYYMMDDFormat(new Date())}`).then((result) => {
+        ttSv2Axios.get(`/todo/task?to_date=${YYYYMMDDFormat(new Date())}`).then((response) => {
+            ttSv2Axios.get(`/todo/task/completed?from_date=${YYYYMMDDFormat(new Date())}&to_date=${YYYYMMDDFormat(new Date())}`).then((result) => {
                 setAllTodo([
                     ...(response?.data?.overdue || []),
                     ...(response?.data?.update || []),

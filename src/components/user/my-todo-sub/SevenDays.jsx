@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './todo.scss'
 import TodoItem from '../todo-item/TodoItem'
-import { ttv2Axios } from '../../../config/axios'
+import { ttSv2Axios } from '../../../config/axios'
 import { formateDateToDayText, YYYYMMDDFormat } from '../../../assets/javascript/date-helper'
 import SpinWithMessage from '../../common/spinners/SpinWithMessage'
 import { TbCheckbox } from 'react-icons/tb'
@@ -17,9 +17,9 @@ const SevenDays = ({ inWork, allTodo, setAllTodo, newTaskFn }) => {
     useEffect(() => {
         setLoading('fetch')
         const after7DaysDate = new Date(new Date().setDate(new Date().getDate() + 6))
-        console.log(after7DaysDate)
-        ttv2Axios.get(`/todo/task?to_date=${YYYYMMDDFormat(after7DaysDate)}`).then((response) => {
-            ttv2Axios.get(`/todo/task/completed?from_date=${YYYYMMDDFormat(new Date())}&to_date=${YYYYMMDDFormat(after7DaysDate)}`).then((result) => {
+       
+        ttSv2Axios.get(`/todo/task?to_date=${YYYYMMDDFormat(after7DaysDate)}`).then((response) => {
+            ttSv2Axios.get(`/todo/task/completed?from_date=${YYYYMMDDFormat(new Date())}&to_date=${YYYYMMDDFormat(after7DaysDate)}`).then((result) => {
                 setAllTodo([
                     ...(response?.data?.overdue || []),
                     ...(response?.data?.update || []),

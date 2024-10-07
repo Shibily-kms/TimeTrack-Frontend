@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './style.scss'
-import { userAxios } from '../../../config/axios';
+import { ttSv2Axios, userAxios } from '../../../config/axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from '../../../redux/features/user/systemSlice';
 import SpinWithMessage from '../../common/spinners/SpinWithMessage';
@@ -31,7 +31,7 @@ const Profile = () => {
 
     useEffect(() => {
         setLoading('fetch')
-        userAxios.get(`/v2/worker/account/${user?.acc_id}?profession=Yes`).then((response) => {
+        ttSv2Axios.get(`/worker/account/${user?.acc_id}?profession=Yes`).then((response) => {
             setUserData(response.data)
             setLoading('')
         }).catch((error) => {

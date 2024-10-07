@@ -1,31 +1,35 @@
 import React, { useEffect, useState } from 'react'
 import './day-work-report-table.scss'
-import { userAxios } from '../../../config/axios'
+import { ttSv2Axios, workAxios } from '../../../config/axios'
 import { useSelector } from 'react-redux'
 import SpinWithMessage from '../../common/spinners/SpinWithMessage'
 import Badge from '../../common/badge/Badge'
-import { getTimeFromSecond, stringToLocalTime } from '../../../assets/javascript/date-helper'
+import { convertIsoToAmPm, formateDateToDayText, getTimeFromSecond, stringToLocalTime, YYYYMMDDFormat } from '../../../assets/javascript/date-helper'
 
 const DayWorkReportTable = ({ date }) => {
     const [loading, setLoading] = useState('fetch')
     const { user } = useSelector((state) => state.userAuth)
-    const [data, setData] = useState({})
-    const [today, setToday] = useState(false)
+    const [punchData, setPunchData] = useState({})
+    const [todo, setTodo] = useState([])
 
     useEffect(() => {
         if (date) {
-            userAxios.get(`/analyze/staff-work-data?from_date=${date}&to_date=${date}&staff_id=${user?._id}&type=staff-basie`)
+            workAxios.get(`/report/punch?from_date=${date}&to_date=${date}&staff_id=${user?.acc_id}&type=staff-basie`)
                 .then((response) => {
-                    setData(response?.data?.[0]?.dates?.[0] || {})
+                    setPunchData(response?.data?.[0]?.dates?.[0] || {})
                     setLoading('')
                 })
+
+            ttSv2Axios.get(`/todo/task/completed?from_date=${date}&to_date=${date}`).then((response) => {
+                setTodo(response?.data)
+            })
         }
-      
+
     }, [])
 
     return (
         <div className="day-work-report-table-div">
-            {data?.date
+            {punchData?.date
                 ? <div className="content">
                     <div className="table-head">
                         <div className="row">
@@ -38,51 +42,52 @@ const DayWorkReportTable = ({ date }) => {
                     </div>
                     {/* Punch */}
                     <div className="table-body">
-                        {data?.punch_list?.map((item, index) => <div className="row">
+                        {punchData?.punch_list?.map((item, index) => <div className="row">
                             <div className="td">Punch {index + 1}</div>
                             <div className="td" style={{ display: 'flex', gap: '5px' }}>
                                 {item?.auto && <Badge title={'Auto punch outed'} text={"Auto"} className={'success-fill'} />}
                             </div>
                             <div className="td">{stringToLocalTime(item?.in)}</div>
-                            <div className="td">{stringToLocalTime(item?.out)} {!today && item?.in && !item?.out &&
+                            <div className="td">{stringToLocalTime(item?.out)} {date !== YYYYMMDDFormat(new Date()) && item?.in && !item?.out &&
                                 <Badge title={'The staff forgot punch out'} text={'Skipped'} className={'warning-fill'} />
                             }</div>
                             <div className="td">{getTimeFromSecond(item?.duration) || '0m'}</div>
                         </div>
                         )}
 
-                        {/* Regular Work  */}
-                        {data?.regular_work?.map((value, index) => {
+                        {/* Todo Completed  */}
+                        {todo?.completed?.map((value, index) => {
                             return <div key={index} className="row">
-                                <div className="td">{index === 0 && 'Regular work :'}</div>
-                                <div className="td" title={value?.work} >{value?.work}</div>
-                                <div className="td">{stringToLocalTime(value?.start)}</div>
-                                <div className="td">{stringToLocalTime(value?.end)}</div>
-                                <div className="td">{getTimeFromSecond(value?.duration) || '0m'}</div>
+                                <div className="td">{index === 0 && 'To Do (Completed) :'}</div>
+                                <div className="td" title={value?.title} >{value?.title}</div>
+                                <div className="td">{value?.due_date ? formateDateToDayText(new Date(value?.due_date)) : ''}</div>
+                                <div className="td">{(value?.due_date && !value?.is_daily) ? convertIsoToAmPm(new Date(value?.due_date)) : ''}</div>
+                                <div className="td"></div>
                             </div>
                         })}
-                        {/* Extra work */}
-                        {data?.extra_work?.map((value, index) => {
+
+                        {/* Todo Wont'do  */}
+                        {todo?.wontDo?.map((value, index) => {
                             return <div key={index} className="row">
-                                <div className="td">{index === 0 && 'Extra work :'}</div>
-                                <div className="td" title={value?.work}>{value?.work}</div>
-                                <div className="td">{stringToLocalTime(value?.start)}</div>
-                                <div className="td">{stringToLocalTime(value?.end)}</div>
-                                <div className="td">{getTimeFromSecond(value?.duration) || '0m'}</div>
+                                <div className="td">{index === 0 && "To Do (wont'Do) :"}</div>
+                                <div className="td" title={value?.title} >{value?.title}</div>
+                                <div className="td">{value?.due_date ? formateDateToDayText(new Date(value?.due_date)) : ''}</div>
+                                <div className="td">{(value?.due_date && !value?.is_daily) ? convertIsoToAmPm(new Date(value?.due_date)) : ''}</div>
+                                <div className="td"></div>
                             </div>
                         })}
 
                         <div className="row" style={{ fontWeight: '700', marginTop: '15px' }}>
                             <div className="td"></div>
                             <div className="td">Total duration </div>
-                            <div className="td">: {getTimeFromSecond(data?.total_working_time) || '0m'}</div>
+                            <div className="td">: {getTimeFromSecond(punchData?.total_working_time) || '0m'}</div>
                             <div className="td"></div>
                             <div className="td"></div>
                         </div>
                         <div className="row" style={{ fontWeight: '700' }}>
                             <div className="td"></div>
                             <div className="td">Break Count </div>
-                            <div className="td">: {data?.punch_list?.length - 1} times</div>
+                            <div className="td">: {punchData?.punch_list?.length - 1} times</div>
                             <div className="td"></div>
                             <div className="td"></div>
                         </div>

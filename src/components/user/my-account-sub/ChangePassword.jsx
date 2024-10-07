@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { userAxios } from '../../../config/axios'
+import { ttSv2Axios, userAxios } from '../../../config/axios'
 import { toast } from '../../../redux/features/user/systemSlice'
 import { RxEyeClosed, RxEyeOpen } from 'react-icons/rx';
 import NormalInput from '../../common/inputs/NormalInput'
@@ -43,7 +43,7 @@ function ChangePassword({ setModal, setUserData }) {
         }
 
         setLoading(true)
-        userAxios.post('/v2/auth/change-text-password', form).then(() => {
+        ttSv2Axios.post('/auth/change-text-password', form).then(() => {
             setLoading(false)
             setModal({ status: false })
             setUserData((state) => ({

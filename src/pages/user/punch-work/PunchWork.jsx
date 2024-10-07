@@ -3,7 +3,6 @@ import Punching from '../../../components/user/punch/Punching'
 import { useDispatch, useSelector } from 'react-redux'
 import { getPunchDetails } from '../../../redux/features/user/workdataSlice'
 import { punchDataHelper } from '../../../assets/javascript/work-helper'
-import { YYYYMMDDFormat } from '../../../assets/javascript/date-helper'
 
 
 const PunchWork = React.memo(() => {
@@ -11,14 +10,6 @@ const PunchWork = React.memo(() => {
     const { workDetails } = useSelector((state) => state.workData)
     const { user } = useSelector((state) => state.userAuth)
     const [punch, setPunch] = useState({ in: false, out: false })
-
-    useEffect(() => {
-        if (workDetails?.date !== YYYYMMDDFormat(new Date())) {
-            dispatch(getPunchDetails())
-        }
-
-        // eslint-disable-next-line
-    }, [])
 
     useEffect(() => {
         punchDataHelper(workDetails, setPunch)

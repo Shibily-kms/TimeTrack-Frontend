@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './settings.scss'
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { MdLightMode, MdDarkMode, MdOutlinePassword, MdCloudSync } from "react-icons/md";
 import { IoArrowForwardOutline } from "react-icons/io5";
 import { PiSpinnerBold } from "react-icons/pi";
@@ -14,10 +14,12 @@ import { setUser } from '../../../redux/features/user/authSlice';
 import { getPunchDetails } from '../../../redux/features/user/workdataSlice';
 import { setRegularWork } from '../../../redux/features/user/dayWorksSlice';
 import { toast } from '../../../redux/features/user/systemSlice';
+import { TbDevices } from 'react-icons/tb';
 
 const Settings = ({ setPageHead }) => {
     const [searchParams, setSearchParams] = useSearchParams()
     const dispatch = useDispatch();
+    const navigate = useNavigate()
     const [modal, setModal] = useState({ content: null, title: null, status: false })
     const { theme, internet } = useSelector((state) => state.systemInfo)
     const { user } = useSelector((state) => state.userAuth)
@@ -81,7 +83,16 @@ const Settings = ({ setPageHead }) => {
                     </div>
                 </div>
 
-                <div className="option-div" onClick={() => openModel('Change Password', <ChangePassword setModal={setModal} />)}>
+                <div className="option-div" onClick={() => navigate('/my-account/your-device')}>
+                    <div className="left">
+                        <TbDevices />
+                        <h4>Your Devices</h4>
+                    </div>
+                    <div className="right">
+                        <IoArrowForwardOutline />
+                    </div>
+                </div>
+                <div className="option-div" onClick={() => navigate('/my-account/security-privacy')}>
                     <div className="left">
                         <MdOutlinePassword />
                         <h4>Change Password</h4>
