@@ -6,7 +6,7 @@ import SelectInput from '../../../components/common/inputs/SelectInput'
 import StaffBasie from './StaffBasie'
 import DateBasie from './DateBasie'
 import { ImSearch } from "react-icons/im";
-import { adminAxios, workerAxios } from '../../../config/axios'
+import { adminAxios, ttCv2Axios, workerAxios } from '../../../config/axios'
 import { useSearchParams } from 'react-router-dom'
 import { setAdminActivePage, toast } from '../../../redux/features/user/systemSlice'
 import { useDispatch } from 'react-redux'
@@ -21,6 +21,7 @@ const WorkAnalyze = ({ setPageHead }) => {
   const [staffs, setStaffs] = useState([])
   const [dateAlzList, setDateAlzList] = useState([])
   const [staffAlzList, setStaffAlzList] = useState([])
+  const [data, setData] = useState([])
   const [monthReport, setMonthReport] = useState({})
   const [selectDay, setSelectDay] = useState({})
   const [searchParams, setSearchParams] = useSearchParams()
@@ -28,65 +29,73 @@ const WorkAnalyze = ({ setPageHead }) => {
   const fetchData = (staffList) => {
     const listOfStaff = staffs?.[0] ? staffs : staffList
     setLoading('fetch')
-    adminAxios.get(`/analyze/staff-work-data?from_date=${searchParams.get('month') + '-01'}&to_date=${searchParams.get('month') + '-31'}&type=${searchParams.get('staff') === 'all' ? 'date-basie' : 'staff-basie'}&staff_id=${searchParams.get('staff') !== 'all' ? searchParams.get('staff') : ''}`)
+
+    // queries
+    const formDate = searchParams.get('month') + '-01'
+    const endDate = searchParams.get('month') + '-31'
+    const searchType = searchParams.get('staff') === 'all' ? 'date-basie' : 'staff-basie'
+    const singleStaffId = searchParams.get('staff') !== 'all' ? searchParams.get('staff') : ''
+
+    ttCv2Axios.get(`/work/report/punch?from_date=${formDate}&to_date=${endDate}&type=${searchType}&staff_id=${singleStaffId}`)
       .then(async (response) => {
+        setData(response?.data || [])
+        setLoading('')
+        // if (searchParams.get('staff') === 'all' || !searchParams.get('staff')) {
+        //   // Date basie
+        //   const analyzedData = analyzeDateHelper(
+        //     response?.data,
+        //     listOfStaff,
+        //     new Date(searchParams.get('month') + '-01'),
+        //     new Date(new Date(searchParams.get('month') + '-01').getFullYear(), new Date(searchParams.get('month') + '-01').getMonth() + 1, 0, 23)
+        //   )
+        //   setDateAlzList(analyzedData)
+        //   setStaffAlzList([])
 
-        if (searchParams.get('staff') === 'all' || !searchParams.get('staff')) {
-          // Date basie
-          const analyzedData = analyzeDateHelper(
-            response?.data,
-            listOfStaff,
-            new Date(searchParams.get('month') + '-01'),
-            new Date(new Date(searchParams.get('month') + '-01').getFullYear(), new Date(searchParams.get('month') + '-01').getMonth() + 1, 0, 23)
-          )
-          setDateAlzList(analyzedData)
-          setStaffAlzList([])
+        //   const thisMonth = YYYYMMDDFormat(new Date()).slice(0, 7)
+        //   setSelectDay({
+        //     date: searchParams.get('month') === thisMonth ? analyzedData[analyzedData?.length - 1]?.date : analyzedData[0]?.date,
+        //     month: searchParams.get('month') === thisMonth ? analyzedData[analyzedData?.length - 1]?.month : analyzedData[0]?.month,
+        //     year: searchParams.get('month') === thisMonth ? analyzedData[analyzedData?.length - 1]?.year : analyzedData[0]?.year,
+        //     count: searchParams.get('month') === thisMonth ? analyzedData[analyzedData?.length - 1]?.attendanceCount : analyzedData[0]?.attendanceCount
+        //   })
+        //   setLoading('')
 
-          const thisMonth = YYYYMMDDFormat(new Date()).slice(0, 7)
-          setSelectDay({
-            date: searchParams.get('month') === thisMonth ? analyzedData[analyzedData?.length - 1]?.date : analyzedData[0]?.date,
-            month: searchParams.get('month') === thisMonth ? analyzedData[analyzedData?.length - 1]?.month : analyzedData[0]?.month,
-            year: searchParams.get('month') === thisMonth ? analyzedData[analyzedData?.length - 1]?.year : analyzedData[0]?.year,
-            count: searchParams.get('month') === thisMonth ? analyzedData[analyzedData?.length - 1]?.attendanceCount : analyzedData[0]?.attendanceCount
-          })
-          setLoading('')
+        // } else {
 
-        } else {
+        //   // Staff Basie
+        //   // Check this month report or not
+        //   const thisMonth = new Date(searchParams.get('month') + '-01')?.getFullYear() === new Date().getFullYear()
+        //     && new Date(searchParams.get('month') + '-01')?.getMonth() === new Date().getMonth()
 
-          // Staff Basie
-          // Check this month report or not
-          const thisMonth = new Date(searchParams.get('month') + '-01')?.getFullYear() === new Date().getFullYear()
-            && new Date(searchParams.get('month') + '-01')?.getMonth() === new Date().getMonth()
+        //   // If not this month then collect generated salary report
+        //   let staffMSR = null
+        //   if (!thisMonth) {
+        //     try {
+        //       await adminAxios.get(`/analyze/salary-report/single?month=${searchParams.get('month')}&staff_id=${searchParams.get('staff')}`).then((result) => {
+        //         staffMSR = result?.data || null
+        //       })
+        //     } catch (error) {
 
-          // If not this month then collect generated salary report
-          let staffMSR = null
-          if (!thisMonth) {
-            try {
-              await adminAxios.get(`/analyze/salary-report/single?month=${searchParams.get('month')}&staff_id=${searchParams.get('staff')}`).then((result) => {
-                staffMSR = result?.data || null
-              })
-            } catch (error) {
+        //     }
+        //   }
 
-            }
-          }
+        //   // Data convert to table system
+        //   const thisStaff = listOfStaff.filter((staff) => staff._id === searchParams.get('staff'))
+        //   const analyzeData = analyzeStaffHelper(
+        //     response?.data,
+        //     thisStaff?.[0],
+        //     new Date(searchParams.get('month') + '-01'),
+        //     new Date(new Date(searchParams.get('month') + '-01').getFullYear(), new Date(searchParams.get('month') + '-01').getMonth() + 1, 0)
+        //   )
 
-          // Data convert to table system
-          const thisStaff = listOfStaff.filter((staff) => staff._id === searchParams.get('staff'))
-          const analyzeData = analyzeStaffHelper(
-            response?.data,
-            thisStaff?.[0],
-            new Date(searchParams.get('month') + '-01'),
-            new Date(new Date(searchParams.get('month') + '-01').getFullYear(), new Date(searchParams.get('month') + '-01').getMonth() + 1, 0)
-          )
+        //   const monthAttendanceReport = analyzeStaffMonthReport(thisMonth, thisStaff?.[0] || {}, staffMSR, analyzeData)
+        //   setMonthReport(monthAttendanceReport)
 
-          const monthAttendanceReport = analyzeStaffMonthReport(thisMonth, thisStaff?.[0] || {}, staffMSR, analyzeData)
-          setMonthReport(monthAttendanceReport)
+        //   setDateAlzList([])
+        //   setStaffAlzList(analyzeData)
+        //   setLoading('')
 
-          setDateAlzList([])
-          setStaffAlzList(analyzeData)
-          setLoading('')
-
-        }
+        // }
       }).catch((error) => {
         setLoading('')
         dispatch(toast.push.error(error?.message || 'Error found, Try again!'))
@@ -110,7 +119,7 @@ const WorkAnalyze = ({ setPageHead }) => {
     setPageHead({ title: 'Work Analyze' })
     dispatch(setAdminActivePage('work-analyze'))
 
-    workerAxios.get('/account/list?all=yes').then((response) => {
+    ttCv2Axios.get('/worker/account/list?all=yes').then((response) => {
       const list = response.data?.map((person) => ({
         ...person,
         option: `${person?.full_name} ${person?.delete ? '(Removed)' : ''}`,
@@ -139,8 +148,8 @@ const WorkAnalyze = ({ setPageHead }) => {
       </div>
       <div className="analyze-content-div">
         {loading ? <SpinWithMessage load height={'400px'} />
-          : dateAlzList?.[0]
-            ? <DateBasie dateAlzList={dateAlzList} selectDay={selectDay} setSelectDay={setSelectDay} />
+          : searchParams.get('staff') === 'all'
+            ? <DateBasie dateAlzList={dateAlzList} dateBaseList={data} selectDay={selectDay} setSelectDay={setSelectDay} />
             : <StaffBasie staffAlzList={staffAlzList} monthReport={monthReport} />
         }
 

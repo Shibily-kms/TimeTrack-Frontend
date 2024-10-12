@@ -14,7 +14,7 @@ const DayWorkReportTable = ({ date }) => {
 
     useEffect(() => {
         if (date) {
-            workAxios.get(`/report/punch?from_date=${date}&to_date=${date}&staff_id=${user?.acc_id}&type=staff-basie`)
+            ttSv2Axios.get(`/work/report/punch?from_date=${date}&to_date=${date}&staff_id=${user?.acc_id}&type=staff-basie`)
                 .then((response) => {
                     setPunchData(response?.data?.[0]?.dates?.[0] || {})
                     setLoading('')

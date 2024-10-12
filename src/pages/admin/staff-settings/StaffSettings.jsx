@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './staff-settings.scss'
-import { workerAxios } from '../../../config/axios'
+import { ttCv2Axios, workerAxios } from '../../../config/axios'
 import { useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from '../../../redux/features/user/systemSlice'
@@ -52,7 +52,7 @@ const StaffSettings = ({ setPageHead }) => {
 
         // Save
         setLoading('save')
-        workerAxios.put(`/account/${staff_id}/settings`, data).then(() => {
+        ttCv2Axios.put(`/worker/account/${staff_id}/settings`, data).then(() => {
             dispatch(toast.push.success({ message: 'Saved' }))
             setLoading('')
         }).catch((error) => {

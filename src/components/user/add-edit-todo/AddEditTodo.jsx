@@ -5,7 +5,7 @@ import SelectInput from '../../common/inputs/SelectInput'
 import SingleButton from '../../common/buttons/SingleButton';
 import { toast } from '../../../redux/features/user/systemSlice'
 import { useDispatch, useSelector } from 'react-redux';
-import {  ttSv2Axios } from '../../../config/axios';
+import { ttCv2Axios, ttSv2Axios } from '../../../config/axios';
 import { GoTrash } from 'react-icons/go';
 import { LuPencil } from 'react-icons/lu';
 import { HiCheck, HiFlag } from 'react-icons/hi';
@@ -91,18 +91,21 @@ const AddEditTodo = ({ updateData, withData, setModal, admin, staff_id, setData,
         setLoading('submit')
 
         // Create new one
+        const todoAxios = admin ? ttCv2Axios : ttSv2Axios
+
         if (!withData) {
-            const url = admin ? null : '/todo/task'
-            ttSv2Axios.post(url, form).then((response) => {
+            todoAxios.post('/todo/task', { ...form, staff_id }).then((response) => {
                 setData((state) => [response.data, ...state])
                 setModal({ status: false })
                 setLoading('')
+            }).catch((error) => {
+                setLoading('')
+                dispatch(toast.push.error({ message: error.message }))
             })
         }
 
         if (withData) {
-            const url = admin ? null : `/todo/task/${updateData?._id}`
-            ttSv2Axios.put(url, form).then((response) => {
+            todoAxios.put(`/todo/task/${updateData?._id}`, form).then((response) => {
                 setData((state) => state?.map((task) => {
                     if (task._id === updateData?._id) {
                         return response?.data
@@ -111,6 +114,9 @@ const AddEditTodo = ({ updateData, withData, setModal, admin, staff_id, setData,
                 }))
                 setModal({ status: false })
                 setLoading('')
+            }).catch((error) => {
+                setLoading('')
+                dispatch(toast.push.error({ message: error.message }))
             })
         }
     }
@@ -237,15 +243,32 @@ const AddEditTodo = ({ updateData, withData, setModal, admin, staff_id, setData,
 
     const handleRemove = (id) => {
         if (internet) {
-            setLoading('remove')
-            ttSv2Axios.delete(`/todo/task/${id}`).then(() => {
-                setData((state) => state?.filter((task) => task?._id !== id))
-                setModal({ status: false })
-                setLoading('')
-            }).catch((error) => {
-                setLoading('')
-                dispatch(toast.push.error({ message: error.message }))
-            })
+
+            if (admin) {
+                const ask = window.confirm('Are you remove permanently ?')
+                if (ask) {
+                    setLoading('remove')
+                    ttCv2Axios.delete(`/todo/task/erase?task_id=${id}`).then(() => {
+                        setData((state) => state?.filter((task) => task?._id !== id))
+                        setModal({ status: false })
+                        setLoading('')
+                    }).catch((error) => {
+                        setLoading('')
+                        dispatch(toast.push.error({ message: error.message }))
+                    })
+                }
+
+            } else {
+                setLoading('remove')
+                ttSv2Axios.delete(`/todo/task/${id}`).then(() => {
+                    setData((state) => state?.filter((task) => task?._id !== id))
+                    setModal({ status: false })
+                    setLoading('')
+                }).catch((error) => {
+                    setLoading('')
+                    dispatch(toast.push.error({ message: error.message }))
+                })
+            }
         } else {
             dispatch(toast.push.error({ message: 'Network is low' }))
         }
@@ -290,31 +313,33 @@ const AddEditTodo = ({ updateData, withData, setModal, admin, staff_id, setData,
 
             {/* For Active */}
             {(withData && !enableEdit && !updateData?.deleted_by) && <div className="action-buttons-div">
-                {updateData?.status !== 2 && <button className='do-button' onClick={() => handleDoWork(updateData?._id)}>
+                {updateData?.status !== 2 && !admin && <button className='do-button' onClick={() => handleDoWork(updateData?._id)}>
                     {loading === 'do'
                         ? <span className='loading-icon'><PiSpinnerBold /></span>
                         : <span><HiCheck /></span>}
                     <span>Do</span>
                 </button>}
-                {(updateData?.status === 2 || updateData?.status === -1) && <button className='undo-button' onClick={() => handleUndo(updateData?._id)}>
+                {(updateData?.status === 2 || updateData?.status === -1) && !admin && <button className='undo-button' onClick={() => handleUndo(updateData?._id)}>
                     {loading === 'undo'
                         ? <span className='loading-icon'><PiSpinnerBold /></span>
                         : <span><GrUndo /></span>}
                     <span>Undo</span>
                 </button>}
-                {updateData?.status !== -1 && <button className='wont-button' onClick={() => handleWontDoWork(updateData?._id)}>
+                {updateData?.status !== -1 && !admin && <button className='wont-button' onClick={() => handleWontDoWork(updateData?._id)}>
                     {loading === 'wontDo'
                         ? <span className='loading-icon'><PiSpinnerBold /></span>
                         : <span><FaXmark /></span>}
                     <span>Wont'do</span>
                 </button>}
-                <button className='edit-button' onClick={() => setEnableEdit(true)}><span><LuPencil /></span><span>Edit</span></button>
-                <button className='delete-button' onClick={() => handleRemove(updateData?._id)}>
-                    {loading === 'remove'
-                        ? <span className='loading-icon'><PiSpinnerBold /></span>
-                        : <span><GoTrash /></span>}
-                    <span>Remove</span>
-                </button>
+                {((updateData?.created_by === user?.acc_id) || (updateData?.created_by !== staff_id && admin)) && <>
+                    <button className='edit-button' onClick={() => setEnableEdit(true)}><span><LuPencil /></span><span>Edit</span></button>
+                    <button className='delete-button' onClick={() => handleRemove(updateData?._id)}>
+                        {loading === 'remove'
+                            ? <span className='loading-icon'><PiSpinnerBold /></span>
+                            : <span><GoTrash /></span>}
+                        <span>Remove</span>
+                    </button>
+                </>}
             </div>}
 
             {/* For Remove */}

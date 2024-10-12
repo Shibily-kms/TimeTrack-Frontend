@@ -9,7 +9,6 @@ import SingleButton from '../../common/buttons/SingleButton';
 const DeviceView = ({ device, terminateFunction }) => {
     const dvcId = Cookies.get('DVC_ID');
 
-
     return (
         <div className="device-view-sub-div">
             <div className="device-view-head-div">
@@ -17,11 +16,11 @@ const DeviceView = ({ device, terminateFunction }) => {
                     {device.device_type === 'Desktop' && <TbDeviceLaptop />}
                     {device.device_type === 'Tablet' && <TbDeviceTablet />}
                     {device.device_type === 'Mobile' && <TbDeviceMobile />}
-                    {device.device_type === 'Other' && <TbDevices />}
+                    {(device.device_type === 'Other' || !device.device_type) && <TbDevices />}
                 </div>
                 <div className="title-div">
-                    <h4>{device?.os?.name} {device?.os?.version}, {device?.browser?.name}</h4>
-                    <p className='d1'>Logged in {device?.geo?.city}, {device?.geo?.region}/{device?.geo?.country}</p>
+                    <h4>{device?.os?.name || 'Unknown'} {device?.os?.version}, {device?.browser?.name || 'Unknown'}</h4>
+                    <p className='d1'>Logged in {device?.geo?.city || 'Unknown'}, {device?.geo?.region || 'Unknown'}/{device?.geo?.country || 'Unknown'}</p>
                 </div>
             </div>
             <div className="content-div">

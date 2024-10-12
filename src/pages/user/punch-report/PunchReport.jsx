@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Calendar from 'react-calendar';
 import './react-calendar-custom-style.scss';
 import './punch-report.scss'
-import { leaveAxios, ttSv2Axios, userAxios } from '../../../config/axios'
+import { leaveAxios, ttCv2Axios, ttSv2Axios, userAxios } from '../../../config/axios'
 import { useSelector } from 'react-redux'
 import { YYYYMMDDFormat, getTimeFromSecond } from '../../../assets/javascript/date-helper'
 import { GoDotFill } from "react-icons/go";
@@ -58,7 +58,7 @@ const PunchReport = ({ setPageHead }) => {
             })
         })
 
-        leaveAxios.get(`/staff/total-leave?month=${chooseMonth}`).then((response) => {
+        ttSv2Axios.get(`/L2/staff/total-leave?month=${chooseMonth}`).then((response) => {
             setLeave(response.data?.total_leave || 0)
         })
 

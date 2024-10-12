@@ -10,7 +10,7 @@ import { GiCheckMark } from "react-icons/gi";
 import { MdClose } from "react-icons/md";
 import { getUserProfileImagePath } from '../../../assets/javascript/find-helpers';
 import { convertIsoToAmPm } from '../../../assets/javascript/date-helper';
-import { userAxios } from '../../../config/axios';
+import { ttSv2Axios, userAxios } from '../../../config/axios';
 import { getPunchDetails } from '../../../redux/features/user/workdataSlice';
 import { BiSolidMessageAltError } from "react-icons/bi";
 import SpinWithMessage from '../../../components/common/spinners/SpinWithMessage';
@@ -126,7 +126,7 @@ const Scanner = React.memo(() => {
                 const BEFORE59MIN_TIME = new Date(new Date().setMinutes(new Date().getMinutes() - 59))
                 if (BEFORE59MIN_TIME < GEN_TIME) {
                     // QR Code is Ok
-                    userAxios.post('/punch/by-qr', {
+                    ttSv2Axios.post('/work/punch/by-qr', {
                         qrId: QR_ID, userId: user?.acc_id,
                         designation: user?.designation
                     })

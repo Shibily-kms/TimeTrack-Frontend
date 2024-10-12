@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './all-staffs.scss'
 import TableFilter from '../../../components/common/table-filter/TableFilter'
 import SpinWithMessage from '../../../components/common/spinners/SpinWithMessage'
-import {  workerAxios } from '../../../config/axios'
+import { ttCv2Axios, workerAxios } from '../../../config/axios'
 import { getTimeFromSecond } from '../../../assets/javascript/date-helper'
 import { setAdminActivePage, toast } from '../../../redux/features/user/systemSlice'
 import { useDispatch, useSelector } from 'react-redux'
@@ -11,6 +11,8 @@ import SingleButton from '../../../components/common/buttons/SingleButton'
 import { useNavigate } from 'react-router-dom'
 import { FaCheck, FaPlus, FaUsers } from "react-icons/fa6";
 import Badge from '../../../components/common/badge/Badge'
+import { IoMdSettings } from 'react-icons/io'
+import CommonUpdate from '../../../components/admin/common-update/CommonUpdate'
 
 
 function AllStaffs({ setPageHead }) {
@@ -24,7 +26,7 @@ function AllStaffs({ setPageHead }) {
 
 
     const getActiveStaffList = () => {
-        workerAxios.get('/account/list').then((response) => {
+        ttCv2Axios.get('/worker/account/list').then((response) => {
             setData(response.data)
             setLoading('')
         }).catch((error) => {
@@ -34,7 +36,7 @@ function AllStaffs({ setPageHead }) {
     }
 
     const getAllStaffList = () => {
-        workerAxios.get('/account/list?all=yes').then((response) => {
+        ttCv2Axios.get('/worker/account/list?all=yes').then((response) => {
             setData(response.data)
             setLoading('')
         }).catch((error) => {
@@ -44,17 +46,21 @@ function AllStaffs({ setPageHead }) {
     }
 
     useEffect(() => {
-        setPageHead({ title: 'Staff List' })
+        setPageHead({
+            title: 'Staff List', right: <div style={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
+                {user?.allowed_origins?.includes('ttcr_stfAcc_write') && <SingleButton stIcon={<IoMdSettings />} classNames={'icon-only'}
+                    onClick={() => setModal({
+                        status: true, title: 'Common Update',
+                        content: <CommonUpdate setModal={setModal} setData={setData} />
+                    })} />}
+            </div>
+        })
         getActiveStaffList()
         setLoading('initialData')
         dispatch(setAdminActivePage('staff-list'))
 
         // eslint-disable-next-line
-    }, [])
-
-    const openModal = (title, component, width) => {
-        setModal({ ...modal, status: true, title, content: component, width: width || null })
-    }
+    }, [user])
 
     const handleAllButton = () => {
         setLoading('listing')
@@ -68,14 +74,13 @@ function AllStaffs({ setPageHead }) {
         }
     }
 
-
     return (
         <div className='staff-list-page-div'>
             <Modal modal={modal} setModal={setModal} />
             <div className="table-div">
                 {data?.[0] ? <>
                     <TableFilter srlNo={true} topRight={user?.allowed_origins?.includes('ttcr_stfAcc_write') && <div className='button-div'>
-                        <SingleButton name={'Staff Account'} stIcon={<FaPlus />}
+                        <SingleButton name={'Staff'} stIcon={<FaPlus />}
                             classNames={'btn-tertiary'} onClick={() => navigate('/admin/staff-list/account/new')} />
                         <SingleButton name={'All Staffs'} stIcon={allStaff && <FaCheck />}
                             classNames={allStaff ? 'btn-primary' : 'btn-gray'} onClick={handleAllButton} loading={loading === 'listing'} />

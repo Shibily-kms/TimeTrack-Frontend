@@ -17,7 +17,7 @@ const SevenDays = ({ inWork, allTodo, setAllTodo, newTaskFn }) => {
     useEffect(() => {
         setLoading('fetch')
         const after7DaysDate = new Date(new Date().setDate(new Date().getDate() + 6))
-       
+
         ttSv2Axios.get(`/todo/task?to_date=${YYYYMMDDFormat(after7DaysDate)}`).then((response) => {
             ttSv2Axios.get(`/todo/task/completed?from_date=${YYYYMMDDFormat(new Date())}&to_date=${YYYYMMDDFormat(after7DaysDate)}`).then((result) => {
                 setAllTodo([
@@ -35,6 +35,7 @@ const SevenDays = ({ inWork, allTodo, setAllTodo, newTaskFn }) => {
 
     useEffect(() => {
         const dataCategory = nextSevenDayDataCategories(allTodo || [])
+        console.log(dataCategory)
         setTodoList(dataCategory)
     }, [allTodo])
 
@@ -75,21 +76,6 @@ const SevenDays = ({ inWork, allTodo, setAllTodo, newTaskFn }) => {
                             </div>
                         );
                     })}
-                    {/* {todoList?.[YYYYMMDDFormat(new Date())]?.[0] && allTodo?.[0] && <div className="section-div">
-                        <div className="heading">
-                            <div className="left">
-                                <h4>{YYYYMMDDFormat(new Date())}</h4>
-                            </div>
-                            <div className="right">
-                                <p>{todoList?.[YYYYMMDDFormat(new Date())]?.length}</p>
-                            </div>
-                        </div>
-                        <div className="list-border-div">
-                            {todoList?.[YYYYMMDDFormat(new Date())]?.map((todo) => <TodoItem key={todo._id} data={todo} inWork={inWork} newTaskFn={newTaskFn}
-                                setAllTodo={setAllTodo} />)}
-                        </div>
-                    </div>} */}
-
 
                     {/* Completed */}
                     {todoList?.completed?.[0] && allTodo?.[0] && <div className="section-div">
@@ -106,7 +92,7 @@ const SevenDays = ({ inWork, allTodo, setAllTodo, newTaskFn }) => {
                                 setAllTodo={setAllTodo} />)}
                         </div>
                     </div>}
-                    {!allTodo?.[0] &&
+                    {Object.entries(todoList).length === 0 &&
                         <SpinWithMessage icon={<TbCheckbox />} message='Add your today task using below button' height={'300px'}
                             bottomContent={<div style={{ display: 'flex', justifyContent: 'center' }}>
                                 <SingleButton name={'New Task'} classNames={'btn-tertiary'} stIcon={<FaPlus />} onClick={() => newTaskFn()} />

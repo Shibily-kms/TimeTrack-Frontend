@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './punching.scss'
-import { userAxios } from '../../../config/axios'
+import { ttSv2Axios, userAxios } from '../../../config/axios'
 import { toast } from '../../../redux/features/user/systemSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { setWorkData } from '../../../redux/features/user/workdataSlice'
@@ -22,7 +22,7 @@ function Punching({ punch }) {
             if (confirm) {
                 if (internet) {
                     setLoading('punchIn')
-                    userAxios.post('/punch/in', { do_type: 'software', designation: user?.designation }).then((response) => {
+                    ttSv2Axios.post('/work/punch/in', { do_type: 'software', designation: user?.designation }).then((response) => {
                         if (!workDetails?.name) {
                             const obj = {
                                 _id: response?.data?._id,
@@ -75,7 +75,7 @@ function Punching({ punch }) {
             if (confirm) {
                 if (internet) {
                     setLoading('punchOut')
-                    userAxios.post('/punch/out', { do_type: 'software' }).then((response) => {
+                    ttSv2Axios.post('/work/punch/out', { do_type: 'software' }).then((response) => {
                         const lastPunchData = workDetails?.punch_list?.[workDetails?.punch_list.length - 1] || {}
                         const workData = {
                             ...workDetails,

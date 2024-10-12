@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './add-staff.scss'
-import { adminAxios, workerAxios } from '../../../config/axios'
+import { adminAxios, ttCv2Axios, workerAxios } from '../../../config/axios'
 import { setAdminActivePage, toast } from '../../../redux/features/user/systemSlice'
 import NormalInput from '../../../components/common/inputs/NormalInput';
 import SelectInput from '../../../components/common/inputs/SelectInput'
@@ -61,7 +61,7 @@ const AddStaff = ({ setPageHead }) => {
             return
         }
 
-        workerAxios.post('/new-account', form).then(() => {
+        ttCv2Axios.post('/worker/new-account', form).then(() => {
             dispatch(toast.push.success({ message: 'New account created' }))
             navigate('/admin/staff-list')
         }).catch((error) => {
@@ -127,7 +127,7 @@ const AddStaff = ({ setPageHead }) => {
                             firstOption={{ option: 'Select...', value: '' }} />
                         <NormalInput name='sid' id={'sid'} value={form?.sid} onChangeFun={handleChange} label='Staff ID (SRL NO)' />
                         <MobileInput onChangeFun={handleMobileNumber} name='official_number' value={`${form?.official_number?.country_code}${form?.official_number?.number}`}
-                            label='Official number' onlyCountries={['in']} isRequired={false}/>
+                            label='Official number' onlyCountries={['in']} isRequired={false} />
                         <NormalInput label='Monthly Salary' name='current_salary' type='number' id={'current_salary'} value={form?.current_salary}
                             min={'0'} onChangeFun={handleChange} />
                         <NormalInput label={`Working Days (${months[new Date().getMonth()]})`} name='current_working_days' type='number' id={'current_working_days'} value={form?.current_working_days}

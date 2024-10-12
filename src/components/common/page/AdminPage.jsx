@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './admin-page.scss'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -14,6 +14,7 @@ import { IoPricetagsSharp, IoPricetagsOutline } from 'react-icons/io5'
 import { setAdminActivePage } from '../../../redux/features/user/systemSlice'
 import { getUserProfileImagePath } from '../../../assets/javascript/find-helpers'
 import { ui_version } from '../../../assets/javascript/const-data'
+import { TbLayoutSidebarLeftCollapseFilled, TbLayoutSidebarLeftExpandFilled } from 'react-icons/tb'
 
 
 function AdminPage({ pageHead, children }) {
@@ -22,6 +23,7 @@ function AdminPage({ pageHead, children }) {
     const { adminActivePage } = useSelector((state) => state.systemInfo)
     const { user } = useSelector((state) => state.userAuth)
     const userProfileImage = getUserProfileImagePath(user?.first_name);
+    const [navActive, setNavActive] = useState(false)
 
     const clickMenuItem = (url, page) => {
         dispatch(setAdminActivePage(page))
@@ -32,13 +34,19 @@ function AdminPage({ pageHead, children }) {
 
     return (
 
-        <div className="admin-page-body">
+        <div className={`admin-page-body ${navActive && "semi-nav-active"}`}>
 
             <div className="admin-body-section">
                 <div className="admin-body">
                     <div className="title-section">
                         <div className="left">
-                            <h3>{pageHead?.title}</h3>
+                            <div className="title">
+                                {navActive
+                                    ? <TbLayoutSidebarLeftCollapseFilled onClick={() => setNavActive(!navActive)} />
+                                    : <TbLayoutSidebarLeftExpandFilled onClick={() => setNavActive(!navActive)} />
+                                }
+                                <h3>{pageHead?.title}</h3>
+                            </div>
                             <p>{pageHead?.desc}</p>
                         </div>
                         <div className="right">

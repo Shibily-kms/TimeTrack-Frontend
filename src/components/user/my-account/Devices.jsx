@@ -84,13 +84,14 @@ const Devices = () => {
                         You're signed in on these devices or have been within the last 28 days. There may be multiple sessions from the same device.
                     </p>
                     {devices?.map((single, idx) => {
+                        { console.log(single) }
                         return <div className="listCard3-div" key={idx}>
                             <div className="listCard3-left-div">
                                 <div className="icon-div">
                                     {single.device_type === 'Desktop' && <TbDeviceLaptop />}
                                     {single.device_type === 'Tablet' && <TbDeviceTablet />}
                                     {single.device_type === 'Mobile' && <TbDeviceMobile />}
-                                    {single.device_type === 'Other' && <TbDevices />}
+                                    {(single.device_type === "Other Devices" || !single.device_type) && <TbDevices />}
                                 </div>
                             </div>
 
@@ -103,8 +104,8 @@ const Devices = () => {
                                         onClick={() => openModal('', <DeviceView device={device} terminateFunction={doTerminateDevice} />)}>
                                         <div className="list-item">
                                             <div className="item-content">
-                                                <h4>{device?.os?.name} {device?.os?.version}, {device?.browser?.name}</h4>
-                                                <p className='d1'>Logged in {device?.geo?.city}, {device?.geo?.region}/{device?.geo?.country}</p>
+                                                <h4>{device?.os?.name || 'Unknown'} {device?.os?.version}, {device?.browser?.name || 'Unknown'}</h4>
+                                                <p className='d1'>Logged in {device?.geo?.city || 'Unknown'}, {device?.geo?.region || 'Unknown'}/{device?.geo?.country || 'Unknown'}</p>
                                                 {device?.terminated
                                                     ? <Badge text={'Terminated'} className={'error-fill'} />
                                                     : device?.sign_out

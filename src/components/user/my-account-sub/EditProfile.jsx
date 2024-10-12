@@ -47,7 +47,7 @@ const EditProfile = ({ userData, setUserData, setModal }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         setLoading('update')
-        ttSv2Axios.put(`/worker/account/${user?.acc_id}/address?AC_CODE=ttur_default`, form).then(() => {
+        ttSv2Axios.put(`/worker/account/${user?.acc_id}/address`, form).then(() => {
             setUserData((state) => ({
                 ...state,
                 gender: form.gender || null,

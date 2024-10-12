@@ -23,22 +23,6 @@ const Settings = ({ setPageHead }) => {
         setModal({ content, title, status: true })
     }
 
-    const handleAdminLogOut = () => {
-
-        const ask = window.confirm('Are your ready for logout ?')
-        
-        if (ask) {
-            dispatch(logOut())
-            if (admin?.pro_admin) {
-                navigate('/admin/sign-in')
-            } else {
-                navigate('/')
-            }
-        }
-
-    }
-
-
 
     useEffect(() => {
         setPageHead({ title: 'Settings' })
@@ -60,10 +44,10 @@ const Settings = ({ setPageHead }) => {
                         <IoArrowForwardOutline />
                     </div>
                 </div>
-                <div className="option-div red-option" onClick={handleAdminLogOut}>
+                <div className="option-div red-option" onClick={() => navigate('/?page=home')}>
                     <div className="left">
                         <IoMdLogOut />
-                        <h4>Log out</h4>
+                        <h4>Exit admin</h4>
                     </div>
                 </div>
             </div>

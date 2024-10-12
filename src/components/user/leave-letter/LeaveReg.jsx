@@ -28,7 +28,7 @@ const LeaveReg = ({ setModal, setData }) => {
     ]
 
     const handleChange = (e) => {
-        if ((e.target.name === 'from_date' || e.target.name === 'to_date') && new Date(e.target.value).getDay() === 0) {
+        if ((e.target.name === 'from_date' || e.target.name === 'end_date') && new Date(e.target.value).getDay() === 0) {
             return dispatch(toast.push.error({ message: "You can't select Sunday" }))
         }
 
@@ -98,7 +98,8 @@ const LeaveReg = ({ setModal, setData }) => {
             <form action="" onSubmit={handleSubmit}>
                 <NormalInput label={leave_type === 1 ? 'From Date' : 'Date'} type='date' name='from_date' value={form?.from_date} onChangeFun={handleChange}
                     min={YYYYMMDDFormat(new Date())} />
-                {leave_type === 1 ? <NormalInput label='End Date' type='date' name='end_date' value={form?.end_date} onChangeFun={handleChange} /> : ''}
+                {leave_type === 1 ? <NormalInput label='End Date' type='date' name='end_date' value={form?.end_date} onChangeFun={handleChange}
+                    min={form?.from_date} /> : ''}
                 {leave_type === .5 && <div >
                     <RadioInput label={'Before noon'} name={'time'} value={1} onChangeFun={handleChange} />
                     <RadioInput label={'After noon'} name={'time'} value={2} onChangeFun={handleChange} />

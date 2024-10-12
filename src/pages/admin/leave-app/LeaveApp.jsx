@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setAdminActivePage, toast } from '../../../redux/features/user/systemSlice'
-import { adminAxios, leaveAxios } from '../../../config/axios';
+import { adminAxios, leaveAxios, ttCv2Axios } from '../../../config/axios';
 import Modal from '../../../components/common/modal/Modal';
 import Badge from '../../../components/common/badge/Badge';
 import SingleButton from '../../../components/common/buttons/SingleButton';
@@ -22,7 +22,7 @@ const LeaveApp = ({ setPageHead }) => {
         setPageHead({ title: 'Leave Letters', desc: 'Last 15 days actions and current pending applications' })
         dispatch(setAdminActivePage('leave-letters'))
 
-        leaveAxios.get(`/leaves?status=active`).then((response) => {
+        ttCv2Axios.get(`/L2/leaves?status=active`).then((response) => {
             setLoading('')
             const letters = readTheLetters(response?.data?.list || [])
             setData(letters)

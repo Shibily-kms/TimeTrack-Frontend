@@ -35,7 +35,7 @@ const LeaveApp = ({ setPageHead }) => {
     const handleCancelLeave = (id) => {
         const ask = window.confirm('Are you cancel this application ?')
         if (ask) {
-            userAxios.delete(`/leave-application/cancel?_id=${id}&self_cancel=yes`).then(() => {
+            ttSv2Axios.delete(`/L2/action/cancel?_id=${id}&self_cancel=yes`).then(() => {
                 setData(data?.map((item) => {
                     if (item._id === id) {
                         return {
@@ -68,7 +68,7 @@ const LeaveApp = ({ setPageHead }) => {
             setCount(response.data?.count || 0)
             setLoading('')
 
-            userAxios.get(`/leave-application/total-leave?month=${YYYYMMDDFormat(new Date()).slice(0, 7)}`).then((result) => {
+            ttSv2Axios.get(`/L2/staff/total-leave?month=${YYYYMMDDFormat(new Date()).slice(0, 7)}`).then((result) => {
                 setTotalLeave(result.data?.total_leave || 0)
             })
         }).catch((error) => {
@@ -123,11 +123,10 @@ const LeaveApp = ({ setPageHead }) => {
                     onClick={() => handleOpenModal("Leave Registration", <LeaveReg setModal={setModal} setData={setData} />)} />
             </div>}
 
-
             {/* If not leaves */}
-            {!data?.[0] && loading &&
+            {!data?.[0] && loading !== 'fetch' &&
                 <>
-                    <SpinWithMessage load={loading} message='Start your first leave request easily with this button.' height={'400px'} icon={<TbFileText />} bottomContent={
+                    <SpinWithMessage message='Start your first leave request easily with this button.' height={'400px'} icon={<TbFileText />} bottomContent={
                         <div style={{ display: 'flex', justifyContent: 'center' }}>
                             <SingleButton name={'Apply leave letter'} classNames={'btn-tertiary'} onClick={() => handleOpenModal("Leave Registration", <LeaveReg setModal={setModal} setData={setData} />)} />
                         </div>

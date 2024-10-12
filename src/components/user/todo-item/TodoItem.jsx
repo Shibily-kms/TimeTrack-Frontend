@@ -8,7 +8,7 @@ import { toast } from '../../../redux/features/user/systemSlice'
 import { PiSpinnerBold } from "react-icons/pi";
 import { IoRepeatOutline } from "react-icons/io5";
 
-const TodoItem = ({ data, inWork, newTaskFn, setAllTodo }) => {
+const TodoItem = ({ data, inWork, newTaskFn, setAllTodo, admin }) => {
 
     const { internet } = useSelector((state) => state.systemInfo)
     const { user } = useSelector((state) => state?.userAuth)
@@ -63,7 +63,7 @@ const TodoItem = ({ data, inWork, newTaskFn, setAllTodo }) => {
 
     return (
         <div className="todo-item-div">
-            <div className="checkbox-todo-div">
+            {!admin && <div className="checkbox-todo-div">
                 {data?.status === 1 ? <div className={`checkbox priority${data?.priority}`} onClick={() => handleDoWork(data?._id)} >
                     {loading === `do${data._id}`
                         ? <span className='loading-icon'><PiSpinnerBold /></span>
@@ -74,9 +74,9 @@ const TodoItem = ({ data, inWork, newTaskFn, setAllTodo }) => {
                 {data?.status === -1 ? <div className="checkbox wont-box">{loading === `do${data._id}`
                     ? <span className='loading-icon'><PiSpinnerBold /></span>
                     : <FaXmark />}</div> : ""}
-            </div>
+            </div>}
 
-            <div className="content-todo-div" onClick={() => (newTaskFn(data))}>
+            <div className="content-todo-div" onClick={() => newTaskFn(data)}>
                 <div className="left-div">
                     <div className='todo-text'>
                         <p>{data?.title}</p>

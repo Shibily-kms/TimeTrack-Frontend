@@ -3,7 +3,7 @@ import './work-report.scss'
 import WorkReportTable from '../../../components/admin/work-report/WorkReportTable'
 import SpinWithMessage from '../../../components/common/spinners/SpinWithMessage'
 import SCReport from '../../../components/admin/work-report/SCReport'
-import { workAxios, workerAxios } from '../../../config/axios'
+import { ttCv2Axios, workAxios, workerAxios } from '../../../config/axios'
 import { workReportHelper, salaryReportYearBaseHelper } from '../../../assets/javascript/work-helper'
 import { BsDatabaseFillExclamation } from 'react-icons/bs'
 import { setAdminActivePage, toast } from '../../../redux/features/user/systemSlice'
@@ -43,7 +43,7 @@ function WorkReport({ setPageHead }) {
         let allStaffs = []
 
         if (!staffList?.[0]) {
-            workerAxios.get('/account/list?all=yes').then((response) => {
+            ttCv2Axios.get('/worker/account/list?all=yes').then((response) => {
                 setStaffList(response.data)
                 allStaffs = response.data
             })

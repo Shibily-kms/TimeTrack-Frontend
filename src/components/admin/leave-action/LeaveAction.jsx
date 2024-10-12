@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './leave-action.scss'
 import SingleButton from '../../common/buttons/SingleButton'
-import { adminAxios, leaveAxios } from '../../../config/axios'
+import { adminAxios, leaveAxios, ttCv2Axios, ttSv2Axios } from '../../../config/axios'
 import { YYYYMMDDFormat } from '../../../assets/javascript/date-helper'
 import { toast } from '../../../redux/features/user/systemSlice'
 import { useDispatch, useSelector } from 'react-redux'
@@ -18,6 +18,11 @@ const LeaveAction = ({ singleData, setData, setModal }) => {
     const months = ['Jun', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
     const handleChangeDate = (e, dayIndex) => {
+
+        if (new Date(e.target.value).getDay() === 0) {
+            return dispatch(toast.push.error({ message: "You can't select Sunday" }))
+        }
+
         setForm((state) => {
             const newState = [...state]; // Create a copy of the current state
             newState[dayIndex] = [...newState[dayIndex]]; // Create a copy of the specific day array
@@ -65,7 +70,7 @@ const LeaveAction = ({ singleData, setData, setModal }) => {
             const ask = window.confirm('Approve this application ?')
             if (ask) {
                 setLoading('approve')
-                leaveAxios.put('/action/approve', { days: form, _id: singleData._id }).then(() => {
+                ttCv2Axios.put('/L2/action/approve', { days: form, _id: singleData._id }).then(() => {
 
                     setModal({ status: false });
                     setLoading('')
@@ -100,7 +105,7 @@ const LeaveAction = ({ singleData, setData, setModal }) => {
         const ask = window.confirm('Reject this application ?')
         if (ask) {
             setLoading('reject')
-            leaveAxios.put('/action/reject', { _id: singleData._id }).then(() => {
+            ttCv2Axios.put('/L2/action/reject', { _id: singleData._id }).then(() => {
                 setData((state) => {
                     const updatedData = state.map((item) => {
                         if (item._id === singleData._id) {
@@ -129,7 +134,7 @@ const LeaveAction = ({ singleData, setData, setModal }) => {
         const ask = window.confirm('Cancel this application ?')
         if (ask) {
             setLoading('cancel')
-            leaveAxios.delete(`/action/cancel?_id=${singleData._id}`).then(() => {
+            ttCv2Axios.delete(`/L2/action/cancel?_id=${singleData._id}`).then(() => {
                 setData((state) => state.map((item) => {
                     if (item._id === singleData._id) {
                         return {
@@ -153,7 +158,7 @@ const LeaveAction = ({ singleData, setData, setModal }) => {
 
     useEffect(() => {
         if (singleData?.leave_status === 'Pending' || singleData?.leave_status === 'Approved') {
-            leaveAxios.get(`/staff/total-leave?staff_id=${singleData?.staff_id}&month=${YYYYMMDDFormat(new Date()).slice(0, 7)}`).then((response) => {
+            ttSv2Axios.get(`/L2/staff/total-leave?staff_id=${singleData?.staff_id}&month=${YYYYMMDDFormat(new Date()).slice(0, 7)}`).then((response) => {
                 setTotalLeave(response?.data?.total_leave || 0)
             })
         }

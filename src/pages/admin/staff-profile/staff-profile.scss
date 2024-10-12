@@ -72,6 +72,8 @@
             border-left: 1px solid var(--border-primary);
             display: block;
             margin-bottom: 25px;
+            position: sticky;
+            top: 0px;
 
             ul {
                 list-style-position: outside;
@@ -114,6 +116,7 @@
                 grid-template-columns: 1fr 1fr;
                 padding: 20px 0 20px 0px;
                 border-left: none;
+                position: static;
             }
         }
     }

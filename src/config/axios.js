@@ -16,8 +16,9 @@ const baseSetup = {
     workerAxios: axios.create({ baseURL: `${baseUrl}:8000/s/v2/worker/`, headers: apiHeaders }),
     leaveAxios: axios.create({ baseURL: `${baseUrl}:8000/s/v2/L2/`, headers: apiHeaders }),
     workAxios: axios.create({ baseURL: `${baseUrl}:8000/s/v2/work/`, headers: apiHeaders }),
-    ttSv2Axios: axios.create({ baseURL: `${baseUrl}:8000/s/v2/`, headers: apiHeaders })
+    ttSv2Axios: axios.create({ baseURL: `${baseUrl}:8000/s/v2/`, headers: apiHeaders }),
 
+    ttCv2Axios: axios.create({ baseURL: `${baseUrl}:8000/c/v2/`, headers: apiHeaders })
 }
 
 
@@ -29,7 +30,7 @@ const handleTokenError = async (originalRequest) => {
     // Call the refresh token API to get a new access token
     try {
         const refreshToken = Cookies.get('_rfs_tkn'); // Retrieve the refresh token
-        const { data } = await axios.post(`${baseUrl}:8000/v2/auth/rotate-token`, { refresh_token: refreshToken }, {
+        const { data } = await axios.post(`${baseUrl}:8000/s/v2/auth/rotate-token`, { refresh_token: refreshToken }, {
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -111,15 +112,18 @@ baseSetup.leaveAxios.interceptors.response.use(responseConfigFunction, responseE
 baseSetup.workAxios.interceptors.request.use(requestConfigFunction, requestErrorFunction)
 baseSetup.workAxios.interceptors.response.use(responseConfigFunction, responseErrorFunction);
 
-
 //? time track v2 all
 baseSetup.ttSv2Axios.interceptors.request.use(requestConfigFunction, requestErrorFunction)
 baseSetup.ttSv2Axios.interceptors.response.use(responseConfigFunction, responseErrorFunction);
 
+//? time track v2 all
+baseSetup.ttCv2Axios.interceptors.request.use(requestConfigFunction, requestErrorFunction)
+baseSetup.ttCv2Axios.interceptors.response.use(responseConfigFunction, responseErrorFunction);
 
 
 
 
-export const { userAxios, adminAxios, workerAxios, leaveAxios, workAxios, ttSv2Axios } = baseSetup
+
+export const { userAxios, adminAxios, workerAxios, leaveAxios, workAxios, ttSv2Axios, ttCv2Axios } = baseSetup
 
 

@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { userAxios } from '../../../config/axios'
+import { ttSv2Axios, userAxios } from '../../../config/axios'
 
 const initialState = {
     workDetails: null,
@@ -12,7 +12,7 @@ const initialState = {
 export const getPunchDetails = createAsyncThunk('user/punch-details', async (body, thunkAPI) => {
 
     try {
-        return await userAxios.get('/punch/today-data')
+        return await ttSv2Axios.get('/work/punch/today-data')
     } catch (error) {
         const message = (error && error.message) || error.message || error.toString()
         return thunkAPI.rejectWithValue(message)

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './staff-profile.scss'
-import { workerAxios } from '../../../config/axios'
+import { ttCv2Axios, workerAxios } from '../../../config/axios'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from '../../../redux/features/user/systemSlice'
@@ -10,6 +10,7 @@ import SingleButton from '../../../components/common/buttons/SingleButton'
 import { HiPlus } from 'react-icons/hi'
 import { FaListCheck } from 'react-icons/fa6'
 import AddEditTodo from '../../../components/user/add-edit-todo/AddEditTodo'
+import TodoItem from '../../../components/user/todo-item/TodoItem'
 import DeleteStaff from '../../../components/admin/models/DeleteStaff'
 import Modal from '../../../components/common/modal/Modal'
 import Badge from '../../../components/common/badge/Badge'
@@ -26,14 +27,14 @@ const StaffProfile = ({ setPageHead }) => {
   const [data, setData] = useState({})
   const [loading, setLoading] = useState('fetch')
   const [modal, setModal] = useState({ status: false })
-  const [regular, setRegular] = useState([])
+  const [todo, setTodo] = useState([])
   const { user } = useSelector((state) => state.userAuth)
 
 
-  const openWorkModal = (title, data) => {
+  const openWorkModal = (data) => {
     setModal({
-      status: true, content: <AddEditTodo setModal={setModal} updateData={data} admin={true} staff_id={staff_id}
-        setData={setRegular} />, title
+      status: true, content: <AddEditTodo setModal={setModal} withData={data ? true : false} updateData={data} admin={true} staff_id={staff_id}
+        setData={setTodo} />, title: "Task"
     })
   }
 
@@ -52,9 +53,11 @@ const StaffProfile = ({ setPageHead }) => {
       setPageHead({ title: `${response.data.first_name} ${response.data.last_name}` })
       setLoading('')
 
-      // adminAxios.get(`/regular-work?staff_id=${staff_id}`).then((result) => {
-      //   setRegular(result.data)
-      // })
+      // Get todo
+      ttCv2Axios.get(`/todo/task?staff_id=${staff_id}`).then((result) => {
+        console.log(result)
+        setTodo([...(result.data?.overdue), ...(result?.data?.update)])
+      })
 
     }).catch((error) => {
       dispatch(toast.push.error({ message: error?.message }))
@@ -216,24 +219,24 @@ const StaffProfile = ({ setPageHead }) => {
             </>}
         </div>
 
-        {/* Regular work */}
-        {/* {loading !== 'fetch' && !data?.delete && user?.allowed_origins?.includes('ttcr_stfAcc_write') &&
+        {/* Todo */}
+        {loading !== 'fetch' && !data?.delete && user?.allowed_origins?.includes('ttcr_stfAcc_write') &&
           <div className="reg-work-div" id="title3">
             <div className="title">
-              <h3>Regular Works</h3>
+              <h3>To Do List</h3>
               <SingleButton classNames={'sm btn-tertiary'} style={{ fontSize: '11px' }}
                 name={'New'} stIcon={<HiPlus />}
-                onClick={() => openWorkModal('Add New Work')} />
+                onClick={() => openWorkModal()} />
             </div>
             <div className="content-div">
-              {!regular?.[0] ? <SpinWithMessage message='No regular works' height={'200px'} icon={<FaListCheck />} spin={false} />
+              {!todo?.[0] ? <SpinWithMessage message='No To Dos' height={'200px'} icon={<FaListCheck />} spin={false} />
                 // eslint-disable-next-line
-                : regular?.map((work) => <RegularWorkCard key={work._id} allWork={true} data={work} setData={setRegular}
-                  openWorkModal={openWorkModal} admin={true} />)
+                : todo?.map((work) => <TodoItem key={work._id} data={work} setAllTodo={setTodo}
+                  admin={true} newTaskFn={openWorkModal} />)
               }
             </div>
 
-          </div>} */}
+          </div>}
 
       </div>
       <div className="section-two-div">
@@ -242,10 +245,10 @@ const StaffProfile = ({ setPageHead }) => {
             <h4>Sub menus</h4>
             <ul>
               <li onClick={() => scrollTo('title1')}>Personal Info</li>
-              <li onClick={() => scrollTo('title2')}>Mobile numbers</li>
+              <li onClick={() => scrollTo('title2')}>Mobile Numbers</li>
               <li onClick={() => scrollTo('title3')}>Professional Info</li>
               {loading !== 'fetch' && !data?.delete && user?.allowed_origins?.includes('ttcr_stfAcc_write') &&
-                <li onClick={() => scrollTo('title3')}>Regular Works</li>}
+                <li onClick={() => scrollTo('title3')}>To Do List</li>}
             </ul>
           </div>
           {loading !== 'fetch' && user?.allowed_origins?.includes('ttcr_stfAcc_write') &&
@@ -256,8 +259,8 @@ const StaffProfile = ({ setPageHead }) => {
                 content: <EditStaff data={data} setData={setData} setModal={setModal} />,
                 width: '600px'
               })} />
-              {!data?.delete && <SingleButton name={'Add regular work'} classNames={'btn-tertiary'} style={{ width: '100%' }
-              } onClick={() => openWorkModal('Add New Work')} />}
+              {!data?.delete && <SingleButton name={'Add ToDo'} classNames={'btn-tertiary'} style={{ width: '100%' }
+              } onClick={() => openWorkModal()} />}
               {!data?.delete && <SingleButton name={'Settings'} classNames={'btn-tertiary'} style={{ width: '100%' }}
                 onClick={() => navigate(`/admin/staff-list/${staff_id}/settings`)} />}
               {!data?.delete && <SingleButton name={'Delete profile'} classNames={'btn-danger'} style={{ width: '100%' }}

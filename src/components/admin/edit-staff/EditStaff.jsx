@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './edit-staff.scss'
-import { adminAxios, workerAxios } from '../../../config/axios'
+import { adminAxios, ttCv2Axios, workerAxios } from '../../../config/axios'
 import SpinWithMessage from '../../common/spinners/SpinWithMessage'
 import { secondsToHHMM } from '../../../assets/javascript/date-helper'
 import { toast } from '../../../redux/features/user/systemSlice'
@@ -46,7 +46,7 @@ function EditStaff({ data, setModal, setData }) {
             return
         }
 
-        workerAxios.put(`/account/${form?._id}/info`, form).then(() => {
+        ttCv2Axios.put(`/worker/account/${form?._id}/info`, form).then(() => {
 
             let timeSplit = form?.current_working_time?.split(':')
             timeSplit = (timeSplit[0] * 3600) + (timeSplit[1] * 60)

@@ -3,7 +3,7 @@ import './date-basie.scss'
 import DateBar from '../../../components/admin/staff-work/DateBar'
 import TableForAnalyze from '../../../components/admin/staff-work/TableForAnalyze'
 
-function DateBasie({ dateAlzList, selectDay, setSelectDay }) {
+function DateBasie({ dateAlzList, selectDay, setSelectDay, dateBaseList }) {
     const [tableData, setTableData] = useState({})
 
     useEffect(() => {
@@ -15,6 +15,10 @@ function DateBasie({ dateAlzList, selectDay, setSelectDay }) {
         })
         // eslint-disable-next-line
     }, [selectDay])
+
+    useEffect(() => {
+        console.log(dateBaseList)
+    }, [dateBaseList])
 
 
     return (

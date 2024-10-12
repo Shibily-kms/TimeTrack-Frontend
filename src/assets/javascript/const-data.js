@@ -3,39 +3,21 @@ export const work_modes = ['On-site', 'Remote', 'Hybrid ']
 export const e_types = ['Part time', 'Full time']
 export const origins_head_list = [
     {
-        id: 'ttur',
-        title: 'Time Track',
-        description: 'Manage workers attendance efficiently',
-        sections: [
-            {
-                id: 'ttur_default',
-                title: 'Worker account',
-                description: 'Provides default access to worker accounts',
-                origins: [
-                    {
-                        key: 'ttur_default',
-                        name: 'Read and Write'
-                    }
-                ]
-            }
-        ]
-    },
-    {
         id: 'ttcr',
         title: 'Time Track Controller',
         description: 'Control workers attendance reports',
         sections: [
             {
-                id: 'ttcr_todo',
-                title: 'Todo list',
-                description: 'Grants access to read and manage workers to-do lists',
+                id: 'ttcr_stfAcc',
+                title: 'Worker accounts',
+                description: 'Provides access to view, create, update, and delete workers accounts',
                 origins: [
                     {
-                        key: 'ttcr_todo_read',
+                        key: 'ttcr_stfAcc_read',
                         name: 'Read'
                     },
                     {
-                        key: 'ttcr_todo_write',
+                        key: 'ttcr_stfAcc_write',
                         name: 'Read and Write'
                     },
                 ]
@@ -51,21 +33,6 @@ export const origins_head_list = [
                     },
                     {
                         key: 'ttcr_l2_write',
-                        name: 'Read and Write'
-                    },
-                ]
-            },
-            {
-                id: 'ttcr_stfAcc',
-                title: 'Worker accounts',
-                description: 'Provides access to view, create, update, and delete workers accounts',
-                origins: [
-                    {
-                        key: 'ttcr_stfAcc_read',
-                        name: 'Read'
-                    },
-                    {
-                        key: 'ttcr_stfAcc_write',
                         name: 'Read and Write'
                     },
                 ]
@@ -96,6 +63,32 @@ export const origins_head_list = [
                     },
                     {
                         key: 'ttcr_rprt_write',
+                        name: 'Read and Write'
+                    },
+                ]
+            },
+            {
+                id: 'ttcr_qr',
+                title: 'QR Code',
+                description: 'Create, View and Remove Punch QR Codes',
+                origins: [
+                    {
+                        key: 'ttcr_qr_write',
+                        name: 'Read and Write'
+                    },
+                ]
+            },
+            {
+                id: 'ttcr_pro',
+                title: 'Pro Control',
+                description: 'Designations, Pro Settings Access',
+                origins: [
+                    {
+                        key: 'ttcr_pro_read',
+                        name: 'Read'
+                    },
+                    {
+                        key: 'ttcr_pro_write',
                         name: 'Read and Write'
                     },
                 ]

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './delete-staff.scss'
 import { toast } from '../../../redux/features/user/systemSlice'
-import { workerAxios } from '../../../config/axios'
+import { ttCv2Axios, workerAxios } from '../../../config/axios'
 import NormalInput from '../../common/inputs/NormalInput'
 import SingleButton from '../../common/buttons/SingleButton'
 import { useDispatch } from 'react-redux'
@@ -32,7 +32,7 @@ function DeleteStaff({ setModal, setData, deleteId }) {
         const ask = window.confirm('Are you delete this account ?')
         if (ask) {
             setLoading(true)
-            workerAxios.delete(`/account/${deleteId}?resign_date=${form.resign_date}&reason=${form.reason}`).then(() => {
+            ttCv2Axios.delete(`/worker/account/${deleteId}?resign_date=${form.resign_date}&reason=${form.reason}`).then(() => {
                 setData((state) => ({
                     ...state,
                     delete: true,
