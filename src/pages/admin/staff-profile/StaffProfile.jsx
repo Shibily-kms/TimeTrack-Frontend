@@ -55,7 +55,6 @@ const StaffProfile = ({ setPageHead }) => {
 
       // Get todo
       ttCv2Axios.get(`/todo/task?staff_id=${staff_id}`).then((result) => {
-        console.log(result)
         setTodo([...(result.data?.overdue), ...(result?.data?.update)])
       })
 

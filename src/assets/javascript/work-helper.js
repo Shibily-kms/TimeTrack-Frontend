@@ -1,160 +1,146 @@
 import { YYYYMMDDFormat } from './date-helper'
 
-const analyzeDateHelper = (data, staffs, start, end) => {
+const analyzeDateHelper = (data, staffs, leaveList, month) => {
 
-    // Check This Month
-    const thisMonth = end?.getFullYear() === new Date().getFullYear() && end?.getMonth() === new Date().getMonth()
-    end = thisMonth ? new Date() : end
+    // Find first day and last day
+    let firstDay = new Date(new Date(`${month}-05`).getFullYear(), new Date(`${month}-05`).getMonth(), 1)
+    let lastDay = new Date(new Date(`${month}-05`).getFullYear(), new Date(`${month}-05`).getMonth() + 1, 0)
+    const thisMonth = lastDay?.getFullYear() === new Date().getFullYear() && lastDay?.getMonth() === new Date().getMonth()
+    lastDay = thisMonth ? new Date(new Date().setHours(0, 0, 0, 0)) : lastDay
 
-    let i = 0;
-    let analyzeData = []
-    const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
-    let oneDay = {}
+    // Analyze
+    const analyzeData = []
+    let dayIndex = 0
 
-    while (start.getTime() <= end.getTime()) {
+    while (firstDay <= lastDay) {
+
         // Setup Day
-        if (YYYYMMDDFormat(start) === data?.[i]?.date) {
+        let oneDay = {}
+
+        // If any works
+        if (YYYYMMDDFormat(firstDay) === data?.[dayIndex]?.date) {
             oneDay = {
-                day: days[new Date(start).getDay()],
-                date: new Date(start).getDate(),
-                month: new Date(start).getMonth(),
-                year: new Date(start).getFullYear(),
-                staff: data[i].staff,
-                attendanceCount: data[i].staff.length
+                date: new Date(firstDay),
+                staff_list: data[dayIndex]?.staff || [],
+                attendance: data[dayIndex]?.staff?.length || 0
             }
-            i++;
+
+            dayIndex++;
         } else {
             oneDay = {
-                day: days[new Date(start).getDay()],
-                date: new Date(start).getDate(),
-                month: new Date(start).getMonth(),
-                year: new Date(start).getFullYear(),
-                staff: [],
-                attendanceCount: 0
-            }
-        }
-        // Setup Staffs
-        let oneStaff = {}
-        let k = 0;
-        for (let j = 0; j < staffs.length; j++) {
-            if (YYYYMMDDFormat(start) >= YYYYMMDDFormat(new Date(staffs[j].createdAt))) {
-                if (YYYYMMDDFormat(start) <= YYYYMMDDFormat(new Date(staffs[j]?.deleteReason?.date)) || !staffs[j]?.deleteReason) {
-                    if (staffs[j]._id !== oneDay.staff[k]?.staff_id) {
-                        oneStaff = {
-                            full_name: staffs[j].first_name + ' ' + staffs[j].last_name,
-                            staff_id: staffs[j]._id,
-                            designation: staffs[j].designation.designation,
-                            current_designation: true,
-                            day: days[new Date(start).getDay()],
-                            date: new Date(start).getDate(),
-                            month: new Date(start).getMonth(),
-                            year: new Date(start).getFullYear(),
-                        }
-                        oneDay.staff.splice(k, 0, oneStaff)
-                    } else {
-                        oneDay.staff[k].day = days[new Date(start).getDay()]
-                        oneDay.staff[k].date = new Date(start).getDate()
-                        oneDay.staff[k].month = new Date(start).getMonth()
-                        oneDay.staff[k].year = new Date(start).getFullYear()
-                        if (!oneDay.staff[k].designation) {
-                            oneDay.staff[k].designation = staffs[j].designation.designation
-                            oneDay.staff[k].current_designation = true
-                        }
-                    }
-                    k++
-                }
+                date: new Date(firstDay),
+                staff_list: [],
+                attendance: 0
             }
         }
 
+        // SetUp Staff
+        let staffIndex = 0
+        const dayActiveStaffs = staffs.reduce((result, a) => {
+            if (YYYYMMDDFormat(firstDay) >= YYYYMMDDFormat(new Date(a.createdAt)) &&
+                (YYYYMMDDFormat(firstDay) <= YYYYMMDDFormat(new Date(a?.deleteReason?.date)) || !a?.deleteReason)) {
+
+                // This day worked
+                const takeLeave = leaveList?.[YYYYMMDDFormat(firstDay)]?.filter((ls) => ls.staff_id === a._id)?.[0]?.leave_type
+
+                if (a._id !== oneDay.staff_list[staffIndex]?.staff_id) {
+                    result.push({
+                        full_name: a.first_name + ' ' + a.last_name,
+                        staff_id: a._id,
+                        designation: a.designation.designation,
+                        current_designation: true,
+                        leave_type: takeLeave || '0'
+                    })
+                } else {
+                    result.push({
+                        ...oneDay.staff_list[staffIndex],
+                        designation: oneDay.staff_list[staffIndex].designation
+                            ? oneDay.staff_list[staffIndex].designation : a.designation.designation,
+                        current_designation: oneDay.staff_list[staffIndex].designation ? false : true,
+                        leave_type: takeLeave || '0'
+                    })
+
+                    staffIndex++
+                }
+            }
+            return result;
+        }, [])
+
+        oneDay.staff_list = dayActiveStaffs
         analyzeData.push(oneDay)
-        start.setDate(start.getDate() + 1);
+        firstDay.setDate(firstDay.getDate() + 1);
     }
 
     return analyzeData
 }
 
-const analyzeStaffHelper = (data, staffDetails, start, end) => {
+const analyzeStaffHelper = (data, leaveList, aboutStaff, month) => {
+    // Find first day and last day
+    let firstDay = new Date(new Date(`${month}-05`).getFullYear(), new Date(`${month}-05`).getMonth(), 1)
+    let lastDay = new Date(new Date(`${month}-05`).getFullYear(), new Date(`${month}-05`).getMonth() + 1, 0)
+    const thisMonth = lastDay?.getFullYear() === new Date().getFullYear() && lastDay?.getMonth() === new Date().getMonth()
+    lastDay = thisMonth ? new Date(new Date().setHours(0, 0, 0, 0)) : lastDay
 
-    // Check This Month
-    const thisMonth = end?.getFullYear() === new Date().getFullYear() && end?.getMonth() === new Date().getMonth()
-    end = thisMonth ? new Date() : end
-
-    const staff = data?.[0] || {
-        staff_id: staffDetails._id,
-        full_name: `${staffDetails.first_name} ${staffDetails.last_name}`,
-        dates: []
+    const staffReport = {
+        full_name: data?.full_name,
+        staff_id: data?.staff_id,
+        day_list: []
     }
-    let i = 0
-    const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
-    let oneDay = {}
+    let dayIndex = 0
 
-    while (start.getTime() <= end.getTime()) {
-        if (YYYYMMDDFormat(start) >= YYYYMMDDFormat(new Date(staffDetails.createdAt))) {
-            if (YYYYMMDDFormat(start) <= YYYYMMDDFormat(new Date(staffDetails?.deleteReason?.date)) || !staffDetails?.deleteReason) {
-                if (YYYYMMDDFormat(start) === staff?.dates?.[i]?.date) {
-                    oneDay = {
-                        ...staff.dates?.[i],
-                        day: days[new Date(start).getDay()],
-                        date: new Date(start).getDate(),
-                        month: new Date(start).getMonth(),
-                        year: new Date(start).getFullYear(),
-                        staff_id: staff.staff_id,
-                        full_name: staff.full_name
-                    }
-                    if (!staff.dates?.[i].designation) {
-                        oneDay.designation = staffDetails?.designation.designation
-                        oneDay.current_designation = true
-                    }
-                    staff.dates[i] = oneDay
-                } else {
-                    oneDay = {
-                        day: days[new Date(start).getDay()],
-                        date: new Date(start).getDate(),
-                        month: new Date(start).getMonth(),
-                        year: new Date(start).getFullYear(),
-                        staff_id: staffDetails?._id,
-                        full_name: `${staffDetails.first_name} ${staffDetails.last_name}`,
-                        designation: staffDetails?.designation.designation,
-                        current_designation: true
-                    }
-                    if (staff?.dates?.[0]) {
-                        staff?.dates.splice(i, 0, oneDay)
-                    } else {
-                        staff.dates.push(oneDay)
-                    }
+    while (firstDay <= lastDay) {
+        if (YYYYMMDDFormat(firstDay) >= YYYYMMDDFormat(new Date(aboutStaff.createdAt)) &&
+            (YYYYMMDDFormat(firstDay) <= YYYYMMDDFormat(new Date(aboutStaff?.deleteReason?.date)) || !aboutStaff?.deleteReason)) {
+
+            // Setup Day
+            let oneDay = {}
+            const takeLeave = leaveList?.[YYYYMMDDFormat(firstDay)]?.filter((ls) => ls.staff_id === aboutStaff._id)?.[0]?.leave_type
+
+            if (YYYYMMDDFormat(firstDay) === data?.dates?.[dayIndex]?.date) {
+                oneDay = {
+                    ...data?.dates?.[dayIndex],
+                    date: new Date(firstDay),
+                    staff_id: data?.staff_id,
+                    full_name: data?.full_name,
+                    designation: data?.dates[dayIndex].designation
+                        ? data.dates[dayIndex].designation : aboutStaff.designation.designation,
+                    current_designation: data.dates[dayIndex].designation ? false : true,
+                    leave_type: takeLeave || '0'
                 }
-                i++;
 
+                dayIndex++
+            } else {
+                oneDay = {
+                    date: new Date(firstDay),
+                    staff_id: data?.staff_id,
+                    full_name: data?.full_name,
+                    designation: aboutStaff.designation.designation,
+                    current_designation: true,
+                    leave_type: takeLeave || '0'
+                }
             }
+            staffReport.day_list.push(oneDay)
         }
-
-        start.setDate(start.getDate() + 1);
+        firstDay.setDate(firstDay.getDate() + 1);
     }
-
-    return staff
+    return staffReport
 }
 
-const analyzeStaffMonthReport = (thisMonth, staffData, staffMSR, analyzeData) => {
+const analyzeStaffMonthReport = (thisMonth, staffMSR) => {
+
     let workingDays = 0, workingHours = 0
     let attendedDays = 0, attendedHours = 0
     let leavedDays = 0, leavedHours = 0
     let attendancePercentage = 0, wantedPercentage = 0
 
     //  Wanted days and hours
-    workingDays = thisMonth ? staffData?.current_working_days || 0 : staffMSR?.working_days || 0
-    let dayWorkingHours = thisMonth ? staffData?.current_working_time || 0 : staffMSR?.day_hours || 0
+    workingDays = staffMSR?.working_days || 0
+    let dayWorkingHours = staffMSR?.day_hours || 0
     workingHours = workingDays * dayWorkingHours || 0
 
     // Attendance report
-    attendedDays = analyzeData?.dates?.filter((day) => day?.punch_list?.[0]) || []
-    attendedDays = attendedDays.length
-
-    analyzeData?.dates?.map((day) => {
-        if (day?.total_working_time) {
-            attendedHours += day?.total_working_time || 0
-        }
-        return day
-    })
+    attendedDays = staffMSR?.worked_days || 0
+    attendedHours = (staffMSR?.worked_time || 0) + (staffMSR?.extra_time || 0)
 
     // Leave Report 
     leavedDays = Math.max(0, workingDays - attendedDays)

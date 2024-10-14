@@ -35,7 +35,6 @@ const SevenDays = ({ inWork, allTodo, setAllTodo, newTaskFn }) => {
 
     useEffect(() => {
         const dataCategory = nextSevenDayDataCategories(allTodo || [])
-        console.log(dataCategory)
         setTodoList(dataCategory)
     }, [allTodo])
 

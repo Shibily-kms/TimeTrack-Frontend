@@ -84,7 +84,6 @@ const Devices = () => {
                         You're signed in on these devices or have been within the last 28 days. There may be multiple sessions from the same device.
                     </p>
                     {devices?.map((single, idx) => {
-                        { console.log(single) }
                         return <div className="listCard3-div" key={idx}>
                             <div className="listCard3-left-div">
                                 <div className="icon-div">

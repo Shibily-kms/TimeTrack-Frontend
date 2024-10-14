@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import './edit-work-data.scss'
-import { workAxios } from '../../../config/axios'
+import { ttCv2Axios, workAxios } from '../../../config/axios'
 import { toast } from '../../../redux/features/user/systemSlice'
 import SingleButton from '../../common/buttons/SingleButton'
 import { useDispatch } from 'react-redux'
 import { GoTrash } from 'react-icons/go'
+import { YYYYMMDDFormat } from '../../../assets/javascript/date-helper'
 
 function EditWorkData({ data, setModal }) {
     const dispatch = useDispatch();
@@ -43,7 +44,7 @@ function EditWorkData({ data, setModal }) {
         const ask = window.confirm('Are you sure you want to update this work?')
         if (ask) {
             setLoading(true)
-            workAxios.put('/punch', { punch_list: form, date: data?.date, staff_id: data.staff_id }).then(() => {
+            ttCv2Axios.put('/work/punch', { punch_list: form, date: YYYYMMDDFormat(data?.date), staff_id: data.staff_id }).then(() => {
                 dispatch(toast.push.success({ message: 'Updated. Refresh now!' }))
                 setModal({ status: false })
                 setLoading(false)
@@ -78,6 +79,7 @@ function EditWorkData({ data, setModal }) {
                 <SingleButton name={'Update'} type={loading === 'submit' ? 'button' : 'submit'}
                     loading={loading === 'submit'} style={{ width: '100%' }} classNames={'lg btn-tertiary'} />
             </form>
+            <p className='smallTD1' style={{ marginTop: '15px' }}>Changes to reports from months other than the current one will not impact the salary report.</p>
         </div>
     )
 }

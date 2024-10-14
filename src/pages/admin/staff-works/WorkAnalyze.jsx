@@ -1,33 +1,26 @@
 import React, { useEffect, useState } from 'react'
 import './work-analyze.scss'
 import NormalInput from '../../../components/common/inputs/NormalInput'
-import SingleButton from '../../../components/common/buttons/SingleButton'
 import SelectInput from '../../../components/common/inputs/SelectInput'
 import StaffBasie from './StaffBasie'
 import DateBasie from './DateBasie'
-import { ImSearch } from "react-icons/im";
-import { adminAxios, ttCv2Axios, workerAxios } from '../../../config/axios'
+import { ttCv2Axios } from '../../../config/axios'
 import { useSearchParams } from 'react-router-dom'
 import { setAdminActivePage, toast } from '../../../redux/features/user/systemSlice'
 import { useDispatch } from 'react-redux'
-import { analyzeDateHelper, analyzeStaffHelper, analyzeStaffMonthReport } from '../../../assets/javascript/work-helper'
 import SpinWithMessage from '../../../components/common/spinners/SpinWithMessage'
-import { YYYYMMDDFormat } from '../../../assets/javascript/date-helper'
 
 const WorkAnalyze = ({ setPageHead }) => {
 
   const dispatch = useDispatch()
   const [loading, setLoading] = useState('fetch')
   const [staffs, setStaffs] = useState([])
-  const [dateAlzList, setDateAlzList] = useState([])
-  const [staffAlzList, setStaffAlzList] = useState([])
   const [data, setData] = useState([])
-  const [monthReport, setMonthReport] = useState({})
-  const [selectDay, setSelectDay] = useState({})
   const [searchParams, setSearchParams] = useSearchParams()
+  const [leaveData, setLeaveData] = useState({})
 
-  const fetchData = (staffList) => {
-    const listOfStaff = staffs?.[0] ? staffs : staffList
+  const fetchData = () => {
+
     setLoading('fetch')
 
     // queries
@@ -36,70 +29,19 @@ const WorkAnalyze = ({ setPageHead }) => {
     const searchType = searchParams.get('staff') === 'all' ? 'date-basie' : 'staff-basie'
     const singleStaffId = searchParams.get('staff') !== 'all' ? searchParams.get('staff') : ''
 
-    ttCv2Axios.get(`/work/report/punch?from_date=${formDate}&to_date=${endDate}&type=${searchType}&staff_id=${singleStaffId}`)
-      .then(async (response) => {
-        setData(response?.data || [])
-        setLoading('')
-        // if (searchParams.get('staff') === 'all' || !searchParams.get('staff')) {
-        //   // Date basie
-        //   const analyzedData = analyzeDateHelper(
-        //     response?.data,
-        //     listOfStaff,
-        //     new Date(searchParams.get('month') + '-01'),
-        //     new Date(new Date(searchParams.get('month') + '-01').getFullYear(), new Date(searchParams.get('month') + '-01').getMonth() + 1, 0, 23)
-        //   )
-        //   setDateAlzList(analyzedData)
-        //   setStaffAlzList([])
+    Promise.all([
+      ttCv2Axios.get(`/work/report/punch?from_date=${formDate}&to_date=${endDate}&type=${searchType}&staff_id=${singleStaffId}`),
+      ttCv2Axios.get(`/L2/report/daily-leaves?from_date=${formDate}&to_date=${endDate}&tracker=Yes`)
+    ]).then(([workRes, leaveRes]) => {
+      setData(workRes?.data || [])
+      setLeaveData(leaveRes?.data || {})
+      setLoading('')
 
-        //   const thisMonth = YYYYMMDDFormat(new Date()).slice(0, 7)
-        //   setSelectDay({
-        //     date: searchParams.get('month') === thisMonth ? analyzedData[analyzedData?.length - 1]?.date : analyzedData[0]?.date,
-        //     month: searchParams.get('month') === thisMonth ? analyzedData[analyzedData?.length - 1]?.month : analyzedData[0]?.month,
-        //     year: searchParams.get('month') === thisMonth ? analyzedData[analyzedData?.length - 1]?.year : analyzedData[0]?.year,
-        //     count: searchParams.get('month') === thisMonth ? analyzedData[analyzedData?.length - 1]?.attendanceCount : analyzedData[0]?.attendanceCount
-        //   })
-        //   setLoading('')
+    }).catch(() => {
+      setLoading('')
+      dispatch(toast.push.error('Unknown error, Try again!'))
+    })
 
-        // } else {
-
-        //   // Staff Basie
-        //   // Check this month report or not
-        //   const thisMonth = new Date(searchParams.get('month') + '-01')?.getFullYear() === new Date().getFullYear()
-        //     && new Date(searchParams.get('month') + '-01')?.getMonth() === new Date().getMonth()
-
-        //   // If not this month then collect generated salary report
-        //   let staffMSR = null
-        //   if (!thisMonth) {
-        //     try {
-        //       await adminAxios.get(`/analyze/salary-report/single?month=${searchParams.get('month')}&staff_id=${searchParams.get('staff')}`).then((result) => {
-        //         staffMSR = result?.data || null
-        //       })
-        //     } catch (error) {
-
-        //     }
-        //   }
-
-        //   // Data convert to table system
-        //   const thisStaff = listOfStaff.filter((staff) => staff._id === searchParams.get('staff'))
-        //   const analyzeData = analyzeStaffHelper(
-        //     response?.data,
-        //     thisStaff?.[0],
-        //     new Date(searchParams.get('month') + '-01'),
-        //     new Date(new Date(searchParams.get('month') + '-01').getFullYear(), new Date(searchParams.get('month') + '-01').getMonth() + 1, 0)
-        //   )
-
-        //   const monthAttendanceReport = analyzeStaffMonthReport(thisMonth, thisStaff?.[0] || {}, staffMSR, analyzeData)
-        //   setMonthReport(monthAttendanceReport)
-
-        //   setDateAlzList([])
-        //   setStaffAlzList(analyzeData)
-        //   setLoading('')
-
-        // }
-      }).catch((error) => {
-        setLoading('')
-        dispatch(toast.push.error(error?.message || 'Error found, Try again!'))
-      })
   }
 
   const handleChange = (e) => {
@@ -110,10 +52,12 @@ const WorkAnalyze = ({ setPageHead }) => {
     });
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+
+  useEffect(() => {
     fetchData()
-  }
+  }, [searchParams])
+
+
 
   useEffect(() => {
     setPageHead({ title: 'Work Analyze' })
@@ -127,7 +71,7 @@ const WorkAnalyze = ({ setPageHead }) => {
         selected: person._id === searchParams.get('staff')
       }))
       setStaffs(list)
-      fetchData(list)
+      fetchData()
     })
 
     // eslint-disable-next-line
@@ -137,20 +81,19 @@ const WorkAnalyze = ({ setPageHead }) => {
   return (
     <div className="work-analyze-page-div">
       <div className="find-form-div">
-        <form action="" onSubmit={handleSubmit}>
+        <form action="" >
           <NormalInput label='Month' name='month' value={searchParams.get('month')} type='month' min={'2023-08'} onChangeFun={handleChange}
             max={`${new Date().getFullYear()}-${('0' + (new Date().getMonth() + 1)).slice(-2)}`} />
           <SelectInput label='Staff' name='staff' firstOption={{ option: 'All', value: 'all' }}
             values={staffs} onChangeFun={handleChange} />
-          <SingleButton name={'Find'} classNames={'xl btn-tertiary'} stIcon={<ImSearch />} style={{ width: '100%' }}
-            loading={loading === 'fetch'} />
         </form>
       </div>
       <div className="analyze-content-div">
         {loading ? <SpinWithMessage load height={'400px'} />
           : searchParams.get('staff') === 'all'
-            ? <DateBasie dateAlzList={dateAlzList} dateBaseList={data} selectDay={selectDay} setSelectDay={setSelectDay} />
-            : <StaffBasie staffAlzList={staffAlzList} monthReport={monthReport} />
+            ? <DateBasie dateBaseList={data} leaveList={leaveData} staffs={staffs} />
+            : <StaffBasie staffBaseList={data?.[0]} leaveList={leaveData}
+              aboutStaff={staffs.filter((staff) => staff._id === searchParams.get('staff'))?.[0] || {}} />
         }
 
       </div>

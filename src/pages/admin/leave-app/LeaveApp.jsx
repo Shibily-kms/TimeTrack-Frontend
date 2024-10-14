@@ -27,7 +27,7 @@ const LeaveApp = ({ setPageHead }) => {
             const letters = readTheLetters(response?.data?.list || [])
             setData(letters)
         }).catch((error) => {
-            dispatch(toast.push.success({ message: error?.message }))
+            dispatch(toast.push.error({ message: error?.message }))
             setLoading('')
         })
     }, [])

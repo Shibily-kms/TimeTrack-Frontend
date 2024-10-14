@@ -4,34 +4,13 @@
     .find-form-div {
 
         form {
-            display: grid;
-            grid-template-columns: 2fr 2fr 1fr;
+            display: flex;
+            justify-content: flex-start;
             gap: 10px;
-
         }
     }
 
     .analyze-content-div {
         margin-top: 20px;
-    }
-
-
-
-    @media screen and (max-width:700px) {
-        .find-form-div {
-
-            form {
-                grid-template-columns: 1fr 1fr;
-                gap: 10px;
-
-
-            }
-
-            form :nth-child(3) {
-                grid-column: 1 / -1;
-                width: 100%;
-            }
-        }
-
     }
 }
