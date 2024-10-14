@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import './edit-work-data.scss'
-import { ttCv2Axios, workAxios } from '../../../config/axios'
+import { ttCv2Axios } from '../../../config/axios'
 import { toast } from '../../../redux/features/user/systemSlice'
 import SingleButton from '../../common/buttons/SingleButton'
 import { useDispatch } from 'react-redux'

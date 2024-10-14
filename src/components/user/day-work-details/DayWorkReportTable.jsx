@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './day-work-report-table.scss'
-import { ttSv2Axios, workAxios } from '../../../config/axios'
+import { ttSv2Axios } from '../../../config/axios'
 import { useSelector } from 'react-redux'
 import SpinWithMessage from '../../common/spinners/SpinWithMessage'
 import Badge from '../../common/badge/Badge'

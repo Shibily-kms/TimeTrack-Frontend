@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { ttSv2Axios, userAxios } from '../../../config/axios'
+import { ttSv2Axios } from '../../../config/axios'
 import { toast } from '../../../redux/features/user/systemSlice'
 import { RxEyeClosed, RxEyeOpen } from 'react-icons/rx';
 import NormalInput from '../../common/inputs/NormalInput'

@@ -1,11 +1,10 @@
 import { configureStore, combineReducers, getDefaultMiddleware } from '@reduxjs/toolkit'
 import { persistStore, persistReducer } from 'redux-persist';
 import createIdbStorage from "@piotr-cz/redux-persist-idb-storage";
-import adminAuthReducer from '../features/admin/authSlice'
 import userAuthSlice from '../features/user/authSlice'
 import systemSlice from '../features/user/systemSlice'
 import workdataSlice from '../features/user/workdataSlice';
-import dayWorksSlice from '../features/user/dayWorksSlice';
+
 
 // Create IndexedDB storage
 const storage = createIdbStorage({
@@ -21,13 +20,11 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
-    // admin
-    adminAuth: adminAuthReducer,
+
     // user
     userAuth: userAuthSlice,
     systemInfo: systemSlice,
-    workData: workdataSlice,
-    dayWorks: dayWorksSlice
+    workData: workdataSlice
 });
 
 

@@ -28,7 +28,7 @@ function WorkReportTable({ report, setData, thisMonth, staffBase }) {
     return (
         <div className='work-report-table'>
             <Modal modal={modal} setModal={setModal} />
-        
+
             <TableFilter>
                 <table>
                     <thead>
@@ -57,7 +57,7 @@ function WorkReportTable({ report, setData, thisMonth, staffBase }) {
                                         {staff.full_name} <br></br>
                                         <Badge text={staff.designation} title={'current designation'} className={'gray-fill'} />
                                     </td>}
-                                {staff.message && (!thisMonth && staffBase)
+                                {staff.message && !thisMonth
                                     ? <td colSpan='6'> <p className='message'><BsInfoCircleFill />{staff.message}</p> </td>
                                     : <>
                                         {/* Required hours */}

@@ -3,7 +3,7 @@ import './work-report.scss'
 import WorkReportTable from '../../../components/admin/work-report/WorkReportTable'
 import SpinWithMessage from '../../../components/common/spinners/SpinWithMessage'
 import SCReport from '../../../components/admin/work-report/SCReport'
-import { ttCv2Axios, workAxios, workerAxios } from '../../../config/axios'
+import { ttCv2Axios } from '../../../config/axios'
 import { workReportHelper, salaryReportYearBaseHelper } from '../../../assets/javascript/work-helper'
 import { BsDatabaseFillExclamation } from 'react-icons/bs'
 import { setAdminActivePage, toast } from '../../../redux/features/user/systemSlice'
@@ -57,7 +57,7 @@ function WorkReport({ setPageHead }) {
         // Year base
         if (form?.staff_id && form?.year?.length === 4) {
             setLoading(true)
-            workAxios.get(`/report/salary?year=${form?.year}&staff_id=${form?.staff_id}`).then((response) => {
+            ttCv2Axios.get(`/work/report/salary?year=${form?.year}&staff_id=${form?.staff_id}`).then((response) => {
                 const report = salaryReportYearBaseHelper(response.data, form?.year)
                 setData(report)
                 setLoading(false)
@@ -71,7 +71,7 @@ function WorkReport({ setPageHead }) {
         // Staff base
         if (!form?.staff_id) {
             setLoading(true)
-            workAxios.get(`/report/salary?date=${form?.date}`).then((response) => {
+            ttCv2Axios.get(`/work/report/salary?date=${form?.date}`).then((response) => {
                 const report = workReportHelper(response.data, staffList || allStaffs, form?.date)
                 setData(report)
                 setLoading(false)

@@ -8,11 +8,9 @@ import Modal from '../../../components/common/modal/Modal'
 import ChangeTheme from '../../../components/user/change-theme/ChangeTheme';
 import { useDispatch, useSelector } from 'react-redux';
 import { BsCircleHalf } from "react-icons/bs";
-import ChangePassword from '../../../components/user/my-account-sub/ChangePassword';
-import { userAxios } from '../../../config/axios';
+import { ttSv2Axios } from '../../../config/axios';
 import { setUser } from '../../../redux/features/user/authSlice';
 import { getPunchDetails } from '../../../redux/features/user/workdataSlice';
-import { setRegularWork } from '../../../redux/features/user/dayWorksSlice';
 import { toast } from '../../../redux/features/user/systemSlice';
 import { TbDevices } from 'react-icons/tb';
 
@@ -45,16 +43,12 @@ const Settings = ({ setPageHead }) => {
         }
         setLoading('sync')
         if (user) {
-            userAxios.get(`/auth/check-active`).then((response) => {
+            ttSv2Axios.get(`/worker/initial-info`).then((response) => {
                 dispatch(setUser({ ...user, ...response.data }))
                 dispatch(getPunchDetails())
-                userAxios.get('/regular-work').then((works) => {
-                    dispatch(setRegularWork(works.data))
-                    setLoading('')
-                })
+                setLoading('')
             })
         }
-
     }
 
 
@@ -76,7 +70,6 @@ const Settings = ({ setPageHead }) => {
                     <div className="left">
                         <MdCloudSync />
                         <h4>Sync Data</h4>
-
                     </div>
                     <div className={loading === 'sync' ? "right loading-icon" : 'right '}>
                         {loading === 'sync' && <PiSpinnerBold />}
@@ -92,6 +85,7 @@ const Settings = ({ setPageHead }) => {
                         <IoArrowForwardOutline />
                     </div>
                 </div>
+                
                 <div className="option-div" onClick={() => navigate('/my-account/security-privacy')}>
                     <div className="left">
                         <MdOutlinePassword />

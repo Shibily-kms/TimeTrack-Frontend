@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './add-staff.scss'
-import { adminAxios, ttCv2Axios, workerAxios } from '../../../config/axios'
+import { adminAxios, ttCv2Axios } from '../../../config/axios'
 import { setAdminActivePage, toast } from '../../../redux/features/user/systemSlice'
 import NormalInput from '../../../components/common/inputs/NormalInput';
 import SelectInput from '../../../components/common/inputs/SelectInput'

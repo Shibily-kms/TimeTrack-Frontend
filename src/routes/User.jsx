@@ -1,18 +1,11 @@
 import React, { useEffect, Suspense, lazy, useState } from 'react'
-import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Cookies from 'js-cookie';
-import { userAxios } from '../config/axios'
-import { clearWorkData, setWorkData } from '../redux/features/user/workdataSlice'
-import { setUser, logOut } from '../redux/features/user/authSlice'
 import { getPunchDetails } from '../redux/features/user/workdataSlice'
 import PageLoading from '../components/common/spinners/PageLoading'
 import SinglePage from '../components/common/page/SinglePage'
 import NotFound from '../pages/user/not-found/NotFound '
-import { toast } from '../redux/features/user/systemSlice'
-import { clearRegularWork, clearSyncRegularWork } from '../redux/features/user/dayWorksSlice'
-import { doSignOut } from '../assets/javascript/auth-helper'
-import RotateToken from '../components/common/rotateToken/RotateToken';
 
 
 const Home = lazy(() => import('../pages/user/home/Home'))
@@ -31,11 +24,7 @@ function User() {
 
   let isAuthenticated = false
   const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const { user } = useSelector((state) => state.userAuth)
   const { internet } = useSelector((state) => state.systemInfo)
-  const { workDetails } = useSelector((state) => state.workData)
-  const { regular } = useSelector((state) => state.dayWorks)
   const [pageHead, setPageHead] = useState({ title: null, desc: null })
   const acc_tkn = Cookies.get('_acc_tkn');
   const rfs_tkn = Cookies.get('_rfs_tkn');
@@ -45,41 +34,6 @@ function User() {
   if (acc_tkn && ACC_ID && DVC_ID && rfs_tkn) {
     isAuthenticated = true
   }
-
-  useEffect(() => {
-
-    // Offline data Sync to Server
-    if (internet) {
-      // Check any data for sync
-      const syncRegularWork = regular?.filter((item) => item?.want_sync)
-      const syncExtraWork = workDetails?.extra_work?.filter((item) => item?.want_sync)
-
-      if (syncRegularWork?.[0] || syncExtraWork?.[0]) {
-
-        dispatch(toast.push.info({ id: 'OFF_SYNC', message: 'Sync offline data...', icon: 'MdCloudSync', autoClose: false, doClose: false }))
-
-        userAxios.post('/offline-recollect', {
-          punch_id: workDetails._id,
-          regular_work: syncRegularWork,
-          extra_work: syncExtraWork,
-          updated_date: workDetails?.updated_date || null
-        }).then((response) => {
-          // Set all work data form new response
-          dispatch(setWorkData(response.data))
-          // Clear regular work sync id
-          dispatch(clearSyncRegularWork())
-          // clear alert
-          dispatch(toast.pull.single('OFF_SYNC'))
-
-        }).catch((error) => {
-          dispatch(toast.pull.single('OFF_SYNC'))
-          dispatch(toast.push.error({ message: error.message }))
-        })
-      }
-    }
-    // eslint-disable-next-line
-  }, [internet])
-
 
   useEffect(() => {
     // Change Title

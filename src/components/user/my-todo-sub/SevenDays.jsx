@@ -41,7 +41,7 @@ const SevenDays = ({ inWork, allTodo, setAllTodo, newTaskFn }) => {
     return (
         <div className="todo-list-sub-page-div">
             {loading === 'fetch'
-                ? <SpinWithMessage load height={'400px'} />
+                ? <SpinWithMessage load height={'300px'} />
                 : <>
                     {[...Array(7)].map((_, dayOffset) => {
                         const currentDate = new Date();

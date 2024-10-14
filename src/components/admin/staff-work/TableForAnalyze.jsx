@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import './table-for-analyze.scss';
 import { stringToLocalTime, getTimeFromSecond } from '../../../assets/javascript/date-helper'
 import { BsArrowsFullscreen } from 'react-icons/bs'

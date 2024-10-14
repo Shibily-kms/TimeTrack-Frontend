@@ -10,7 +10,7 @@ import { GiCheckMark } from "react-icons/gi";
 import { MdClose } from "react-icons/md";
 import { getUserProfileImagePath } from '../../../assets/javascript/find-helpers';
 import { convertIsoToAmPm } from '../../../assets/javascript/date-helper';
-import { ttSv2Axios, userAxios } from '../../../config/axios';
+import { ttSv2Axios } from '../../../config/axios';
 import { getPunchDetails } from '../../../redux/features/user/workdataSlice';
 import { BiSolidMessageAltError } from "react-icons/bi";
 import SpinWithMessage from '../../../components/common/spinners/SpinWithMessage';

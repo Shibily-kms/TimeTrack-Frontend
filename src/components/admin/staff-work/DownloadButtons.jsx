@@ -1,19 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 import * as XLSX from 'xlsx';
 import { getTimeFromSecond, stringToLocalTime } from '../../../assets/javascript/date-helper'
-import { useSearchParams } from 'react-router-dom'
-import { adminAxios } from '../../../config/axios';
-import { toast } from '../../../redux/features/user/systemSlice';
 import SingleButton from '../../common/buttons/SingleButton';
 import { SiMicrosoftexcel } from "react-icons/si";
-import { useDispatch } from 'react-redux';
+
 
 function DownloadButton({ fullData, selectDay, staff }) {
-    const [loading, setLoading] = useState('')
-    const dispatch = useDispatch()
-    // eslint-disable-next-line
-    const [searchParams, setSearchParams] = useSearchParams()
-
 
     // Convert to Excel Start
     const handleOneDayDownload = () => {
@@ -99,7 +91,6 @@ function DownloadButton({ fullData, selectDay, staff }) {
             link.download = filename;
             link.click();
             window.URL.revokeObjectURL(url);
-            setLoading('')
         }
     }
 

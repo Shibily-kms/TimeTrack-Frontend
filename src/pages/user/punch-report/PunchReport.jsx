@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react'
 import Calendar from 'react-calendar';
 import './react-calendar-custom-style.scss';
 import './punch-report.scss'
-import { leaveAxios, ttCv2Axios, ttSv2Axios, userAxios } from '../../../config/axios'
+import { ttSv2Axios } from '../../../config/axios'
 import { useSelector } from 'react-redux'
 import { YYYYMMDDFormat, getTimeFromSecond } from '../../../assets/javascript/date-helper'
-import { GoDotFill } from "react-icons/go";
 import Modal from '../../../components/common/modal/Modal'
 import DayWorkReportTable from '../../../components/user/day-work-details/DayWorkReportTable';
 import { MdOutlineCheck, MdOutlineClear } from 'react-icons/md';

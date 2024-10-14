@@ -5,7 +5,7 @@ import { FaPlus } from "react-icons/fa6";
 import SingleButton from '../../common/buttons/SingleButton';
 import { findTotalSalaryAmt } from '../../../assets/javascript/calc-helper'
 import { createRandomId } from '../../../assets/javascript/id-helper'
-import { adminAxios } from '../../../config/axios';
+import { ttCv2Axios } from '../../../config/axios';
 import { toast } from '../../../redux/features/user/systemSlice';
 import { useDispatch } from 'react-redux';
 
@@ -94,7 +94,7 @@ const SalaryReport = ({ data, setData, setModal, viewOnly }) => {
         e.preventDefault();
         if (!viewOnly) {
             setLoading(true)
-            adminAxios.put('/analyze/salary-report', form).then(() => {
+            ttCv2Axios.put('/work/report/salary', form).then(() => {
                 setData((state) => state.map((a) => {
                     if (a?._id === form?._id) {
                         return {

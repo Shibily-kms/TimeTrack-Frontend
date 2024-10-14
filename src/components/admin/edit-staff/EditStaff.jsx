@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './edit-staff.scss'
-import { adminAxios, ttCv2Axios, workerAxios } from '../../../config/axios'
+import { adminAxios, ttCv2Axios } from '../../../config/axios'
 import SpinWithMessage from '../../common/spinners/SpinWithMessage'
 import { secondsToHHMM } from '../../../assets/javascript/date-helper'
 import { toast } from '../../../redux/features/user/systemSlice'

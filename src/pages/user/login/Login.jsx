@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './style.scss'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import Cookies from 'js-cookie';
 import { RxEyeClosed, RxEyeOpen } from 'react-icons/rx';
@@ -10,11 +10,10 @@ import SingleButton from '../../../components/common/buttons/SingleButton';
 import MobileInput from '../../../components/common/inputs/MobileInput'
 import { toast } from '../../../redux/features/user/systemSlice'
 import { getDeviceAndBrowserInfo, deviceIdBuilder } from '../../../assets/javascript/device-helpers'
-import { ttSv2Axios, userAxios } from '../../../config/axios';
+import { ttSv2Axios } from '../../../config/axios';
 import { setUser } from '../../../redux/features/user/authSlice'
 
 function Login() {
-    const { user } = useSelector((state) => state.userAuth)
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const [show, setShow] = useState(false)
@@ -151,7 +150,7 @@ export const loginTokenSetup = async (acc_id, dispatch, navigate) => {
             // domain: '.domain.com', // Allows cookie sharing across subdomains
             sameSite: 'lax', // Helps prevent CSRF attacks , use 'strict' on host,
             path: '/',
-            expires : 40 
+            expires: 40
         };
 
         Cookies.set('_acc_tkn', tokenResponse?.data?.access_token, cookieOptions);

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './punching.scss'
-import { ttSv2Axios, userAxios } from '../../../config/axios'
+import { ttSv2Axios } from '../../../config/axios'
 import { toast } from '../../../redux/features/user/systemSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { setWorkData } from '../../../redux/features/user/workdataSlice'

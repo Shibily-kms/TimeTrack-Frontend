@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './style.scss'
-import { ttSv2Axios, userAxios } from '../../../config/axios';
+import { ttSv2Axios } from '../../../config/axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from '../../../redux/features/user/systemSlice';
 import SpinWithMessage from '../../common/spinners/SpinWithMessage';

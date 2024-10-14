@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './edit-profile.scss'
 import { useDispatch, useSelector } from 'react-redux'
-import { ttSv2Axios, userAxios } from '../../../config/axios'
+import { ttSv2Axios } from '../../../config/axios'
 import { toast } from '../../../redux/features/user/systemSlice'
 import NormalInput from '../../common/inputs/NormalInput'
 import SelectInput from '../../common/inputs/SelectInput'

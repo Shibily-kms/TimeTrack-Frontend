@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './delete-staff.scss'
 import { toast } from '../../../redux/features/user/systemSlice'
-import { ttCv2Axios, workerAxios } from '../../../config/axios'
+import { ttCv2Axios } from '../../../config/axios'
 import NormalInput from '../../common/inputs/NormalInput'
 import SingleButton from '../../common/buttons/SingleButton'
 import { useDispatch } from 'react-redux'

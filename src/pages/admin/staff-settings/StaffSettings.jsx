@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './staff-settings.scss'
-import { ttCv2Axios, workerAxios } from '../../../config/axios'
+import { ttCv2Axios } from '../../../config/axios'
 import { useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from '../../../redux/features/user/systemSlice'
@@ -63,8 +63,8 @@ const StaffSettings = ({ setPageHead }) => {
 
     useEffect(() => {
         setLoading('fetch')
-        workerAxios.get(`/initial-info?accId=${staff_id}`).then((response) => {
-           
+        ttCv2Axios.get(`/worker/initial-info?accId=${staff_id}`).then((response) => {
+
             setData({
                 acc_id: response.data.acc_id,
                 punch_type: response.data.punch_type,

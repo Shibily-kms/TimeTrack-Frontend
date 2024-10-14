@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setAdminActivePage, toast } from '../../../redux/features/user/systemSlice'
-import { adminAxios, leaveAxios, ttCv2Axios } from '../../../config/axios';
+import {  ttCv2Axios } from '../../../config/axios';
 import Modal from '../../../components/common/modal/Modal';
 import Badge from '../../../components/common/badge/Badge';
 import SingleButton from '../../../components/common/buttons/SingleButton';

@@ -4,7 +4,6 @@ import { MdLightMode, MdDarkMode } from "react-icons/md";
 import { PiCircleHalfFill } from "react-icons/pi";
 import { useDispatch, useSelector } from 'react-redux'
 import { changeThemeColor } from '../../../redux/features/user/systemSlice'
-import Badge from '../../../components/common/badge/Badge'
 
 function ChangeTheme() {
 

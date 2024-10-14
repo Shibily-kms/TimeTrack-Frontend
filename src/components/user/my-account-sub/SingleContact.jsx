@@ -3,7 +3,7 @@ import './single-contact.scss'
 import NormalInput from '../../common/inputs/NormalInput'
 import MobileInput from '../../common/inputs/MobileInput'
 import SingleButton from '../../common/buttons/SingleButton'
-import { ttSv2Axios, userAxios } from '../../../config/axios'
+import { ttSv2Axios } from '../../../config/axios'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from '../../../redux/features/user/systemSlice'
 

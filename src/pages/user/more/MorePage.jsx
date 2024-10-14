@@ -6,9 +6,8 @@ import { IoArrowForwardOutline, IoPersonCircleOutline } from "react-icons/io5";
 import { LuFileEdit } from "react-icons/lu";
 import { IoMdLogOut } from "react-icons/io";
 import { BsQrCodeScan } from "react-icons/bs";
-// import { TbRouteAltRight } from "react-icons/tb";
 import { clearWorkData } from '../../../redux/features/user/workdataSlice';
-import { clearRegularWork } from '../../../redux/features/user/dayWorksSlice';
+
 import { logOut } from '../../../redux/features/user/authSlice'
 import { useDispatch, useSelector } from 'react-redux';
 import { ui_version } from '../../../assets/javascript/const-data'
@@ -34,7 +33,6 @@ const MorePage = ({ setPageHead }) => {
         const ask = window.confirm('Are you ready for logOut ?')
         if (ask) {
             dispatch(clearWorkData())
-            dispatch(clearRegularWork())
             dispatch(logOut())
             navigate('/auth/sign-in')
         }

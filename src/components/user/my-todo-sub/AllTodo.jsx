@@ -33,7 +33,7 @@ const AllTodo = ({ inWork, allTodo, setAllTodo, newTaskFn }) => {
     return (
         <div className="todo-list-sub-page-div">
             {loading === 'fetch'
-                ? <SpinWithMessage load height={'400px'} />
+                ? <SpinWithMessage load height={'300px'} />
                 : <>
                     {todoList?.[0] && allTodo?.[0] && <div className="section-div">
                         <div className="heading">

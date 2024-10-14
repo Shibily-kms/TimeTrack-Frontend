@@ -5,7 +5,7 @@ import User from './routes/User'
 import QrCodeView from './pages/admin/qr-code-view/QrCodeView'
 import Scanner from './pages/user/scanner/Scanner'
 import Cookies from 'js-cookie';
-import { ttSv2Axios, userAxios } from './config/axios'
+import { ttSv2Axios } from './config/axios'
 import { setUser } from './redux/features/user/authSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { doSignOut } from './assets/javascript/auth-helper'

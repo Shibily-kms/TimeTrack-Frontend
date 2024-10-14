@@ -6,7 +6,7 @@ import SingleButton from '../../../components/common/buttons/SingleButton'
 import { toast } from '../../../redux/features/user/systemSlice'
 import { useDispatch } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { ttSv2Axios, userAxios } from '../../../config/axios'
+import { ttSv2Axios } from '../../../config/axios'
 import { RxEyeClosed, RxEyeOpen } from 'react-icons/rx';
 
 const ResetPassword = () => {

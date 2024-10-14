@@ -8,14 +8,12 @@ import { BsCircleHalf } from 'react-icons/bs'
 import { IoArrowForwardOutline } from 'react-icons/io5'
 import { setAdminActivePage } from '../../../redux/features/user/systemSlice'
 import { IoMdLogOut } from 'react-icons/io'
-import { logOut } from '../../../redux/features/admin/authSlice'
 import { useNavigate } from 'react-router-dom'
 
 
 const Settings = ({ setPageHead }) => {
     const [modal, setModal] = useState({})
     const { theme } = useSelector((state) => state.systemInfo)
-    const { admin } = useSelector((state) => state.adminAuth)
     const dispatch = useDispatch()
     const navigate = useNavigate()
 

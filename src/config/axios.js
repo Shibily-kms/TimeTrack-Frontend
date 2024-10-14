@@ -13,11 +13,7 @@ const baseSetup = {
 
 
     //? v2.1
-    workerAxios: axios.create({ baseURL: `${baseUrl}:8000/s/v2/worker/`, headers: apiHeaders }),
-    leaveAxios: axios.create({ baseURL: `${baseUrl}:8000/s/v2/L2/`, headers: apiHeaders }),
-    workAxios: axios.create({ baseURL: `${baseUrl}:8000/s/v2/work/`, headers: apiHeaders }),
     ttSv2Axios: axios.create({ baseURL: `${baseUrl}:8000/s/v2/`, headers: apiHeaders }),
-
     ttCv2Axios: axios.create({ baseURL: `${baseUrl}:8000/c/v2/`, headers: apiHeaders })
 }
 
@@ -100,18 +96,6 @@ baseSetup.userAxios.interceptors.response.use(responseConfigFunction, responseEr
 baseSetup.adminAxios.interceptors.request.use(requestConfigFunction, requestErrorFunction)
 baseSetup.adminAxios.interceptors.response.use(responseConfigFunction, responseErrorFunction);
 
-//? worker
-baseSetup.workerAxios.interceptors.request.use(requestConfigFunction, requestErrorFunction)
-baseSetup.workerAxios.interceptors.response.use(responseConfigFunction, responseErrorFunction);
-
-//? leave
-baseSetup.leaveAxios.interceptors.request.use(requestConfigFunction, requestErrorFunction)
-baseSetup.leaveAxios.interceptors.response.use(responseConfigFunction, responseErrorFunction);
-
-//? work
-baseSetup.workAxios.interceptors.request.use(requestConfigFunction, requestErrorFunction)
-baseSetup.workAxios.interceptors.response.use(responseConfigFunction, responseErrorFunction);
-
 //? time track v2 all
 baseSetup.ttSv2Axios.interceptors.request.use(requestConfigFunction, requestErrorFunction)
 baseSetup.ttSv2Axios.interceptors.response.use(responseConfigFunction, responseErrorFunction);
@@ -124,6 +108,6 @@ baseSetup.ttCv2Axios.interceptors.response.use(responseConfigFunction, responseE
 
 
 
-export const { userAxios, adminAxios, workerAxios, leaveAxios, workAxios, ttSv2Axios, ttCv2Axios } = baseSetup
+export const { userAxios, adminAxios, ttSv2Axios, ttCv2Axios } = baseSetup
 
 

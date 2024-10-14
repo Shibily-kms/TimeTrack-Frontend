@@ -7,7 +7,6 @@ import Master from './Master';
 
 
 const UserLogin = lazy(() => import('./pages/user/login/Login'))
-const AdminLogin = lazy(() => import('./pages/admin/login/Login'))
 const ForgotPassword = lazy(() => import('./pages/user/login/ForgotPassword'))
 const ResetPassword = lazy(() => import('./pages/user/login/ResetPassword'))
 
@@ -57,7 +56,6 @@ function App() {
           <Route path='/auth/sign-in' element={<UserLogin />} />
           <Route path='/auth/forgot-password' element={<ForgotPassword />} />
           <Route path='/auth/setup-new-password' element={<ResetPassword />} />
-          <Route path='/admin/sign-in' element={<AdminLogin />} />
 
           {/* Routes */}
           <Route element={<Master />} path='/*' />

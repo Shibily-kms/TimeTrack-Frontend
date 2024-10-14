@@ -3,9 +3,9 @@ import './style.scss'
 import Image from '../../../assets/images/alliance-logo.png'
 import SingleButton from '../../../components/common/buttons/SingleButton'
 import { toast } from '../../../redux/features/user/systemSlice'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { ttSv2Axios, userAxios } from '../../../config/axios'
+import { ttSv2Axios } from '../../../config/axios'
 import MobileInput from '../../../components/common/inputs/MobileInput'
 
 const ForgotPassword = () => {
@@ -18,7 +18,6 @@ const ForgotPassword = () => {
     const [loading, setLoading] = useState(false)
     const [counter, setCounter] = useState(90); // 90 seconds = 1 minutes and 30 seconds
     const [isResendVisible, setIsResendVisible] = useState(false);
-    const { user } = useSelector((state) => state.userAuth)
 
     //? Verify Otp
     const verifyOtp = () => {

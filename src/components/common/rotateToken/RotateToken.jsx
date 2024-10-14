@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import Cookies from 'js-cookie';
-import { ttSv2Axios, userAxios } from '../../../config/axios';
+import { ttSv2Axios } from '../../../config/axios';
 
 const RotateToken = () => {
 

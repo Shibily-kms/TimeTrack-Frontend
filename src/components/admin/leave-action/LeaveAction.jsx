@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './leave-action.scss'
 import SingleButton from '../../common/buttons/SingleButton'
-import { adminAxios, leaveAxios, ttCv2Axios, ttSv2Axios } from '../../../config/axios'
+import { ttCv2Axios, ttSv2Axios } from '../../../config/axios'
 import { YYYYMMDDFormat } from '../../../assets/javascript/date-helper'
 import { toast } from '../../../redux/features/user/systemSlice'
 import { useDispatch, useSelector } from 'react-redux'
