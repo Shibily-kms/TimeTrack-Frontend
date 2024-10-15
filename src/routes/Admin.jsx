@@ -38,10 +38,15 @@ function Admin() {
   useEffect(() => {
     // Change Title
     document.title = `Time Track | Controller`;
+
+    // eslint-disable-next-line
+  }, [])
+
+  useEffect(() => {
     if (user?.allowed_origins?.filter((access) => access?.slice(0, 4) === 'ttcr').length < 1) {
       navigate('/')
     }
-  }, [])
+  }, [user])
 
   return (
     <AdminPage pageHead={pageHead}>
@@ -68,12 +73,20 @@ function Admin() {
           {user?.allowed_origins?.some(access => ['ttcr_anlz_read', 'ttcr_anlz_write'].includes(access)) &&
             <Route path='/analyze/work-analyze' element={<PrivateRoute element={<WorkAnalyze setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />}
 
+          {/* Salary Report */}
+          {user?.allowed_origins?.some(access => ['ttcr_rprt_read', 'ttcr_rprt_write'].includes(access)) &&
+            <Route path='/analyze/salary-reports' element={<PrivateRoute element={<MonthlyReports setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />}
 
-          <Route path='/designation-list' element={<PrivateRoute element={<Designations setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+          {/* QR */}
+          {user?.allowed_origins?.some(access => ['ttcr_qr_write'].includes(access)) &&
+            <Route path='/qr-generator' element={<PrivateRoute element={<QrGenerator setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />}
+
+          {/* Designation */}
+          {user?.allowed_origins?.some(access => ['ttcr_pro_read', 'ttcr_pro_write'].includes(access)) &&
+            <Route path='/designation-list' element={<PrivateRoute element={<Designations setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />}
+
+          {/* Settings */}
           <Route path='/settings' element={<PrivateRoute element={<Settings setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
-          <Route path='/analyze/salary-reports' element={<PrivateRoute element={<MonthlyReports setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
-          <Route path='/qr-generator' element={<PrivateRoute element={<QrGenerator setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
-
 
           {/* 404 Route */}
           <Route path="/*" element={<NotFound setPageHead={setPageHead} />} />
@@ -85,14 +98,7 @@ function Admin() {
 
 
 function PrivateRoute({ element, isAuthenticated }) {
-  return element
-  return isAuthenticated ? (
-    <Routes>
-      <Route path='/' element={element} />
-    </Routes>
-  ) : (
-    <Navigate to="/admin/sign-in" />
-  )
+  return isAuthenticated ? element : <Navigate to="/" />;
 }
 
 export default Admin

@@ -79,9 +79,9 @@ function AllStaffs({ setPageHead }) {
             <Modal modal={modal} setModal={setModal} />
             <div className="table-div">
                 {data?.[0] ? <>
-                    <TableFilter srlNo={true} topRight={user?.allowed_origins?.includes('ttcr_stfAcc_write') && <div className='button-div'>
-                        <SingleButton name={'Staff'} stIcon={<FaPlus />}
-                            classNames={'btn-tertiary'} onClick={() => navigate('/admin/staff-list/account/new')} />
+                    <TableFilter srlNo={true} topRight={<div className='button-div'>
+                        {user?.allowed_origins?.includes('ttcr_stfAcc_write') && <SingleButton name={'Staff'} stIcon={<FaPlus />}
+                            classNames={'btn-tertiary'} onClick={() => navigate('/admin/staff-list/account/new')} />}
                         <SingleButton name={'All Staffs'} stIcon={allStaff && <FaCheck />}
                             classNames={allStaff ? 'btn-primary' : 'btn-gray'} onClick={handleAllButton} loading={loading === 'listing'} />
                     </div>}>

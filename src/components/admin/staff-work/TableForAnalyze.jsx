@@ -5,8 +5,8 @@ import { BsArrowsFullscreen } from 'react-icons/bs'
 import TableFilter from '../../common/table-filter/TableFilter'
 import Badge from '../../common/badge/Badge'
 import Modal from '../../common/modal/Modal'
-import ViewModal from '../../admin/staff-work/ViewModal'
-import EditWorkData from '../../admin/staff-work/EditWorkData'
+import ViewModal from './ViewModal'
+import EditWorkData from './EditWorkData'
 import SingleButton from '../../common/buttons/SingleButton';
 import DownloadButtons from './DownloadButtons';
 import { GrEdit } from 'react-icons/gr';

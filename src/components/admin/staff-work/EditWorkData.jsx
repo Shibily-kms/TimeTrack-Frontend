@@ -3,7 +3,7 @@ import './edit-work-data.scss'
 import { ttCv2Axios } from '../../../config/axios'
 import { toast } from '../../../redux/features/user/systemSlice'
 import SingleButton from '../../common/buttons/SingleButton'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { GoTrash } from 'react-icons/go'
 import { YYYYMMDDFormat } from '../../../assets/javascript/date-helper'
 
@@ -11,6 +11,7 @@ function EditWorkData({ data, setModal }) {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false)
     const [form, setForm] = useState([])
+    const { user } = useSelector((state) => state.userAuth)
 
     const handleChange = (e, index) => {
         if (e.target.name === 'in') {
@@ -37,6 +38,11 @@ function EditWorkData({ data, setModal }) {
                 return punch
             }));
         }
+    }
+
+    const handleDelete = (e, index) => {
+        const result = form.filter((punch, idx) => idx !== index)
+        setForm(result);
     }
 
     const handelSubmit = (e) => {
@@ -68,11 +74,12 @@ function EditWorkData({ data, setModal }) {
                         <p>Punch Out</p>
                     </div>
                 </div>
-                {form?.map((day, index) => <div className="list-days">
+                {form?.map((day, index) => <div className="list-days" key={day._id}>
                     <div className="list" >
                         <input name='in' type='time' value={day?.in?.slice(0, 5)} onChange={(e) => handleChange(e, index)} />
                         <input name='out' type='time' value={day?.out?.slice(0, 5)} min={day?.in?.slice(0, 5)} onChange={(e) => handleChange(e, index)} />
-                        {!form?.[0] && <div className="icon reject" > <GoTrash /></div>}
+                        {form?.[1] && user?.allowed_origins.includes('ttcr_anlz_write') &&
+                            <div className="icon reject" onClick={(e) => handleDelete(e, index)}> <GoTrash /></div>}
                     </div>
                 </div>)}
 

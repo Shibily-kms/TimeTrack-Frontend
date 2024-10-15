@@ -26,11 +26,12 @@ function StaffBasie({ staffBaseList, leaveList, aboutStaff }) {
             setLoading('')
         })
         setData(analyzeData)
+    
     }, [staffBaseList])
 
     return (
         <div className='staff-base-analyze'>
-            {staffBaseList?.dates?.[0] ? <>
+            {data?.day_list?.[0] ? <>
                 {loading !== 'r-fetch' && <div className="box-div">
                     <div className="section-div">
                         <div className="item-div">

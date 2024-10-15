@@ -22,7 +22,7 @@ const LetterView = ({ data, cancelLeave }) => {
                 <div className="date-div">
                     {data?.leave_status === 'Approved'
                         ? <>
-                            {data?.edited && <p>{new Date(data?.requested_days?.[0]?.[0]).toDateString()} {data?.requested_days?.length > 1 && `to ${new Date(data?.requested_days?.[data?.requested_days?.length - 1]?.[0]).toDateString()}`}</p>}
+                            {data?.edited && <p className='reject'>{new Date(data?.requested_days?.[0]?.[0]).toDateString()} {data?.requested_days?.length > 1 && `to ${new Date(data?.requested_days?.[data?.requested_days?.length - 1]?.[0]).toDateString()}`}</p>}
                             <p>{new Date(data?.approved_days?.[0]?.[0]).toDateString()} {data?.approved_days?.length > 1 && `to ${new Date(data?.approved_days?.[data?.approved_days?.length - 1]?.[0]).toDateString()}`}</p>
                         </>
                         : <p>{new Date(data?.requested_days?.[0]?.[0]).toDateString()} {data?.requested_days?.length > 1 && `to ${new Date(data?.requested_days?.[data?.requested_days?.length - 1]?.[0]).toDateString()}`}</p>}

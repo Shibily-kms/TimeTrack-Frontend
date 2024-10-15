@@ -85,6 +85,7 @@ function AdminPage({ pageHead, children }) {
                                     {adminActivePage === 'staff-list' ? <PiUserListFill /> : <PiUserListBold />}
                                     <span>Staff List</span>
                                 </div>}
+
                             {/* Leave letter */}
                             {user?.allowed_origins?.some(access => ['ttcr_l2_read', 'ttcr_l2_write'].includes(access)) &&
                                 <div className={adminActivePage === 'leave-letters' ? "menu-item active-menu" : "menu-item"}
@@ -92,6 +93,7 @@ function AdminPage({ pageHead, children }) {
                                     {adminActivePage === 'leave-letters' ? <RiFileList3Fill /> : <RiFileList3Line />}
                                     <span>Leave letters</span>
                                 </div>}
+
                             {/* Work analyze */}
                             {user?.allowed_origins?.some(access => ['ttcr_anlz_read', 'ttcr_anlz_write'].includes(access)) &&
                                 <div className={adminActivePage === 'work-analyze' ? "menu-item active-menu" : "menu-item"}
@@ -100,23 +102,31 @@ function AdminPage({ pageHead, children }) {
                                     <span>Work Analyze</span>
                                 </div>}
 
+                            {/* Salary report */}
+                            {user?.allowed_origins?.some(access => ['ttcr_rprt_read', 'ttcr_rprt_write'].includes(access)) &&
+                                <div className={adminActivePage === 'salary-reports' ? "menu-item active-menu" : "menu-item"}
+                                    onClick={() => clickMenuItem('/admin/analyze/salary-reports', 'salary-reports')}>
+                                    {adminActivePage === 'salary-reports' ? <FaIndianRupeeSign /> : <LuIndianRupee />}
+                                    <span>Salary Reports</span>
+                                </div>}
 
+                            {/* QR */}
+                            {user?.allowed_origins?.some(access => ['ttcr_qr_write'].includes(access)) &&
+                                <div className={adminActivePage === 'qr-generator' ? "menu-item active-menu" : "menu-item"}
+                                    onClick={() => clickMenuItem('/admin/qr-generator', 'qr-generator')}>
+                                    {adminActivePage === 'qr-generator' ? <LuQrCode /> : <LuQrCode />}
+                                    <span>QR Generator</span>
+                                </div>}
 
-                            <div className={adminActivePage === 'salary-reports' ? "menu-item active-menu" : "menu-item"}
-                                onClick={() => clickMenuItem('/admin/analyze/salary-reports', 'salary-reports')}>
-                                {adminActivePage === 'salary-reports' ? <FaIndianRupeeSign /> : <LuIndianRupee />}
-                                <span>Salary Reports</span>
-                            </div>
-                            <div className={adminActivePage === 'qr-generator' ? "menu-item active-menu" : "menu-item"}
-                                onClick={() => clickMenuItem('/admin/qr-generator', 'qr-generator')}>
-                                {adminActivePage === 'qr-generator' ? <LuQrCode /> : <LuQrCode />}
-                                <span>QR Generator</span>
-                            </div>
-                            <div className={adminActivePage === 'designation-list' ? "menu-item active-menu" : "menu-item"}
-                                onClick={() => clickMenuItem('/admin/designation-list', 'designation-list')}>
-                                {adminActivePage === 'designation-list' ? <IoPricetagsSharp /> : <IoPricetagsOutline />}
-                                <span>Designation List</span>
-                            </div>
+                            {/* Designation */}
+                            {user?.allowed_origins?.some(access => ['ttcr_pro_read', 'ttcr_pro_write'].includes(access)) &&
+                                <div className={adminActivePage === 'designation-list' ? "menu-item active-menu" : "menu-item"}
+                                    onClick={() => clickMenuItem('/admin/designation-list', 'designation-list')}>
+                                    {adminActivePage === 'designation-list' ? <IoPricetagsSharp /> : <IoPricetagsOutline />}
+                                    <span>Designation List</span>
+                                </div>}
+
+                            {/* Settings */}
                             <div className={adminActivePage === 'settings' ? "menu-item active-menu" : "menu-item"}
                                 onClick={() => clickMenuItem('/admin/settings', 'settings')}>
                                 {adminActivePage === 'settings' ? <RiSettingsFill /> : <RiSettingsLine />}

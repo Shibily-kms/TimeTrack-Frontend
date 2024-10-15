@@ -11,14 +11,16 @@ import Badge from '../../common/badge/Badge'
 import SingleButton from '../../common/buttons/SingleButton';
 import Modal from '../../common/modal/Modal'
 import SalaryReport from './SalaryReport';
+import { useSelector } from 'react-redux';
 
 
 function WorkReportTable({ report, setData, thisMonth, staffBase }) {
     const [modal, setModal] = useState({})
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+    const { user } = useSelector((state) => state.userAuth)
 
     const openModal = (title, data, type) => {
-        if (type === 'view' && data?.allowed_salary <= 0) {
+        if (type === 'view' && findTotalSalaryAmt(data) <= 0) {
             return;
         }
 
@@ -39,7 +41,7 @@ function WorkReportTable({ report, setData, thisMonth, staffBase }) {
                             <th>Worked <br></br> days</th>
                             <th>Worked <br></br> hours</th>
                             <th>Total <br></br> Salary</th>
-                            {thisMonth ? <th>Current C/F</th> : <th>Control</th>}
+                            {thisMonth ? <th>Current C/F</th> : user?.allowed_origins.includes('ttcr_rprt_write') ? <th>Control</th> : ''}
                         </tr>
                     </thead>
 
@@ -97,13 +99,15 @@ function WorkReportTable({ report, setData, thisMonth, staffBase }) {
                                         </td>
 
                                         {/* total salary */}
-                                        <td onClick={() => openModal('Total Salary', staff, 'view')} style={{ cursor: 'pointer' }}><span className='salary-td'>₹{parseFloat(findTotalSalaryAmt(staff)).toFixed(2)}</span>{staff?.allowed_salary > 0 && <FaExpandArrowsAlt />}</td>
+                                        <td onClick={() => openModal('Total Salary', staff, 'view')} style={{ cursor: 'pointer' }}>
+                                            <span className='salary-td'>₹{parseFloat(findTotalSalaryAmt(staff)).toFixed(2)}</span>{findTotalSalaryAmt(staff) > 0 && <FaExpandArrowsAlt />}
+                                        </td>
                                         {/* current c/f */}
                                         {thisMonth
                                             ? <td>{getTimeFromSecond(staff.balance_CF) || '0m'}</td>
-                                            : <td>
+                                            : user?.allowed_origins.includes('ttcr_rprt_write') ? <td>
                                                 <SingleButton title='Edit' classNames={'icon-only btn-blue'} stIcon={<GrEdit />} onClick={() => openModal('Edit Salary', staff)} />
-                                            </td>
+                                            </td> : ''
                                         }
                                     </>
                                 }

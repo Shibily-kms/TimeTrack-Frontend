@@ -193,7 +193,7 @@ const LeaveAction = ({ singleData, setData, setModal }) => {
                                     {day[1] === '0.5' && <option value={2} selected={day[1] === '0.5' && day[2] === '13:30'}>After noon</option>}
                                     {day[1] === '1' && <option value={3} selected={day[1] === '1'}>Full day</option>}
                                 </select>
-                                {form[1] && singleData?.leave_status === 'Pending' &&
+                                {form[1] && singleData?.leave_status === 'Pending' && user?.allowed_origins.includes('ttcr_l2_write') &&
                                     <div className="icon reject" onClick={() => handleDayDelete(index)}> <GoTrash /></div>}
                             </div>
                         })}

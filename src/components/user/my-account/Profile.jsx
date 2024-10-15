@@ -318,7 +318,7 @@ const Profile = () => {
                             </div>
                             <div className="right-section">
                                 <SingleButton name={'Edit'} stIcon={<GrEdit />} classNames={'sm btn-primary'}
-                                    onClick={() => openModal('Update Profile', <EditProfile userData={userData} setUserData={setUserData} />)} />
+                                    onClick={() => openModal('Update Profile', <EditProfile userData={userData} setUserData={setUserData} setModal={setModal} />)} />
                             </div>
                         </div>
                         <div className="listCard2listing-div">

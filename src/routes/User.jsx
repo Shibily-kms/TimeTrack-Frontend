@@ -57,12 +57,9 @@ function User() {
           {/* Todo */}
           <Route path='/my-todo' element={<PrivateRoute element={<MyTodo setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
 
-
           <Route path='/monthly-report' element={<PrivateRoute element={<PunchReport setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
           <Route path='/settings' element={<PrivateRoute element={<Settings setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
           <Route path='/more' element={<PrivateRoute element={<MorePage setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
-
-
 
           <Route path='/my-account' element={<PrivateRoute element={<MyAccount setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} >
             {/* Sub-routes of MyAccount */}
@@ -72,9 +69,6 @@ function User() {
             <Route path='security-privacy' element={<SecurityPrivacy />} />
             <Route path='origin-access' element={<Profile />} />
           </Route>
-
-
-
 
           <Route path='/leave-app' element={<PrivateRoute element={<LeaveApp setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
 
