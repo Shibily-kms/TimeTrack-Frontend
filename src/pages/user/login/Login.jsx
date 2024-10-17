@@ -139,7 +139,7 @@ export const loginTokenSetup = async (acc_id, dispatch, navigate) => {
     const tokenCredentials = {
         acc_id: acc_id,
         dvc_id: dvcId || deviceIdBuilder(),
-        new_device: !dvcId && await getDeviceAndBrowserInfo()
+        new_device: await getDeviceAndBrowserInfo()
     }
 
     ttSv2Axios.post('/auth/take-token', tokenCredentials).then((tokenResponse) => {

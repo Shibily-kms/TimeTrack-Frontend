@@ -32,6 +32,11 @@ const Scanner = React.memo(() => {
     const [outLink, setOutLink] = useState(false)
 
     const userProfileImage = getUserProfileImagePath(user?.last_name);
+    const videoConstraints = {
+        width: { ideal: 1920 },  // Increase width for higher quality
+        height: { ideal: 1080 }, // Increase height for higher quality
+        facingMode: 'environment',      // 'user' for front camera, 'environment' for rear camera
+      };
 
 
     useEffect(() => {
@@ -186,9 +191,7 @@ const Scanner = React.memo(() => {
                         ref={webcamRef}
                         screenshotFormat="image/jpeg"
                         height='100%'
-                        videoConstraints={{
-                            facingMode: "environment"  // This might help on mobile to use the rear camera by default
-                        }}
+                        videoConstraints={videoConstraints}
                     />
                 </div>}
             <div className="content-div">

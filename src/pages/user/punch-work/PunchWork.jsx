@@ -19,18 +19,19 @@ const PunchWork = React.memo(() => {
     useEffect(() => {
         let checkIfAutoPunchOut = null
 
-        if (punch?.out && user?.punch_type === 'software') {
+        if (punch?.out && user?.punch_type === 'software' && user?.auto_punch_out) {
 
             checkIfAutoPunchOut = setInterval(() => {
 
                 if (punch?.out) {
                     const lastPunch = workDetails.punch_list?.[workDetails?.punch_list?.length - 1] || {}
-                    const [lastInHour, lastInMinute] = new Date(lastPunch?.in).toTimeString().split(':');
-                    const [punchOutHour, punchOutMinute] = user?.auto_punch_out.split(':');
+                    const [lastInHour, lastInMinute] = new Date(lastPunch?.in).toTimeString()?.split(':');
+                    console.log(lastInHour, lastInMinute, user)
+                    const [punchOutHour, punchOutMinute] = user?.auto_punch_out?.split(':');
 
                     if ((punchOutHour + punchOutMinute) > (lastInHour + lastInMinute)) {
 
-                        const [nowHour, nowMinute] = new Date().toTimeString().split(':');
+                        const [nowHour, nowMinute] = new Date().toTimeString()?.split(':');
 
                         if ((nowHour + nowMinute) >= (punchOutHour + punchOutMinute)) {
                             dispatch(getPunchDetails())

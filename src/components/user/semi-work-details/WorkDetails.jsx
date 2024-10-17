@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import './work-details.scss'
 import { useDispatch, useSelector } from 'react-redux'
-import { convertIsoToAmPm, getTimeFromSecond, YYYYMMDDFormat } from '../../../assets/javascript/date-helper'
+import { convertIsoToAmPm, getTimeFromSecond } from '../../../assets/javascript/date-helper'
 import SpinnerWithMessage from '../../../components/common/spinners/SpinWithMessage'
 import { IoFingerPrint } from "react-icons/io5";
 import { BsQrCodeScan } from "react-icons/bs";
@@ -16,10 +16,7 @@ function WorkDetails() {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        if (workDetails?.date !== YYYYMMDDFormat(new Date())) {
-            dispatch(getPunchDetails())
-        }
-
+        dispatch(getPunchDetails())
         // eslint-disable-next-line
     }, [])
 
