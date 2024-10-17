@@ -4,7 +4,7 @@ import './style.scss'
 import { getTimeFromSecond } from '../../../assets/javascript/date-helper'
 import SingleButton from '../../common/buttons/SingleButton';
 
-function SCReport({ report, thisMonth, date }) {
+function SCReport({ report, thisMonth, date, staffBase, staff }) {
     const [loading, setLoading] = useState(false)
 
     const downloadFile = (workbook, filename) => {
@@ -37,7 +37,6 @@ function SCReport({ report, thisMonth, date }) {
         datas.map((data, index) => {
             const obj = {
                 SlNo: index + 1,
-                Name: data.full_name,
                 Days: data.worked_days,
                 Hours: getTimeFromSecond(data.worked_time + data.used_CF) || "0m",   // Don't use for this month
                 Attendance: data.allowed_salary,
@@ -46,8 +45,15 @@ function SCReport({ report, thisMonth, date }) {
                 'For Round': data?.for_round_amount || 0,
                 'Total Salary': 0,
             }
+
+            if (staffBase) {
+                obj['Month'] = data?.date
+            } else {
+                obj['Name'] = data?.full_name
+            }
+
             obj['Total Salary'] = obj.Attendance + obj.Allowance + obj.Incentive + obj['For Round'];
-          
+
             workSheetData.push(obj)
             return obj;
         })
@@ -60,7 +66,7 @@ function SCReport({ report, thisMonth, date }) {
     const handleDownload = () => {
         setLoading(true)
         const workbook = exportToExcel(report);
-        downloadFile(workbook, `SC Report - ${date}`)
+        downloadFile(workbook, `SC Report - ${staffBase ? `${staff?.first_name} ${staff?.last_name}` : date}`)
     }
 
     return (

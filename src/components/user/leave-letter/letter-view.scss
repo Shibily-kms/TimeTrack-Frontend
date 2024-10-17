@@ -1,0 +1,66 @@
+.letter-view-sub-div {
+    .status-view-bar {
+        text-align: center;
+        padding: 20px 0 30px 0;
+
+        .icon-status {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+
+            svg {
+                font-size: 24px;
+            }
+
+            h4 {
+                font-size: 17px;
+                font-weight: 500;
+            }
+        }
+
+        .Approved {
+            color: var(--color-success);
+        }
+
+        .Rejected {
+            color: var(--color-error);
+        }
+
+        .Cancelled {
+            color: var(--color-warning);
+        }
+
+        .Edited {
+            color: var(--color-info);
+        }
+
+        p {
+            font-size: 14px;
+        }
+    }
+
+    .letter-content-div {
+        font-size: 15px;
+        text-align: center;
+        margin-bottom: 20px;
+
+        .date-div {
+            margin-bottom: 15px;
+
+            .reject {
+                color: var(--text-c2);
+                text-decoration: line-through;
+            }
+        }
+    }
+
+    .action-div {
+        p {
+            font-size: 13px;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+    }
+}

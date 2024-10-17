@@ -1,0 +1,19 @@
+.my-todo-page-div {
+
+    .sub-menu-div {
+        display: flex;
+        gap: 5px;
+        justify-content: center;
+    }
+
+    .app-icon-div {
+        position: fixed;
+        bottom: 80px;
+        right: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+
+}

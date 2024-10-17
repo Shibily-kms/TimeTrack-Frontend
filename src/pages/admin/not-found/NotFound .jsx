@@ -1,12 +1,8 @@
 import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux'
 import './not-found.scss'
-import { useNavigate } from 'react-router-dom'
-import SingleButton from '../../../components/common/buttons/SingleButton'
+
 
 function NotFound({ setPageHead }) {
-    const { user } = useSelector((state) => state.userAuth)
-    const navigate = useNavigate()
 
     useEffect(() => {
         setPageHead({ title: "" })
@@ -14,21 +10,17 @@ function NotFound({ setPageHead }) {
 
     return (
         <div className='not-found'>
-
-            <main class="main">
-                <div class="image">
-                    <img id="big_image" src="https://mjavadh.github.io/4X4-Collection/Fantasy/Black%20Box/assets/astronaut.png" alt="#" />
+            <div className="main">
+                <h4>ALLIANCE</h4>
+                <div className="text">
+                    <p>404</p>
+                    <p>That’s an error.</p>
                 </div>
-
-                <div class="text-404">
-                    <h1>4 0 4</h1>
-                    <p>Page not found!</p>
-                    <SingleButton name={'Go to Home'} classNames={'btn-secondary'} onClick={() => navigate(user ? '/' : '/admin')} />
+                <div className='comment'>
+                    <p>The requested URL was not found on this server.</p>
+                    <p>That’s all we know.</p>
                 </div>
-            </main>
-
-
-
+            </div>
         </div>
     )
 }

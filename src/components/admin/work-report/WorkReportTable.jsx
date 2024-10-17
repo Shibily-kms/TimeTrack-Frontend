@@ -13,13 +13,14 @@ import Modal from '../../common/modal/Modal'
 import SalaryReport from './SalaryReport';
 import { useSelector } from 'react-redux';
 
-function WorkReportTable({ report, setData, thisMonth }) {
+
+function WorkReportTable({ report, setData, thisMonth, staffBase }) {
     const [modal, setModal] = useState({})
-    const { admin } = useSelector((state) => state.adminAuth)
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+    const { user } = useSelector((state) => state.userAuth)
 
     const openModal = (title, data, type) => {
-
-        if (type === 'view' && data?.allowed_salary <= 0) {
+        if (type === 'view' && findTotalSalaryAmt(data) <= 0) {
             return;
         }
 
@@ -29,17 +30,18 @@ function WorkReportTable({ report, setData, thisMonth }) {
     return (
         <div className='work-report-table'>
             <Modal modal={modal} setModal={setModal} />
+
             <TableFilter>
                 <table>
                     <thead>
                         <tr>
-                            <th>Full name</th>
+                            {staffBase ? <th>Month</th> : <th>Full name</th>}
                             <th>Required <br></br> hours</th>
                             <th>Monthly <br></br> salary</th>
                             <th>Worked <br></br> days</th>
                             <th>Worked <br></br> hours</th>
                             <th>Total <br></br> Salary</th>
-                            {thisMonth ? <th>Current C/F</th> : admin?.pro_admin ? <th>Control</th> : ''}
+                            {thisMonth ? <th>Current C/F</th> : user?.allowed_origins.includes('ttcr_rprt_write') ? <th>Control</th> : ''}
                         </tr>
                     </thead>
 
@@ -47,10 +49,16 @@ function WorkReportTable({ report, setData, thisMonth }) {
                         {report?.map((staff, index) => (
                             <tr key={index}>
                                 {/* Full Name */}
-                                <td className='name'>
-                                    {staff.full_name} <br></br>
-                                    <Badge text={staff.designation} title={'current designation'} className={'gray-fill'} />
-                                </td>
+                                {staffBase
+                                    ? <td className='name'>
+                                        {months[Number(staff.date.slice(5, 7)) - 1]}
+                                        <br></br>
+                                        {staff.date.slice(0, 4)}
+                                    </td>
+                                    : <td className='name'>
+                                        {staff.full_name} <br></br>
+                                        <Badge text={staff.designation} title={'current designation'} className={'gray-fill'} />
+                                    </td>}
                                 {staff.message && !thisMonth
                                     ? <td colSpan='6'> <p className='message'><BsInfoCircleFill />{staff.message}</p> </td>
                                     : <>
@@ -91,13 +99,15 @@ function WorkReportTable({ report, setData, thisMonth }) {
                                         </td>
 
                                         {/* total salary */}
-                                        <td onClick={() => openModal('Total Salary', staff, 'view')} style={{ cursor: 'pointer' }}><span className='salary-td'>₹{parseFloat(findTotalSalaryAmt(staff)).toFixed(2)}</span>{staff?.allowed_salary > 0 && <FaExpandArrowsAlt />}</td>
+                                        <td onClick={() => openModal('Total Salary', staff, 'view')} style={{ cursor: 'pointer' }}>
+                                            <span className='salary-td'>₹{parseFloat(findTotalSalaryAmt(staff)).toFixed(2)}</span>{findTotalSalaryAmt(staff) > 0 && <FaExpandArrowsAlt />}
+                                        </td>
                                         {/* current c/f */}
                                         {thisMonth
                                             ? <td>{getTimeFromSecond(staff.balance_CF) || '0m'}</td>
-                                            : admin?.pro_admin ? <td>
+                                            : user?.allowed_origins.includes('ttcr_rprt_write') ? <td>
                                                 <SingleButton title='Edit' classNames={'icon-only btn-blue'} stIcon={<GrEdit />} onClick={() => openModal('Edit Salary', staff)} />
-                                            </td> : ""
+                                            </td> : ''
                                         }
                                     </>
                                 }

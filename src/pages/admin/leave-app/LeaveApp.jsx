@@ -1,34 +1,33 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setAdminActivePage, toast } from '../../../redux/features/user/systemSlice'
-import { adminAxios } from '../../../config/axios';
+import {  ttCv2Axios } from '../../../config/axios';
 import Modal from '../../../components/common/modal/Modal';
 import Badge from '../../../components/common/badge/Badge';
 import SingleButton from '../../../components/common/buttons/SingleButton';
 import SpinWithMessage from '../../../components/common/spinners/SpinWithMessage';
 import TableFilter from '../../../components/common/table-filter/TableFilter';
 import LeaveAction from '../../../components/admin/leave-action/LeaveAction';
+import { readTheLetters } from '../../../assets/javascript/l2-helper';
+import { RiFileList3Fill } from 'react-icons/ri';
 
 const LeaveApp = ({ setPageHead }) => {
     const dispatch = useDispatch()
     const [loading, setLoading] = useState('fetch')
     const [data, setData] = useState([])
     const [modal, setModal] = useState({ status: false })
-    const { admin } = useSelector((state) => state.adminAuth)
-
-    const handleActionLeave = (singleData) => {
-        setModal({ status: true, title: "Leave Action", content: <LeaveAction data={singleData} setData={setData} setModal={setModal} /> })
-    }
+    const { user } = useSelector((state) => state.userAuth)
 
     useEffect(() => {
-        setPageHead({ title: 'Leave Letters' })
+        setPageHead({ title: 'Leave Letters', desc: 'Last 15 days actions and current pending applications' })
         dispatch(setAdminActivePage('leave-letters'))
 
-        adminAxios.get('/leave-application').then((response) => {
+        ttCv2Axios.get(`/L2/leaves?status=active`).then((response) => {
             setLoading('')
-            setData(response?.data)
+            const letters = readTheLetters(response?.data?.list || [])
+            setData(letters)
         }).catch((error) => {
-            dispatch(toast.push.success({ message: 'Cancelled' }))
+            dispatch(toast.push.error({ message: error?.message }))
             setLoading('')
         })
     }, [])
@@ -37,37 +36,44 @@ const LeaveApp = ({ setPageHead }) => {
     return (
         <div className="leave-app-page-div">
             <Modal modal={modal} setModal={setModal} />
-            {loading === 'fetch'
-                ? <SpinWithMessage load height={'300px'} />
-                : <TableFilter srlNo={true}>
+            {loading === 'fetch' || !data?.[0]
+                ? <SpinWithMessage load={loading === 'fetch'} height={'400px'} icon={<RiFileList3Fill />} message='No new leave letter request' />
+                : <TableFilter >
                     <table>
                         <thead>
                             <tr>
-                                <th>Date</th>
                                 <th>#Token ID</th>
-                                <th>Full name</th>
-                                <th>Days</th>
+                                <th>Reg date & By</th>
+                                <th>Req. Days</th>
                                 <th>Status</th>
-                                {admin?.pro_admin && <th>Control</th>}
+                                <th>Control</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {data?.map((item) => <tr >
-                                <td>{new Date(item.reg_date_time).toDateString()}</td>
+                            {data?.map((item) => <tr key={item?.token_id}>
                                 <td>{item?.token_id}</td>
-                                <td>{item?.full_name}</td>
-                                <td> {item?.apply_leave?.days} Days</td>
-                                <td ><Badge className={item.leave_status === 'Pending'
-                                    ? 'gray-fill'
-                                    : item.leave_status === 'Approved'
-                                        ? 'success-fill'
-                                        : 'error-fill'} text={`${item?.self_cancel ? 'Self' : ""} ${item?.leave_status}`} /></td>
-                                {admin?.pro_admin && <td>
+                                <td>{new Date(item.reg_date_time).toDateString()}<br></br>{item?.full_name}</td>
+                                <td> {item?.requested_count >= 1
+                                    ? `${item?.requested_count} Day(s)`
+                                    : `${item?.requested_half === 1 ? 'Before noon' : 'After noon'}`}</td>
+                                <td ><Badge
+                                    className={
+                                        item?.leave_status === 'Pending' ? 'gray-fill'
+                                            : item?.leave_status === 'Approved' ? 'success-fill'
+                                                : 'error-fill'
+                                    }
+                                    text={`${item?.self_cancel ? 'Self' : ""} 
+                                    ${item?.edited ? 'Modified & approved' : item?.leave_status}`} /></td>
+                                <td>
                                     <div className="button-div" style={{ display: 'flex', justifyContent: 'center' }}>
-                                        <SingleButton title={'Copy Link'} name={'Action'}
-                                            onClick={() => handleActionLeave(item)} />
+                                        <SingleButton title={'Copy Link'} name={user?.allowed_origins.includes('ttcr_l2_write') ? 'Action' : 'View'}
+                                            onClick={() => setModal({
+                                                status: true,
+                                                title: item?.token_id,
+                                                content: <LeaveAction singleData={item} setData={setData} setModal={setModal} />
+                                            })} />
                                     </div>
-                                </td>}
+                                </td>
                             </tr>)}
                         </tbody>
                     </table>

@@ -4,8 +4,10 @@ import './date-bar.scss'
 
 function DateBar({ data, selected, setSelected }) {
     const scrollContainerRef = useRef(null);
+    const selectedRef = useRef(null); // Ref for the selected active date
     const [showLeftArrow, setShowLeftArrow] = useState(false);
     const [showRightArrow, setShowRightArrow] = useState(true);
+    const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
 
     useEffect(() => {
         const scrollContainer = scrollContainerRef.current;
@@ -15,6 +17,12 @@ function DateBar({ data, selected, setSelected }) {
             scrollContainer.scrollLeft = 0;
         }
     }, [data]);
+
+    useEffect(() => {
+        if (selectedRef.current) {
+            selectedRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }
+    }, [selected, data]);
 
     const handleScroll = () => {
         const scrollContainer = scrollContainerRef.current;
@@ -45,17 +53,17 @@ function DateBar({ data, selected, setSelected }) {
         <div className='date-bar-div'>
             <div className="main-box">
                 <div className="items-div" ref={scrollContainerRef} onScroll={handleScroll}>
-                    {data.map((day, index) => {
-                        return <div key={index} className={`item-box ${day.day === 'SUN' && 'sunday'} 
-                        ${selected.date === day.date && selected.month === day.month && selected.year === day.year && 'active'}`}
-                            onClick={() => setSelected({ date: day.date, month: day.month, year: day.year, count: day.attendanceCount })
-                            } >
-                            <div className="content" title={`${day.date}-${day.month + 1}-${day.year}`}>
-                                <h3>{day.date}</h3>
-                                <h5>{day.day}</h5>
+                    {data?.map((day, index) => {
+                        return <div key={index} className={`item-box ${new Date(day.date).getDay() === 0 && 'sunday'} 
+                        ${selected === day.date && 'active'}`}
+                            ref={selected === day.date ? selectedRef : null}
+                            onClick={() => setSelected(day.date)} >
+                            <div className="content" title={`${new Date(day.date).toDateString()}`}>
+                                <h3>{new Date(day.date).getDate()}</h3>
+                                <h5>{days[new Date(day.date).getDay()]}</h5>
                             </div>
-                            {day?.attendanceCount > 0 && <div className="count">
-                                <span>{day.attendanceCount}</span>
+                            {day?.attendance > 0 && <div className="count">
+                                <span>{day.attendance}</span>
                             </div>}
                         </div>
                     })}

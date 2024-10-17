@@ -2,18 +2,15 @@ import React from 'react'
 import './profile-card.scss'
 import { useSelector } from 'react-redux'
 import Badge from '../../common/badge/Badge'
-import { FaCheckCircle } from "react-icons/fa";
 import { TimeBasedGreeting } from '../../../assets/javascript/date-helper'
 import { GoDotFill } from "react-icons/go";
 import { getUserProfileImagePath } from '../../../assets/javascript/find-helpers';
-import { MdKeyboardDoubleArrowDown } from "react-icons/md";
+import { ui_version } from '../../../assets/javascript/const-data'
 
-const ProfileCard = () => {
+const ProfileCard = ({ data, inWork }) => {
     const { user } = useSelector((state) => state.userAuth)
-
-
-
     const userProfileImage = getUserProfileImagePath(user?.last_name);
+    
 
     return (
         <div className="profile-card-div">
@@ -24,14 +21,15 @@ const ProfileCard = () => {
                 <div className="name-section-div">
                     <p>Hi, {TimeBasedGreeting()}</p>
                     <h3>{user?.first_name} {user?.last_name}</h3>
-                    <p> ID : {user?.sid || 'NILL'} <GoDotFill /> {user?.designation?.designation} </p>
+                    <p> ID : {data?.sid || 'NILL'} <GoDotFill /> {data?.designation || 'NILL'} </p>
                 </div>
             </div>
             <div className="bottom-section-div">
                 <div>
-                    <p>Version 2.0.0</p>
+                    <p>Version {ui_version}</p>
                 </div>
-                <Badge icon={<FaCheckCircle />} className={user?.status === 'Active' ? 'lg success-fill' : "sm error-fill"} text={user?.status || 'Left the company'} />
+                <Badge className={inWork ? "md success-fill" : 'md error-fill'}
+                    text={inWork ? "On work" : 'Out of work'} />
             </div>
         </div>
     )

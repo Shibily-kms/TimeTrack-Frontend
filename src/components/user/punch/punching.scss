@@ -2,23 +2,28 @@
 @import '../../../assets/scss/model.scss';
 
 .punching {
-    .border {
+    .punching-border {
 
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
+        grid-template-columns: 1fr;
+        margin-top: 20px;
 
         button {
             @include normalButton();
             background-color: #{$aws-color-neutral-60};
-            display: grid;
-            grid-template-columns: 1fr;
+            display: flex;
+            align-items: center;
             justify-content: center;
             font-size: 12px;
 
             span {
                 &:first-child {
-                    font-size: 30px;
+                    margin-right: 10px;
+                    font-size: 25px;
+                }
+
+                &:last-child {
+                    font-size: 14px;
                 }
             }
         }
@@ -34,28 +39,6 @@
             &:hover {
                 opacity: .3;
                 pointer-events: none;
-            }
-        }
-    }
-
-    @media screen and (max-width:490px) {
-        .border {
-            grid-template-columns: 1fr;
-
-            button {
-                display: flex;
-                align-items: center;
-
-                span {
-                    &:first-child {
-                        margin-right: 10px;
-                        font-size: 25px;
-                    }
-
-                    &:last-child {
-                        font-size: 14px;
-                    }
-                }
             }
         }
     }

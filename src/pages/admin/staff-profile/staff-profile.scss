@@ -10,6 +10,11 @@
         .list-details-div {
             margin-bottom: 30px;
 
+            h3 {
+                font-weight: 500;
+                color: var(--text-c1);
+            }
+
             .list-item-div {
                 display: grid;
                 grid-template-columns: 35% 65%;
@@ -23,9 +28,21 @@
                     }
 
                     &:last-child {
-                        color: var(--text-c1);
                         font-size: 15px;
                         display: flex;
+                    }
+
+                    .verify {
+                        font-size: 12px;
+                        margin-left: 15px;
+                    }
+
+                    .ok {
+                        color: var(--color-success);
+                    }
+
+                    .not-ok {
+                        color: var(--color-error);
                     }
                 }
             }
@@ -37,6 +54,11 @@
                 display: flex;
                 align-items: center;
                 gap: 15px;
+
+                h3 {
+                    font-weight: 500;
+                    color: var(--text-c1);
+                }
             }
         }
 
@@ -50,6 +72,8 @@
             border-left: 1px solid var(--border-primary);
             display: block;
             margin-bottom: 25px;
+            position: sticky;
+            top: 0px;
 
             ul {
                 list-style-position: outside;
@@ -92,6 +116,7 @@
                 grid-template-columns: 1fr 1fr;
                 padding: 20px 0 20px 0px;
                 border-left: none;
+                position: static;
             }
         }
     }

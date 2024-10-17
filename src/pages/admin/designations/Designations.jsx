@@ -19,7 +19,7 @@ function Designations({ setPageHead }) {
     const [data, setData] = useState([])
     const [modal, setModal] = useState(null)
     const [loading, setLoading] = useState('fetch')
-    const { admin } = useSelector((state) => state.adminAuth)
+    const { user } = useSelector((state) => state.userAuth)
 
     useEffect(() => {
         setPageHead({ title: 'Designation List' })
@@ -62,14 +62,15 @@ function Designations({ setPageHead }) {
             <Modal modal={modal} setModal={setModal} />
             <div className="table-div">
                 {data?.[0] ?
-                    <TableFilter srlNo={true} topRight={admin?.pro_admin && <SingleButton name={'Designation'} stIcon={<FaPlus />} classNames={'md btn-tertiary'}
-                        onClick={() => openModal('Create Designation', <AddDesignation setData={setData} setModel={setModal} />)} />}>
+                    <TableFilter srlNo={true} topRight={user?.allowed_origins?.some(access => ['ttcr_pro_write'].includes(access)) &&
+                        <SingleButton name={'Designation'} stIcon={<FaPlus />} classNames={'md btn-tertiary'}
+                            onClick={() => openModal('Create Designation', <AddDesignation setData={setData} setModel={setModal} />)} />}>
                         <table id="list">
                             <thead>
                                 <tr>
                                     <th>Designation</th>
                                     <th>Staffs Count</th>
-                                    {admin?.pro_admin && <th>Control</th>}
+                                    {user?.allowed_origins?.some(access => ['ttcr_pro_write'].includes(access)) && <th>Control</th>}
                                 </tr>
                             </thead>
                             <tbody>
@@ -77,14 +78,15 @@ function Designations({ setPageHead }) {
                                     return <tr key={value._id}>
                                         <td>{value.designation}</td>
                                         <td style={{ textAlign: 'center' }}>{value.name.length}</td>
-                                        {admin?.pro_admin && <td style={{ textAlign: 'center' }}>
-                                            <div className='buttons' >
-                                                <SingleButton title='Edit' classNames={'icon-only btn-blue'} stIcon={<GrEdit />}
-                                                    onClick={() => openModal('Edit Designation', <EditDesignation setModal={setModal} setData={setData} editData={value} />)} />
-                                                <SingleButton title='Delete' classNames={'icon-only btn-danger '} stIcon={<GoTrash />} onClick={() => handleDelete(value._id)}
-                                                    loading={loading === value._id} />
-                                            </div>
-                                        </td>}
+                                        {user?.allowed_origins?.some(access => ['ttcr_pro_write'].includes(access)) &&
+                                            <td style={{ textAlign: 'center' }}>
+                                                <div className='buttons' >
+                                                    <SingleButton title='Edit' classNames={'icon-only btn-blue'} stIcon={<GrEdit />}
+                                                        onClick={() => openModal('Edit Designation', <EditDesignation setModal={setModal} setData={setData} editData={value} />)} />
+                                                    <SingleButton title='Delete' classNames={'icon-only btn-danger '} stIcon={<GoTrash />} onClick={() => handleDelete(value._id)}
+                                                        loading={loading === value._id} />
+                                                </div>
+                                            </td>}
                                     </tr>
                                 })}
                             </tbody>

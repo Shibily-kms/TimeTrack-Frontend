@@ -2,6 +2,45 @@
     form {
         display: flex;
         flex-direction: column;
-        gap: 15px;
+        gap: 10px;
+
+        .list-days {
+
+            .list {
+                display: flex;
+                text-align: center;
+                gap: 10px;
+
+                p {
+                    font-size: 14px;
+                    font-weight: 500;
+                    width: 100%;
+                    text-align: center;
+                }
+
+                input,
+                select {
+                    background-color: var(--background-c1);
+                    border: none;
+                    border: 1px solid var(--text-c2);
+                    outline: none;
+                    padding: 5px;
+                    border-radius: 5px;
+                    width: 100%;
+                }
+
+                .icon {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    cursor: pointer;
+
+                    svg {
+                        color: var(--color-error);
+                        font-size: 20px;
+                    }
+                }
+            }
+        }
     }
 }

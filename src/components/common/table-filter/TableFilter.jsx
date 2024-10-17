@@ -6,9 +6,9 @@ import SingleButton from '../../common/buttons/SingleButton'
 
 
 function TableFilter({ children, srlNo, topRight }) {
+    // Table latest version : 04 Oct 2024
 
-    const headContent = children.props.children[0].props.children
-    const bodyContent = children.props.children[1].props.children
+    const headContent = children?.props?.children?.[0]?.props?.children
     const [childrenBody, setChildrenBody] = useState([])
     const [tableBody, setTableBody] = useState([])
     const [rowCount, setRowCount] = useState(10)
@@ -24,18 +24,23 @@ function TableFilter({ children, srlNo, topRight }) {
         setPage(page + value)
     }
 
-    const handleSearch = (e) => {
-        setSearchText(e.target.value)
-        const regex = new RegExp(e.target.value, 'i');
-        const filteredData = bodyContent.filter((item) => {
+    const doFilter = (searchKey) => {
+        const regex = new RegExp(searchKey, 'i');
+        const filteredData = children?.props?.children?.[1]?.props?.children?.filter((item) => {
             const check = item.props.children.filter((td) => regex.test(td.props.children))
             if (check[0]) {
                 return check
             }
             return false
         })
-
         setChildrenBody(filteredData)
+        return
+
+    }
+
+    const handleSearch = (e) => {
+        setSearchText(e.target.value || '')
+        doFilter(e.target.value)
         setPage(1)
     }
 
@@ -45,8 +50,12 @@ function TableFilter({ children, srlNo, topRight }) {
 
 
     useEffect(() => {
-        setChildrenBody(children?.props?.children?.[1]?.props?.children)
-        setTableBody(children?.props?.children?.[1]?.props?.children?.slice(rowCount * (page - 1), rowCount * page))
+        if (searchText) {
+            doFilter(searchText)
+        } else {
+            setChildrenBody(children?.props?.children?.[1]?.props?.children)
+        }
+
         // eslint-disable-next-line 
     }, [children])
 

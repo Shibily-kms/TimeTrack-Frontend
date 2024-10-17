@@ -1,22 +1,21 @@
 import React, { useEffect, Suspense, lazy } from 'react'
 import { Routes, Route } from 'react-router-dom'
-import Admin from './routes/Admin';
-import User from './routes/User';
 import { useDispatch, useSelector } from 'react-redux';
 import { connection } from './redux/features/user/systemSlice'
 import PageLoading from './components/common/spinners/PageLoading';
-import Scanner from './pages/user/scanner/Scanner';
+import Master from './Master';
+
 
 const UserLogin = lazy(() => import('./pages/user/login/Login'))
-const AdminLogin = lazy(() => import('./pages/admin/login/Login'))
-const QrCodeView = lazy(() => import('./pages/admin/qr-code-view/QrCodeView'))
-const ZeroAuth = lazy(() => import('./pages/admin/0auth/ZeroAuth'))
+const ForgotPassword = lazy(() => import('./pages/user/login/ForgotPassword'))
+const ResetPassword = lazy(() => import('./pages/user/login/ResetPassword'))
 
 
 function App() {
   const dispatch = useDispatch()
   const { theme } = useSelector((state) => state.systemInfo)
 
+  // Theme and Network
   useEffect(() => {
     dispatch(connection(navigator.onLine))
     const root = document.documentElement;
@@ -53,18 +52,13 @@ function App() {
     <div className="App">
       <Suspense fallback={<PageLoading />}>
         <Routes>
-          {/* WithOut Header and Footer */}
-          <Route path='/login' element={<UserLogin />} />
-          <Route path='/qr-code' element={<QrCodeView />} />
-          <Route path='/scanner' element={<Scanner />} />
-          <Route path='/v1/0auth' element={<ZeroAuth />} />
-
-          <Route path='/admin/login' element={<AdminLogin />} />
+          {/* WithOut Header, Footer and Auth */}
+          <Route path='/auth/sign-in' element={<UserLogin />} />
+          <Route path='/auth/forgot-password' element={<ForgotPassword />} />
+          <Route path='/auth/setup-new-password' element={<ResetPassword />} />
 
           {/* Routes */}
-          <Route element={<Admin />} path='/admin/*' />
-          <Route element={<User />} path='/*' />
-
+          <Route element={<Master />} path='/*' />
         </Routes>
       </Suspense>
     </div>

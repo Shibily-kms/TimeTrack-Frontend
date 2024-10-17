@@ -2,24 +2,20 @@ import React, { useEffect, useState } from 'react'
 import './view-modal.scss'
 import { FcLeave, FcPlanner } from 'react-icons/fc'
 import { TbFingerprintOff } from 'react-icons/tb'
-import { stringToLocalTime, getTimeFromSecond } from '../../../assets/javascript/date-helper'
+import { stringToLocalTime, getTimeFromSecond, YYYYMMDDFormat, formateDateToDayText, convertIsoToAmPm } from '../../../assets/javascript/date-helper'
 import Badge from '../../common/badge/Badge'
 import SpinWithMessage from '../../common/spinners/SpinWithMessage'
+import { ttCv2Axios } from '../../../config/axios'
 
-function ViewModal({ data, info, }) {
-    const months = ['Jun', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dev']
-
-    const [today, setToday] = useState(false)
+function ViewModal({ data, selectDay }) {
+    const [todo, setTodo] = useState({})
 
     useEffect(() => {
-        if (new Date().getDate() === info?.date && new Date().getMonth() === info?.month) {
-            setToday(true)
-        } else {
-            setToday(false)
-        }
-
-    }, [info])
-
+        ttCv2Axios.get(`/todo/task/completed?from_date=${YYYYMMDDFormat(selectDay)}&to_date=${YYYYMMDDFormat(selectDay)}&staff_id=${data?.staff_id}`)
+            .then((response) => {
+                setTodo(response.data)
+            })
+    }, [])
 
     return (
         <div className='view-modal'>
@@ -30,7 +26,7 @@ function ViewModal({ data, info, }) {
                         className={'gray-fill'} />
                 </div>
                 <div className="date-sections">
-                    <h5>{info.date + '-' + months[info.month] + '-' + info.year}</h5>
+                    <h5>{new Date(selectDay).toDateString()}</h5>
                 </div>
             </div>
             {data?.punch_list?.[0] ? <>
@@ -53,31 +49,35 @@ function ViewModal({ data, info, }) {
                                 {item?.auto && <Badge title={'Auto punch outed'} text={"Auto"} className={'success-fill'} />}
                             </div>
                             <div className="td">{stringToLocalTime(item?.in)}</div>
-                            <div className="td">{stringToLocalTime(item?.out)} {!today && item?.in && !item?.out &&
+                            <div className="td">{stringToLocalTime(item?.out)} {new Date(selectDay)?.getTime() !== new Date(new Date().setHours(0, 0, 0, 0))?.getTime()
+                                && item?.in && !item?.out &&
                                 <Badge title={'The staff forgot punch out'} text={'Skipped'} className={'warning-fill'} />
                             }</div>
                             <div className="td">{getTimeFromSecond(item?.duration) || '0m'}</div>
                         </div>
                         )}
 
-                        {/* Regular Work  */}
-                        {data?.regular_work?.map((value, index) => {
+                        <div className="row" style={{ paddingBottom: "15px" }}>   </div>
+
+                        {/* Todo Completed  */}
+                        {todo?.completed?.map((value, index) => {
                             return <div key={index} className="row">
-                                <div className="td">{index === 0 && 'Regular work :'}</div>
-                                <div className="td" title={value?.work} >{value?.work}</div>
-                                <div className="td">{stringToLocalTime(value?.start)}</div>
-                                <div className="td">{stringToLocalTime(value?.end)}</div>
-                                <div className="td">{getTimeFromSecond(value?.duration) || '0m'}</div>
+                                <div className="td">{index === 0 && 'To Do (Completed) :'}</div>
+                                <div className="td" title={value?.title} >{value?.title}</div>
+                                <div className="td">{value?.due_date ? formateDateToDayText(new Date(value?.due_date)) : ''}</div>
+                                <div className="td">{(value?.due_date && !value?.is_daily) ? convertIsoToAmPm(new Date(value?.due_date)) : ''}</div>
+                                <div className="td"></div>
                             </div>
                         })}
-                        {/* Extra work */}
-                        {data?.extra_work?.map((value, index) => {
+
+                        {/* Todo Wont'do  */}
+                        {todo?.wontDo?.map((value, index) => {
                             return <div key={index} className="row">
-                                <div className="td">{index === 0 && 'Extra work :'}</div>
-                                <div className="td" title={value?.work}>{value?.work}</div>
-                                <div className="td">{stringToLocalTime(value?.start)}</div>
-                                <div className="td">{stringToLocalTime(value?.end)}</div>
-                                <div className="td">{getTimeFromSecond(value?.duration) || '0m'}</div>
+                                <div className="td">{index === 0 && "To Do (wont'Do) :"}</div>
+                                <div className="td" title={value?.title} >{value?.title}</div>
+                                <div className="td">{value?.due_date ? formateDateToDayText(new Date(value?.due_date)) : ''}</div>
+                                <div className="td">{(value?.due_date && !value?.is_daily) ? convertIsoToAmPm(new Date(value?.due_date)) : ''}</div>
+                                <div className="td"></div>
                             </div>
                         })}
 
@@ -99,8 +99,9 @@ function ViewModal({ data, info, }) {
 
                 </div>
             </>
-                : <SpinWithMessage height={'250px'} icon={info?.day === 'SUN' ? <FcPlanner /> : today ? <TbFingerprintOff /> : <FcLeave />}
-                    message={info?.day === 'SUN' ? 'Holiday' : today ? 'Not punched' : 'Took leave'} />}
+                : <SpinWithMessage height={'250px'} icon={new Date(selectDay).getDay() === 0 ? <FcPlanner /> : new Date(selectDay) === new Date() ? <TbFingerprintOff /> : <FcLeave />}
+                    message={new Date(selectDay).getDay() === 0 ? 'Holiday' : new Date(selectDay) === new Date()
+                        ? 'Not punched' : `Took${data.leave_type === '1' ? ' Full day' : data.leave_type === '.5' ? ' Half day' : ''} leave`} />}
         </div>
     )
 }

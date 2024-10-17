@@ -1,0 +1,114 @@
+.my-account-div {
+    .profile-div {
+        margin-bottom: 20px;
+        user-select: none;
+
+        .image-section-div {
+            display: flex;
+            width: 100%;
+            justify-content: center;
+
+            .image-div {
+                width: 120px;
+                height: 120px;
+                position: relative;
+                margin-bottom: 20px;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 100%;
+                    -webkit-border-radius: 100%;
+                    -moz-border-radius: 100%;
+                    -ms-border-radius: 100%;
+                    -o-border-radius: 100%;
+                    border: var(--border-primary) 1px solid;
+                }
+
+                .camera-icon {
+                    width: 35px;
+                    height: 35px;
+                    background-color: var(--background-primary);
+                    color: var(--text-c1);
+                    border: var(--border-primary) 1px solid;
+                    border-radius: 100%;
+                    -webkit-border-radius: 100%;
+                    -moz-border-radius: 100%;
+                    -ms-border-radius: 100%;
+                    -o-border-radius: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-size: 26px;
+                    position: absolute;
+                    right: 2px;
+                    bottom: 2px;
+                }
+            }
+        }
+
+        .name-section {
+            text-align: center;
+            margin-bottom: 15px;
+
+            p {
+                color: var(--text-c2);
+            }
+        }
+
+        .sub-menu-div {
+            display: flex;
+            justify-content: center;
+            overflow: auto;
+            padding: 5px 0;
+
+            .item-div {
+            
+                padding: 10px 30px;
+                cursor: pointer;
+                user-select: none;
+                width: max-content;
+                border-bottom: var(--text-c3) 1px solid;
+
+                &:hover {
+                    color: var(--text-tertiary);
+                }
+
+                p {
+                    font-size: 14px;
+                    font-weight: 500;
+                    width: max-content;
+                }
+            }
+
+            .active-item {
+                position: relative;
+
+                p {
+                    color: var(--text-tertiary);
+                }
+
+                span {
+                    position: absolute;
+                    width: 70%;
+                    height: 4px;
+                    border-radius: 15px 15px 0 0;
+                    left: 0;
+                    bottom: 0;
+                    left: 50%;
+                    transform: translate(-50%, 0);
+                    background-color: var(--background-tertiary);
+
+                }
+            }
+        }
+    }
+
+    @media screen and (max-width:460px) {
+        .profile-div {
+            .sub-menu-div {
+                justify-content: flex-start;
+            }
+        }
+    }
+}
