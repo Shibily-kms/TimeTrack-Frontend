@@ -1,0 +1,23 @@
+.todo-list-sub-page-div {
+    margin-top: 20px;
+
+    .section-div {
+        margin-bottom: 20px;
+
+        .heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            padding: 5px 10px;
+            color: var(--text-c2);
+
+            .left {
+                h4 {
+                    font-weight: 500;
+                }
+
+            }
+        }
+    }
+}

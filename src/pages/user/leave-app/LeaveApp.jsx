@@ -3,17 +3,22 @@ import './leave-app.scss'
 import SingleButton from '../../../components/common/buttons/SingleButton'
 import SpinWithMessage from '../../../components/common/spinners/SpinWithMessage'
 import Modal from '../../../components/common/modal/Modal'
-import LeaveReg from '../../../components/user/leave-reg/LeaveReg'
+import LeaveReg from '../../../components/user/leave-letter/LeaveReg'
 import { FaPlus } from "react-icons/fa6";
-import { userAxios } from '../../../config/axios'
-import { useDispatch } from 'react-redux'
+import { ttSv2Axios } from '../../../config/axios'
+import { useDispatch, useSelector } from 'react-redux'
 import { toast } from '../../../redux/features/user/systemSlice'
 import { YYYYMMDDFormat } from '../../../assets/javascript/date-helper'
-import { TbListDetails } from "react-icons/tb";
+import { TbFileText } from "react-icons/tb";
+import { TbClock24, TbCheck, TbAlertTriangle, TbX } from "react-icons/tb";
+import { MdOutlineArrowForwardIos } from "react-icons/md";
+import LetterView from '../../../components/user/leave-letter/LetterView'
+import { readTheLetters } from '../../../assets/javascript/l2-helper'
 
 
 const LeaveApp = ({ setPageHead }) => {
 
+    const limit = 10
     const [modal, setModal] = useState({ status: false })
     const [data, setData] = useState([])
     const [page, setPage] = useState(1)
@@ -21,121 +26,113 @@ const LeaveApp = ({ setPageHead }) => {
     const [loading, setLoading] = useState('fetch')
     const [count, setCount] = useState(0)
     const [totalLeave, setTotalLeave] = useState(0)
+    const { user } = useSelector((state) => state.userAuth)
 
-    const handleOpenModal = () => {
-        setModal({ status: true, title: "Leave Registration", content: <LeaveReg setModal={setModal} setData={setData} /> })
+    const handleOpenModal = (title, content) => {
+        setModal({ status: true, title, content })
     }
 
     const handleCancelLeave = (id) => {
         const ask = window.confirm('Are you cancel this application ?')
         if (ask) {
-            setLoading('cancel' + id)
-            userAxios.delete(`/leave-application/cancel?_id=${id}&self_cancel=yes`).then(() => {
+            ttSv2Axios.delete(`/L2/action/cancel?_id=${id}&self_cancel=yes`).then(() => {
                 setData(data?.map((item) => {
                     if (item._id === id) {
                         return {
                             ...item,
                             leave_status: 'Cancelled',
-                            cancelled_date_time: new Date(),
-                            self_cancel: true
+                            action_date_time: new Date(),
+                            self_action: true
                         }
                     }
                     return item
                 }))
-                setLoading('')
-                dispatch(toast.push.success({ message: 'Cancelled' }))
-
+                setModal({ status: false })
             }).catch((error) => {
                 dispatch(toast.push.error({ message: error.message }))
-                setLoading('')
             })
         }
 
     }
 
+    const findDays = (status) => {
+        return status === 'Approved' ? 'approved_days' : 'requested_days';
+    };
+
     useEffect(() => {
         setPageHead({ title: "Leave Application" })
         setLoading('fetch')
-        userAxios.get(`/leave-application?page=${page}&count=10`).then((response) => {
-            setData([...data, ...response?.data?.list])
+        ttSv2Axios.get(`/L2/leaves?page=${page}&limit=${limit}&staff_id=${user?.acc_id}`).then((response) => {
+            const letters = readTheLetters(response?.data?.list || [])
+            setData([...data, ...letters])
             setCount(response.data?.count || 0)
             setLoading('')
 
-            userAxios.get(`/leave-application/total-leave?month=${YYYYMMDDFormat(new Date()).slice(0, 7)}`).then((result) => {
+            ttSv2Axios.get(`/L2/staff/total-leave?month=${YYYYMMDDFormat(new Date()).slice(0, 7)}`).then((result) => {
                 setTotalLeave(result.data?.total_leave || 0)
             })
         }).catch((error) => {
             dispatch(toast.push.error({ message: error.message }))
             setLoading('')
         })
+
+        // eslint-disable-next-line
     }, [page])
 
     return (
         <div className="leave-app-page-div">
             <Modal modal={modal} setModal={setModal} />
-            <div className="report-info-div">
+            {data?.[0] && <div className="report-info-div">
                 <h2>{totalLeave}</h2>
                 <p>This Month Total Leaves</p>
-            </div>
+            </div>}
             <div className="item-list-div">
-
-                {data?.map((item) => <div key={item?.token_id} className="item-box">
-                    <div className={`left-div ${item?.leave_status}`}>
-                        <p>{item?.leave_status}</p>
+                {data?.map((item) => <div key={item?.token_id} className="item-box" onClick={() => handleOpenModal(item?.token_id, <LetterView data={item} cancelLeave={handleCancelLeave} />)}>
+                    <div className={`item-icon-status ${item?.leave_status} ${item.edited && 'Edited'}`}>
+                        {item?.leave_status === 'Pending' && <TbClock24 />}
+                        {item?.leave_status === 'Approved' && <TbCheck />}
+                        {item?.leave_status === 'Rejected' && <TbAlertTriangle />}
+                        {item?.leave_status === 'Cancelled' && <TbX />}
                     </div>
-                    <div className="border-div">
-                        <div className="text-list">
-                            <p>Token : {item?.token_id}</p>
-                            <p>Type : {item?.leave_type} Day</p>
-                        </div>
-                        <div className="text-list">
-                            {item?.apply_leave?.from_date !== item?.apply_leave?.to_date
-                                ? <p className='bold-text'>RTP : {new Date(item?.apply_leave?.from_date).toDateString()} to {new Date(item?.apply_leave?.to_date).toDateString()} ({item?.apply_leave?.days} Days)</p>
-                                : <p className='bold-text'>RTP : {new Date(item?.apply_leave?.to_date).toDateString()} (Half Day)</p>
-                            }
-
-                        </div>
-                        <div className="text-list">
-                            <p>Reason : </p>
-                            <p>{item?.leave_reason}</p>
-                        </div>
-                        <div className="text-list">
-                            <p>Comment : </p>
-                            <p>{item?.comment || 'Nill'}</p>
-                        </div>
-                        <div className="text-list">
-                            {item?.leave_status === 'Pending' &&
-                                <p className='bold-text reg-text'>Reg Date : {new Date(item?.reg_date_time).toDateString()}</p>}
-
-                            {item?.leave_status === 'Approved' &&
-                                <p className='bold-text approve-text'>ATP : {new Date(item?.approved_leave?.from_date).toDateString()} to {new Date(item?.approved_leave?.to_date).toDateString()} ({item?.approved_leave?.days}d)</p>}
-
-                            {item?.leave_status === 'Rejected' &&
-                                <p className='bold-text reject-text'>Reject Date : {new Date(item?.rejected_date_time).toDateString()}</p>}
-
-                            {item?.leave_status === 'Cancelled' &&
-                                <p className='bold-text reject-text'>Cancel Date : {new Date(item?.cancelled_date_time).toDateString()} {item?.self_cancel && '(Self Cancelling)'}</p>}
-                        </div>
+                    <div className={`item-text-div`}>
+                        <p>{item?.token_id} | {new Date(item?.reg_date_time).toDateString()}</p>
+                        {item?.[findDays(item?.leave_status)]?.length > 1
+                            ? <h4>{new Date(item?.[findDays(item?.leave_status)]?.[0]?.[0]).toDateString()} to {new Date(item?.[findDays(item?.leave_status)]?.[item?.[findDays(item?.leave_status)]?.length - 1]?.[0]).toDateString()} ({item?.[findDays(item?.leave_status)]?.length} Days)</h4>
+                            : <h4>{new Date(item?.[findDays(item?.leave_status)]?.[0]?.[0]).toDateString()} ({Number(item?.[findDays(item?.leave_status)]?.[0]?.[1]) < 1 ? item?.[findDays(item?.leave_status)]?.[0]?.[2] === '09:30' ? 'Before noon' : 'After noon' : '1 Day'})</h4>}
+                        {item?.leave_status === 'Pending' && <p className='action-text'>Action will be taken within 24 hours</p>}
                     </div>
-                    {(item?.leave_status === 'Pending' || (item?.leave_status === 'Approved' && YYYYMMDDFormat(new Date()) <= item?.approved_leave?.from_date)) &&
-                        <div className="action-div">
-                            <SingleButton name={'Cancel'} classNames={'sm'} onClick={() => handleCancelLeave(item?._id)} loading={loading === `cancel${item._id}`} />
-                        </div>
-                    }
+                    <div className="arrow-icon-div">
+                        <MdOutlineArrowForwardIos />
+                    </div>
                 </div>)}
-                {loading === 'fetch' || !data?.[0]
-                    ? <SpinWithMessage load={loading === 'fetch'} message='Empty letters' height={'300px'} icon={<TbListDetails />} />
-                    : <>
-                        {count > page * 10
-                            ? < SingleButton name={'Show more'} style={{ width: '100%' }} classNames={'lg btn-secondary'} onClick={() => setPage(page + 1)} />
-                            : <p style={{ textAlign: 'center', fontSize: '12px' }}>No more data available</p>}
-                    </>}
+
+                {/* See More */}
+                {count > page * limit
+                    && < SingleButton name={'Show more'} style={{ width: '100%' }} classNames={'lg btn-secondary'} onClick={() => setPage(page + 1)} />}
+
             </div>
 
-            <div className="app-icon-div">
+            {/* Loading */}
+            {loading === 'fetch' && !data[0] &&
+                <SpinWithMessage height={'400px'} load />
+            }
+
+            {/* If any leave  */}
+            {data?.[0] && <div className="app-icon-div">
                 <SingleButton title={'Register leave'} stIcon={<FaPlus />} classNames={'icon-only btn-tertiary'} style={{ padding: '15px', fontSize: '25px', borderRadius: '100px' }}
-                    onClick={handleOpenModal} />
-            </div>
+                    onClick={() => handleOpenModal("Leave Registration", <LeaveReg setModal={setModal} setData={setData} />)} />
+            </div>}
+
+            {/* If not leaves */}
+            {!data?.[0] && loading !== 'fetch' &&
+                <>
+                    <SpinWithMessage message='Start your first leave request easily with this button.' height={'400px'} icon={<TbFileText />} bottomContent={
+                        <div style={{ display: 'flex', justifyContent: 'center' }}>
+                            <SingleButton name={'Apply leave letter'} classNames={'btn-tertiary'} onClick={() => handleOpenModal("Leave Registration", <LeaveReg setModal={setModal} setData={setData} />)} />
+                        </div>
+                    } />
+                </>
+            }
         </div>
     )
 }

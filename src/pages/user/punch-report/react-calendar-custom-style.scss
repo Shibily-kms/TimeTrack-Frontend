@@ -48,9 +48,9 @@
     font-weight: 500;
 
     .fill-dot {
-        font-size: 11px;
+        font-size: 18px;
         position: absolute;
-        bottom: -4px;
+        bottom: -5px;
         left: 50%;
         transform: translate(-50%, 0);
         -webkit-transform: translate(-50%, 0);
@@ -130,8 +130,12 @@
     font: inherit;
     font-size: 0.833em;
 
-    .fill-dot {
-        color: var(--text-tertiary);
+    .attendance-dot {
+        color: var(--color-success);
+    }
+
+    .absences-dot {
+        color: var(--color-warning);
     }
 }
 

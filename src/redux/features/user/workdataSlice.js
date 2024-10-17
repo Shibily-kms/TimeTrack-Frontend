@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { userAxios } from '../../../config/axios'
+import { ttSv2Axios } from '../../../config/axios'
 
 const initialState = {
     workDetails: null,
@@ -12,7 +12,7 @@ const initialState = {
 export const getPunchDetails = createAsyncThunk('user/punch-details', async (body, thunkAPI) => {
 
     try {
-        return await userAxios.get('/punch/today-data')
+        return await ttSv2Axios.get('/work/punch/today-data')
     } catch (error) {
         const message = (error && error.message) || error.message || error.toString()
         return thunkAPI.rejectWithValue(message)
@@ -36,35 +36,7 @@ export const workDataSlice = createSlice({
         clearWorkData: (state) => {
             state.workDetails = null
         },
-        doStartBreak: (state, action) => {
-            state.workDetails.break = [...(state.workDetails.break || []), action.payload]
-        },
-        doEndBreak: (state, action) => {
-            state.workDetails.break.forEach(obj => {
-                if (obj?.br_id === action.payload?.br_id || obj?._id === action.payload?._id) {
-                    obj.end = action.payload.end
-                    obj.duration = action.payload.duration
-                    obj.want_sync = action.payload?.want_sync
-                }
-            });
-        },
-        addExtraWork: (state, action) => {
-            state.workDetails.extra_work.push(action.payload)
-        },
-        doLunchBreak: (state, action) => {
-            state.workDetails.lunch_break = action.payload
-        },
-        doPunchOUt: (state, action) => {
-            state.workDetails.punch_out = action.payload
-        },
-        doStartOverTime: (state) => {
-            state.workDetails.over_time = {
-                in: new Date(), out: null
-            }
-        },
-        doStopOverTime: (state) => {
-            state.workDetails.over_time.out = new Date()
-        }
+
     },
     extraReducers: (builder) => {
         builder
@@ -85,6 +57,5 @@ export const workDataSlice = createSlice({
 
 
 export const {
-    setWorkData, doStartBreak, clearWorkData, resetOfflineData, doEndBreak, addRegularWork,
-    addExtraWork, doLunchBreak, doStartOverTime, doStopOverTime, doPunchOUt } = workDataSlice.actions;
+    setWorkData, clearWorkData } = workDataSlice.actions;
 export default workDataSlice.reducer

@@ -1,5 +1,6 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { userAxios } from '../../../config/axios'
+import { createSlice } from '@reduxjs/toolkit'
+import Cookies from 'js-cookie';
+
 
 const initialState = {
     user: null,
@@ -8,17 +9,6 @@ const initialState = {
     isError: false,
     message: ''
 }
-
-
-export const loginUser = createAsyncThunk('user/login', async (formData, thunkAPI) => {
-
-    try {
-        return await userAxios.post('/auth/login', formData)
-    } catch (error) {
-        const message = (error && error.message) || error.message || error.toString()
-        return thunkAPI.rejectWithValue(message)
-    }
-})
 
 export const userAuthSlice = createSlice({
     name: 'userAuth',
@@ -34,28 +24,14 @@ export const userAuthSlice = createSlice({
             state.user = action.payload
         },
         logOut: (state) => {
-            localStorage.removeItem('_aws_temp_tkn');
+            Cookies.remove('ACC_ID');
+            Cookies.remove('AUTH');
+            Cookies.remove('_acc_tkn');
+            Cookies.remove('_rfs_tkn');
+
             state.user = null
         }
-    },
-    extraReducers: (builder) => {
-        builder
-            .addCase(loginUser.pending, (state) => {
-                state.isLoading = true;
-            })
-            .addCase(loginUser.fulfilled, (state, action) => {
-                localStorage.setItem(
-                    '_aws_temp_tkn', action.payload.data.token
-                );
-                state.isLoading = false;
-                state.user = action.payload.data;
-            })
-            .addCase(loginUser.rejected, (state, action) => {
-                state.isLoading = false;
-                state.isError = true;
-                state.message = action.payload;
-            });
-    },
+    }
 })
 
 

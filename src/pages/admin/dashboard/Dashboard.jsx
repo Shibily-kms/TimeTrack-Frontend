@@ -164,7 +164,7 @@ const Dashboard = ({ setPageHead }) => {
                     {summery?.loading
                         ? <SpinWithMessage load height={'150px'} />
                         : <div className="sub-content-div">
-                            <div className="summery-item-div">
+                            <div className="summery-item-div active-staff">
                                 <FaUsers />
                                 <div className="number-div">
                                     <h3>{(summery?.data?.active_staff_count)?.toString().padStart(2, '0')}</h3>
@@ -174,7 +174,7 @@ const Dashboard = ({ setPageHead }) => {
                                     <p>Active Staffs</p>
                                 </div>
                             </div>
-                            <div className="summery-item-div">
+                            <div className="summery-item-div designation">
                                 <IoPricetagsSharp />
                                 <div className="number-div">
                                     <h3>{(summery?.data?.designation_count)?.toString().padStart(2, '0')}</h3>
@@ -183,7 +183,7 @@ const Dashboard = ({ setPageHead }) => {
                                     <p>Designations</p>
                                 </div>
                             </div>
-                            <div className="summery-item-div">
+                            <div className="summery-item-div l2Pending">
                                 <RiFileList3Fill />
                                 <div className="number-div">
                                     <h3>{(summery?.data?.pending_l2)?.toString().padStart(2, '0')}</h3>
@@ -192,7 +192,16 @@ const Dashboard = ({ setPageHead }) => {
                                     <p>L2  Pending</p>
                                 </div>
                             </div>
-                            <div className="summery-item-div">
+                            {summery?.data?.today_leaves ? <div className="summery-item-div leaves">
+                                <RiFileList3Fill />
+                                <div className="number-div">
+                                    <h3>{(summery?.data?.today_leaves)?.toString().padStart(2, '0')}</h3>
+                                </div>
+                                <div className="desi-div">
+                                    <p>Today Leaves</p>
+                                </div>
+                            </div> : ''}
+                            {!summery?.data?.today_leaves && <div className="summery-item-div qr-code">
                                 <LuQrCode />
                                 <div className="number-div">
                                     <h3>{(summery?.data?.active_qr_count)?.toString().padStart(2, '0')}</h3>
@@ -200,7 +209,7 @@ const Dashboard = ({ setPageHead }) => {
                                 <div className="desi-div">
                                     <p>Active QR</p>
                                 </div>
-                            </div>
+                            </div>}
                         </div>
                     }
                 </div>
@@ -213,8 +222,8 @@ const Dashboard = ({ setPageHead }) => {
                             <p>Last 3 work action and see more</p>
                         </div>
                         <div className="right">
-                            {currentList?.data?.[0] && <SingleButton name={'See More'} classNames={'sm btn-secondary'}
-                                onClick={() => setModal({ status: true, title: 'All Staff Current Status', content: <AllStaffModal /> })} />}
+                            <SingleButton name={'See More'} classNames={'sm btn-secondary'}
+                                onClick={() => setModal({ status: true, title: 'All Staff Current Status', content: <AllStaffModal /> })} />
                         </div>
                     </div>
                     {currentList?.loading || !currentList?.data?.[0]
@@ -242,13 +251,13 @@ const Dashboard = ({ setPageHead }) => {
                     <div className="head-div">
                         <div className="left">
                             <h3>Best 5 Staff</h3>
-                            <p>The best staffs of this month</p>
+                            <p>The best staffs of this month (Efficiency)</p>
                         </div>
                         <div className="right">
                         </div>
                     </div>
                     {bestList?.loading || !bestList?.data?.[0]
-                        ? <SpinWithMessage load={bestList?.loading} height={'240px'} icon={<FaUsersSlash />} message='Data not available' />
+                        ? <SpinWithMessage load={bestList?.loading} height={'240px'} icon={<></>} message='Data not available' />
                         : <div className="sub-content-div">
                             {bestList?.data?.map((staff, index) => {
                                 return <ProfileCard
@@ -257,7 +266,7 @@ const Dashboard = ({ setPageHead }) => {
                                     description={staff?.designation}
                                     rightContent={<p className='p-time-view'
                                         style={{ fontSize: '14px', fontWeight: '600' }}
-                                    >{getTimeFromSecond(staff?.worked_time + staff?.extra_time)}</p>}
+                                    >{staff?.efficiency}%</p>}
                                 />
                             })}
                         </div>}

@@ -1,68 +1,46 @@
-@import '../../../assets/scss/model.scss';
-
 .not-found {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
 
-    /* card */
     .main {
-        width: 100%;
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        z-index: 2;
-        overflow: hidden;
-    }
+        max-width: 100%;
+        width: 600px;
 
-    /* image */
-    .main .image {
-
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 1;
-    }
-
-    .main .image img {
-        max-width: 50%;
-        user-select: none;
-        -webkit-animation: fly 4s linear infinite;
-        -o-animation: fly 4s linear infinite;
-        animation: fly 4s linear infinite;
-    }
-
-    @keyframes fly {
-
-        0%,
-        100% {
-            transform: translateY(0);
+        h4 {
+            font-size: 45px;
+            background: rgb(74, 0, 104);
+            background: linear-gradient(146deg, rgba(107, 0, 150, 1) 0%, rgba(192, 32, 255, 1) 50%, rgba(236, 186, 255, 1) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        50% {
-            transform: translateY(10px);
+        .text {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+
+            p {
+                &:first-child {
+                    font-size: 18px;
+                    font-weight: 600;
+                }
+
+                &:last-child {
+                    color: var(--text-c2);
+                }
+            }
+        }
+
+        .comment {
+            margin-top: 20px;
+
+            p {
+
+                &:last-child {
+                    color: var(--text-c2);
+                }
+            }
         }
     }
-
-    /* text 404 */
-    .main .text-404 {
-
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .main .text-404 h1 {
-        font-size: 7.5em;
-    }
-
-    .main .text-404 p {
-        font-size: 1.5em;
-        margin-bottom: 25px;
-    }
-
-
-
-
 }

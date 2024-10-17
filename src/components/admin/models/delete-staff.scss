@@ -1,37 +1,12 @@
-
 @import '../../../assets/scss/model.scss';
 
 
 .delete-staff {
     .boarder {
         form {
-            margin-top: 10px;
-
-            .radio-inputs {
-                display: flex;
-                flex-direction: column;
-                margin-bottom: 10px
-            }
-
-            button {
-                margin-top: 15px
-            }
-
-
-
-
-            .buttons {
-                button {
-                    @include normalButton();
-                    width: 100%;
-                    background-color: var(--color-error);
-                }
-
-                .hide {
-                    opacity: .5;
-                }
-            }
-
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
     }
 }

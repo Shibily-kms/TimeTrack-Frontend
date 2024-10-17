@@ -1,0 +1,91 @@
+.dropdown {
+    .dropdown-head {
+        border: 1px solid var(--text-c3);
+        border-radius: 15px;
+        padding: 15px 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        cursor: pointer;
+
+        .s1 {
+            div {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+
+                p {
+                    font-size: 15px;
+                }
+            }
+
+            small {
+                font-size: 13px;
+                color: var(--text-c2);
+            }
+        }
+
+        .s2 {
+            svg {
+                transition: transform 0.5s ease;
+            }
+        }
+    }
+
+    .active-drop-head {
+        border-radius: 15px 15px 0px 0px;
+
+        .s2 {
+            svg {
+                transform: rotate(180deg);
+            }
+        }
+    }
+
+    .dropdown-list {
+        display: none;
+        border: 1px solid var(--text-c3);
+        border-radius: 0px 0px 15px 15px;
+
+        .item-list {
+            .item {
+                padding: 15px 15px;
+                border-bottom: 1px solid var(--text-c3);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 15px;
+
+                &:last-child {
+                    border-bottom: none;
+                }
+
+                .s1 {
+                    p {
+                        font-size: 14px;
+                    }
+
+                    small {
+                        font-size: 13px;
+                        color: var(--text-c2);
+                    }
+                }
+
+                .s2 {
+
+                    input,
+                    select {
+                        border: none;
+                        background-color: var(--background-primary);
+                        outline: none;
+                    }
+                }
+            }
+        }
+    }
+
+    .active-drop {
+        display: block;
+    }
+}

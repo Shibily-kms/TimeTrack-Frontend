@@ -6,11 +6,12 @@ import { IoArrowForwardOutline, IoPersonCircleOutline } from "react-icons/io5";
 import { LuFileEdit } from "react-icons/lu";
 import { IoMdLogOut } from "react-icons/io";
 import { BsQrCodeScan } from "react-icons/bs";
-// import { TbRouteAltRight } from "react-icons/tb";
 import { clearWorkData } from '../../../redux/features/user/workdataSlice';
-import { clearRegularWork } from '../../../redux/features/user/dayWorksSlice';
+
 import { logOut } from '../../../redux/features/user/authSlice'
 import { useDispatch, useSelector } from 'react-redux';
+import { ui_version } from '../../../assets/javascript/const-data'
+import { RiSettingsLine } from 'react-icons/ri';
 
 const MorePage = ({ setPageHead }) => {
     const [searchParams, setSearchParams] = useSearchParams()
@@ -32,9 +33,8 @@ const MorePage = ({ setPageHead }) => {
         const ask = window.confirm('Are you ready for logOut ?')
         if (ask) {
             dispatch(clearWorkData())
-            dispatch(clearRegularWork())
             dispatch(logOut())
-            navigate('/login')
+            navigate('/auth/sign-in')
         }
     }
 
@@ -43,7 +43,7 @@ const MorePage = ({ setPageHead }) => {
         <div className="more-page-div">
             <Modal modal={modal} setModal={() => setModal({ status: false })} />
             <div className="section-border">
-                <div className="option-div" onClick={() => navigate('/profile?page=more')}>
+                <div className="option-div" onClick={() => navigate('/my-account/profile?page=more')}>
                     <div className="left">
                         <IoPersonCircleOutline />
                         <h4>Profile</h4>
@@ -52,7 +52,7 @@ const MorePage = ({ setPageHead }) => {
                         <IoArrowForwardOutline />
                     </div>
                 </div>
-                {user?.punch_type === 'software' &&
+                {(user?.punch_type === 'software' || user?.punch_type === 'firstInScanner') &&
                     <div className="option-div" onClick={() => navigate('/scanner?page=more')}>
                         <div className="left">
                             <BsQrCodeScan />
@@ -72,6 +72,15 @@ const MorePage = ({ setPageHead }) => {
                         <IoArrowForwardOutline />
                     </div>
                 </div>
+                <div className="option-div" onClick={() => navigate('/settings?page=more')}>
+                    <div className="left">
+                        <RiSettingsLine />
+                        <h4>Privacy & Settings</h4>
+                    </div>
+                    <div className="right">
+                        <IoArrowForwardOutline />
+                    </div>
+                </div>
                 <div className="option-div red-option" onClick={() => handleLogOut()}>
                     <div className="left">
                         <IoMdLogOut />
@@ -82,7 +91,7 @@ const MorePage = ({ setPageHead }) => {
 
             <div className="software-info">
                 <p>©Alliance water solutions®</p>
-                <p>version 2.0.0</p>
+                <p>version {ui_version}</p>
             </div>
         </div>
     )

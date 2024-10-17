@@ -1,27 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import Punching from '../../../components/user/punch/Punching'
-import WorkDetails from '../../../components/user/semi-work-details/WorkDetails'
 import { useDispatch, useSelector } from 'react-redux'
 import { getPunchDetails } from '../../../redux/features/user/workdataSlice'
 import { punchDataHelper } from '../../../assets/javascript/work-helper'
-import { YYYYMMDDFormat } from '../../../assets/javascript/date-helper'
 
 
-const PunchWork = React.memo(({ setPageHead }) => {
+const PunchWork = React.memo(() => {
     const dispatch = useDispatch()
     const { workDetails } = useSelector((state) => state.workData)
     const { user } = useSelector((state) => state.userAuth)
     const [punch, setPunch] = useState({ in: false, out: false })
-
-    useEffect(() => {
-        setPageHead(() => ({ title: 'Punch to work' }))
-
-        if (workDetails?.date !== YYYYMMDDFormat(new Date())) {
-            dispatch(getPunchDetails())
-        }
-        
-        // eslint-disable-next-line
-    }, [])
 
     useEffect(() => {
         punchDataHelper(workDetails, setPunch)
@@ -31,18 +19,19 @@ const PunchWork = React.memo(({ setPageHead }) => {
     useEffect(() => {
         let checkIfAutoPunchOut = null
 
-        if (punch?.out && user?.punch_type === 'software') {
+        if (punch?.out && user?.punch_type === 'software' && user?.auto_punch_out) {
 
             checkIfAutoPunchOut = setInterval(() => {
 
                 if (punch?.out) {
                     const lastPunch = workDetails.punch_list?.[workDetails?.punch_list?.length - 1] || {}
-                    const [lastInHour, lastInMinute] =  new Date(lastPunch?.in).toTimeString().split(':');
-                    const [punchOutHour, punchOutMinute] = user?.auto_punch_out.split(':');
+                    const [lastInHour, lastInMinute] = new Date(lastPunch?.in).toTimeString()?.split(':');
+                    console.log(lastInHour, lastInMinute, user)
+                    const [punchOutHour, punchOutMinute] = user?.auto_punch_out?.split(':');
 
                     if ((punchOutHour + punchOutMinute) > (lastInHour + lastInMinute)) {
 
-                        const [nowHour, nowMinute] = new Date().toTimeString().split(':');
+                        const [nowHour, nowMinute] = new Date().toTimeString()?.split(':');
 
                         if ((nowHour + nowMinute) >= (punchOutHour + punchOutMinute)) {
                             dispatch(getPunchDetails())
@@ -62,8 +51,7 @@ const PunchWork = React.memo(({ setPageHead }) => {
 
     return (
         <div className='punch-work-page'>
-            <div className="section-one-div" style={{ display: 'flex', flexDirection: 'column', gap: "15px" }}>
-                <WorkDetails />
+            <div className="section-one-div" >
                 <Punching punch={punch} />
             </div>
         </div>

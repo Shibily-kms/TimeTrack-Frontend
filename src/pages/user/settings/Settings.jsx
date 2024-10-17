@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './settings.scss'
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { MdLightMode, MdDarkMode, MdOutlinePassword, MdCloudSync } from "react-icons/md";
 import { IoArrowForwardOutline } from "react-icons/io5";
 import { PiSpinnerBold } from "react-icons/pi";
@@ -8,16 +8,16 @@ import Modal from '../../../components/common/modal/Modal'
 import ChangeTheme from '../../../components/user/change-theme/ChangeTheme';
 import { useDispatch, useSelector } from 'react-redux';
 import { BsCircleHalf } from "react-icons/bs";
-import ChangePassword from '../../../components/user/change-password/ChangePassword';
-import { userAxios } from '../../../config/axios';
+import { ttSv2Axios } from '../../../config/axios';
 import { setUser } from '../../../redux/features/user/authSlice';
 import { getPunchDetails } from '../../../redux/features/user/workdataSlice';
-import { setRegularWork } from '../../../redux/features/user/dayWorksSlice';
 import { toast } from '../../../redux/features/user/systemSlice';
+import { TbDevices } from 'react-icons/tb';
 
 const Settings = ({ setPageHead }) => {
     const [searchParams, setSearchParams] = useSearchParams()
     const dispatch = useDispatch();
+    const navigate = useNavigate()
     const [modal, setModal] = useState({ content: null, title: null, status: false })
     const { theme, internet } = useSelector((state) => state.systemInfo)
     const { user } = useSelector((state) => state.userAuth)
@@ -43,16 +43,12 @@ const Settings = ({ setPageHead }) => {
         }
         setLoading('sync')
         if (user) {
-            userAxios.get(`/auth/check-active`).then((response) => {
+            ttSv2Axios.get(`/worker/initial-info`).then((response) => {
                 dispatch(setUser({ ...user, ...response.data }))
                 dispatch(getPunchDetails())
-                userAxios.get('/regular-work').then((works) => {
-                    dispatch(setRegularWork(works.data))
-                    setLoading('')
-                })
+                setLoading('')
             })
         }
-
     }
 
 
@@ -74,14 +70,23 @@ const Settings = ({ setPageHead }) => {
                     <div className="left">
                         <MdCloudSync />
                         <h4>Sync Data</h4>
-
                     </div>
                     <div className={loading === 'sync' ? "right loading-icon" : 'right '}>
                         {loading === 'sync' && <PiSpinnerBold />}
                     </div>
                 </div>
 
-                <div className="option-div" onClick={() => openModel('Change Password', <ChangePassword setModal={setModal} />)}>
+                <div className="option-div" onClick={() => navigate('/my-account/your-device')}>
+                    <div className="left">
+                        <TbDevices />
+                        <h4>Your Devices</h4>
+                    </div>
+                    <div className="right">
+                        <IoArrowForwardOutline />
+                    </div>
+                </div>
+                
+                <div className="option-div" onClick={() => navigate('/my-account/security-privacy')}>
                     <div className="left">
                         <MdOutlinePassword />
                         <h4>Change Password</h4>

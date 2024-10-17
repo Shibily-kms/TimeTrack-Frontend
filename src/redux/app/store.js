@@ -1,25 +1,30 @@
-import { configureStore, combineReducers } from '@reduxjs/toolkit'
+import { configureStore, combineReducers, getDefaultMiddleware } from '@reduxjs/toolkit'
 import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
-import adminAuthReducer from '../features/admin/authSlice'
+import createIdbStorage from "@piotr-cz/redux-persist-idb-storage";
 import userAuthSlice from '../features/user/authSlice'
 import systemSlice from '../features/user/systemSlice'
 import workdataSlice from '../features/user/workdataSlice';
-import dayWorksSlice from '../features/user/dayWorksSlice';
+
+
+// Create IndexedDB storage
+const storage = createIdbStorage({
+    name: 'initial_storage',
+    storeName: 'v2',
+});
 
 const persistConfig = {
     key: 'root',
     storage,
+    serialize: false,
+    deserialize: false,
 };
 
 const rootReducer = combineReducers({
-    // admin
-    adminAuth: adminAuthReducer,
+
     // user
     userAuth: userAuthSlice,
     systemInfo: systemSlice,
-    workData: workdataSlice,
-    dayWorks: dayWorksSlice
+    workData: workdataSlice
 });
 
 
@@ -27,10 +32,12 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
     reducer: persistedReducer,
-    middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware({
-            serializableCheck: false, // Disable serializable check for redux-persist
-        }),
+    middleware: getDefaultMiddleware({
+        serializableCheck: {
+            // Ignore these action types
+            ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE'],
+        },
+    }),
 })
 
 export const persistor = persistStore(store);

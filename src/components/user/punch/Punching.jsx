@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './punching.scss'
-import { userAxios } from '../../../config/axios'
+import { ttSv2Axios } from '../../../config/axios'
 import { toast } from '../../../redux/features/user/systemSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { setWorkData } from '../../../redux/features/user/workdataSlice'
@@ -22,18 +22,18 @@ function Punching({ punch }) {
             if (confirm) {
                 if (internet) {
                     setLoading('punchIn')
-                    userAxios.post('/punch/in', { date_time: new Date(), do_type: 'software', designation: user?.designation?.designation }).then((response) => {
+                    ttSv2Axios.post('/work/punch/in', { do_type: 'software', designation: user?.designation }).then((response) => {
                         if (!workDetails?.name) {
                             const obj = {
-                                _id : response?.data?._id,
-                                name: user?._id,
+                                _id: response?.data?._id,
+                                name: user?.acc_id,
                                 date: YYYYMMDDFormat(new Date()),
-                                designation: user?.designation?.designation,
+                                designation: user?.designation,
                                 regular_work: [],
                                 extra_work: [],
                                 punch_list: [
                                     {
-                                        in: new Date(),
+                                        in: new Date()?.toISOString(),
                                         out: null,
                                         in_by: 'software',
                                         out_by: null
@@ -47,7 +47,7 @@ function Punching({ punch }) {
                                 punch_list: [
                                     ...(workDetails?.punch_list || []),
                                     {
-                                        in: new Date(),
+                                        in: new Date()?.toISOString(),
                                         out: null,
                                         in_by: 'software',
                                         out_by: null
@@ -56,7 +56,6 @@ function Punching({ punch }) {
                             }))
 
                         }
-                        dispatch(toast.push.success({ message: response.message }))
                         setLoading('')
                     }).catch((error) => {
                         setLoading('')
@@ -76,22 +75,22 @@ function Punching({ punch }) {
             if (confirm) {
                 if (internet) {
                     setLoading('punchOut')
-                    userAxios.post('/punch/out', { date_time: new Date(), do_type: 'software' }).then((response) => {
+                    ttSv2Axios.post('/work/punch/out', { do_type: 'software' }).then((response) => {
                         const lastPunchData = workDetails?.punch_list?.[workDetails?.punch_list.length - 1] || {}
-                        dispatch(setWorkData({
+                        const workData = {
                             ...workDetails,
                             punch_list: workDetails?.punch_list?.map((item) => {
                                 if (item.in === lastPunchData.in) {
                                     return {
                                         ...item,
-                                        out: new Date(),
+                                        out: new Date()?.toISOString(),
                                         out_by: 'software'
                                     }
                                 }
                                 return item
                             })
-                        }))
-                        dispatch(toast.push.success({ message: response.message }))
+                        }
+                        dispatch(setWorkData(workData))
                         setLoading('')
                     }).catch((error) => {
                         dispatch(toast.push.error({ message: error.message }))
@@ -107,14 +106,15 @@ function Punching({ punch }) {
 
     return (
         <div className='punching' >
-            <div className="border">
+            <div className="punching-border">
                 {/* Punch */}
-                <button className={punch?.in ? "punch" : "opacity punch"} onClick={handlePunchIn}>
+                {punch?.in && <button className={punch?.in ? "punch" : "opacity punch"} onClick={handlePunchIn}>
                     <span className={loading === 'punchIn' && 'loading-icon'}>{loading === 'punchIn' ? <BiLoaderAlt /> : <MdLogin />}</span>
-                    <span>PUNCH IN</span></button>
-                <button className={punch?.out ? "punch" : "opacity punch"} onClick={handlePunchOut}>
+                    <span>PUNCH IN</span></button>}
+
+                {punch?.out && <button className={punch?.out ? "punch" : "opacity punch"} onClick={handlePunchOut}>
                     <span className={loading === 'punchOut' && 'loading-icon'}>{loading === 'punchOut' ? <BiLoaderAlt /> : <MdLogout />}</span>
-                    <span>PUNCH OUT</span></button>
+                    <span>PUNCH OUT</span></button>}
             </div>
         </div >
     )

@@ -1,12 +1,15 @@
-
 @import '../../../assets/scss/model.scss';
 
 .add-staff-div {
     .boarder {
-
-      
-
         form {
+
+            h3 {
+                font-weight: 500;
+                color: var(--text-c2);
+                margin: 10px 0;
+            }
+
             .sections {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
@@ -14,15 +17,12 @@
             }
 
             .actions {
-                display: flex;
-                justify-content: flex-end;
-
                 button {
-                  
                     margin-top: 15px;
-                    width: 150px;
+                    width: 100%;
                 }
             }
+            
         }
 
     }
@@ -38,5 +38,5 @@
         }
     }
 
-  
+
 }

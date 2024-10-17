@@ -10,7 +10,7 @@ import { GiCheckMark } from "react-icons/gi";
 import { MdClose } from "react-icons/md";
 import { getUserProfileImagePath } from '../../../assets/javascript/find-helpers';
 import { convertIsoToAmPm } from '../../../assets/javascript/date-helper';
-import { userAxios } from '../../../config/axios';
+import { ttSv2Axios } from '../../../config/axios';
 import { getPunchDetails } from '../../../redux/features/user/workdataSlice';
 import { BiSolidMessageAltError } from "react-icons/bi";
 import SpinWithMessage from '../../../components/common/spinners/SpinWithMessage';
@@ -32,6 +32,11 @@ const Scanner = React.memo(() => {
     const [outLink, setOutLink] = useState(false)
 
     const userProfileImage = getUserProfileImagePath(user?.last_name);
+    const videoConstraints = {
+        width: { ideal: 1920 },  // Increase width for higher quality
+        height: { ideal: 1080 }, // Increase height for higher quality
+        facingMode: 'environment',      // 'user' for front camera, 'environment' for rear camera
+      };
 
 
     useEffect(() => {
@@ -39,11 +44,7 @@ const Scanner = React.memo(() => {
         async function setupWebcamAndScanner() {
 
             try {
-                if (!user?._id) {
-                    navigate('/login')
-                    return;
-                }
-
+              
                 // Check for camera permissions
                 const permissionStatus = await navigator.permissions.query({ name: 'camera' });
 
@@ -87,7 +88,7 @@ const Scanner = React.memo(() => {
                         };
                         image.src = imageSrc;
                     }
-                }, 1000);
+                }, 10);
 
                 return () => {
                     clearInterval(scanInterval);
@@ -96,7 +97,7 @@ const Scanner = React.memo(() => {
             } catch (err) {
                 setRes({
                     status: 'error',
-                    title: 'Error accessing the camera',
+                    title: 'Camera access denied',
                     message: 'Please ensure your device settings allow camera access for this website.',
                     icon: <BiSolidCameraOff />
                 })
@@ -130,9 +131,9 @@ const Scanner = React.memo(() => {
                 const BEFORE59MIN_TIME = new Date(new Date().setMinutes(new Date().getMinutes() - 59))
                 if (BEFORE59MIN_TIME < GEN_TIME) {
                     // QR Code is Ok
-                    userAxios.post('/punch/by-qr', {
-                        qrId: QR_ID, userId: user?._id, date_time: new Date(),
-                        designation: user?.designation?.designation
+                    ttSv2Axios.post('/work/punch/by-qr', {
+                        qrId: QR_ID, userId: user?.acc_id,
+                        designation: user?.designation
                     })
                         .then((response) => {
                             dispatch(getPunchDetails())
@@ -190,17 +191,15 @@ const Scanner = React.memo(() => {
                         ref={webcamRef}
                         screenshotFormat="image/jpeg"
                         height='100%'
-                        videoConstraints={{
-                            facingMode: "environment"  // This might help on mobile to use the rear camera by default
-                        }}
+                        videoConstraints={videoConstraints}
                     />
                 </div>}
             <div className="content-div">
                 {!res?.status && !qrCodeText &&
                     <div className="box-0-div">
                         {/* First Child Div */}
-                        <div class="scan-box-div">
-                            <div class="hole">
+                        <div className="scan-box-div">
+                            <div className="hole">
                                 <div className="one"></div>
                                 <div className="two"></div>
                                 <div className="three"></div>

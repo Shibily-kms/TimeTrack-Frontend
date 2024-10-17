@@ -182,10 +182,21 @@
                 justify-content: space-between;
 
                 .left {
-                    h3 {
-                        font-size: 28px;
-                        font-weight: 700;
-                        @include threeDots();
+
+                    .title {
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+
+                        svg {
+                            display: none;
+                        }
+
+                        h3 {
+                            font-size: 28px;
+                            font-weight: 700;
+                            @include threeDots();
+                        }
                     }
 
                     p {
@@ -197,7 +208,6 @@
             }
         }
     }
-
 }
 
 @media screen and (max-width:950px) {
@@ -205,6 +215,7 @@
 
         .nav-div {
             width: 80px;
+            left: -80px;
 
             .nav-sub-div {
                 width: 80px;
@@ -266,6 +277,32 @@
             }
         }
 
+        .admin-body-section {
+            margin-left: 0px;
+            padding: 0 4% 0 4%;
+
+            .admin-body {
+                .title-section {
+                    .left {
+                        .title {
+                            svg {
+                                font-size: 32px;
+                                color: var(--text-c2);
+                                cursor: pointer;
+                                display: block;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .semi-nav-active {
+        .nav-div {
+            width: 80px;
+            left: 0px;
+        }
         .admin-body-section {
             margin-left: 80px;
         }

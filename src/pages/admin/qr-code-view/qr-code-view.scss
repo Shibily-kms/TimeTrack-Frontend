@@ -92,22 +92,38 @@
         }
 
         .bottom-div {
-            p {
-                font-size: 13px;
-                text-align: center;
-                color: var(--text-c1);
-                font-weight: 500;
-                margin-bottom: 10px;
-            }
+
 
             .image-div {
                 display: flex;
                 justify-content: center;
                 gap: 10px;
 
-                img {
-                    width: 25px;
-                    height: 25px;
+                svg {
+                    font-size: 25px;
+                    color: var(--text-c2);
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+
+    .rotate-align {
+        transform: rotate(180deg);
+        -webkit-transform: rotate(180deg);
+        -moz-transform: rotate(180deg);
+        -ms-transform: rotate(180deg);
+        -o-transform: rotate(180deg);
+    }
+
+
+    @media screen and (max-width:500px) {
+        .align-div {
+
+            .center-div {
+
+                .qr-box {
+                    border: none;
                 }
             }
         }

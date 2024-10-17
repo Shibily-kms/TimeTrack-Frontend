@@ -1,0 +1,188 @@
+.react-tel-input .form-control {
+    position: relative;
+    letter-spacing: .01rem;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    margin-left: 0;
+    line-height: 25px;
+    width: 100%;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 28px 15px 18px 70px;
+    outline: none;
+    border: 1px var(--border-primary) solid;
+    border-radius: 5px;
+    background-color: var(--background-primary);
+}
+
+.react-tel-input .flag-dropdown {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    padding: 0;
+    background-color: var(--border-primary);
+    border: 1px solid #cacaca;
+    border-radius: 3px 0 0 3px
+}
+
+
+.react-tel-input .flag-dropdown.open {
+    z-index: 2;
+    background: var(--border-primary);
+    border-radius: 3px 0 0 0
+}
+
+.react-tel-input .flag-dropdown.open .selected-flag {
+    background: var(--border-primary);
+    border-radius: 3px 0 0 0
+}
+
+.react-tel-input .selected-flag {
+    outline: none;
+    position: relative;
+    width: 55px;
+    height: 100%;
+    padding: 0 0 0 15px;
+    border-radius: 5px 0 0 5px
+}
+
+.react-tel-input .selected-flag:hover,
+.react-tel-input .selected-flag:focus {
+    background-color: var(--background-c2)
+}
+
+.react-tel-input .selected-flag .arrow {
+    position: relative;
+    top: 50%;
+    margin-top: -2px;
+    left: 20px;
+    width: 0;
+    height: 0;
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+    border-top: 4px solid var(--background-primary)
+}
+
+.react-tel-input .selected-flag .arrow.up {
+    border-top: none;
+    border-bottom: 4px solid var(--background-primary)
+}
+
+.react-tel-input .country-list {
+    outline: none;
+    z-index: 1;
+    list-style: none;
+    position: absolute;
+    padding: 0;
+    margin: 10px 0 10px -1px;
+    box-shadow: var(--shadow-02);
+    background-color: var(--background-c1);
+    width: 300px;
+    max-height: 200px;
+    overflow-y: scroll;
+    border-radius: 0 0 3px 3px
+}
+
+.react-tel-input .country-list .divider {
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+    border-bottom: 1px solid var(--background-c2)
+}
+
+.react-tel-input .country-list .country {
+    padding: 7px 9px
+}
+
+.react-tel-input .country-list .country .dial-code {
+    color: var(--text-c2)
+}
+
+.react-tel-input .country-list .country:hover {
+    background-color: var(--background-c2)
+}
+
+.react-tel-input .country-list .country.highlight {
+    background-color: var(--background-c3)
+}
+
+.react-tel-input .country-list .search {
+    position: sticky;
+    top: 0;
+    background-color: var(--background-primary);
+    padding: 10px 0 6px 10px
+}
+
+.react-tel-input .country-list .search-emoji {
+    display: none;
+}
+
+.react-tel-input .country-list .search-box {
+    border: 1px solid var(--background-c3);
+    border-radius: 3px;
+    font-size: 15px;
+    line-height: 15px;
+    margin-left: 6px;
+    padding: 3px 8px 5px;
+    outline: none;
+    width: 93%;
+}
+
+.react-tel-input .invalid-number-message {
+    position: absolute;
+    z-index: 1;
+    font-size: 13px;
+    left: 46px;
+    top: -8px;
+    background: var(--background-primary);
+    padding: 0 2px;
+    color: #de0000
+}
+
+.react-tel-input .special-label {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    font-size: 13px;
+    left: 46px;
+    top: -8px;
+    background: var(--background-primary);
+    padding: 0 2px;
+    white-space: nowrap
+}
+
+
+.mobile-input {
+    padding: 0px 0;
+
+    >div {
+        width: 100%;
+        position: relative;
+
+        label {
+            position: absolute;
+            color: var(--text-c1);
+            transition: 0.1s ease-in-out;
+            -webkit-transition: 0.1s ease-in-out;
+            -moz-transition: 0.1s ease-in-out;
+            -ms-transition: 0.1s ease-in-out;
+            -o-transition: 0.1s ease-in-out;
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            top: 3px;
+            left: 64px;
+            font-size: 12px;
+            font-weight: 500;
+            max-width: 85%;
+            padding: 0px 10px 0px 7px;
+            width: auto;
+            background: none;
+
+            span {
+                color: var(--color-error);
+                font-size: 18px;
+                position: absolute;
+            }
+        }
+    }
+}
