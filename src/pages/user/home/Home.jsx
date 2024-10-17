@@ -84,7 +84,7 @@ function Home({ setPageHead }) {
 
           {(user?.allowed_origins?.includes('Accountant')) && <div className="app-item">
             <div className="icon-div" style={{ backgroundColor: "#521f08" }}
-              onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>
+              onClick={() => window.location.href = `http://localhost:3001?id=${user?.acc_id}`}>
               <FaIndianRupeeSign />
             </div>
             <p>Accounting <br></br> App</p>
@@ -93,7 +93,7 @@ function Home({ setPageHead }) {
           {(user?.allowed_origins?.includes('Sales') || user?.allowed_origins?.includes('SalesPro')
             || user?.allowed_origins?.includes('Installation')) && <div className="app-item">
               <div className="icon-div" style={{ backgroundColor: "#0c1663" }}
-                onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>
+                onClick={() => window.location.href = `http://localhost:3001?id=${user?.acc_id}`}>
                 <FaStore />
               </div>
               <p>Sales App</p>
@@ -101,7 +101,7 @@ function Home({ setPageHead }) {
 
           {(user?.allowed_origins?.includes('PR_Service')) && <div className="app-item">
             <div className="icon-div" style={{ backgroundColor: "#52082f" }}
-              onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>
+              onClick={() => window.location.href = `http://localhost:3001?id=${user?.acc_id}`}>
               <MdOutlineMiscellaneousServices />
             </div>
             <p>Purifier Service</p>
@@ -109,7 +109,7 @@ function Home({ setPageHead }) {
 
           {(user?.allowed_origins?.includes('PR_Admin')) && <div className="app-item">
             <div className="icon-div" style={{ backgroundColor: "#085212" }}
-              onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>
+              onClick={() => window.location.href = `http://localhost:3001?id=${user?.acc_id}`}>
               <IoLogoAppleAr />
             </div>
             <p>Purifier Admin</p>
@@ -118,7 +118,7 @@ function Home({ setPageHead }) {
           {(user?.allowed_origins?.includes('ControlNex') || user?.allowed_origins?.includes('Customer_Info')) &&
             <div className="app-item">
               <div className="icon-div" style={{ backgroundColor: "#046b5f" }}
-                onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>
+                onClick={() => window.location.href = `http://localhost:3001?id=${user?.acc_id}`}>
                 <HiUserGroup />
               </div>
               <p>ControlNex <br></br> App</p>
@@ -126,7 +126,7 @@ function Home({ setPageHead }) {
 
           {(user?.allowed_origins?.includes('WH_Service')) && <div className="app-item">
             <div className="icon-div" style={{ backgroundColor: "#4c046b" }}
-              onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>
+              onClick={() => window.location.href = `http://localhost:3001?id=${user?.acc_id}`}>
               <MdOutlineMiscellaneousServices />
             </div>
             <p>Whole house <br></br> Service</p>
@@ -134,7 +134,7 @@ function Home({ setPageHead }) {
 
           {(user?.allowed_origins?.includes('WH_Admin')) && <div className="app-item">
             <div className="icon-div" style={{ backgroundColor: "#336b04" }}
-              onClick={() => window.location.href = `http://localhost:3001?id=${user?._id}`}>
+              onClick={() => window.location.href = `http://localhost:3001?id=${user?.acc_id}`}>
               <IoLogoAppleAr />
             </div>
             <p>Whole house <br></br> Admin</p>
