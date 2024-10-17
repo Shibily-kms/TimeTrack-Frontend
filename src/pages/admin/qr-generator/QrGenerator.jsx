@@ -47,7 +47,7 @@ const QrGenerator = ({ setPageHead }) => {
 
     const handleCopy = (qrData) => {
 
-        const qrCodeLink = `${baseUrl}/qr-code/?qrId=${qrData?.qrId}&type=viewOnly`
+        const qrCodeLink = `https://staff.alliancewatersolutions.com/qr-code/?qrId=${qrData?.qrId}&type=viewOnly`
 
         if (qrCodeLink) {
 

@@ -1,18 +1,18 @@
 import axios from 'axios'
 import Cookies from 'js-cookie';
 import { doSignOut } from '../assets/javascript/auth-helper';
-export const baseUrl = 'http://192.168.1.57'
+export const baseUrl = 'https://staffbackend.alliancewatersolutions.com'
 const apiHeaders = { 'Content-Type': 'application/json' }
 
 //* Base Setup
 const baseSetup = {
-    userAxios: axios.create({ baseURL: `${baseUrl}:8000/`, headers: apiHeaders }),
-    adminAxios: axios.create({ baseURL: `${baseUrl}:8000/admin/`, headers: apiHeaders }),
+    userAxios: axios.create({ baseURL: `${baseUrl}/`, headers: apiHeaders }),
+    adminAxios: axios.create({ baseURL: `${baseUrl}/admin/`, headers: apiHeaders }),
 
 
     //? v2.1
-    ttSv2Axios: axios.create({ baseURL: `${baseUrl}:8000/s/v2/`, headers: apiHeaders }),
-    ttCv2Axios: axios.create({ baseURL: `${baseUrl}:8000/c/v2/`, headers: apiHeaders })
+    ttSv2Axios: axios.create({ baseURL: `${baseUrl}/s/v2/`, headers: apiHeaders }),
+    ttCv2Axios: axios.create({ baseURL: `${baseUrl}/c/v2/`, headers: apiHeaders })
 }
 
 //*  Response and Request Config Functions
@@ -23,7 +23,7 @@ const handleTokenError = async (originalRequest) => {
     // Call the refresh token API to get a new access token
     try {
         const refreshToken = Cookies.get('_rfs_tkn'); // Retrieve the refresh token
-        const { data } = await axios.post(`${baseUrl}:8000/s/v2/auth/rotate-token`, { refresh_token: refreshToken }, {
+        const { data } = await axios.post(`${baseUrl}/s/v2/auth/rotate-token`, { refresh_token: refreshToken }, {
             headers: {
                 'Content-Type': 'application/json'
             }
