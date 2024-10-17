@@ -2,9 +2,7 @@ import axios from 'axios'
 import Cookies from 'js-cookie';
 import { doSignOut } from '../assets/javascript/auth-helper';
 export const baseUrl = 'http://192.168.1.57'
-
 const apiHeaders = { 'Content-Type': 'application/json' }
-
 
 //* Base Setup
 const baseSetup = {
@@ -16,7 +14,6 @@ const baseSetup = {
     ttSv2Axios: axios.create({ baseURL: `${baseUrl}:8000/s/v2/`, headers: apiHeaders }),
     ttCv2Axios: axios.create({ baseURL: `${baseUrl}:8000/c/v2/`, headers: apiHeaders })
 }
-
 
 //*  Response and Request Config Functions
 
@@ -84,8 +81,6 @@ const responseErrorFunction = async (error) => {
     return Promise.reject({ message: 'Unknown Error' });
 }
 
-
-
 //* API interceptors
 
 //? userAuth
@@ -103,9 +98,6 @@ baseSetup.ttSv2Axios.interceptors.response.use(responseConfigFunction, responseE
 //? time track v2 all
 baseSetup.ttCv2Axios.interceptors.request.use(requestConfigFunction, requestErrorFunction)
 baseSetup.ttCv2Axios.interceptors.response.use(responseConfigFunction, responseErrorFunction);
-
-
-
 
 
 export const { userAxios, adminAxios, ttSv2Axios, ttCv2Axios } = baseSetup
