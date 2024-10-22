@@ -135,19 +135,3 @@ export default Devices
 
 
 
-{/* <div className="listCard2-listing">
-<div className="listing-icon">
-    <AiFillAndroid />
-</div>
-<div className="listing-item">
-    <div className="listing-label">
-        <p>Date of Birth</p>
-    </div>
-    <div className="listing-value">
-        <p>{new Date(userData?.dob).toDateString()} {userData?.dob && `(${findAgeFromDate(userData?.dob)} age)`}</p>
-    </div>
-</div>
-<div className="listing-right">
-    <AiFillAndroid />
-</div>
-</div> */}

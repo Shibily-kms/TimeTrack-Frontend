@@ -46,6 +46,7 @@ function Admin() {
     if (user?.allowed_origins?.filter((access) => access?.slice(0, 4) === 'ttcr').length < 1) {
       navigate('/')
     }
+    // eslint-disable-next-line
   }, [user])
 
   return (

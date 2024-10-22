@@ -3,7 +3,7 @@ import './dashboard.scss'
 import { setAdminActivePage } from '../../../redux/features/user/systemSlice'
 import { adminAxios } from '../../../config/axios'
 import { useDispatch } from 'react-redux'
-import { FaInfoCircle, FaUsers, FaUsersSlash } from "react-icons/fa";
+import { FaUsers } from "react-icons/fa";
 import { LuQrCode } from "react-icons/lu";
 import { RiFileList3Fill } from 'react-icons/ri'
 import { IoPricetagsSharp } from "react-icons/io5";
@@ -15,7 +15,6 @@ import AllStaffModal from '../../../components/admin/dashboard/AllStaffModal';
 import CanvasJSReact from '@canvasjs/react-charts';
 import SpinWithMessage from '../../../components/common/spinners/SpinWithMessage'
 import Badge from '../../../components/common/badge/Badge'
-import { getTimeFromSecond } from '../../../assets/javascript/date-helper'
 
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
@@ -23,7 +22,6 @@ const Dashboard = ({ setPageHead }) => {
     const dispatch = useDispatch()
     const [modal, setModal] = useState({ status: false })
     const chartRef = useRef(null);
-    const [loading, setLoading] = useState({ summery: true, current: true, best: true, graph: false })
     const [summery, setSummery] = useState({ loading: true, data: {} })
     const [currentList, setCurrentList] = useState({ loading: true, data: [] })
     const [bestList, setBestList] = useState({ loading: true, data: [] })

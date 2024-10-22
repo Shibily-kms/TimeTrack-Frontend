@@ -10,7 +10,6 @@ import D2StaffSettings from '../../../components/admin/dropdown/D2StaffSettings'
 import { origins_head_list } from '../../../assets/javascript/const-data'
 
 const StaffSettings = ({ setPageHead }) => {
-    const [loading, setLoading] = useState('fetch')
     const [data, setData] = useState({})
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -51,18 +50,15 @@ const StaffSettings = ({ setPageHead }) => {
         }
 
         // Save
-        setLoading('save')
+
         ttCv2Axios.put(`/worker/account/${staff_id}/settings`, data).then(() => {
             dispatch(toast.push.success({ message: 'Saved' }))
-            setLoading('')
         }).catch((error) => {
             dispatch(toast.push.error({ message: error?.message }))
-            setLoading('')
         })
     }
 
     useEffect(() => {
-        setLoading('fetch')
         ttCv2Axios.get(`/worker/initial-info?accId=${staff_id}`).then((response) => {
 
             setData({
@@ -72,12 +68,10 @@ const StaffSettings = ({ setPageHead }) => {
                 allowed_origins: response.data.allowed_origins,
             })
             setPageHead({ title: `${response.data.first_name} ${response.data.last_name} / Settings` })
-            setLoading('')
 
         }).catch((error) => {
             dispatch(toast.push.error({ message: error?.message }))
             navigate('/admin/staff-list')
-            setLoading('')
         })
         //eslint-disable-next-line
     }, [])

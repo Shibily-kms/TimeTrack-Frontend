@@ -162,6 +162,7 @@ const LeaveAction = ({ singleData, setData, setModal }) => {
                 setTotalLeave(response?.data?.total_leave || 0)
             })
         }
+        // eslint-disable-next-line
     }, [])
 
 
