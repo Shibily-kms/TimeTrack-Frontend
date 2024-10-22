@@ -18,6 +18,7 @@ const LeaveApp = lazy(() => import('../pages/user/leave-app/LeaveApp'))
 const Profile = lazy(() => import('../components/user/my-account/Profile'))
 const Devices = lazy(() => import('../components/user/my-account/Devices'))
 const SecurityPrivacy = lazy(() => import('../components/user/my-account/SecurityPrivacy'))
+const SearchCustomer = lazy(() => import('../pages/user/search-customer/SearchCustomer'))
 
 
 function User() {
@@ -69,8 +70,11 @@ function User() {
             <Route path='security-privacy' element={<SecurityPrivacy />} />
             <Route path='origin-access' element={<Profile />} />
           </Route>
-
+          {/* Leave App */}
           <Route path='/leave-app' element={<PrivateRoute element={<LeaveApp setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+          {/* Customer Search */}
+          <Route path='/search-customer' element={<PrivateRoute element={<SearchCustomer setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+
 
           {/* 404 Route */}
           <Route path="/*" element={<NotFound setPageHead={setPageHead} />} />

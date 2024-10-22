@@ -12,6 +12,7 @@ import { logOut } from '../../../redux/features/user/authSlice'
 import { useDispatch, useSelector } from 'react-redux';
 import { ui_version } from '../../../assets/javascript/const-data'
 import { RiSettingsLine } from 'react-icons/ri';
+import { TbFileUpload, TbUserSearch } from 'react-icons/tb';
 
 const MorePage = ({ setPageHead }) => {
     const [searchParams, setSearchParams] = useSearchParams()
@@ -67,6 +68,24 @@ const MorePage = ({ setPageHead }) => {
                     <div className="left">
                         <LuFileEdit />
                         <h4>Leave Application</h4>
+                    </div>
+                    <div className="right">
+                        <IoArrowForwardOutline />
+                    </div>
+                </div>
+                <div className="option-div" onClick={() => navigate('/leave-app?page=more')}>
+                    <div className="left">
+                        <TbFileUpload />
+                        <h4>My Prospects</h4>
+                    </div>
+                    <div className="right">
+                        <IoArrowForwardOutline />
+                    </div>
+                </div>
+                <div className="option-div" onClick={() => navigate('/search-customer')}>
+                    <div className="left">
+                        <TbUserSearch />
+                        <h4>Search Customer</h4>
                     </div>
                     <div className="right">
                         <IoArrowForwardOutline />
