@@ -1,4 +1,4 @@
-export const ui_version = '2.1.0'
+export const ui_version = '2.1.1'
 export const work_modes = ['On-site', 'Remote', 'Hybrid ']
 export const e_types = ['Part time', 'Full time']
 export const origins_head_list = [

@@ -55,6 +55,7 @@ const WorkAnalyze = ({ setPageHead }) => {
 
   useEffect(() => {
     fetchData()
+    // eslint-disable-next-line
   }, [searchParams])
 
 

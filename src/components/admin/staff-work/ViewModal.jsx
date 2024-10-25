@@ -15,6 +15,7 @@ function ViewModal({ data, selectDay }) {
             .then((response) => {
                 setTodo(response.data)
             })
+        // eslint-disable-next-line
     }, [])
 
     return (

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import './home.scss'
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -9,29 +9,13 @@ import { FaStore } from "react-icons/fa";
 import { HiUserGroup } from "react-icons/hi2";
 import ProfileCard from '../../../components/user/profile-card/ProfileCard';
 import { YYYYMMDDFormat } from '../../../assets/javascript/date-helper';
-import { ttSv2Axios } from '../../../config/axios';
 import WorkDetails from '../../../components/user/semi-work-details/WorkDetails';
-
-
 
 
 function Home({ setPageHead }) {
   const [searchParams, setSearchParams] = useSearchParams()
   const { user } = useSelector((state) => state.userAuth)
-  const { workDetails } = useSelector((state) => state.workData)
   const navigate = useNavigate()
-  const [userData, setUserData] = useState({})
-  const [inWork, setInWork] = useState(false)
-
-  useEffect(() => {
-    const lastPunchData = workDetails?.punch_list?.[workDetails?.punch_list.length - 1] || {}
-    if (lastPunchData?.in && !lastPunchData?.out) {
-      setInWork(true)
-    } else if (lastPunchData?.out) {
-      setInWork(false)
-    }
-    // eslint-disable-next-line
-  }, [workDetails])
 
   useEffect(() => {
     if (!searchParams.get('page')) {
@@ -39,17 +23,13 @@ function Home({ setPageHead }) {
     }
     setPageHead(() => ({ title: null }))
 
-    ttSv2Axios.get(`/worker/account/${user?.acc_id}?initial=Yes`).then((response) => {
-      setUserData(response?.data)
-    })
-
     // eslint-disable-next-line
   }, [])
 
   return (
     <div className='home-page'>
       <div className="profile-section">
-        <ProfileCard data={userData} inWork={inWork} />
+        <ProfileCard />
         {user?.dob?.slice(5) === YYYYMMDDFormat(new Date())?.slice(5) && <div className="birth-box">
           <picture>
             <source srcset="https://fonts.gstatic.com/s/e/notoemoji/latest/1f389/512.webp" type="image/webp" />

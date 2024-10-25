@@ -11,7 +11,7 @@ function DateBasie({ dateBaseList, leaveList, staffs }) {
     const [data, setData] = useState([])
     const [tableData, setTableData] = useState({})
     const [selectDay, setSelectDay] = useState(null)
-    const [searchParams, setSearchParams] = useSearchParams()
+    const [searchParams] = useSearchParams()
 
     useEffect(() => {
         // eslint-disable-next-line
@@ -25,6 +25,7 @@ function DateBasie({ dateBaseList, leaveList, staffs }) {
 
     useEffect(() => {
         setData(analyzeDateHelper(dateBaseList, staffs, leaveList, searchParams.get('month')))
+        // eslint-disable-next-line
     }, [dateBaseList])
 
     useEffect(() => {

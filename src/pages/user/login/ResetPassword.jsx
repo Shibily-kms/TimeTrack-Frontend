@@ -65,6 +65,7 @@ const ResetPassword = () => {
         if (!location?.state || !location?.state?.mobile_number) {
             navigate('/auth/sign-in')
         }
+        // eslint-disable-next-line
     }, [location?.state])
 
     return (
