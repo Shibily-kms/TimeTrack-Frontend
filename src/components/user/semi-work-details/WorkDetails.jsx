@@ -8,9 +8,10 @@ import { BsQrCodeScan } from "react-icons/bs";
 import PunchWork from '../../../pages/user/punch-work/PunchWork'
 import { useNavigate } from 'react-router-dom'
 import { getPunchDetails } from '../../../redux/features/user/workdataSlice'
+import { TbLoader } from 'react-icons/tb'
 
 function WorkDetails() {
-    const { workDetails } = useSelector((state) => state.workData)
+    const { workDetails, isLoading } = useSelector((state) => state.workData)
     const { user } = useSelector((state) => state.userAuth)
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -24,6 +25,7 @@ function WorkDetails() {
         <div className="semi-work-details">
             <div className="border">
                 {workDetails?.name
+                    // Table view
                     ? <div className="list-body">
                         <div className="list-head">
                             <span></span>
@@ -31,7 +33,7 @@ function WorkDetails() {
                             <span>Out</span>
                             <span>Duration</span>
                         </div>
-
+                        {/* Table content */}
                         {workDetails?.punch_list?.map((item, index) => <div className="list-item">
                             <span>Punch {index + 1}</span>
                             <span>{convertIsoToAmPm(new Date(item.in))}</span>
@@ -46,16 +48,28 @@ function WorkDetails() {
                         <SpinnerWithMessage height={'200px'} icon={user?.punch_type === 'software' ? <IoFingerPrint /> : <BsQrCodeScan />}
                             message={user?.punch_type === 'software' ? 'Click punch In button for start work!' : 'Scan QR Code for start work!'} />
                     </div>}
+
+                {/* Punch Actions */}
                 <div className="action-buttons">
-                    {(user?.punch_type === 'software' || (user?.punch_type === 'firstInScanner' && workDetails?.punch_list?.[0])) && <PunchWork />}
-                    {(!user?.punch_type || user?.punch_type === 'scanner' || (user?.punch_type === 'firstInScanner' && !workDetails?.punch_list?.[0]))
-                        && <div className='punching' >
+                    {isLoading
+                        ? <div className='punching' >
                             <div className="punching-border">
-                                <button className={"scanner"} onClick={() => navigate('/scanner')}>
-                                    <span ><BsQrCodeScan /></span>
-                                    <span>Scanner</span></button>
+                                <button className={"sync"} >
+                                    <span className='loading-icon'><TbLoader /></span>
+                                    <span>Syncing...</span></button>
                             </div>
-                        </div >}
+                        </div >
+                        : <>
+                            {(user?.punch_type === 'software' || (user?.punch_type === 'firstInScanner' && workDetails?.punch_list?.[0])) && <PunchWork />}
+                            {(!user?.punch_type || user?.punch_type === 'scanner' || (user?.punch_type === 'firstInScanner' && !workDetails?.punch_list?.[0]))
+                                && <div className='punching' >
+                                    <div className="punching-border">
+                                        <button className={"scanner"} onClick={() => navigate('/scanner')}>
+                                            <span ><BsQrCodeScan /></span>
+                                            <span>Scanner</span></button>
+                                    </div>
+                                </div >}
+                        </>}
                 </div>
             </div>
         </div>
