@@ -12,7 +12,7 @@ import { ttCv2Axios } from '../../../config/axios'
 function StaffBasie({ staffBaseList, leaveList, aboutStaff }) {
     const [data, setData] = useState([])
     const [report, setReport] = useState({})
-    const [searchParams, setSearchParams] = useSearchParams()
+    const [searchParams] = useSearchParams()
     const [loading, setLoading] = useState('r-fetch')
 
     useEffect(() => {
@@ -26,7 +26,7 @@ function StaffBasie({ staffBaseList, leaveList, aboutStaff }) {
             setLoading('')
         })
         setData(analyzeData)
-    
+    // eslint-disable-next-line
     }, [staffBaseList])
 
     return (

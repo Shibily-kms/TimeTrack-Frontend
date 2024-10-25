@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './staff-profile.scss'
-import { ttCv2Axios, ttSv2Axios } from '../../../config/axios'
+import { ttCv2Axios } from '../../../config/axios'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from '../../../redux/features/user/systemSlice'

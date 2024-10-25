@@ -17,6 +17,7 @@ const AllStaffModal = ({ setModal }) => {
       setLoading(false)
       setModal({ status: false })
     })
+    // eslint-disable-next-line
   }, [])
 
   return (
