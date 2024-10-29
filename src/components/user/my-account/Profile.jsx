@@ -213,9 +213,9 @@ const Profile = () => {
                                     </div>
                                     <div className="listing-value">
                                         <p>{userData?.email_address?.mail || 'Nill'}</p>
-                                        {userData?.email_address?.mail && <Badge
+                                        {/* {userData?.email_address?.mail && <Badge
                                             text={userData?.email_address?.verified ? "Verified" : 'Unverified'}
-                                            className={userData?.email_address?.verified ? "success-not-fill" : 'warning-not-fill'} />}
+                                            className={userData?.email_address?.verified ? "success-not-fill" : 'warning-not-fill'} />} */}
                                     </div>
                                 </div>
                                 <div className="listing-right">
@@ -297,9 +297,9 @@ const Profile = () => {
                                     </div>
                                     <div className="listing-value">
                                         <p>{userData?.whatsapp_number?.country_code} {userData?.whatsapp_number?.number}</p>
-                                        {userData?.whatsapp_number?.number && <Badge
+                                        {/* {userData?.whatsapp_number?.number && <Badge
                                             text={userData?.whatsapp_number?.verified ? "Verified" : 'Unverified'}
-                                            className={userData?.whatsapp_number?.verified ? "success-not-fill" : 'warning-not-fill'} />}
+                                            className={userData?.whatsapp_number?.verified ? "success-not-fill" : 'warning-not-fill'} />} */}
                                     </div>
                                 </div>
                                 <div className="listing-right">

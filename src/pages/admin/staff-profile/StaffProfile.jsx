@@ -185,7 +185,7 @@ const StaffProfile = ({ setPageHead }) => {
               </div>
               <div className="list-item-div">
                 <span><p>Join Date</p></span>
-                <span><p>: {new Date(data?.join_date)?.toDateString()}</p></span>
+                <span><p>: {data?.join_date ? new Date(data?.join_date)?.toDateString() : 'Nill'}</p></span>
               </div>
               <div className="list-item-div">
                 <span><p>Designation</p></span>
