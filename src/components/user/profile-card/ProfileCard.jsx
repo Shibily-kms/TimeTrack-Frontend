@@ -19,10 +19,10 @@ const ProfileCard = () => {
     const [modal, setModal] = useState({ status: false })
 
     const alertFunction = (primary_number) => {
-        if (!primary_number?.verified) {
+        if (primary_number?.number && !primary_number?.verified) {
             setModal({
                 status: true, title: 'Verify your number', content: <SingleContact label={'primary_number'} type={'mobile'}
-                    contact={userData?.primary_number || primary_number} setModal={setModal} setUserData={setUserData} />
+                    contact={primary_number} setModal={setModal} setUserData={setUserData} />
             })
         }
     }

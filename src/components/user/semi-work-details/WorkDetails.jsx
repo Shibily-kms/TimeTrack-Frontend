@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import './work-details.scss'
 import { useDispatch, useSelector } from 'react-redux'
-import { convertIsoToAmPm, getTimeFromSecond } from '../../../assets/javascript/date-helper'
+import { convertIsoToAmPm, getTimeFromSecond, YYYYMMDDFormat } from '../../../assets/javascript/date-helper'
 import SpinnerWithMessage from '../../../components/common/spinners/SpinWithMessage'
 import { IoFingerPrint } from "react-icons/io5";
 import { BsQrCodeScan } from "react-icons/bs";
@@ -24,7 +24,7 @@ function WorkDetails() {
     return (
         <div className="semi-work-details">
             <div className="border">
-                {workDetails?.name
+                {workDetails?.name && workDetails?.date === YYYYMMDDFormat(new Date())
                     // Table view
                     ? <div className="list-body">
                         <div className="list-head">
