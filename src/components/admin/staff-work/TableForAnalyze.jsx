@@ -40,7 +40,6 @@ function TableForAnalyze({ tableData, selectDay, staffBasie, fullData }) {
                             <tbody>
                                 {tableData.map((obj, index) => {
                                     return <tr key={index}>
-
                                         <td className='name'>
                                             {staffBasie ? new Date(obj.date).toDateString()
                                                 : obj.full_name} <br></br>
@@ -59,7 +58,7 @@ function TableForAnalyze({ tableData, selectDay, staffBasie, fullData }) {
                                                 : <div style={{ display: 'flex', justifyContent: 'center' }}>
 
                                                     {obj?.leave_type !== '0' && <Badge text={obj?.leave_type === '1' ? 'FDL' : 'HDL'} className={'error-fill'} />}
-                                                    {new Date(selectDay).getDay() === 0
+                                                    {(new Date(selectDay).getDay() === 0 || new Date(obj?.date).getDay() === 0)
                                                         ? <Badge text={'Holiday'} className={'error-fill'} />
                                                         : obj?.leave_type === '0' && new Date(selectDay)?.getTime() !== new Date(new Date().setHours(0, 0, 0, 0))?.getTime()
                                                             ? < Badge text={'Leave'} className={'warning-fill'} /> : ''}
