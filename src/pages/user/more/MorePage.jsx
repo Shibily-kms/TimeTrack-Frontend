@@ -7,12 +7,12 @@ import { LuFileEdit } from "react-icons/lu";
 import { IoMdLogOut } from "react-icons/io";
 import { BsQrCodeScan } from "react-icons/bs";
 import { clearWorkData } from '../../../redux/features/user/workdataSlice';
-
 import { logOut } from '../../../redux/features/user/authSlice'
 import { useDispatch, useSelector } from 'react-redux';
 import { ui_version } from '../../../assets/javascript/const-data'
 import { RiSettingsLine } from 'react-icons/ri';
-import { TbFileUpload, TbUserSearch } from 'react-icons/tb';
+import { TbFileUpload } from 'react-icons/tb';
+import { YYYYMMDDFormat } from '../../../assets/javascript/date-helper';
 
 const MorePage = ({ setPageHead }) => {
     const [searchParams, setSearchParams] = useSearchParams()
@@ -73,7 +73,7 @@ const MorePage = ({ setPageHead }) => {
                         <IoArrowForwardOutline />
                     </div>
                 </div>
-                <div className="option-div" onClick={() => navigate('/leave-app?page=more')}>
+                <div className="option-div" onClick={() => navigate(`/my-prospects?month=${YYYYMMDDFormat(new Date()).slice(0, 7)}`)}>
                     <div className="left">
                         <TbFileUpload />
                         <h4>My Prospects</h4>
@@ -82,7 +82,7 @@ const MorePage = ({ setPageHead }) => {
                         <IoArrowForwardOutline />
                     </div>
                 </div>
-                <div className="option-div" onClick={() => navigate('/search-customer')}>
+                {/* <div className="option-div" onClick={() => navigate('/search-customer')}>
                     <div className="left">
                         <TbUserSearch />
                         <h4>Search Customer</h4>
@@ -90,7 +90,7 @@ const MorePage = ({ setPageHead }) => {
                     <div className="right">
                         <IoArrowForwardOutline />
                     </div>
-                </div>
+                </div> */}
                 <div className="option-div" onClick={() => navigate('/settings?page=more')}>
                     <div className="left">
                         <RiSettingsLine />

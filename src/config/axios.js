@@ -12,7 +12,8 @@ const baseSetup = {
 
     //? v2.1
     ttSv2Axios: axios.create({ baseURL: `${baseUrl}:8000/s/v2/`, headers: apiHeaders }),
-    ttCv2Axios: axios.create({ baseURL: `${baseUrl}:8000/c/v2/`, headers: apiHeaders })
+    ttCv2Axios: axios.create({ baseURL: `${baseUrl}:8000/c/v2/`, headers: apiHeaders }),
+    cnPv2Axios: axios.create({ baseURL: `${baseUrl}:8004/p/v2/`, headers: apiHeaders })
 }
 
 //*  Response and Request Config Functions
@@ -99,7 +100,11 @@ baseSetup.ttSv2Axios.interceptors.response.use(responseConfigFunction, responseE
 baseSetup.ttCv2Axios.interceptors.request.use(requestConfigFunction, requestErrorFunction)
 baseSetup.ttCv2Axios.interceptors.response.use(responseConfigFunction, responseErrorFunction);
 
+//? controlNex all 
+baseSetup.cnPv2Axios.interceptors.request.use(requestConfigFunction, requestErrorFunction)
+baseSetup.cnPv2Axios.interceptors.response.use(responseConfigFunction, responseErrorFunction);
 
-export const { userAxios, adminAxios, ttSv2Axios, ttCv2Axios } = baseSetup
+
+export const { userAxios, adminAxios, ttSv2Axios, ttCv2Axios, cnPv2Axios } = baseSetup
 
 

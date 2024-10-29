@@ -1,6 +1,14 @@
 export const ui_version = '2.1.0'
 export const work_modes = ['On-site', 'Remote', 'Hybrid ']
 export const e_types = ['Part time', 'Full time']
+export const prospect_type = ['Lead', 'Enquiry', 'Installation']
+export const prospect_status = ['Completed', 'Cancelled']
+export const prospect_urgency = [90, 70, 50, 30, 10, 0]
+
+
+
+
+
 export const origins_head_list = [
     {
         id: 'ttcr',
