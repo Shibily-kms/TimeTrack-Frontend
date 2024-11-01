@@ -152,6 +152,25 @@ const SingleContact = ({ type, label, contact, setModal, setUserData }) => {
         }
     }
 
+    const handleDeleteNumber = (numberType) => {
+        const ask = window.confirm('Are you remove this number ?')
+
+        if (ask) {
+            setLoading(true)
+            ttSv2Axios.delete(`/worker/account/${user?.acc_id}/contact?type=${numberType}`).then(() => {
+                setUserData((state) => ({
+                    ...state,
+                    [label]: {}
+                }))
+                setLoading('')
+                setModal({ status: false })
+            }).catch((error) => {
+                setLoading('')
+                dispatch(toast.push.error({ message: error.message }))
+            })
+        }
+    }
+
     useEffect(() => {
         const timer = counter > 0 && setInterval(() => setCounter(counter - 1), 1000);
 
@@ -201,7 +220,12 @@ const SingleContact = ({ type, label, contact, setModal, setUserData }) => {
                     </div>
                 </div>
                 : <div className="contact-form-section">
-                    <p className='smallTD2'>Update your {label}</p>
+                    <div style={{ display: 'flex', alignContent: "center", justifyContent: 'space-between' }}>
+                        <p className='smallTD2'>Your {label}</p>
+                        {['secondary_number', 'official_number'].includes(label) && contact?.number &&
+                            <SingleButton name={'Remove'} classNames={'sm btn-tertiary'} onClick={() => handleDeleteNumber(label)}
+                                loading={loading} />}
+                    </div>
                     <form action="" onSubmit={handleSubmit}>
                         {type === 'email' && <NormalInput label='Email' name='mail' value={form?.contact?.mail} onChangeFun={handleChange} />}
                         {type === 'mobile' && <MobileInput onChangeFun={handleMobileNumber} name='contact'
