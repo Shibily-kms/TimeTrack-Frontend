@@ -1,7 +1,7 @@
 import axios from 'axios'
 import Cookies from 'js-cookie';
 import { doSignOut } from '../assets/javascript/auth-helper';
-export const baseUrl = 'http://192.168.1.3'
+export const baseUrl = 'http://192.168.1.2'
 const apiHeaders = { 'Content-Type': 'application/json' }
 
 //* Base Setup
@@ -50,8 +50,8 @@ const requestConfigFunction = (config) => {
     let userToken = Cookies.get('_acc_tkn')
     if (userToken) {
         config.headers['Authorization'] = `Bearer ${userToken}`;
-        config.timeout = 10000
     }
+    config.timeout = 10000
     return config
 }
 
@@ -68,17 +68,33 @@ const responseErrorFunction = async (error) => {
 
     const originalRequest = error.config;
 
-    if (error.response && error.response.status === 401 && !originalRequest._retry) {
-        await handleTokenError(originalRequest);
-    } else if (error.response.status === 403 || error.response.status === 401) {
-        doSignOut(error.response.status === 403)
-    } else if (error.code === 'ECONNABORTED') {
-        return Promise.reject({ ...error.response.data, message: 'No proper internet connection' });
-    } else if (error.response?.data?.statusCode >= 400 && error.response?.data?.statusCode < 500) {
-        return Promise.reject({ message: error.response?.data?.message });
-    }
+    if (error.response) {
+        // Token expiration handling
+        if (error.response.status === 401 && !originalRequest._retry) {
+            return await handleTokenError(originalRequest);
+        }
 
-    return Promise.reject({ message: 'Unknown Error' });
+        // Unauthorized or Forbidden
+        if (error.response.status === 403 || error.response.status === 401) {
+            doSignOut(error.response.status === 403);
+        }
+
+        // Network timeout error
+        if (error.code === 'ECONNABORTED') {
+            return Promise.reject({ ...error.response.data, message: 'Connection timed out, please check your network.' });
+        }
+
+        // Other client-side errors
+        if (error.response.data?.statusCode >= 400 && error.response.data?.statusCode < 500) {
+            return Promise.reject({ message: error.response.data.message || 'Client error occurred.' });
+        }
+    } else if (error.request) {
+        // No response was received
+        return Promise.reject({ message: 'No network connection.' });
+    } else {
+        // Other errors (unknown)
+        return Promise.reject({ message: 'An unknown error occurred.' });
+    }
 }
 
 //* API interceptors
