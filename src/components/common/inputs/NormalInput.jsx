@@ -31,7 +31,6 @@ function NormalInput({
         if (inputType) {
             setInputType(type)
         }
-        console.log(onBlur, onFocus)
         // eslint-disable-next-line
     }, [type])
 
@@ -50,8 +49,8 @@ function NormalInput({
                     min={min}
                     max={max}
                     step={step}
-                    onFocus={() => onFocus ? onFocus() : setInputType(type)}
-                    onBlur={() => onBlur ? onBlur() : !value ? setInputType('text') : ''}
+                    onFocus={(e) => onFocus ? onFocus(e) : setInputType(type)}
+                    onBlur={(e) => onBlur ? onBlur(e) : !value ? setInputType('text') : ''}
                     pattern={pattern}
                     autoFocus={autoFocus}
                     minLength={minLength}

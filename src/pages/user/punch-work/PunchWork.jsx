@@ -26,7 +26,7 @@ const PunchWork = React.memo(() => {
                 if (punch?.out) {
                     const lastPunch = workDetails.punch_list?.[workDetails?.punch_list?.length - 1] || {}
                     const [lastInHour, lastInMinute] = new Date(lastPunch?.in).toTimeString()?.split(':');
-                    console.log(lastInHour, lastInMinute, user)
+                   
                     const [punchOutHour, punchOutMinute] = user?.auto_punch_out?.split(':');
 
                     if ((punchOutHour + punchOutMinute) > (lastInHour + lastInMinute)) {

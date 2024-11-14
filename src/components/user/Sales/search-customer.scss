@@ -21,6 +21,7 @@
             p {
                 font-size: 14px;
                 font-weight: 500;
+                @include threeDots(2);
             }
         }
     }
@@ -36,6 +37,11 @@
 
             .search-button {
                 padding: 13px 20px;
+            }
+
+            .hide-button {
+                cursor: not-allowed;
+                background-color: var(--background-c3);
             }
         }
     }
