@@ -10,6 +10,11 @@ import SearchCustomer from '../../../components/user/Sales/SearchCustomer'
 import SearchCity from '../../../components/user/Sales/SearchCity'
 import SearchAssociate from '../../../components/user/Sales/SearchAssociate'
 import Modal from '../../../components/common/modal/Modal'
+import { slUv1Axios } from '../../../config/axios'
+import { useDispatch } from 'react-redux'
+import { toast } from '../../../redux/features/user/systemSlice'
+import { useNavigate } from 'react-router-dom'
+import { YYYYMMDDFormat } from '../../../assets/javascript/date-helper'
 
 const ProspectCU = ({ setPageHead }) => {
 
@@ -20,6 +25,8 @@ const ProspectCU = ({ setPageHead }) => {
     const [pinCodeList, setPinCodeList] = useState([])
     const [productTypes, setProductTypes] = useState([])
     const [loading, setLoading] = useState('')
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const handleOpenCidSearch = () => {
         setModal({
@@ -50,6 +57,7 @@ const ProspectCU = ({ setPageHead }) => {
     }
 
     const handleMobileNumber = (mobData) => {
+
         setForm({
             ...form,
             [mobData?.name]: mobData?.number
@@ -64,7 +72,14 @@ const ProspectCU = ({ setPageHead }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         setLoading('submit')
-        console.log(form)
+
+        slUv1Axios.post('/prospect/register', { ...form, reg_by_type: 'Staff', reg_platform: 2 }).then(() => {
+            navigate(`/my-prospects?month=${YYYYMMDDFormat(new Date()).slice(0, 7)}`)
+            setLoading('')
+        }).catch((error) => {
+            setLoading('')
+            dispatch(toast.push.error({ message: error.message }))
+        })
     }
 
     useEffect(() => {
@@ -110,7 +125,7 @@ const ProspectCU = ({ setPageHead }) => {
                         values={productTypes} firstOption={{ option: "Select...", value: '' }} />}
                     <NormalInput label='Comment' value={form?.reg_comment} name='reg_comment' isRequired={false} onChangeFun={handleChange} />
                 </div>
-                <SingleButton name={'Register'} style={{ width: '100%', marginTop: '15px' }} classNames={'lg btn-tertiary'} />
+                <SingleButton loading={loading === 'submit'} name={'Register'} style={{ width: '100%', marginTop: '15px' }} classNames={'lg btn-tertiary'} />
             </form>
         </div>
     )
