@@ -30,10 +30,11 @@ const handleTokenError = async (originalRequest) => {
         });
 
         const cookieOptions = {
-            secure: false,
-            sameSite: 'lax',
+            secure: true, // Set to `true` in production (for HTTPS)
+            domain: '.alliancedev.in', // Allows cookie sharing across subdomains
+            sameSite: 'None', // Helps prevent CSRF attacks , use 'strict' on host,
             path: '/',
-            expires: 40
+            expires: new Date(Date.now() + 40 * 24 * 60 * 60 * 1000)
         };
 
         Cookies.set('_acc_tkn', data?.data?.access_token, cookieOptions);
