@@ -11,6 +11,7 @@ import ProfileCard from '../../../components/user/profile-card/ProfileCard';
 import { YYYYMMDDFormat } from '../../../assets/javascript/date-helper';
 import { ttSv2Axios } from '../../../config/axios';
 import WorkDetails from '../../../components/user/semi-work-details/WorkDetails';
+import { PiGraphFill } from 'react-icons/pi';
 
 
 
@@ -78,10 +79,6 @@ function Home({ setPageHead }) {
             <p>TT Controller</p>
           </div>)}
 
-
-
-
-
           {(user?.allowed_origins?.includes('Accountant')) && <div className="app-item">
             <div className="icon-div" style={{ backgroundColor: "#521f08" }}
               onClick={() => window.location.href = `http://localhost:3001?id=${user?.acc_id}`}>
@@ -138,8 +135,15 @@ function Home({ setPageHead }) {
               <IoLogoAppleAr />
             </div>
             <p>Whole house <br></br> Admin</p>
-          </div>
-          }
+          </div>}
+
+          {user?.allowed_origins?.some((access) => access?.slice(0, 9) === 'ttur_lead') && <div className="app-item">
+            <div className="icon-div" style={{ backgroundColor: "#960c84" }}
+              onClick={() => window.location.href = `http://localhost:3001?id=${user?.acc_id}`}>
+              <PiGraphFill />
+            </div>
+            <p>SL Lead</p>
+          </div>}
         </div>
       </div>
     </div >

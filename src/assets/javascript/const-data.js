@@ -104,6 +104,47 @@ export const origins_head_list = [
         ]
     },
     {
+        id: 'slur',
+        title: 'Sales App v1.1',
+        description: 'Manage Lead, Enquiry and Installation',
+        sections: [
+            {
+                id: 'ttur_lead',
+                title: 'Lead',
+                description: 'Handle leads approval and rejection',
+                origins: [
+                    {
+                        key: 'ttur_lead_write',
+                        name: 'Read and Write'
+                    }
+                ]
+            },
+            {
+                id: 'ttur_enquiry',
+                title: 'Enquiry',
+                description: 'Quotation build, Enquiry form submit, Approval and reject enquiries',
+                origins: [
+                    {
+                        key: 'ttur_enquiry_write',
+                        name: 'Read and Write'
+                    }
+                ]
+            },
+            {
+                id: 'ttur_gdwn',
+                title: 'Godown',
+                description: 'Approve product assembling',
+                origins: [
+                    {
+                        key: 'ttur_gdwn_write',
+                        name: 'Read and Write'
+                    }
+                ]
+            },
+
+        ]
+    },
+    {
         id: 'PR',
         title: 'Purifier',
         description: 'Manage purifier services',
@@ -260,6 +301,24 @@ export const origins_head_list = [
                     }
                 ]
             }
+        ]
+    },
+    {
+        id: 'accr',
+        title: 'Accountant App v1.1',
+        description: 'Manage alliance finance',
+        sections: [
+            {
+                id: 'accr_slprd',
+                title: 'Sales',
+                description: 'Handle product bill and warranty',
+                origins: [
+                    {
+                        key: 'accr_slprd_write',
+                        name: 'Read and Write'
+                    }
+                ]
+            },
         ]
     }
 ]
