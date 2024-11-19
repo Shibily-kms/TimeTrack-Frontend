@@ -146,11 +146,11 @@ export const loginTokenSetup = async (acc_id, dispatch, navigate) => {
 
         // Data store in cookie
         const cookieOptions = {
-            secure: false, // Set to `true` in production (for HTTPS)
-            // domain: '.domain.com', // Allows cookie sharing across subdomains
-            sameSite: 'lax', // Helps prevent CSRF attacks , use 'strict' on host,
+            secure: true, // Set to `true` in production (for HTTPS)
+            domain: '.alliancedev.in', // Allows cookie sharing across subdomains
+            sameSite: 'None', // Helps prevent CSRF attacks , use 'strict' on host,
             path: '/',
-            expires: 40
+            expires: new Date(Date.now() + 40 * 24 * 60 * 60 * 1000)
         };
 
         Cookies.set('_acc_tkn', tokenResponse?.data?.access_token, cookieOptions);
