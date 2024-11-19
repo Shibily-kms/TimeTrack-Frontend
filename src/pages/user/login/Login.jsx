@@ -147,7 +147,7 @@ export const loginTokenSetup = async (acc_id, dispatch, navigate) => {
         // Data store in cookie
         const cookieOptions = {
             secure: true, // Set to `true` in production (for HTTPS)
-            domain: '.alliancedev.in', // Allows cookie sharing across subdomains
+            domain: '.alliancewatersolutions.com', // Allows cookie sharing across subdomains
             sameSite: 'None', // Helps prevent CSRF attacks , use 'strict' on host,
             path: '/',
             expires: new Date(Date.now() + 40 * 24 * 60 * 60 * 1000)
