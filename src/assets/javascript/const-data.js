@@ -109,34 +109,34 @@ export const origins_head_list = [
         description: 'Manage Lead, Enquiry and Installation',
         sections: [
             {
-                id: 'ttur_lead',
+                id: 'slur_lead',
                 title: 'Lead',
                 description: 'Handle leads approval and rejection',
                 origins: [
                     {
-                        key: 'ttur_lead_write',
+                        key: 'slur_lead_write',
                         name: 'Read and Write'
                     }
                 ]
             },
             {
-                id: 'ttur_enquiry',
+                id: 'slur_enquiry',
                 title: 'Enquiry',
                 description: 'Quotation build, Enquiry form submit, Approval and reject enquiries',
                 origins: [
                     {
-                        key: 'ttur_enquiry_write',
+                        key: 'slur_enquiry_write',
                         name: 'Read and Write'
                     }
                 ]
             },
             {
-                id: 'ttur_gdwn',
+                id: 'slur_gdwn',
                 title: 'Godown',
                 description: 'Approve product assembling',
                 origins: [
                     {
-                        key: 'ttur_gdwn_write',
+                        key: 'slur_gdwn_write',
                         name: 'Read and Write'
                     }
                 ]

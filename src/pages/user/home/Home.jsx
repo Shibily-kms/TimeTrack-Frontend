@@ -137,9 +137,9 @@ function Home({ setPageHead }) {
             <p>Whole house <br></br> Admin</p>
           </div>}
 
-          {user?.allowed_origins?.some((access) => access?.slice(0, 9) === 'ttur_lead') && <div className="app-item">
+          {user?.allowed_origins?.some((access) => access?.slice(0, 9) === 'slur_lead') && <div className="app-item">
             <div className="icon-div" style={{ backgroundColor: "#960c84" }}
-              onClick={() => window.location.href = `http://localhost:3001?id=${user?.acc_id}`}>
+              onClick={() => window.location.href = `http://localhost:3001/lead?page=home`}>
               <PiGraphFill />
             </div>
             <p>SL Lead</p>
