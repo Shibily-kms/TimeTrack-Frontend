@@ -84,7 +84,7 @@ const ProspectCU = ({ setPageHead }) => {
 
     useEffect(() => {
         setProspectType(['Lead', 'Enquiry'].map((value, index) => ({ option: value, value: `${index + 1}` })))
-        setProspectUrgency(prospect_urgency?.map((value, index) => ({ option: `${value}`, value: `${index}` })))
+        setProspectUrgency(prospect_urgency?.map((value, index) => ({ option: `${value}`, value: `${index + 1}` })))
         setPageHead({ title: "Register prospects" })
         setProductTypes([
             { option: 'Purifier', value: 'Purifier' },

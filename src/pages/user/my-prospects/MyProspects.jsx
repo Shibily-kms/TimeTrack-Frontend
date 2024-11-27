@@ -12,8 +12,7 @@ import { useDispatch } from 'react-redux'
 import { toast } from '../../../redux/features/user/systemSlice'
 import Badge from '../../../components/common/badge/Badge'
 import { FiArrowRight } from 'react-icons/fi'
-import { PiCheckBold, PiXBold } from 'react-icons/pi'
-import { RxDotFilled } from 'react-icons/rx'
+
 
 const MyProspects = ({ setPageHead }) => {
     const [prospects, setProspects] = useState([])
