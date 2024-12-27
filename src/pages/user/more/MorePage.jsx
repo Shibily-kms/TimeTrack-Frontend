@@ -12,6 +12,7 @@ import { logOut } from '../../../redux/features/user/authSlice'
 import { useDispatch, useSelector } from 'react-redux';
 import { ui_version } from '../../../assets/javascript/const-data'
 import { RiSettingsLine } from 'react-icons/ri';
+import { doSignOut } from '../../../assets/javascript/auth-helper';
 
 const MorePage = ({ setPageHead }) => {
     const [searchParams, setSearchParams] = useSearchParams()
@@ -34,6 +35,7 @@ const MorePage = ({ setPageHead }) => {
         if (ask) {
             dispatch(clearWorkData())
             dispatch(logOut())
+            dispatch(doSignOut())
             navigate('/auth/sign-in')
         }
     }
