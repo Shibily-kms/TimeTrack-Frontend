@@ -24,15 +24,15 @@ export const userAuthSlice = createSlice({
             state.user = action.payload
         },
         logOut: (state) => {
-            Cookies.remove('_acc_tkn');
-            Cookies.remove('_rfs_tkn');
-            Cookies.set('logged_in', 'no', {
-                secure: true, // Set to `true` in production (for HTTPS)
-                domain: '.alliancewatersolutions.com', // Allows cookie sharing across subdomains
-                sameSite: 'None', // Helps prevent CSRF attacks , use 'strict' on host,
-                path: '/',
-                expires: new Date(new Date().setMonth(new Date().getMonth() + 6))
-            });
+            // Cookies.remove('_acc_tkn');
+            // Cookies.remove('_rfs_tkn');
+            // Cookies.set('logged_in', 'no', {
+            //     secure: false, // Set to `true` in production (for HTTPS)
+            //     // domain: '.domain.com', // Allows cookie sharing across subdomains
+            //     sameSite: 'lax', // Helps prevent CSRF attacks , use 'strict' on host,
+            //     path: '/',
+            //     expires: 40
+            // });
 
             state.user = null
         }
