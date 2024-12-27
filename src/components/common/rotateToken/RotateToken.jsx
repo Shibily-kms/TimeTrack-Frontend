@@ -1,23 +1,40 @@
 import React, { useEffect } from 'react'
 import Cookies from 'js-cookie';
 import { ttSv2Axios } from '../../../config/axios';
+import { useSelector } from 'react-redux';
 
 const RotateToken = () => {
+    const { user } = useSelector((state) => state.userAuth)
+    const DVC_ID = Cookies.get('DVC_ID')
+    const rfs_tkn = Cookies.get('_rfs_tkn')
 
     useEffect(() => {
+        const cookieOptions = {
+            secure: true,
+            sameSite: 'None',
+            domain: '.alliancedev.in',
+            path: '/',
+            expires: 40
+        };
+
+        // set initial cookies
+        Cookies.set('DVC_ID', DVC_ID, { ...cookieOptions, expires: new Date(new Date().setMonth(new Date().getMonth() + 6)) })
+        Cookies.set('_rfs_tkn', rfs_tkn, { ...cookieOptions, expires: new Date(new Date().setMonth(new Date().getMonth() + 6)) })
+    }, [])
+
+    useEffect(() => {
+        const cookieOptions = {
+            secure: true,
+            sameSite: 'None',
+            domain: '.alliancedev.in',
+            path: '/',
+            expires: new Date(Date.now() + 60 * 60 * 1000)
+        };
+
         const interval = setInterval(() => {
 
-            const refreshToken = Cookies.get('_rfs_tkn'); // Retrieve the refresh token
+            ttSv2Axios.post('/auth/rotate-token', { refresh_token: user?.refresh_token }).then((response) => {
 
-            ttSv2Axios.post('/auth/rotate-token', { refresh_token: refreshToken }).then((response) => {
-
-                const cookieOptions = {
-                    secure: true, // Set to `true` in production (for HTTPS)
-                    domain: '.alliancewatersolutions.com', // Allows cookie sharing across subdomains
-                    sameSite: 'None', // Helps prevent CSRF attacks , use 'strict' on host,
-                    path: '/',
-                    expires: new Date(Date.now() + 40 * 24 * 60 * 60 * 1000)
-                };
 
                 Cookies.set('_acc_tkn', response?.data?.access_token, cookieOptions);
 
