@@ -15,20 +15,27 @@ const Master = () => {
     const dispatch = useDispatch()
     const { user } = useSelector((state) => state.userAuth)
     const acc_tkn = Cookies.get('_acc_tkn');
-    const rfs_tkn = Cookies.get('_rfs_tkn');
-    const ACC_ID = Cookies.get('ACC_ID');
+    const logged_in = Cookies.get('logged_in');
     const DVC_ID = Cookies.get('DVC_ID');
 
     useEffect(() => {
 
         // Check Authentication
-        if (ACC_ID && DVC_ID && acc_tkn && rfs_tkn) {
+        if (DVC_ID && acc_tkn) {
             ttSv2Axios.get('/worker/initial-info').then((response) => {
-                dispatch(setUser({ ...(user || {}), ...response.data, refresh_token: Cookies.get('_rfs_tkn') }))
+                dispatch(setUser({ ...(user || {}), ...response.data }))
             })
-        } else {
-            doSignOut()
+            if (!logged_in || logged_in === 'no') {
+                Cookies.set('logged_in', 'yes', {
+                    secure: false, // Set to `true` in production (for HTTPS)
+                    // domain: '.domain.com', // Allows cookie sharing across subdomains
+                    sameSite: 'lax', // Helps prevent CSRF attacks , use 'strict' on host,
+                    path: '/',
+                    expires: 40
+                });
+            }
         }
+
 
         // eslint-disable-next-line
     }, [])

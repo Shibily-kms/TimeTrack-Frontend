@@ -16,14 +16,16 @@ function deleteIndexedDB(databaseName) {
     };
 }
 
-export const doSignOut = (includeDeviceId) => {
-   
-    // Clear Cookie
-    if (includeDeviceId) {
-        Cookies.remove('DVC_ID');
-    }
-    Cookies.remove('ACC_ID');
-    Cookies.remove('AUTH');
+export const doSignOut = () => {
+
+    Cookies.set('logged_in', 'no', {
+        secure: false, // Set to `true` in production (for HTTPS)
+        // domain: '.domain.com', // Allows cookie sharing across subdomains
+        sameSite: 'lax', // Helps prevent CSRF attacks , use 'strict' on host,
+        path: '/',
+        expires: 40
+    });
+
     Cookies.remove('_acc_tkn');
     Cookies.remove('_rfs_tkn');
 

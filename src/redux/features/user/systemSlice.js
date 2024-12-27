@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-
+import Cookies from 'js-cookie';
 
 const initialState = {
     internet: navigator.onLine,
@@ -23,6 +23,13 @@ export const systemSlice = createSlice({
             const root = document.documentElement;
             root.className = action?.payload;
             state.theme = action?.payload
+
+            const cookieOptions = {
+                secure: false,
+                sameSite: 'lax',
+                path: '/'
+            };
+            Cookies.set('color_mode', action?.payload, cookieOptions)
         },
 
         // Alert

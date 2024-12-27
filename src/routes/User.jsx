@@ -26,14 +26,12 @@ function User() {
   const dispatch = useDispatch()
   const { internet } = useSelector((state) => state.systemInfo)
   const [pageHead, setPageHead] = useState({ title: null, desc: null })
-  const acc_tkn = Cookies.get('_acc_tkn');
-  const rfs_tkn = Cookies.get('_rfs_tkn');
-  const ACC_ID = Cookies.get('ACC_ID');
+  const logged_in = Cookies.get('logged_in');
   const DVC_ID = Cookies.get('DVC_ID');
 
-  if (acc_tkn && ACC_ID && DVC_ID && rfs_tkn) {
+  if (DVC_ID && logged_in === 'yes') {
     isAuthenticated = true
-  }
+  } 
 
   useEffect(() => {
     // Change Title
