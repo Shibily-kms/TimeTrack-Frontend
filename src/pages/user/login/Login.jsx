@@ -9,7 +9,7 @@ import NormalInput from '../../../components/common/inputs/NormalInput';
 import SingleButton from '../../../components/common/buttons/SingleButton';
 import MobileInput from '../../../components/common/inputs/MobileInput'
 import { toast } from '../../../redux/features/user/systemSlice'
-import { getDeviceAndBrowserInfo, deviceIdBuilder } from '../../../assets/javascript/device-helpers'
+import { getDeviceAndBrowserInfo } from '../../../assets/javascript/device-helpers'
 import { ttSv2Axios } from '../../../config/axios';
 import { setUser } from '../../../redux/features/user/authSlice'
 
@@ -20,8 +20,6 @@ function Login() {
     const [form, setForm] = useState({ user_name: null, primary_number: {}, password: null })
     const [loading, setLoading] = useState()
     const acc_tkn = Cookies.get('_acc_tkn');
-    const rfs_tkn = Cookies.get('_rfs_tkn');
-    const ACC_ID = Cookies.get('ACC_ID');
     const DVC_ID = Cookies.get('DVC_ID');
 
 
@@ -80,8 +78,16 @@ function Login() {
     }
 
     useEffect(() => {
-        if (ACC_ID && DVC_ID && acc_tkn && rfs_tkn) {
+        if (DVC_ID && acc_tkn) {
             navigate('/?page=home')
+        } else {
+            Cookies.set('logged_in', 'no', {
+                secure: false, // Set to `true` in production (for HTTPS)
+                // domain: '.domain.com', // Allows cookie sharing across subdomains
+                sameSite: 'lax', // Helps prevent CSRF attacks , use 'strict' on host,
+                path: '/',
+                expires: 40
+            });
         }
 
         // eslint-disable-next-line
@@ -138,7 +144,7 @@ export const loginTokenSetup = async (acc_id, dispatch, navigate) => {
 
     const tokenCredentials = {
         acc_id: acc_id,
-        dvc_id: dvcId || deviceIdBuilder(),
+        dvc_id: dvcId,
         new_device: await getDeviceAndBrowserInfo()
     }
 
@@ -155,9 +161,8 @@ export const loginTokenSetup = async (acc_id, dispatch, navigate) => {
 
         Cookies.set('_acc_tkn', tokenResponse?.data?.access_token, cookieOptions);
         Cookies.set('_rfs_tkn', tokenResponse?.data?.refresh_token, cookieOptions);
-        Cookies.set('ACC_ID', tokenResponse?.data?.acc_id, cookieOptions);
         Cookies.set('DVC_ID', tokenResponse?.data?.dvc_id, cookieOptions);
-        Cookies.set('AUTH', 'OK', cookieOptions);
+        Cookies.set('logged_in', 'yes', cookieOptions);
 
         // Store in redux
         dispatch(setUser({

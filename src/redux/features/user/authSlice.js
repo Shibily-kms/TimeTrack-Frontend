@@ -24,10 +24,15 @@ export const userAuthSlice = createSlice({
             state.user = action.payload
         },
         logOut: (state) => {
-            Cookies.remove('ACC_ID');
-            Cookies.remove('AUTH');
             Cookies.remove('_acc_tkn');
             Cookies.remove('_rfs_tkn');
+            Cookies.set('logged_in', 'no', {
+                secure: false, // Set to `true` in production (for HTTPS)
+                // domain: '.domain.com', // Allows cookie sharing across subdomains
+                sameSite: 'lax', // Helps prevent CSRF attacks , use 'strict' on host,
+                path: '/',
+                expires: 40
+            });
 
             state.user = null
         }

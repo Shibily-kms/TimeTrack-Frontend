@@ -1,7 +1,7 @@
 import axios from 'axios'
 import Cookies from 'js-cookie';
 import { doSignOut } from '../assets/javascript/auth-helper';
-export const baseUrl = 'http://192.168.1.2'
+export const baseUrl = 'http://192.168.1.7'
 const apiHeaders = { 'Content-Type': 'application/json' }
 
 //* Base Setup
@@ -69,14 +69,17 @@ const responseErrorFunction = async (error) => {
     const originalRequest = error.config;
 
     if (error.response) {
+        console.log(error, originalRequest)
         // Token expiration handling
         if (error.response.status === 401 && !originalRequest._retry) {
+            console.log('1')
             return await handleTokenError(originalRequest);
         }
-
+        
         // Unauthorized or Forbidden
         if (error.response.status === 403 || error.response.status === 401) {
-            doSignOut(error.response.status === 403);
+            console.log('2')
+            doSignOut();
         }
 
         // Network timeout error
