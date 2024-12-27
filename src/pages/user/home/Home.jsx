@@ -12,6 +12,7 @@ import { YYYYMMDDFormat } from '../../../assets/javascript/date-helper';
 import { ttSv2Axios } from '../../../config/axios';
 import WorkDetails from '../../../components/user/semi-work-details/WorkDetails';
 import { PiGraphFill } from 'react-icons/pi';
+import { TbDropletSearch } from 'react-icons/tb';
 
 
 
@@ -143,6 +144,14 @@ function Home({ setPageHead }) {
               <PiGraphFill />
             </div>
             <p>SL Lead</p>
+          </div>}
+
+          {user?.allowed_origins?.some((access) => access?.slice(0, 8) === 'slur_eqr') && <div className="app-item">
+            <div className="icon-div" style={{ backgroundColor: "#2b6dd6" }}
+              onClick={() => window.location.href = `http://localhost:3001/enquiry?page=home`}>
+              <TbDropletSearch />
+            </div>
+            <p>SL Enquiry</p>
           </div>}
         </div>
       </div>

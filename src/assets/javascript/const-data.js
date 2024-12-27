@@ -3,7 +3,7 @@ export const work_modes = ['On-site', 'Remote', 'Hybrid ']
 export const e_types = ['Part time', 'Full time']
 export const prospect_type = ['Lead', 'Enquiry', 'Installation']
 export const prospect_status = ['Completed', 'Cancelled']
-export const prospect_urgency = ['Cool', 'Warm', 'Hot']
+export const prospect_urgency = ['Hot', 'Warm', 'Cool']
 
 
 
@@ -120,12 +120,12 @@ export const origins_head_list = [
                 ]
             },
             {
-                id: 'slur_enquiry',
+                id: 'slur_eqr',
                 title: 'Enquiry',
                 description: 'Quotation build, Enquiry form submit, Approval and reject enquiries',
                 origins: [
                     {
-                        key: 'slur_enquiry_write',
+                        key: 'slur_eqr_write',
                         name: 'Read and Write'
                     }
                 ]
