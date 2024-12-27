@@ -27,6 +27,7 @@ export const systemSlice = createSlice({
             const cookieOptions = {
                 secure: true,
                 sameSite: 'None',
+                domain: '.alliancewatersolutions.com',
                 path: '/'
             };
             Cookies.set('color_mode', action?.payload, cookieOptions)

@@ -12,7 +12,7 @@ const RotateToken = () => {
         const cookieOptions = {
             secure: true,
             sameSite: 'None',
-            domain: '.alliancedev.in',
+            domain: '.alliancewatersolutions.com',
             path: '/',
             expires: 40
         };
@@ -26,7 +26,7 @@ const RotateToken = () => {
         const cookieOptions = {
             secure: true,
             sameSite: 'None',
-            domain: '.alliancedev.in',
+            domain: '.alliancewatersolutions.com',
             path: '/',
             expires: new Date(Date.now() + 60 * 60 * 1000)
         };

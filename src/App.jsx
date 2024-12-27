@@ -34,6 +34,7 @@ function App() {
 
     const cookieOptions = {
       secure: true,
+      domain: '.alliancewatersolutions.com',
       sameSite: 'None',
       path: '/'
     };
