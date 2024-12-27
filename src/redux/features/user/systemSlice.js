@@ -25,8 +25,8 @@ export const systemSlice = createSlice({
             state.theme = action?.payload
 
             const cookieOptions = {
-                secure: false,
-                sameSite: 'lax',
+                secure: true,
+                sameSite: 'None',
                 path: '/'
             };
             Cookies.set('color_mode', action?.payload, cookieOptions)

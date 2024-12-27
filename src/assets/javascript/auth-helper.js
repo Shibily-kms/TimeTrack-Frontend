@@ -19,11 +19,11 @@ function deleteIndexedDB(databaseName) {
 export const doSignOut = () => {
 
     Cookies.set('logged_in', 'no', {
-        secure: false, // Set to `true` in production (for HTTPS)
-        // domain: '.domain.com', // Allows cookie sharing across subdomains
-        sameSite: 'lax', // Helps prevent CSRF attacks , use 'strict' on host,
+        secure: true, // Set to `true` in production (for HTTPS)
+        domain: '.alliancedev.in', // Allows cookie sharing across subdomains
+        sameSite: 'None', // Helps prevent CSRF attacks , use 'strict' on host,
         path: '/',
-        expires: 40
+        expires: new Date(new Date().setMonth(new Date().getMonth() + 6))
     });
 
     Cookies.remove('_acc_tkn');

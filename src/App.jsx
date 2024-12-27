@@ -33,8 +33,8 @@ function App() {
     window.addEventListener('offline', handleOffline);
 
     const cookieOptions = {
-      secure: false,
-      sameSite: 'lax',
+      secure: true,
+      sameSite: 'None',
       path: '/'
     };
 

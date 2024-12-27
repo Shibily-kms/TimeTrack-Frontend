@@ -34,7 +34,7 @@ const handleTokenError = async (originalRequest) => {
             domain: '.alliancedev.in', // Allows cookie sharing across subdomains
             sameSite: 'None', // Helps prevent CSRF attacks , use 'strict' on host,
             path: '/',
-            expires: new Date(Date.now() + 40 * 24 * 60 * 60 * 1000)
+            expires: new Date(Date.now() + 60 * 60 * 1000)
         };
 
         Cookies.set('_acc_tkn', data?.data?.access_token, cookieOptions);
@@ -76,7 +76,7 @@ const responseErrorFunction = async (error) => {
             console.log('1')
             return await handleTokenError(originalRequest);
         }
-        
+
         // Unauthorized or Forbidden
         if (error.response.status === 403 || error.response.status === 401) {
             console.log('2')

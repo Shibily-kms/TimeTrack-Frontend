@@ -10,26 +10,25 @@ const RotateToken = () => {
 
     useEffect(() => {
         const cookieOptions = {
-            secure: false,
-            sameSite: 'lax',
+            secure: true,
+            sameSite: 'None',
+            domain: '.alliancedev.in',
             path: '/',
             expires: 40
         };
 
-        const expirationDate = new Date();
-        expirationDate.setMonth(expirationDate.getMonth() + 6);
-
         // set initial cookies
-        Cookies.set('DVC_ID', DVC_ID, { ...cookieOptions, expires: expirationDate })
-        Cookies.set('_rfs_tkn', rfs_tkn, { ...cookieOptions, expires: expirationDate })
+        Cookies.set('DVC_ID', DVC_ID, { ...cookieOptions, expires: new Date(new Date().setMonth(new Date().getMonth() + 6)) })
+        Cookies.set('_rfs_tkn', rfs_tkn, { ...cookieOptions, expires: new Date(new Date().setMonth(new Date().getMonth() + 6)) })
     }, [])
 
     useEffect(() => {
         const cookieOptions = {
-            secure: false,
-            sameSite: 'lax',
+            secure: true,
+            sameSite: 'None',
+            domain: '.alliancedev.in',
             path: '/',
-            expires: 40
+            expires: new Date(Date.now() + 60 * 60 * 1000)
         };
 
         const interval = setInterval(() => {
