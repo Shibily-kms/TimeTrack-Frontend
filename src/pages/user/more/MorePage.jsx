@@ -33,6 +33,11 @@ const MorePage = ({ setPageHead }) => {
     const handleLogOut = () => {
         const ask = window.confirm('Are you ready for logOut ?')
         if (ask) {
+            // Remove cookies
+            Cookies.remove('logged_in', { path: '/' });
+            Cookies.remove('_acc_tkn', { path: '/' });
+            Cookies.remove('_rfs_tkn', { path: '/' });
+
             dispatch(clearWorkData())
             dispatch(logOut())
             dispatch(doSignOut())

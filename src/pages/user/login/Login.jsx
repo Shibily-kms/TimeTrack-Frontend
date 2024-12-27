@@ -78,20 +78,21 @@ function Login() {
     }
 
     useEffect(() => {
-        if (DVC_ID && acc_tkn) {
-            navigate('/?page=home')
-        } else {
+        if (!DVC_ID || !acc_tkn) {
+            // Cookies for logged_in status may need to be reset
             Cookies.set('logged_in', 'no', {
-                secure: true, // Set to `true` in production (for HTTPS)
-                domain: '.alliancewatersolutions.com', // Allows cookie sharing across subdomains
-                sameSite: 'None', // Helps prevent CSRF attacks , use 'strict' on host,
+                secure: true,
+                domain: '.alliancewatersolutions.com',
+                sameSite: 'None',
                 path: '/',
-                expires: new Date(new Date().setMonth(new Date().getMonth() + 6))
+                expires: new Date(new Date().setMonth(new Date().getMonth() + 6)),
             });
+        } else {
+            navigate('/?page=home'); // If logged in, navigate to home page
         }
 
         // eslint-disable-next-line
-    }, [])
+    }, [DVC_ID, acc_tkn])
 
     return (
         <div className='auth-comp-main-div'>

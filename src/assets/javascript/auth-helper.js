@@ -26,8 +26,8 @@ export const doSignOut = () => {
         expires: new Date(new Date().setMonth(new Date().getMonth() + 6))
     });
 
-    Cookies.remove('_acc_tkn');
-    Cookies.remove('_rfs_tkn');
+    Cookies.remove('_acc_tkn', { path: '/' });
+    Cookies.remove('_rfs_tkn', { path: '/' });
 
     // Clear IndexedDB
     deleteIndexedDB('initial_storage')
