@@ -33,7 +33,7 @@ export const userAuthSlice = createSlice({
             //     path: '/',
             //     expires: 40
             // });
-
+            console.log('1')
             state.user = null
         }
     }

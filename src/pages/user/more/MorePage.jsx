@@ -13,11 +13,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ui_version } from '../../../assets/javascript/const-data'
 import { RiSettingsLine } from 'react-icons/ri';
 import { doSignOut } from '../../../assets/javascript/auth-helper';
+import { PiSpinnerBold } from 'react-icons/pi';
 
 const MorePage = ({ setPageHead }) => {
     const [searchParams, setSearchParams] = useSearchParams()
     const { user } = useSelector((state) => state.userAuth)
     const [modal, setModal] = useState({ content: null, title: null, status: false })
+    const [loading, setLoading] = useState('')
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -33,10 +35,16 @@ const MorePage = ({ setPageHead }) => {
     const handleLogOut = () => {
         const ask = window.confirm('Are you ready for logOut ?')
         if (ask) {
+            setLoading('out')
             dispatch(clearWorkData())
             dispatch(logOut())
             dispatch(doSignOut())
-            navigate('/auth/sign-in')
+
+            // Delay navigation to ensure dispatch effects are processed
+            setTimeout(() => {
+                setLoading('')
+                navigate('/auth/sign-in');
+            }, 1000); // Delay for 1 second
         }
     }
 
@@ -87,6 +95,9 @@ const MorePage = ({ setPageHead }) => {
                     <div className="left">
                         <IoMdLogOut />
                         <h4>Log out</h4>
+                    </div>
+                    <div className={loading === 'out' ? "right loading-icon" : 'right '}>
+                        {loading === 'out' && <PiSpinnerBold />}
                     </div>
                 </div>
             </div>
