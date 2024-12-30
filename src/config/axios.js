@@ -34,7 +34,7 @@ const handleTokenError = async (originalRequest) => {
             domain: '.alliancewatersolutions.com', // Allows cookie sharing across subdomains
             sameSite: 'None', // Helps prevent CSRF attacks , use 'strict' on host,
             path: '/',
-            expires: new Date(Date.now() + 60 * 60 * 1000)
+            expires: new Date(new Date().setMonth(new Date().getMonth() + 6))
         };
 
         Cookies.set('_acc_tkn', data?.data?.access_token, cookieOptions);

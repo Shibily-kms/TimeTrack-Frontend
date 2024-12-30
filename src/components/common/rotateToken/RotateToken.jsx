@@ -14,12 +14,18 @@ const RotateToken = () => {
             sameSite: 'None',
             domain: '.alliancewatersolutions.com',
             path: '/',
-            expires: 40
+            expires: new Date(new Date().setMonth(new Date().getMonth() + 6))
         };
 
+
         // set initial cookies
-        Cookies.set('DVC_ID', DVC_ID, { ...cookieOptions, expires: new Date(new Date().setMonth(new Date().getMonth() + 6)) })
-        Cookies.set('_rfs_tkn', rfs_tkn, { ...cookieOptions, expires: new Date(new Date().setMonth(new Date().getMonth() + 6)) })
+        if (DVC_ID && rfs_tkn) {
+            const expirationDate = new Date();
+            expirationDate.setMonth(expirationDate.getMonth() + 6);
+
+            Cookies.set('DVC_ID', DVC_ID, { ...cookieOptions, expires: expirationDate })
+            Cookies.set('_rfs_tkn', rfs_tkn, { ...cookieOptions, expires: expirationDate })
+        }
     }, [])
 
     useEffect(() => {
@@ -28,16 +34,13 @@ const RotateToken = () => {
             sameSite: 'None',
             domain: '.alliancewatersolutions.com',
             path: '/',
-            expires: new Date(Date.now() + 60 * 60 * 1000)
+            expires: new Date(new Date().setMonth(new Date().getMonth() + 6))
         };
 
         const interval = setInterval(() => {
 
             ttSv2Axios.post('/auth/rotate-token', { refresh_token: user?.refresh_token }).then((response) => {
-
-
                 Cookies.set('_acc_tkn', response?.data?.access_token, cookieOptions);
-
             })
         }, 1000 * 60 * 30); // 1 second interval
 

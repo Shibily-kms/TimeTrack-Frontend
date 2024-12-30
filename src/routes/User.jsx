@@ -20,18 +20,19 @@ const Devices = lazy(() => import('../components/user/my-account/Devices'))
 const SecurityPrivacy = lazy(() => import('../components/user/my-account/SecurityPrivacy'))
 
 
-function User() {
+function User({ }) {
 
   let isAuthenticated = false
   const dispatch = useDispatch()
   const { internet } = useSelector((state) => state.systemInfo)
   const [pageHead, setPageHead] = useState({ title: null, desc: null })
-  const logged_in = Cookies.get('logged_in');
   const DVC_ID = Cookies.get('DVC_ID');
+  const rfs_tkn = Cookies.get('_rfs_tkn');
 
-  if (DVC_ID && logged_in === 'yes') {
+  if (DVC_ID && rfs_tkn) {
     isAuthenticated = true
-  } 
+  }
+
 
   useEffect(() => {
     // Change Title
