@@ -48,8 +48,12 @@ const MorePage = ({ setPageHead }) => {
             dispatch(doLogOut())
 
             // clear cookie
-            Cookies.remove('_acc_tkn');
-            Cookies.remove('_rfs_tkn');
+            console.log('Cookies before logout:', Cookies.get());
+            ['_acc_tkn', '_rfs_tkn'].forEach(cookie =>
+                Cookies.remove(cookie, { path: '/', domain: '.alliancewatersolutions.com', secure: true, sameSite: 'None' })
+            );
+            console.log('Cookies after logout:', Cookies.get());
+
             Cookies.set('logged_in', 'no', {
                 secure: true,
                 domain: '.alliancewatersolutions.com',
