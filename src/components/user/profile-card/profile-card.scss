@@ -12,7 +12,6 @@
     background: linear-gradient(320deg, #{$aws-color-light-theme-blue-50} 18%, #{$aws-color-light-theme-blue-80} 73%);
     border: var(--border-secondary) 1px solid;
     padding: 10px 10px 5px 10px;
-    color : #{$aws-color-white};
     user-select: none;
     overflow: hidden;
     
@@ -72,6 +71,7 @@
 
         p {
             @include threeDots(1);
+            color : #{$aws-color-white};
         }
 
         div {

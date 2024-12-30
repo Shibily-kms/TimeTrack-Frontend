@@ -14,7 +14,7 @@ import SalaryReport from './SalaryReport';
 import { useSelector } from 'react-redux';
 
 
-function WorkReportTable({ report, setData, thisMonth, staffBase }) {
+function WorkReportTable({ report, setData, thisMonth, staffBase, tableRightContent }) {
     const [modal, setModal] = useState({})
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
     const { user } = useSelector((state) => state.userAuth)
@@ -31,7 +31,7 @@ function WorkReportTable({ report, setData, thisMonth, staffBase }) {
         <div className='work-report-table'>
             <Modal modal={modal} setModal={setModal} />
 
-            <TableFilter>
+            <TableFilter topRight={tableRightContent}>
                 <table>
                     <thead>
                         <tr>

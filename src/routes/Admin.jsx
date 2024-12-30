@@ -21,17 +21,15 @@ const LeaveApp = lazy(() => import('../pages/admin/leave-app/LeaveApp'))
 
 
 function Admin() {
-  let isAuthenticated = false
 
+  let isAuthenticated = false
   const { user } = useSelector((state) => state.userAuth)
   const navigate = useNavigate()
   const [pageHead, setPageHead] = useState({ title: null, desc: null, right: null })
-  const acc_tkn = Cookies.get('_acc_tkn');
-  const rfs_tkn = Cookies.get('_rfs_tkn');
-  const ACC_ID = Cookies.get('ACC_ID');
   const DVC_ID = Cookies.get('DVC_ID');
+  const rfs_tkn = Cookies.get('_rfs_tkn');
 
-  if (acc_tkn && ACC_ID && DVC_ID && rfs_tkn) {
+  if (DVC_ID && rfs_tkn) {
     isAuthenticated = true
   }
 

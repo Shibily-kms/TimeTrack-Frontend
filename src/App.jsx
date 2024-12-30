@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { connection } from './redux/features/user/systemSlice'
 import PageLoading from './components/common/spinners/PageLoading';
 import Master from './Master';
+import Cookies from 'js-cookie';
 
 
 const UserLogin = lazy(() => import('./pages/user/login/Login'))
@@ -31,13 +32,22 @@ function App() {
     window.addEventListener('online', handleOnline);
     window.addEventListener('offline', handleOffline);
 
+    const cookieOptions = {
+      secure: false,
+      sameSite: 'lax',
+      path: '/'
+    };
+
     // Initial Theme Setup
     if (theme === 'os-default') {
       root.className = 'os-default';
+      Cookies.set('color_mode', 'os-default', cookieOptions)
     } else if (theme === 'dark') {
       root.className = 'dark';
+      Cookies.set('color_mode', 'dark', cookieOptions)
     } else {
       root.className = 'light';
+      Cookies.set('color_mode', 'light', cookieOptions)
     }
 
     return () => {

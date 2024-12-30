@@ -106,23 +106,16 @@ function WorkReport({ setPageHead }) {
                         <SelectInput label='Staff' name='staff_id' firstOption={{ option: 'All', value: '' }} onChangeFun={handleChange}
                             values={staffList?.map((staff) => ({ option: `${staff?.full_name} ${staff?.delete ? '(Removed)' : ''}`, value: staff._id }))} />
                     </div>
-                    <div className="right">
-                        {/* Buttons */}
-                        {data[0] && !thisMonth &&
-                            <div>
-                                <p>Download files</p>
-                                <div><SCReport report={data} thisMonth={thisMonth} date={form?.date} staffBase={form?.staff_id}
-                                    staff={staffList?.filter((staff) => staff._id === form.staff_id)?.[0]} /></div>
-                            </div>
-                        }
-                    </div>
+                    <div className="right"></div>
                 </div>
                 <div className="content">
                     {loading
                         ? <SpinWithMessage message='Generate report' height={'400px'} load={loading} />
                         : <>
                             {data?.[0]
-                                ? <WorkReportTable report={data} setData={setData} thisMonth={thisMonth} staffBase={form?.staff_id} />
+                                ? <WorkReportTable report={data} setData={setData} thisMonth={thisMonth} staffBase={form?.staff_id}
+                                    tableRightContent={<SCReport report={data} thisMonth={thisMonth} date={form?.date} staffBase={form?.staff_id}
+                                        staff={staffList?.filter((staff) => staff._id === form.staff_id)?.[0]} />} />
                                 : <SpinWithMessage icon={<BsDatabaseFillExclamation />} height={'400px'} message='Salary report not available' spin={false} />
                             }
                         </>}

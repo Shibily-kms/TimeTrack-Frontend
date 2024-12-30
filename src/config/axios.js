@@ -52,8 +52,8 @@ const requestConfigFunction = (config) => {
     let userToken = Cookies.get('_acc_tkn')
     if (userToken) {
         config.headers['Authorization'] = `Bearer ${userToken}`;
-        config.timeout = 10000
     }
+    config.timeout = 10000
     return config
 }
 
@@ -70,17 +70,36 @@ const responseErrorFunction = async (error) => {
 
     const originalRequest = error.config;
 
-    if (error.response && error.response.status === 401 && !originalRequest._retry) {
-        await handleTokenError(originalRequest);
-    } else if (error.response.status === 403 || error.response.status === 401) {
-        doSignOut(error.response.status === 403)
-    } else if (error.code === 'ECONNABORTED') {
-        return Promise.reject({ ...error.response.data, message: 'No proper internet connection' });
-    } else if (error.response?.data?.statusCode >= 400 && error.response?.data?.statusCode < 500) {
-        return Promise.reject({ message: error.response?.data?.message });
-    }
+    if (error.response) {
+        console.log(error, originalRequest)
+        // Token expiration handling
+        if (error.response.status === 401 && !originalRequest._retry) {
+            console.log('1')
+            return await handleTokenError(originalRequest);
+        }
+        
+        // Unauthorized or Forbidden
+        if (error.response.status === 403 || error.response.status === 401) {
+            console.log('2')
+            doSignOut();
+        }
 
-    return Promise.reject({ message: 'Unknown Error' });
+        // Network timeout error
+        if (error.code === 'ECONNABORTED') {
+            return Promise.reject({ ...error.response.data, message: 'Connection timed out, please check your network.' });
+        }
+
+        // Other client-side errors
+        if (error.response.data?.statusCode >= 400 && error.response.data?.statusCode < 500) {
+            return Promise.reject({ message: error.response.data.message || 'Client error occurred.' });
+        }
+    } else if (error.request) {
+        // No response was received
+        return Promise.reject({ message: 'No network connection.' });
+    } else {
+        // Other errors (unknown)
+        return Promise.reject({ message: 'An unknown error occurred.' });
+    }
 }
 
 //* API interceptors
