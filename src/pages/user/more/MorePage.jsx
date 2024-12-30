@@ -51,11 +51,11 @@ const MorePage = ({ setPageHead }) => {
             Cookies.remove('_acc_tkn');
             Cookies.remove('_rfs_tkn');
             Cookies.set('logged_in', 'no', {
-                secure: false,
-                // domain: '.domain.com', 
-                sameSite: 'lax',
+                secure: true,
+                domain: '.alliancedev.in',
+                sameSite: 'None',
                 path: '/',
-                expires: 40
+                expires: new Date(new Date().setMonth(new Date().getMonth() + 6))
             });
 
 
