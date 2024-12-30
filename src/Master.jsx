@@ -8,15 +8,23 @@ import Cookies from 'js-cookie';
 import { ttSv2Axios } from './config/axios'
 import { setUser } from './redux/features/user/authSlice'
 import { useDispatch, useSelector } from 'react-redux'
-import { doSignOut } from './assets/javascript/auth-helper'
 import RotateToken from './components/common/rotateToken/RotateToken'
 
 const Master = () => {
     const dispatch = useDispatch()
     const { user } = useSelector((state) => state.userAuth)
-    const acc_tkn = Cookies.get('_acc_tkn');
     const logged_in = Cookies.get('logged_in');
     const DVC_ID = Cookies.get('DVC_ID');
+    const acc_tkn = Cookies.get('_acc_tkn');
+
+    const cookieOptions = {
+        secure: false,
+        // domain: '.domain.com', 
+        sameSite: 'lax',
+        path: '/',
+        expires: 40
+    };
+
 
     useEffect(() => {
 
@@ -25,20 +33,14 @@ const Master = () => {
             ttSv2Axios.get('/worker/initial-info').then((response) => {
                 dispatch(setUser({ ...(user || {}), ...response.data }))
             })
+
             if (!logged_in || logged_in === 'no') {
-                Cookies.set('logged_in', 'yes', {
-                    secure: false, // Set to `true` in production (for HTTPS)
-                    // domain: '.domain.com', // Allows cookie sharing across subdomains
-                    sameSite: 'lax', // Helps prevent CSRF attacks , use 'strict' on host,
-                    path: '/',
-                    expires: 40
-                });
+                Cookies.set('logged_in', 'yes', cookieOptions);
             }
         }
 
-
         // eslint-disable-next-line
-    }, [])
+    }, [DVC_ID, acc_tkn])
 
 
     return (

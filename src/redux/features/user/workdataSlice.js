@@ -23,13 +23,6 @@ export const workDataSlice = createSlice({
     name: 'workdata',
     initialState,
     reducers: {
-        resetWorkData: (state) => {
-            state.workDetails = null
-            state.isLoading = false
-            state.isSuccess = false
-            state.isError = false
-            state.message = ''
-        },
         setWorkData: (state, action) => {
             state.workDetails = action.payload
         },
@@ -56,6 +49,5 @@ export const workDataSlice = createSlice({
 })
 
 
-export const {
-    setWorkData, clearWorkData } = workDataSlice.actions;
+export const { setWorkData, clearWorkData } = workDataSlice.actions;
 export default workDataSlice.reducer
