@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './style.scss'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import Cookies from 'js-cookie';
 import { RxEyeClosed, RxEyeOpen } from 'react-icons/rx';
@@ -11,7 +11,17 @@ import MobileInput from '../../../components/common/inputs/MobileInput'
 import { toast } from '../../../redux/features/user/systemSlice'
 import { getDeviceAndBrowserInfo } from '../../../assets/javascript/device-helpers'
 import { ttSv2Axios } from '../../../config/axios';
-import { setUser } from '../../../redux/features/user/authSlice'
+import { setUser, doLogin } from '../../../redux/features/user/authSlice'
+
+
+const cookieOptions = {
+    secure: true,
+    domain: '.alliancedev.in',
+    sameSite: 'None',
+    path: '/',
+    expires: new Date(new Date().setMonth(new Date().getMonth() + 6))
+};
+
 
 function Login() {
     const dispatch = useDispatch()
@@ -19,8 +29,8 @@ function Login() {
     const [show, setShow] = useState(false)
     const [form, setForm] = useState({ user_name: null, primary_number: {}, password: null })
     const [loading, setLoading] = useState()
-    const acc_tkn = Cookies.get('_acc_tkn');
-    const DVC_ID = Cookies.get('DVC_ID');
+    const [rfsTkn, setRfsTkn] = useState(Cookies.get('_rfs_tkn'));
+    const [dvcId, setDvcId] = useState(Cookies.get('DVC_ID'));
 
 
     const handleChange = (e) => {
@@ -67,7 +77,7 @@ function Login() {
 
             if (signResponse?.data?.authentication && !signResponse?.data?.redirect) {
                 // Token Generate
-                await loginTokenSetup(signResponse?.data?.acc_id, dispatch, navigate)
+                await loginTokenSetup(signResponse?.data?.acc_id)
                 setLoading(false)
             }
 
@@ -77,21 +87,59 @@ function Login() {
         })
     }
 
-    useEffect(() => {
-        if (DVC_ID && acc_tkn) {
-            navigate('/?page=home')
-        } else {
-            Cookies.set('logged_in', 'no', {
-                secure: true, // Set to `true` in production (for HTTPS)
-                domain: '.alliancedev.in', // Allows cookie sharing across subdomains
-                sameSite: 'None', // Helps prevent CSRF attacks , use 'strict' on host,
-                path: '/',
-                expires: new Date(new Date().setMonth(new Date().getMonth() + 6))
-            });
+    const loginTokenSetup = async (acc_id) => {
+        let dvcId = Cookies?.get('DVC_ID');
+
+        // dvcId validate
+        if (dvcId?.length !== 32) {
+            dvcId = null
         }
 
-        // eslint-disable-next-line
-    }, [])
+        const tokenCredentials = {
+            acc_id: acc_id,
+            dvc_id: dvcId,
+            new_device: await getDeviceAndBrowserInfo()
+        }
+
+        ttSv2Axios.post('/auth/take-token', tokenCredentials).then((tokenResponse) => {
+
+            // Cookie setup
+            Cookies.set('_acc_tkn', tokenResponse?.data?.access_token, cookieOptions);
+            Cookies.set('_rfs_tkn', tokenResponse?.data?.refresh_token, cookieOptions);
+            Cookies.set('DVC_ID', tokenResponse?.data?.dvc_id, cookieOptions);
+            Cookies.set('logged_in', 'yes', cookieOptions);
+
+            // Update state
+            setRfsTkn(tokenResponse?.data?.refresh_token);
+            setDvcId(tokenResponse?.data?.dvc_id);
+
+            // Store in auth redux
+            dispatch(doLogin({
+                DVC_ID: tokenResponse?.data?.dvc_id,
+                ACC_ID: tokenResponse?.data?.acc_id,
+                _rfs_tkn: tokenResponse?.data?.refresh_token,
+            }))
+
+            // Store in user redux
+            dispatch(setUser({
+                acc_id: tokenResponse?.data?.acc_id,
+                designation_id: tokenResponse?.data?.designation_id,
+            }))
+
+        }).catch((error) => {
+            dispatch(toast.push.error({ message: error.message }))
+        })
+
+        return
+    }
+
+    useEffect(() => {
+        if (rfsTkn && dvcId) {
+            navigate('/?page=home');
+        } else {
+            Cookies.set('logged_in', 'no', cookieOptions);
+        }
+    }, [rfsTkn, dvcId, navigate]);
 
     return (
         <div className='auth-comp-main-div'>
@@ -139,45 +187,3 @@ function Login() {
 export default Login
 
 
-export const loginTokenSetup = async (acc_id, dispatch, navigate) => {
-    const dvcId = Cookies?.get('DVC_ID');
-
-    const tokenCredentials = {
-        acc_id: acc_id,
-        dvc_id: dvcId,
-        new_device: await getDeviceAndBrowserInfo()
-    }
-
-    ttSv2Axios.post('/auth/take-token', tokenCredentials).then((tokenResponse) => {
-
-        // Data store in cookie
-        const cookieOptions = {
-            secure: true, // Set to `true` in production (for HTTPS)
-            domain: '.alliancedev.in', // Allows cookie sharing across subdomains
-            sameSite: 'None', // Helps prevent CSRF attacks , use 'strict' on host,
-            path: '/',
-            expires: new Date(Date.now() + 40 * 24 * 60 * 60 * 1000)
-        };
-
-        Cookies.set('_acc_tkn', tokenResponse?.data?.access_token, cookieOptions);
-        Cookies.set('_rfs_tkn', tokenResponse?.data?.refresh_token, cookieOptions);
-        Cookies.set('DVC_ID', tokenResponse?.data?.dvc_id, cookieOptions);
-        Cookies.set('logged_in', 'yes', cookieOptions);
-
-        // Store in redux
-        dispatch(setUser({
-            dvc_id: tokenResponse?.data?.dvc_id,
-            acc_id: tokenResponse?.data?.acc_id,
-            designation_id: tokenResponse?.data?.designation_id,
-            refresh_token: tokenResponse?.data?.refresh_token
-        }))
-
-        //Navigate to home
-        navigate('/?page=home')
-
-    }).catch((error) => {
-        dispatch(toast.push.error({ message: error.message }))
-    })
-
-    return
-}

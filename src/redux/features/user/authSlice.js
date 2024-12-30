@@ -1,44 +1,35 @@
 import { createSlice } from '@reduxjs/toolkit'
-import Cookies from 'js-cookie';
-
 
 const initialState = {
     user: null,
-    isLoading: false,
-    isSuccess: false,
-    isError: false,
-    message: ''
+    auth: null,
 }
 
 export const userAuthSlice = createSlice({
     name: 'userAuth',
     initialState,
     reducers: {
-        reset: (state) => {
-            state.isError = false
-            state.isLoading = false
-            state.isSuccess = false
-            state.message = ''
-        },
         setUser: (state, action) => {
             state.user = action.payload
         },
-        logOut: (state) => {
-            // Cookies.remove('_acc_tkn');
-            // Cookies.remove('_rfs_tkn');
-            // Cookies.set('logged_in', 'no', {
-            //     secure: false, // Set to `true` in production (for HTTPS)
-            //     // domain: '.domain.com', // Allows cookie sharing across subdomains
-            //     sameSite: 'lax', // Helps prevent CSRF attacks , use 'strict' on host,
-            //     path: '/',
-            //     expires: 40
-            // });
-            console.log('1')
+        doLogin: (state, action) => {
+            state.auth = {
+                DVC_ID: action.payload.DVC_ID,
+                ACC_ID: action.payload.ACC_ID,
+                _rfs_tkn: action.payload._rfs_tkn,
+            }
+        },
+        doLogOut: (state) => {
             state.user = null
+            state.auth = {
+                ...state.auth,
+                ACC_ID: null,
+                _rfs_tkn: null,
+            }
         }
     }
 })
 
 
-export const { reset, logOut, setUser } = userAuthSlice.actions;
+export const { doLogOut, setUser, doLogin } = userAuthSlice.actions;
 export default userAuthSlice.reducer

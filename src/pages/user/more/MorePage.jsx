@@ -7,13 +7,12 @@ import { LuFileEdit } from "react-icons/lu";
 import { IoMdLogOut } from "react-icons/io";
 import { BsQrCodeScan } from "react-icons/bs";
 import { clearWorkData } from '../../../redux/features/user/workdataSlice';
-
-import { logOut } from '../../../redux/features/user/authSlice'
+import { doLogOut } from '../../../redux/features/user/authSlice'
 import { useDispatch, useSelector } from 'react-redux';
 import { ui_version } from '../../../assets/javascript/const-data'
 import { RiSettingsLine } from 'react-icons/ri';
-import { doSignOut } from '../../../assets/javascript/auth-helper';
 import { PiSpinnerBold } from 'react-icons/pi';
+import Cookies from 'js-cookie';
 
 const MorePage = ({ setPageHead }) => {
     const [searchParams, setSearchParams] = useSearchParams()
@@ -22,6 +21,14 @@ const MorePage = ({ setPageHead }) => {
     const [loading, setLoading] = useState('')
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const [rfsTkn, setRfsTkn] = useState(Cookies.get('_rfs_tkn'));
+    const [dvcId, setDvcId] = useState(Cookies.get('DVC_ID'));
+
+    useEffect(() => {
+        if (!rfsTkn || !dvcId) {
+            navigate('/auth/sign-in')
+        }
+    }, [rfsTkn, dvcId])
 
     useEffect(() => {
         if (!searchParams.get('page')) {
@@ -36,15 +43,24 @@ const MorePage = ({ setPageHead }) => {
         const ask = window.confirm('Are you ready for logOut ?')
         if (ask) {
             setLoading('out')
-            dispatch(clearWorkData())
-            dispatch(logOut())
-            dispatch(doSignOut())
 
-            // Delay navigation to ensure dispatch effects are processed
-            setTimeout(() => {
-                setLoading('')
-                navigate('/auth/sign-in');
-            }, 1000); // Delay for 1 second
+            dispatch(clearWorkData())
+            dispatch(doLogOut())
+
+            // clear cookie
+            Cookies.remove('_acc_tkn');
+            Cookies.remove('_rfs_tkn');
+            Cookies.set('logged_in', 'no', {
+                secure: false,
+                // domain: '.domain.com', 
+                sameSite: 'lax',
+                path: '/',
+                expires: 40
+            });
+
+
+            setRfsTkn(null);
+            setDvcId(null);
         }
     }
 
