@@ -80,8 +80,9 @@ const SingleContact = ({ type, label, contact, setModal, setUserData }) => {
         setCounter(300)
     }
 
-    const verifyOtp = () => {
-        const enteredOtp = otp.join('');
+    const verifyOtp = (newOtp) => {
+        const enteredOtp = (newOtp || otp).join('');
+        console.log(enteredOtp)
         setLoading(true)
         ttSv2Axios.post('/auth/otp-v/verify', {
             acc_id: user?.acc_id,
@@ -97,6 +98,22 @@ const SingleContact = ({ type, label, contact, setModal, setUserData }) => {
         })
     }
 
+    const handlePaste = (e) => {
+        e.preventDefault();
+        const pastedData = e.clipboardData.getData("text").trim();
+
+        if (/^\d+$/.test(pastedData)) { // Check if the pasted value is only numbers
+            const newOtp = pastedData.split("").slice(0, OtpLength);
+            setOtp([...newOtp, ...new Array(OtpLength - newOtp.length).fill("")]);
+
+            // Focus the last filled input
+            const inputs = document.querySelectorAll(".otp-input");
+            setTimeout(() => {
+                inputs[Math.min(newOtp.length, OtpLength - 1)]?.focus();
+            }, 0);
+        }
+    };
+
     const handleOtpChange = (element, index) => {
 
         const value = element.value;
@@ -104,11 +121,18 @@ const SingleContact = ({ type, label, contact, setModal, setUserData }) => {
         if (/[^0-9]/.test(value)) return; // Only allow numeric input
         if (element.value.length > 1) return;
 
-        setOtp([...otp.map((d, idx) => (idx === index ? value : d))]);
+        const newOtp = [...otp];
+        newOtp[index] = value;
+        setOtp(newOtp);
 
         // Focus on next input if available
         if (value && element.nextSibling) {
             element.nextSibling.focus();
+        }
+
+        // Check if all inputs are filled, then submit
+        if (newOtp.every((digit) => digit !== "")) {
+            verifyOtp(newOtp)
         }
     };
 
@@ -192,6 +216,7 @@ const SingleContact = ({ type, label, contact, setModal, setUserData }) => {
                         <div className="otp-input-group">
                             {otp.map((data, index) => (
                                 <input
+                                    autoFocus={index === 0}
                                     className="otp-field"
                                     type="number"
                                     name="otp"
@@ -201,6 +226,7 @@ const SingleContact = ({ type, label, contact, setModal, setUserData }) => {
                                     onChange={(e) => handleOtpChange(e.target, index)}
                                     onKeyDown={(e) => handleKeyDown(e, index)}
                                     onFocus={(e) => e.target.select()}
+                                    onPaste={handlePaste}
                                 />
                             ))}
                         </div>
@@ -221,7 +247,7 @@ const SingleContact = ({ type, label, contact, setModal, setUserData }) => {
                 </div>
                 : <div className="contact-form-section">
                     <div style={{ display: 'flex', alignContent: "center", justifyContent: 'space-between' }}>
-                        <p className='smallTD2'>Your {label}</p>
+                        <p className='smallTD2'>Enter your {label}</p>
                         {['secondary_number', 'official_number'].includes(label) && contact?.number &&
                             <SingleButton name={'Remove'} classNames={'sm btn-tertiary'} onClick={() => handleDeleteNumber(label)}
                                 loading={loading} />}
