@@ -29,7 +29,7 @@ function Admin() {
   const DVC_ID = Cookies.get('DVC_ID');
   const rfs_tkn = Cookies.get('_rfs_tkn');
 
-  if (DVC_ID && rfs_tkn) {
+  if ((DVC_ID && DVC_ID.length === 32) && rfs_tkn) {
     isAuthenticated = true
   }
 
