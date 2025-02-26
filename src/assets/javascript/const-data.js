@@ -110,7 +110,7 @@ export const origins_head_list = [
         sections: [
             {
                 id: 'slur_lead',
-                title: 'Lead',
+                title: 'Lead Associate',
                 description: 'Handle leads approval and rejection',
                 origins: [
                     {
@@ -121,7 +121,7 @@ export const origins_head_list = [
             },
             {
                 id: 'slur_eqr',
-                title: 'Enquiry',
+                title: 'Sales Associate',
                 description: 'Quotation build, Enquiry form submit, Approval and reject enquiries',
                 origins: [
                     {
@@ -131,8 +131,19 @@ export const origins_head_list = [
                 ]
             },
             {
+                id: 'slur_install',
+                title: 'Product Installer',
+                description: 'Installation & Re installation section access',
+                origins: [
+                    {
+                        key: 'slur_install_write',
+                        name: 'Read and Write'
+                    }
+                ]
+            },
+            {
                 id: 'slur_gdwn',
-                title: 'Godown',
+                title: 'Warehouse Assistant',
                 description: 'Approve product assembling',
                 origins: [
                     {
@@ -140,8 +151,70 @@ export const origins_head_list = [
                         name: 'Read and Write'
                     }
                 ]
+            }
+        ]
+    },
+    {
+        id: 'slcr',
+        title: 'Sales Controller v1.1',
+        description: 'Manage Lead, Enquiry and Installation Sections',
+        sections: [
+            {
+                id: 'slcr_stfLst',
+                title: 'Staff Assign',
+                description: 'Assign lead, enquiry, installation, godown staffs',
+                origins: [
+                    {
+                        key: 'slcr_stfLst_write',
+                        name: 'Read and Write'
+                    },
+                    {
+                        key: 'slcr_stfLst_read',
+                        name: 'Read only'
+                    },
+                ]
             },
-
+            {
+                id: 'slcr_leList',
+                title: 'Leads List',
+                description: 'Provides access to view and analyze the registered leads',
+                origins: [
+                    {
+                        key: 'slcr_leList_write',
+                        name: 'Read and Write'
+                    },
+                    {
+                        key: 'slcr_leList_read',
+                        name: 'Read only'
+                    },
+                ]
+            },
+            {
+                id: 'slcr_eqList',
+                title: 'Enquiry List',
+                description: 'Provides access to view and analyze the registered enquiry',
+                origins: [
+                    {
+                        key: 'slcr_eqList_write',
+                        name: 'Read and Write'
+                    },
+                    {
+                        key: 'slcr_eqList_read',
+                        name: 'Read only'
+                    },
+                ]
+            },
+            {
+                id: 'slcr_reso',
+                title: 'Pre resources',
+                description: 'Create and list the predefined resources for e-from',
+                origins: [
+                    {
+                        key: 'slcr_reso_write',
+                        name: 'Read and Write'
+                    }
+                ]
+            },
         ]
     },
     {

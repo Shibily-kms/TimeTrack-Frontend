@@ -12,6 +12,7 @@ import { YYYYMMDDFormat } from '../../../assets/javascript/date-helper';
 import WorkDetails from '../../../components/user/semi-work-details/WorkDetails';
 import { PiGraphFill } from 'react-icons/pi';
 import { TbDropletSearch } from 'react-icons/tb';
+import { GrInstall } from 'react-icons/gr';
 
 
 function Home({ setPageHead }) {
@@ -132,6 +133,22 @@ function Home({ setPageHead }) {
               <TbDropletSearch />
             </div>
             <p>SL Enquiry</p>
+          </div>}
+
+          {user?.allowed_origins?.some((access) => access?.slice(0, 4) === 'slcr') && <div className="app-item">
+            <div className="icon-div" style={{ backgroundColor: "#fc9700" }}
+              onClick={() => window.location.href = `http://localhost:3001/controller`}>
+              <IoLogoAppleAr />
+            </div>
+            <p>SL Controller</p>
+          </div>}
+
+          {user?.allowed_origins?.some((access) => access?.slice(0, 12) === 'slur_install') && <div className="app-item">
+            <div className="icon-div" style={{ backgroundColor: "#154c79" }}
+              onClick={() => window.location.href = `http://localhost:3001/installation?page=home`}>
+              <GrInstall />
+            </div>
+            <p>SL Install</p>
           </div>}
         </div>
       </div>

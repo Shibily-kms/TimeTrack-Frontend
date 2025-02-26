@@ -1,7 +1,6 @@
 import axios from 'axios'
 import Cookies from 'js-cookie';
-import { doSignOut } from '../assets/javascript/auth-helper';
-export const baseUrl = 'http://192.168.1.7'
+export const baseUrl = 'http://192.168.56.1'
 const apiHeaders = { 'Content-Type': 'application/json' }
 
 //* Base Setup
@@ -18,6 +17,19 @@ const baseSetup = {
 }
 
 //*  Response and Request Config Functions
+const doSignOut = async () => {
+    const cookieOptions = {
+        secure: false,
+        sameSite: 'lax',
+        path: '/',
+        expires: 40
+    };
+
+    Cookies.remove('_rfs_tkn')
+    Cookies.remove('_rfs_tkn')
+    Cookies.set('logged_in', 'no', cookieOptions)
+
+}
 
 const handleTokenError = async (originalRequest) => {
     originalRequest._retry = true;
@@ -77,7 +89,7 @@ const responseErrorFunction = async (error) => {
             console.log('1')
             return await handleTokenError(originalRequest);
         }
-        
+
         // Unauthorized or Forbidden
         if (error.response.status === 403 || error.response.status === 401) {
             console.log('2')
