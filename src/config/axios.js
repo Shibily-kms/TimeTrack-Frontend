@@ -70,16 +70,13 @@ const responseErrorFunction = async (error) => {
     const originalRequest = error.config;
 
     if (error.response) {
-        console.log(error, originalRequest)
         // Token expiration handling
         if (error.response.status === 401 && !originalRequest._retry) {
-            console.log('1')
             return await handleTokenError(originalRequest);
         }
 
         // Unauthorized or Forbidden
         if (error.response.status === 403 || error.response.status === 401) {
-            console.log('2')
             doSignOut();
         }
 
