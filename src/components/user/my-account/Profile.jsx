@@ -297,9 +297,9 @@ const Profile = () => {
                                     </div>
                                     <div className="listing-value">
                                         <p>{userData?.whatsapp_number?.country_code} {userData?.whatsapp_number?.number}</p>
-                                        {/* {userData?.whatsapp_number?.number && <Badge
+                                        {userData?.whatsapp_number?.number && <Badge
                                             text={userData?.whatsapp_number?.verified ? "Verified" : 'Unverified'}
-                                            className={userData?.whatsapp_number?.verified ? "success-not-fill" : 'warning-not-fill'} />} */}
+                                            className={userData?.whatsapp_number?.verified ? "success-not-fill" : 'warning-not-fill'} />}
                                     </div>
                                 </div>
                                 <div className="listing-right">
