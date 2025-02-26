@@ -82,7 +82,7 @@ const SingleContact = ({ type, label, contact, setModal, setUserData }) => {
 
     const verifyOtp = (newOtp) => {
         const enteredOtp = (newOtp || otp).join('');
-        console.log(enteredOtp)
+     
         setLoading(true)
         ttSv2Axios.post('/auth/otp-v/verify', {
             acc_id: user?.acc_id,
