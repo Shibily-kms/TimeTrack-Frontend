@@ -29,9 +29,11 @@ const Master = () => {
     useEffect(() => {
 
         // Check Authentication
-        if (DVC_ID && acc_tkn) {
+        if ((DVC_ID && DVC_ID.length === 32) && acc_tkn) {
             ttSv2Axios.get('/worker/initial-info').then((response) => {
                 dispatch(setUser({ ...(user || {}), ...response.data }))
+            }).catch(() => {
+                Cookies.set('logged_in', 'no', cookieOptions);
             })
 
             if (!logged_in || logged_in === 'no') {
