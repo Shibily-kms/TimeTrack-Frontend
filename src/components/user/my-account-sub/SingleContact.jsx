@@ -64,7 +64,7 @@ const SingleContact = ({ type, label, contact, setModal, setUserData }) => {
             acc_id: user?.acc_id,
             country_code: form?.contact?.country_code,
             mobile_number: form?.contact?.number,
-            way_type: 'sms',
+            way_type: type === 'whatsapp' ? 'whatsapp' : 'sms',
             by_acc: true
         }).then(() => {
             setLoading(false)
@@ -85,7 +85,7 @@ const SingleContact = ({ type, label, contact, setModal, setUserData }) => {
         setLoading(true)
         ttSv2Axios.post('/auth/otp-v/verify', {
             acc_id: user?.acc_id,
-            way_type: 'sms',
+            way_type: type === 'whatsapp' ? 'whatsapp' : 'sms',
             otp: enteredOtp,
             by_acc: true
         }).then(() => {
@@ -144,7 +144,7 @@ const SingleContact = ({ type, label, contact, setModal, setUserData }) => {
             return;
         }
 
-        if (type === 'mobile') {
+        if (type === 'mobile' || type === 'whatsapp') {
             setOtpAction(true)
             sendOtp()
         } else {
@@ -240,7 +240,12 @@ const SingleContact = ({ type, label, contact, setModal, setUserData }) => {
                     {type === 'mobile' && <p className='smallTD2' style={{ marginTop: '15px' }}>
                         Once you submit your number, we will send a One-Time Password (OTP) via SMS for verification.
                     </p>}
-                    {type !== 'mobile' && <p className='smallTD2' style={{ marginTop: '15px' }}>
+
+                    {type === 'whatsapp' && <p className='smallTD2' style={{ marginTop: '15px' }}>
+                        Once you submit your number, we will send a One-Time Password (OTP) via Whatsapp message for verification.
+                    </p>}
+
+                    {(type !== 'mobile' && type !== 'whatsapp') && <p className='smallTD2' style={{ marginTop: '15px' }}>
                         Verification option not enabled.
                     </p>}
                 </div>}
