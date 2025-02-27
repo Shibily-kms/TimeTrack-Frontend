@@ -103,7 +103,7 @@ const Devices = () => {
                                         onClick={() => openModal('', <DeviceView device={device} terminateFunction={doTerminateDevice} />)}>
                                         <div className="list-item">
                                             <div className="item-content">
-                                                <h4>{device?.os?.name || 'Unknown'} {device?.os?.version}, {device?.browser?.name || 'Unknown'}</h4>
+                                                <h4>{device?.os?.name || 'Unknown'}, {device?.browser?.name || 'Unknown'}</h4>
                                                 <p className='d1'>Logged in {device?.geo?.city || 'Unknown'}, {device?.geo?.region || 'Unknown'}/{device?.geo?.country || 'Unknown'}</p>
                                                 {device?.terminated
                                                     ? <Badge text={'Terminated'} className={'error-fill'} />

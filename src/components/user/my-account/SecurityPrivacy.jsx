@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { MdOutlinePassword } from "react-icons/md";
 import { IoMdWarning } from "react-icons/io";
 import ChangePassword from '../my-account-sub/ChangePassword';
+import { RiLockPasswordFill } from 'react-icons/ri';
 
 const SecurityPrivacy = () => {
     const [loading, setLoading] = useState('fetch')
@@ -59,7 +60,7 @@ const SecurityPrivacy = () => {
                             <div className="listCard2-listing action-allow"
                                 onClick={() => openModal('Password', <ChangePassword setModal={setModal} setUserData={setUserData} />)}>
                                 <div className="listing-icon">
-                                    <MdOutlinePassword />
+                                    <RiLockPasswordFill />
                                 </div>
                                 <div className="listing-item">
                                     <div className="listing-label">
@@ -74,6 +75,22 @@ const SecurityPrivacy = () => {
                                 <div className="listing-right">
                                     <MdArrowForward />
                                 </div>
+                            </div>
+                            <div className="listCard2-listing action-allow">
+                                <div className="listing-icon">
+                                    <MdOutlinePassword />
+                                </div>
+                                <div className="listing-item">
+                                    <div className="listing-label">
+                                        <p>OTP Verification</p>
+                                    </div>
+                                    <div className="listing-value">
+                                        <p style={{ color: 'var(--color-warning)', fontStyle: "italic" }}>Disable</p>
+                                    </div>
+                                </div>
+                                {/* <div className="listing-right">
+                                    <MdArrowForward />
+                                </div> */}
                             </div>
                         </div>
                     </div>

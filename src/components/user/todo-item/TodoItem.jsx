@@ -21,9 +21,9 @@ const TodoItem = ({ data, inWork, newTaskFn, setAllTodo, admin }) => {
             return;
         }
 
-        if (!inWork) {
-            return dispatch(toast.push.error({ message: 'Please enter to work' }))
-        }
+        // if (!inWork) {
+        //     return dispatch(toast.push.error({ message: 'Please enter to work' }))
+        // }
 
         if (internet) {
             setLoading('do' + id)
@@ -44,7 +44,7 @@ const TodoItem = ({ data, inWork, newTaskFn, setAllTodo, admin }) => {
                         return task
                     })
 
-                    if (response?.data) {
+                    if (YYYYMMDDFormat(new Date(response?.data?.due_date)) <= YYYYMMDDFormat(new Date())) {
                         currentState = [response.data, ...currentState]
                     }
 

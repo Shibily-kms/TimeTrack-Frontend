@@ -124,9 +124,9 @@ const AddEditTodo = ({ updateData, withData, setModal, admin, staff_id, setData,
     // Actions
     const handleDoWork = (id) => {
 
-        if (!inWork) {
-            return dispatch(toast.push.error({ message: 'Please enter to work' }))
-        }
+        // if (!inWork) {
+        //     return dispatch(toast.push.error({ message: 'Please enter to work' }))
+        // }
 
         if (internet) {
             setLoading('do')
@@ -166,9 +166,9 @@ const AddEditTodo = ({ updateData, withData, setModal, admin, staff_id, setData,
     }
 
     const handleUndo = (id) => {
-        if (!inWork) {
-            return dispatch(toast.push.error({ message: 'Please enter to work' }))
-        }
+        // if (!inWork) {
+        //     return dispatch(toast.push.error({ message: 'Please enter to work' }))
+        // }
 
         if (internet) {
             setLoading('undo')
@@ -200,9 +200,9 @@ const AddEditTodo = ({ updateData, withData, setModal, admin, staff_id, setData,
 
     const handleWontDoWork = (id) => {
 
-        if (!inWork) {
-            return dispatch(toast.push.error({ message: 'Please enter to work' }))
-        }
+        // if (!inWork) {
+        //     return dispatch(toast.push.error({ message: 'Please enter to work' }))
+        // }
 
         if (internet) {
             setLoading('wontDo')
