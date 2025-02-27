@@ -103,6 +103,7 @@ const PunchReport = ({ setPageHead }) => {
                 <div className="item-div">
                     <p>Days</p>
                     <h2>{monthReport.total_days}d</h2>
+                    <h4>{getTimeFromSecond(monthReport.total_hours)}</h4>
                 </div>
                 <div className="item-div">
                     <p>Attendance</p>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './settings.scss'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { MdLightMode, MdDarkMode, MdOutlinePassword, MdCloudSync } from "react-icons/md";
+import { MdLightMode, MdDarkMode, MdCloudSync } from "react-icons/md";
 import { IoArrowForwardOutline } from "react-icons/io5";
 import { PiSpinnerBold } from "react-icons/pi";
 import Modal from '../../../components/common/modal/Modal'
@@ -13,6 +13,7 @@ import { setUser } from '../../../redux/features/user/authSlice';
 import { getPunchDetails } from '../../../redux/features/user/workdataSlice';
 import { toast } from '../../../redux/features/user/systemSlice';
 import { TbDevices } from 'react-icons/tb';
+import { RiLockPasswordLine } from 'react-icons/ri';
 
 const Settings = ({ setPageHead }) => {
     const [searchParams, setSearchParams] = useSearchParams()
@@ -85,10 +86,10 @@ const Settings = ({ setPageHead }) => {
                         <IoArrowForwardOutline />
                     </div>
                 </div>
-                
+
                 <div className="option-div" onClick={() => navigate('/my-account/security-privacy')}>
                     <div className="left">
-                        <MdOutlinePassword />
+                        <RiLockPasswordLine />
                         <h4>Change Password</h4>
                     </div>
                     <div className="right">
