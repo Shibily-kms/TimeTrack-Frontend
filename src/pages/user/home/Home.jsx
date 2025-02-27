@@ -59,9 +59,6 @@ function Home({ setPageHead }) {
           </div>)}
 
 
-
-
-
           {(user?.allowed_origins?.includes('Accountant')) && <div className="app-item">
             <div className="icon-div" style={{ backgroundColor: "#521f08" }}
               onClick={() => window.location.href = `http://localhost:3001?id=${user?.acc_id}`}>

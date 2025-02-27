@@ -134,7 +134,7 @@ function Login() {
     }
 
     useEffect(() => {
-        if (rfsTkn && dvcId) {
+        if (rfsTkn && (dvcId && dvcId.length === 32)) {
             navigate('/?page=home');
         } else {
             Cookies.set('logged_in', 'no', cookieOptions);
