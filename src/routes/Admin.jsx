@@ -88,7 +88,7 @@ function Admin() {
           <Route path='/settings' element={<PrivateRoute element={<Settings setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
 
           {/* 404 Route */}
-          <Route path="/*" element={<NotFound setPageHead={setPageHead} />} />
+          <Route path='/*' element={<PrivateRoute element={<NotFound setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
         </Routes>
       </Suspense>
     </AdminPage>
