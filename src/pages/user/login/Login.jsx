@@ -104,26 +104,26 @@ function Login() {
         ttSv2Axios.post('/auth/take-token', tokenCredentials).then((tokenResponse) => {
 
             // Cookie setup
-            Cookies.set('_acc_tkn', tokenResponse?.data?.access_token, cookieOptions);
-            Cookies.set('_rfs_tkn', tokenResponse?.data?.refresh_token, cookieOptions);
-            Cookies.set('DVC_ID', tokenResponse?.data?.dvc_id, cookieOptions);
+            Cookies.set('_acc_tkn', tokenResponse?.data?.access_token || '', cookieOptions);
+            Cookies.set('_rfs_tkn', tokenResponse?.data?.refresh_token || '', cookieOptions);
+            Cookies.set('DVC_ID', tokenResponse?.data?.dvc_id || '', cookieOptions);
             Cookies.set('logged_in', 'yes', cookieOptions);
 
             // Update state
-            setRfsTkn(tokenResponse?.data?.refresh_token);
-            setDvcId(tokenResponse?.data?.dvc_id);
+            setRfsTkn(tokenResponse?.data?.refresh_token || undefined);
+            setDvcId(tokenResponse?.data?.dvc_id || undefined);
 
             // Store in auth redux
             dispatch(doLogin({
-                DVC_ID: tokenResponse?.data?.dvc_id,
-                ACC_ID: tokenResponse?.data?.acc_id,
-                _rfs_tkn: tokenResponse?.data?.refresh_token,
+                DVC_ID: tokenResponse?.data?.dvc_id || undefined,
+                ACC_ID: tokenResponse?.data?.acc_id || undefined,
+                _rfs_tkn: tokenResponse?.data?.refresh_token || undefined,
             }))
 
             // Store in user redux
             dispatch(setUser({
-                acc_id: tokenResponse?.data?.acc_id,
-                designation_id: tokenResponse?.data?.designation_id,
+                acc_id: tokenResponse?.data?.acc_id || undefined,
+                designation_id: tokenResponse?.data?.designation_id || undefined,
             }))
 
         }).catch((error) => {

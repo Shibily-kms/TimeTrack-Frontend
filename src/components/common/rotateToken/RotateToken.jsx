@@ -18,7 +18,7 @@ const RotateToken = () => {
 
 
         // set initial cookies
-        if (DVC_ID && rfs_tkn) {
+        if ((DVC_ID && DVC_ID.length === 32) && (rfs_tkn && rfs_tkn?.length > 30)) {
             const expirationDate = new Date();
             expirationDate.setMonth(expirationDate.getMonth() + 6);
 
@@ -38,7 +38,9 @@ const RotateToken = () => {
         const interval = setInterval(() => {
 
             ttSv2Axios.post('/auth/rotate-token', { refresh_token: user?.refresh_token }).then((response) => {
-                Cookies.set('_acc_tkn', response?.data?.access_token, cookieOptions);
+                if (response?.data?.access_token && response?.data?.access_token?.length > 30) {
+                    Cookies.set('_acc_tkn', response?.data?.access_token, cookieOptions);
+                }
             })
         }, 1000 * 60 * 30); // 1 second interval
 

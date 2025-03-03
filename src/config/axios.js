@@ -36,8 +36,10 @@ const handleTokenError = async (originalRequest) => {
             expires: 40
         };
 
-        Cookies.set('_acc_tkn', data?.data?.access_token, cookieOptions);
-        originalRequest.headers['Authorization'] = `Bearer ${data?.data?.access_token}`;
+        if (data?.data?.access_token && data?.data?.access_token?.length > 30) {
+            Cookies.set('_acc_tkn', data?.data?.access_token, cookieOptions);
+            originalRequest.headers['Authorization'] = `Bearer ${data?.data?.access_token}`;
+        }
 
         return userAxios(originalRequest); // Retry original request with new access token
     } catch (err) {
@@ -73,7 +75,7 @@ const responseErrorFunction = async (error) => {
         if (error.response.status === 401 && !originalRequest._retry) {
             return await handleTokenError(originalRequest);
         }
-        
+
         // Unauthorized or Forbidden
         if (error.response.status === 403 || error.response.status === 401) {
             doSignOut();
