@@ -121,7 +121,7 @@ function Home({ setPageHead }) {
 
           {user?.allowed_origins?.some((access) => access?.slice(0, 9) === 'slur_lead') && <div className="app-item">
             <div className="icon-div" style={{ backgroundColor: "#960c84" }}
-              onClick={() => window.location.href = `http://localhost:3001/lead?page=home`}>
+              onClick={() => window.location.href = `http://salesV1.alliancewatersolutions.com/lead?page=home`}>
               <PiGraphFill />
             </div>
             <p>SL Lead</p>
@@ -129,7 +129,7 @@ function Home({ setPageHead }) {
 
           {user?.allowed_origins?.some((access) => access?.slice(0, 8) === 'slur_eqr') && <div className="app-item">
             <div className="icon-div" style={{ backgroundColor: "#2b6dd6" }}
-              onClick={() => window.location.href = `http://localhost:3001/enquiry?page=home`}>
+              onClick={() => window.location.href = `http://salesV1.alliancewatersolutions.com/enquiry?page=home`}>
               <TbDropletSearch />
             </div>
             <p>SL Enquiry</p>
@@ -137,7 +137,7 @@ function Home({ setPageHead }) {
 
           {user?.allowed_origins?.some((access) => access?.slice(0, 12) === 'slur_install') && <div className="app-item">
             <div className="icon-div" style={{ backgroundColor: "#154c79" }}
-              onClick={() => window.location.href = `http://localhost:3001/installation?page=home`}>
+              onClick={() => window.location.href = `http://salesV1.alliancewatersolutions.com/installation?page=home`}>
               <GrInstall />
             </div>
             <p>SL Install</p>
@@ -145,15 +145,15 @@ function Home({ setPageHead }) {
 
           {user?.allowed_origins?.some((access) => access?.slice(0, 9) === 'slur_gdwn') && <div className="app-item">
             <div className="icon-div" style={{ backgroundColor: "#a6001e" }}
-              onClick={() => window.location.href = `http://localhost:3001/warehouse?page=pending`}>
+              onClick={() => window.location.href = `http://salesV1.alliancewatersolutions.com/warehouse?page=pending`}>
               <TbBuildingWarehouse />
             </div>
-            <p>SL Warehouse</p>  
+            <p>SL Warehouse</p>
           </div>}
 
           {user?.allowed_origins?.some((access) => access?.slice(0, 4) === 'slcr') && <div className="app-item">
             <div className="icon-div" style={{ backgroundColor: "#fc9700" }}
-              onClick={() => window.location.href = `http://localhost:3001/controller`}>
+              onClick={() => window.location.href = `http://salesV1.alliancewatersolutions.com/controller`}>
               <IoLogoAppleAr />
             </div>
             <p>SL Controller</p>

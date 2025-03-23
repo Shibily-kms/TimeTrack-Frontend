@@ -1,6 +1,6 @@
 import axios from 'axios'
 import Cookies from 'js-cookie';
-export const baseUrl = 'http://192.168.56.1'
+export const baseUrl = 'https://staffbackend.alliancewatersolutions.com'
 const apiHeaders = { 'Content-Type': 'application/json' }
 
 //* Base Setup
@@ -10,10 +10,10 @@ const baseSetup = {
 
 
     //? v2.1
-    ttSv2Axios: axios.create({ baseURL: `${baseUrl}:8000/s/v2/`, headers: apiHeaders }),
-    ttCv2Axios: axios.create({ baseURL: `${baseUrl}:8000/c/v2/`, headers: apiHeaders }),
-    cnPv2Axios: axios.create({ baseURL: `${baseUrl}:8004/p/v2/`, headers: apiHeaders }),
-    slUv1Axios: axios.create({ baseURL: `${baseUrl}:8008/u/v1/`, headers: apiHeaders })
+    ttSv2Axios: axios.create({ baseURL: `${baseUrl}/s/v2/`, headers: apiHeaders }),
+    ttCv2Axios: axios.create({ baseURL: `${baseUrl}/c/v2/`, headers: apiHeaders }),
+    cnPv2Axios: axios.create({ baseURL: `https://api.controlnex.alliancewatersolutions.com/p/v2/`, headers: apiHeaders }),
+    slUv1Axios: axios.create({ baseURL: `https://api.salesV1.alliancewatersolutions.com/u/v1/`, headers: apiHeaders })
 }
 
 //*  Response and Request Config Functions
