@@ -10,6 +10,9 @@ import { HiUserGroup } from "react-icons/hi2";
 import ProfileCard from '../../../components/user/profile-card/ProfileCard';
 import { YYYYMMDDFormat } from '../../../assets/javascript/date-helper';
 import WorkDetails from '../../../components/user/semi-work-details/WorkDetails';
+import { PiGraphFill } from 'react-icons/pi';
+import { TbBuildingWarehouse, TbDropletSearch } from 'react-icons/tb';
+import { GrInstall } from 'react-icons/gr';
 
 
 function Home({ setPageHead }) {
@@ -57,7 +60,6 @@ function Home({ setPageHead }) {
             </div>
             <p>TT Controller</p>
           </div>)}
-
 
           {(user?.allowed_origins?.includes('Accountant')) && <div className="app-item">
             <div className="icon-div" style={{ backgroundColor: "#521f08" }}
@@ -115,8 +117,49 @@ function Home({ setPageHead }) {
               <IoLogoAppleAr />
             </div>
             <p>Whole house <br></br> Admin</p>
-          </div>
-          }
+          </div>}
+
+          {user?.allowed_origins?.some((access) => access?.slice(0, 9) === 'slur_lead') && <div className="app-item">
+            <div className="icon-div" style={{ backgroundColor: "#960c84" }}
+              onClick={() => window.location.href = `http://localhost:3001/lead?page=home`}>
+              <PiGraphFill />
+            </div>
+            <p>SL Lead</p>
+          </div>}
+
+          {user?.allowed_origins?.some((access) => access?.slice(0, 8) === 'slur_eqr') && <div className="app-item">
+            <div className="icon-div" style={{ backgroundColor: "#2b6dd6" }}
+              onClick={() => window.location.href = `http://localhost:3001/enquiry?page=home`}>
+              <TbDropletSearch />
+            </div>
+            <p>SL Enquiry</p>
+          </div>}
+
+          {user?.allowed_origins?.some((access) => access?.slice(0, 12) === 'slur_install') && <div className="app-item">
+            <div className="icon-div" style={{ backgroundColor: "#154c79" }}
+              onClick={() => window.location.href = `http://localhost:3001/installation?page=home`}>
+              <GrInstall />
+            </div>
+            <p>SL Install</p>
+          </div>}
+
+          {user?.allowed_origins?.some((access) => access?.slice(0, 9) === 'slur_gdwn') && <div className="app-item">
+            <div className="icon-div" style={{ backgroundColor: "#a6001e" }}
+              onClick={() => window.location.href = `http://localhost:3001/warehouse?page=pending`}>
+              <TbBuildingWarehouse />
+            </div>
+            <p>SL Warehouse</p>  
+          </div>}
+
+          {user?.allowed_origins?.some((access) => access?.slice(0, 4) === 'slcr') && <div className="app-item">
+            <div className="icon-div" style={{ backgroundColor: "#fc9700" }}
+              onClick={() => window.location.href = `http://localhost:3001/controller`}>
+              <IoLogoAppleAr />
+            </div>
+            <p>SL Controller</p>
+          </div>}
+
+
         </div>
       </div>
     </div >
