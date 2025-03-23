@@ -1,7 +1,6 @@
 import axios from 'axios'
 import Cookies from 'js-cookie';
-import { doSignOut } from '../assets/javascript/auth-helper';
-export const baseUrl = 'https://staffbackend.alliancewatersolutions.com'
+export const baseUrl = 'http://192.168.56.1'
 const apiHeaders = { 'Content-Type': 'application/json' }
 
 //* Base Setup
@@ -20,10 +19,12 @@ const baseSetup = {
 //*  Response and Request Config Functions
 const doSignOut = async () => {
     const cookieOptions = {
-        secure: false,
-        sameSite: 'lax',
-        path: '/',
-        expires: 40
+        secure: true, // Ensure secure transmission (Use HTTPS)
+        sameSite: 'none', // Allows cross-site cookies (important for subdomains)
+        path: '/', // Makes the cookie accessible to all routes
+        domain: '.alliancewatersolutions.com', // Allows sharing between subdomains
+        httpOnly: true, // Prevents JavaScript access for security (optional)
+        expires: new Date(Date.now() + 40 * 24 * 60 * 60 * 1000) // Set expiration correctly
     };
 
     Cookies.remove('_rfs_tkn')
@@ -87,7 +88,7 @@ const responseErrorFunction = async (error) => {
     const originalRequest = error.config;
 
     if (error.response) {
- 
+
         // Token expiration handling
         if (error.response.status === 401 && !originalRequest._retry) {
             return await handleTokenError(originalRequest);
