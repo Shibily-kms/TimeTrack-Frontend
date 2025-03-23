@@ -19,12 +19,11 @@ const baseSetup = {
 //*  Response and Request Config Functions
 const doSignOut = async () => {
     const cookieOptions = {
-        secure: true, // Ensure secure transmission (Use HTTPS)
-        sameSite: 'none', // Allows cross-site cookies (important for subdomains)
-        path: '/', // Makes the cookie accessible to all routes
-        domain: '.alliancewatersolutions.com', // Allows sharing between subdomains
-        httpOnly: true, // Prevents JavaScript access for security (optional)
-        expires: new Date(Date.now() + 40 * 24 * 60 * 60 * 1000) // Set expiration correctly
+        secure: true,
+        sameSite: 'None',
+        domain: '.alliancewatersolutions.com',
+        path: '/',
+        expires: new Date(new Date().setMonth(new Date().getMonth() + 6))
     };
 
     Cookies.remove('_rfs_tkn')
