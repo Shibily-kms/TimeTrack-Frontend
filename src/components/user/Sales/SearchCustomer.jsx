@@ -81,8 +81,7 @@ const SearchCustomer = ({ setModal, setFormData, setPinCodeList }) => {
             </div>
                 : doSearch && <SpinWithMessage icon={<TbUserX />} message='No matching customer found.' />}
             <form action="" onSubmit={handleSubmit}>
-                <p className='smallTD2' style={{ marginBottom: '10px' }}>To find a customer by their Customer ID (CID) or mobile number.
-                    Use the <Link to={'/search-customer'}><b>More {'>'} Search Customer</b></Link> option to access additional search features.</p>
+                <p className='smallTD2' style={{ marginBottom: '10px' }}>To find a customer by their Customer ID (CID) or mobile number.</p>
                 <div className="search-input-div">
                     <NormalInput ref={inputRef} label='Search' autoFocus style={{ width: '100%' }} onChangeFun={handleChange}
                         value={text} type='number' minLength={3} step={1} />

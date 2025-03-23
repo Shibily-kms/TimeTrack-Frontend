@@ -88,7 +88,7 @@ const MyProspects = ({ setPageHead }) => {
                                     <div className="right-div">
                                         <div className='icon'>
                                             {prospect?.duplicate && <Badge text={'Duplicate entry'} className={'warning-fill '} />}
-                                            <FiArrowRight />
+                                            {/* <FiArrowRight /> */}
                                         </div>
                                         <div className={`status-div ${prospect?.prospect_status_text}`}>
                                             {[4, 5].includes(prospect?.prospect_status) && <p>{prospect?.prospect_status_text}</p>}

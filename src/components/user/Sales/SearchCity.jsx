@@ -44,6 +44,7 @@ const SearchCity = ({ setModal, setFormData, setPinCodeList }) => {
         setFormData((state) => ({
             ...state,
             city: data?.city_name || '',
+            city_id: data?.city_id || '',
             state: data?.state_name || '',
             country: data?.country_name || '',
         }))

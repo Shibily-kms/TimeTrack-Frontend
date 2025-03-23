@@ -205,6 +205,21 @@ export const origins_head_list = [
                 ]
             },
             {
+                id: 'slcr_inList',
+                title: 'Installation List',
+                description: 'Provides access to view and analyze the installation actions',
+                origins: [
+                    {
+                        key: 'slcr_inList_write',
+                        name: 'Read and Write'
+                    },
+                    {
+                        key: 'slcr_inList_read',
+                        name: 'Read only'
+                    },
+                ]
+            },
+            {
                 id: 'slcr_reso',
                 title: 'Pre resources',
                 description: 'Create and list the predefined resources for e-from',
