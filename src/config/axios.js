@@ -1,6 +1,5 @@
 import axios from 'axios'
 import Cookies from 'js-cookie';
-import { doSignOut } from '../assets/javascript/auth-helper';
 export const baseUrl = 'http://192.168.56.1'
 const apiHeaders = { 'Content-Type': 'application/json' }
 
