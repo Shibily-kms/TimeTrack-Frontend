@@ -1,0 +1,48 @@
+@import '../../../assets/scss/model.scss';
+
+.search-customer-comp-div {
+
+    .result-div {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 5px;
+        margin-bottom: 15px;
+        max-height: calc(100vh - 350px);
+        overflow-x: auto;
+        @include scrollBar();
+        padding: 5px;
+
+        .item-div {
+            background-color: var(--background-c2);
+            padding: 5px 10px;
+            border-radius: 10px;
+            cursor: pointer;
+
+            p {
+                font-size: 14px;
+                font-weight: 500;
+                @include threeDots(2);
+            }
+        }
+    }
+
+    form {
+        .search-input-div {
+            display: grid;
+            grid-template-columns: auto 60px;
+            gap: 10px;
+            align-items: center;
+
+
+
+            .search-button {
+                padding: 13px 20px;
+            }
+
+            .hide-button {
+                cursor: not-allowed;
+                background-color: var(--background-c3);
+            }
+        }
+    }
+}

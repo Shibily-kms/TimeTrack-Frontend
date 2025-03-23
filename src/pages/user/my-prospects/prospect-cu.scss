@@ -1,0 +1,13 @@
+.prospectCU-page-div {
+    .input-group-div {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    @media screen and (max-width:550px) {
+        .input-group-div {
+            grid-template-columns: 1fr;
+        }
+    }
+}

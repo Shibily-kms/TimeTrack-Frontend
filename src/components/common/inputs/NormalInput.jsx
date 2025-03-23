@@ -17,7 +17,13 @@ function NormalInput({
     rightIcon = null,
     rightIconAction = null,
     style,
-    pattern
+    pattern,
+    ref,
+    onBlur,
+    onFocus,
+    autoFocus = false,
+    minLength,
+    maxLength
 }) {
     const [inputType, setInputType] = useState('')
 
@@ -25,7 +31,6 @@ function NormalInput({
         if (inputType) {
             setInputType(type)
         }
-
         // eslint-disable-next-line
     }, [type])
 
@@ -33,6 +38,7 @@ function NormalInput({
         <div className='input-model-div normal-input'>
             <div>
                 <input
+                    ref={ref}
                     type={inputType || 'text'}
                     name={name}
                     id={id || name}
@@ -43,9 +49,12 @@ function NormalInput({
                     min={min}
                     max={max}
                     step={step}
-                    onFocus={() => setInputType(type)}
-                    onBlur={() => { if (!value) setInputType('text') }}
+                    onFocus={(e) => onFocus ? onFocus(e) : setInputType(type)}
+                    onBlur={(e) => onBlur ? onBlur(e) : !value ? setInputType('text') : ''}
                     pattern={pattern}
+                    autoFocus={autoFocus}
+                    minLength={minLength}
+                    maxLength={maxLength}
                 />
                 <label htmlFor={id || name}>{label}{isRequired && <span>*</span>}</label>
 
