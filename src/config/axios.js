@@ -19,10 +19,12 @@ const baseSetup = {
 //*  Response and Request Config Functions
 const doSignOut = async () => {
     const cookieOptions = {
-        secure: false,
-        sameSite: 'lax',
-        path: '/',
-        expires: 40
+        secure: true, // Ensure secure transmission (Use HTTPS)
+        sameSite: 'none', // Allows cross-site cookies (important for subdomains)
+        path: '/', // Makes the cookie accessible to all routes
+        domain: '.alliancedev.in', // Allows sharing between subdomains
+        httpOnly: true, // Prevents JavaScript access for security (optional)
+        expires: new Date(Date.now() + 40 * 24 * 60 * 60 * 1000) // Set expiration correctly
     };
 
     Cookies.remove('_rfs_tkn')
@@ -86,7 +88,7 @@ const responseErrorFunction = async (error) => {
     const originalRequest = error.config;
 
     if (error.response) {
- 
+
         // Token expiration handling
         if (error.response.status === 401 && !originalRequest._retry) {
             return await handleTokenError(originalRequest);

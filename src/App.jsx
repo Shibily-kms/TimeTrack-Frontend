@@ -33,9 +33,12 @@ function App() {
     window.addEventListener('offline', handleOffline);
 
     const cookieOptions = {
-      secure: true,
-      sameSite: 'None',
-      path: '/'
+      secure: true, // Ensure secure transmission (Use HTTPS)
+      sameSite: 'none', // Allows cross-site cookies (important for subdomains)
+      path: '/', // Makes the cookie accessible to all routes
+      domain: '.alliancedev.in', // Allows sharing between subdomains
+      httpOnly: true, // Prevents JavaScript access for security (optional)
+      expires: new Date(Date.now() + 40 * 24 * 60 * 60 * 1000) // Set expiration correctly
     };
 
     // Initial Theme Setup

@@ -15,11 +15,12 @@ import { setUser, doLogin } from '../../../redux/features/user/authSlice'
 
 
 const cookieOptions = {
-    secure: true,
-    domain: '.alliancedev.in',
-    sameSite: 'None',
-    path: '/',
-    expires: new Date(new Date().setMonth(new Date().getMonth() + 6))
+    secure: true, // Ensure secure transmission (Use HTTPS)
+    sameSite: 'none', // Allows cross-site cookies (important for subdomains)
+    path: '/', // Makes the cookie accessible to all routes
+    domain: '.alliancedev.in', // Allows sharing between subdomains
+    httpOnly: true, // Prevents JavaScript access for security (optional)
+    expires: new Date(Date.now() + 40 * 24 * 60 * 60 * 1000) // Set expiration correctly
 };
 
 
