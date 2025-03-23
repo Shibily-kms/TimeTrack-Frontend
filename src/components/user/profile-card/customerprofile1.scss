@@ -1,0 +1,95 @@
+@import '../../../assets/scss/model.scss';
+
+.customer-profile-v1-comp-div {
+
+    .boarder-div {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 10px 15px;
+        border-radius: 15px;
+        background-color: var(--background-c1);
+        border: 1px solid var(--border-c1);
+        cursor: pointer;
+
+        &:hover {
+            box-shadow: var(--shadow-02);
+        }
+
+        .profile-image-div {
+
+            .image-div {
+                width: 60px;
+                height: 60px;
+                border-radius: 100%;
+                -webkit-border-radius: 100%;
+                -moz-border-radius: 100%;
+                -ms-border-radius: 100%;
+                -o-border-radius: 100%;
+                overflow: hidden;
+
+                img {
+                    width: 100%;
+                }
+            }
+        }
+
+        .profile-info-div {
+            width: 100%;
+
+            .info-div {
+                text-align: start;
+                display: flex;
+                flex-direction: column;
+                gap: 3px;
+
+                h4,
+                p {
+                    @include threeDots(1)
+                }
+
+                h4 {
+                    font-size: 15px;
+                    font-weight: 600;
+                }
+
+                p {
+                    font-size: 14px;
+                }
+
+                .badges-list-div {
+                    display: flex;
+                    gap: 10px;
+                }
+            }
+        }
+
+        .arrow-div {
+            display: flex;
+            align-items: center;
+
+            svg {
+                font-size: 20px;
+            }
+
+        }
+    }
+
+    @media screen and (max-width : 499px) {
+        .boarder-div {
+            padding: 10px 10px;
+
+            .profile-image-div {
+                .image-div {
+                    width: 55px;
+                    height: 55px;
+                }
+            }
+
+            .arrow-div {
+                display: none;
+            }
+        }
+    }
+
+}

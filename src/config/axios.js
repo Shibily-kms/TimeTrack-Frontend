@@ -11,11 +11,26 @@ const baseSetup = {
 
 
     //? v2.1
-    ttSv2Axios: axios.create({ baseURL: `${baseUrl}/s/v2/`, headers: apiHeaders }),
-    ttCv2Axios: axios.create({ baseURL: `${baseUrl}/c/v2/`, headers: apiHeaders })
+    ttSv2Axios: axios.create({ baseURL: `${baseUrl}:8000/s/v2/`, headers: apiHeaders }),
+    ttCv2Axios: axios.create({ baseURL: `${baseUrl}:8000/c/v2/`, headers: apiHeaders }),
+    cnPv2Axios: axios.create({ baseURL: `${baseUrl}:8004/p/v2/`, headers: apiHeaders }),
+    slUv1Axios: axios.create({ baseURL: `${baseUrl}:8008/u/v1/`, headers: apiHeaders })
 }
 
 //*  Response and Request Config Functions
+const doSignOut = async () => {
+    const cookieOptions = {
+        secure: false,
+        sameSite: 'lax',
+        path: '/',
+        expires: 40
+    };
+
+    Cookies.remove('_rfs_tkn')
+    Cookies.remove('_rfs_tkn')
+    Cookies.set('logged_in', 'no', cookieOptions)
+
+}
 
 const handleTokenError = async (originalRequest) => {
     originalRequest._retry = true;
@@ -37,8 +52,10 @@ const handleTokenError = async (originalRequest) => {
             expires: new Date(new Date().setMonth(new Date().getMonth() + 6))
         };
 
-        Cookies.set('_acc_tkn', data?.data?.access_token, cookieOptions);
-        originalRequest.headers['Authorization'] = `Bearer ${data?.data?.access_token}`;
+        if (data?.data?.access_token && data?.data?.access_token?.length > 30) {
+            Cookies.set('_acc_tkn', data?.data?.access_token, cookieOptions);
+            originalRequest.headers['Authorization'] = `Bearer ${data?.data?.access_token}`;
+        }
 
         return userAxios(originalRequest); // Retry original request with new access token
     } catch (err) {
@@ -70,6 +87,7 @@ const responseErrorFunction = async (error) => {
     const originalRequest = error.config;
 
     if (error.response) {
+ 
         // Token expiration handling
         if (error.response.status === 401 && !originalRequest._retry) {
             return await handleTokenError(originalRequest);
@@ -116,7 +134,15 @@ baseSetup.ttSv2Axios.interceptors.response.use(responseConfigFunction, responseE
 baseSetup.ttCv2Axios.interceptors.request.use(requestConfigFunction, requestErrorFunction)
 baseSetup.ttCv2Axios.interceptors.response.use(responseConfigFunction, responseErrorFunction);
 
+//? controlNex all 
+baseSetup.cnPv2Axios.interceptors.request.use(requestConfigFunction, requestErrorFunction)
+baseSetup.cnPv2Axios.interceptors.response.use(responseConfigFunction, responseErrorFunction);
 
-export const { userAxios, adminAxios, ttSv2Axios, ttCv2Axios } = baseSetup
+//? sales user v1 all 
+baseSetup.slUv1Axios.interceptors.request.use(requestConfigFunction, requestErrorFunction)
+baseSetup.slUv1Axios.interceptors.response.use(responseConfigFunction, responseErrorFunction);
+
+
+export const { userAxios, adminAxios, ttSv2Axios, ttCv2Axios, cnPv2Axios, slUv1Axios } = baseSetup
 
 

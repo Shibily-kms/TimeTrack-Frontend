@@ -1,6 +1,14 @@
 export const ui_version = '2.1.1'
 export const work_modes = ['On-site', 'Remote', 'Hybrid ']
 export const e_types = ['Part time', 'Full time']
+export const prospect_type = ['Lead', 'Enquiry', 'Installation']
+export const prospect_status = ['Completed', 'Cancelled']
+export const prospect_urgency = ['Hot', 'Warm', 'Cool']
+
+
+
+
+
 export const origins_head_list = [
     {
         id: 'ttcr',
@@ -91,6 +99,135 @@ export const origins_head_list = [
                         key: 'ttcr_pro_write',
                         name: 'Read and Write'
                     },
+                ]
+            },
+        ]
+    },
+    {
+        id: 'slur',
+        title: 'Sales App v1.1',
+        description: 'Manage Lead, Enquiry and Installation',
+        sections: [
+            {
+                id: 'slur_lead',
+                title: 'Lead Associate',
+                description: 'Handle leads approval and rejection',
+                origins: [
+                    {
+                        key: 'slur_lead_write',
+                        name: 'Read and Write'
+                    }
+                ]
+            },
+            {
+                id: 'slur_eqr',
+                title: 'Sales Associate',
+                description: 'Quotation build, Enquiry form submit, Approval and reject enquiries',
+                origins: [
+                    {
+                        key: 'slur_eqr_write',
+                        name: 'Read and Write'
+                    }
+                ]
+            },
+            {
+                id: 'slur_install',
+                title: 'Product Installer',
+                description: 'Installation & Re installation section access',
+                origins: [
+                    {
+                        key: 'slur_install_write',
+                        name: 'Read and Write'
+                    }
+                ]
+            },
+            {
+                id: 'slur_gdwn',
+                title: 'Warehouse Assistant',
+                description: 'Approve product assembling',
+                origins: [
+                    {
+                        key: 'slur_gdwn_write',
+                        name: 'Read and Write'
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        id: 'slcr',
+        title: 'Sales Controller v1.1',
+        description: 'Manage Lead, Enquiry and Installation Sections',
+        sections: [
+            {
+                id: 'slcr_stfLst',
+                title: 'Staff Assign',
+                description: 'Assign lead, enquiry, installation, godown staffs',
+                origins: [
+                    {
+                        key: 'slcr_stfLst_write',
+                        name: 'Read and Write'
+                    },
+                    {
+                        key: 'slcr_stfLst_read',
+                        name: 'Read only'
+                    },
+                ]
+            },
+            {
+                id: 'slcr_leList',
+                title: 'Leads List',
+                description: 'Provides access to view and analyze the registered leads',
+                origins: [
+                    {
+                        key: 'slcr_leList_write',
+                        name: 'Read and Write'
+                    },
+                    {
+                        key: 'slcr_leList_read',
+                        name: 'Read only'
+                    },
+                ]
+            },
+            {
+                id: 'slcr_eqList',
+                title: 'Enquiry List',
+                description: 'Provides access to view and analyze the registered enquiry',
+                origins: [
+                    {
+                        key: 'slcr_eqList_write',
+                        name: 'Read and Write'
+                    },
+                    {
+                        key: 'slcr_eqList_read',
+                        name: 'Read only'
+                    },
+                ]
+            },
+            {
+                id: 'slcr_inList',
+                title: 'Installation List',
+                description: 'Provides access to view and analyze the installation actions',
+                origins: [
+                    {
+                        key: 'slcr_inList_write',
+                        name: 'Read and Write'
+                    },
+                    {
+                        key: 'slcr_inList_read',
+                        name: 'Read only'
+                    },
+                ]
+            },
+            {
+                id: 'slcr_reso',
+                title: 'Pre resources',
+                description: 'Create and list the predefined resources for e-from',
+                origins: [
+                    {
+                        key: 'slcr_reso_write',
+                        name: 'Read and Write'
+                    }
                 ]
             },
         ]
@@ -252,6 +389,24 @@ export const origins_head_list = [
                     }
                 ]
             }
+        ]
+    },
+    {
+        id: 'accr',
+        title: 'Accountant App v1.1',
+        description: 'Manage alliance finance',
+        sections: [
+            {
+                id: 'accr_slprd',
+                title: 'Sales',
+                description: 'Handle product bill and warranty',
+                origins: [
+                    {
+                        key: 'accr_slprd_write',
+                        name: 'Read and Write'
+                    }
+                ]
+            },
         ]
     }
 ]

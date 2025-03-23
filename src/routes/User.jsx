@@ -18,6 +18,8 @@ const LeaveApp = lazy(() => import('../pages/user/leave-app/LeaveApp'))
 const Profile = lazy(() => import('../components/user/my-account/Profile'))
 const Devices = lazy(() => import('../components/user/my-account/Devices'))
 const SecurityPrivacy = lazy(() => import('../components/user/my-account/SecurityPrivacy'))
+const MyProspects = lazy(() => import('../pages/user/my-prospects/MyProspects'))
+const ProspectCU = lazy(() => import('../pages/user/my-prospects/ProspectCU'))
 
 
 function User({ }) {
@@ -68,8 +70,13 @@ function User({ }) {
             <Route path='security-privacy' element={<SecurityPrivacy />} />
             <Route path='origin-access' element={<Profile />} />
           </Route>
-
+          {/* Leave App */}
           <Route path='/leave-app' element={<PrivateRoute element={<LeaveApp setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+          {/* My prospects */}
+          <Route path='/my-prospects' element={<PrivateRoute element={<MyProspects setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+          <Route path='/my-prospects/register' element={<PrivateRoute element={<ProspectCU setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+
+
 
           {/* 404 Route */}
           <Route path='/*' element={<PrivateRoute element={<NotFound setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
