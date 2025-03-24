@@ -61,7 +61,7 @@ const SearchCity = ({ setModal, setFormData, setPinCodeList }) => {
                     </div>
                 })}
             </div>
-                : doSearch && <SpinWithMessage icon={<TbLocationX />} message='No matching city name or postal code found in our installation area.' />}
+                : doSearch && !loading && <SpinWithMessage icon={<TbLocationX />} message='No matching city name or postal code found in our installation area.' />}
             <form action="" onSubmit={handleSubmit}>
                 <p className='smallTD2' style={{ marginBottom: '10px' }}>To find a city by its name or postal code, please enter at least 3 characters for the city name or a 6-digit postal code.</p>
                 <div className="search-input-div">

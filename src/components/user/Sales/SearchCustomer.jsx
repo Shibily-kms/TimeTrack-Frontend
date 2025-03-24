@@ -3,7 +3,6 @@ import './search-customer.scss'
 import NormalInput from '../../common/inputs/NormalInput'
 import SingleButton from '../../common/buttons/SingleButton'
 import { IoSendSharp } from 'react-icons/io5'
-import { Link } from 'react-router-dom'
 import { cnPv2Axios } from '../../../config/axios'
 import SpinWithMessage from '../../common/spinners/SpinWithMessage'
 import { TbUserX } from 'react-icons/tb'
@@ -71,7 +70,7 @@ const SearchCustomer = ({ setModal, setFormData, setPinCodeList }) => {
 
     return (
         <div className="search-customer-comp-div">
-            {data?.[0] ? <div className="result-div">
+            {data?.[0] && !loading ? <div className="result-div">
                 {data?.map((customer) => {
                     return <div className="item-div" onClick={() => chooseCustomer(customer)}>
                         <p>CID : {customer?.cid} | {customer?.full_name}</p>
@@ -79,7 +78,7 @@ const SearchCustomer = ({ setModal, setFormData, setPinCodeList }) => {
                     </div>
                 })}
             </div>
-                : doSearch && <SpinWithMessage icon={<TbUserX />} message='No matching customer found.' />}
+                : doSearch && !loading && <SpinWithMessage icon={<TbUserX />} message='No matching customer found.' />}
             <form action="" onSubmit={handleSubmit}>
                 <p className='smallTD2' style={{ marginBottom: '10px' }}>To find a customer by their Customer ID (CID) or mobile number.</p>
                 <div className="search-input-div">
