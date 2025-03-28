@@ -36,18 +36,32 @@ const SearchCustomer = ({ setModal, setFormData, setPinCodeList }) => {
             address: data?.address?.address || '',
             place: data?.address?.place || '',
             post: data?.address?.post || '',
-            city: data?.address?.city || '',
+            city: data?.address?.city_name || '',
+            city_id: data?.address?.city_id || '',
             state: data?.address?.state || '',
             country: data?.address?.country || '',
             pin_code: data?.address?.pin_code || '',
             land_mark: data?.address?.land_mark || '',
-            primary_number: data?.primary_number,
-            secondary_number: data?.secondary_number,
-            whatsapp_number: data?.whatsapp_number,
+            primary_number: data?.primary_number?.number?.length === 10 ? {
+                country_code: '91',
+                number: data?.primary_number?.number
+            } : {},
+            secondary_number: data?.secondary_number?.number?.length > 3 ? {
+                country_code: data?.secondary_number?.country_code.startsWith("+")
+                    ? data?.secondary_number?.country_code.substring(1)
+                    : data?.secondary_number?.country_code,
+                number: data?.secondary_number?.number
+            } : {},
+            whatsapp_number: data?.whatsapp_number?.number?.length > 3 ? {
+                country_code: data?.whatsapp_number?.country_code.startsWith("+")
+                    ? data?.whatsapp_number?.country_code.substring(1)
+                    : data?.whatsapp_number?.country_code,
+                number: data?.whatsapp_number?.number
+            } : {},
         }))
         setModal({ status: false, title: null, content: null })
 
-        if (data?.address?.city) {
+        if (data?.address?.city_id) {
             setPinCodeList([{
                 option: data?.address?.pin_code,
                 value: data?.address?.pin_code,
