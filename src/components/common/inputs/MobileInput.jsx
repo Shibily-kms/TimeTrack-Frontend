@@ -18,16 +18,10 @@ function MobileInput({
 }) {
     const [inputType, setInputType] = useState('')
 
-    const handleOnChange = (value, data) => {
-        let countryCode = null, mobile = null
-        if (value.length > data.dialCode.length) {
-            countryCode = data.dialCode
-            const codeLength = data.dialCode.length;
-            mobile = value.slice(codeLength);
-        } else {
-            countryCode = value
-        }
-
+    const handleOnChange = (v, d, e, f) => {
+        let countryCode = d?.dialCode, mobile = null
+        const codeLength = d.dialCode.length;
+        mobile = v.slice(codeLength);
         onChangeFun({ country_code: countryCode, number: mobile, name })
     };
     useEffect(() => {

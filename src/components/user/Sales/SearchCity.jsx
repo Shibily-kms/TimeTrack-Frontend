@@ -41,14 +41,17 @@ const SearchCity = ({ setModal, setFormData, setPinCodeList }) => {
     }
 
     const chooseOption = (data) => {
+        const isPinCode = Number(text) && text.length === 6
+
         setFormData((state) => ({
             ...state,
             city: data?.city_name || '',
             city_id: data?.city_id || '',
             state: data?.state_name || '',
             country: data?.country_name || '',
+            pin_code: isPinCode ? text : ''
         }))
-        setPinCodeList(data?.pin_codes?.map((pin) => ({ option: pin, value: pin })))
+        setPinCodeList(data?.pin_codes?.map((pin) => ({ option: pin, value: pin, selected: text === pin })))
         setModal({ status: false, title: null, content: null })
     }
 

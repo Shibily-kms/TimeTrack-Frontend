@@ -110,7 +110,6 @@ const ProspectCU = ({ setPageHead }) => {
                         isRequired={false} rightIcon={<TbSearch />} onFocus={handleOpenCitySearch} />
                     <SelectInput label='Pin code' value='' name='pin_code' isRequired={false} onChangeFun={handleChange}
                         firstOption={{ option: 'Select...', value: '' }} values={pinCodeList} />
-                    <NormalInput label='State' value={form?.state} name='state' isRequired={false} onChangeFun={handleChange} />
                     <NormalInput label='Land mark' value={form?.land_mark} name='land_mark' isRequired={false} onChangeFun={handleChange} />
                     <MobileInput label='Primary number' name='primary_number' value={`${form?.primary_number?.country_code}${form?.primary_number?.number}`}
                         onlyCountries={['in']} onChangeFun={handleMobileNumber} />
