@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './staff-settings.scss'
 import { ttCv2Axios } from '../../../config/axios'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from '../../../redux/features/user/systemSlice'
 import SingleButton from '../../../components/common/buttons/SingleButton'
@@ -16,6 +16,7 @@ const StaffSettings = ({ setPageHead }) => {
     const { staff_id } = useParams()
     const [activeDrop, setActiveDrop] = useState('')
     const [doSave, setDoSave] = useState(false)
+    const { user } = useSelector((state) => state.userAuth)
     const punch_types = ['software', 'scanner', 'firstInScanner']
 
 
@@ -110,19 +111,21 @@ const StaffSettings = ({ setPageHead }) => {
                 </div>
 
                 {/* Section two */}
-                <div className="section-div">
-                    <div className="section-head">
-                        <h3>Software origin permissions</h3>
-                    </div>
-                    <div className="section-content">
-                        <div className="dropdowns">
-                            {origins_head_list?.map((oh) => {
-                                return <D2StaffSettings key={oh?.id} doActiveDrop={doActiveDrop} activeDrop={activeDrop} data={oh}
-                                    list={data?.allowed_origins} setData={setData} setDoSave={setDoSave} />
-                            })}
+                {(!data?.allowed_origins?.includes('dvur_backup_read') ||
+                    (data?.allowed_origins?.includes('dvur_backup_read') && data?.acc_id === user.acc_id))
+                    && <div className="section-div">
+                        <div className="section-head">
+                            <h3>Software origin permissions</h3>
                         </div>
-                    </div>
-                </div>
+                        <div className="section-content">
+                            <div className="dropdowns">
+                                {origins_head_list?.map((oh) => {
+                                    return <D2StaffSettings key={oh?.id} doActiveDrop={doActiveDrop} activeDrop={activeDrop} data={oh}
+                                        list={data?.allowed_origins} setData={setData} setDoSave={setDoSave} />
+                                })}
+                            </div>
+                        </div>
+                    </div>}
                 {/* Fixed content */}
                 <div className="fixed-div">
                     {doSave && <div className="fixed-border">

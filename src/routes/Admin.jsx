@@ -13,7 +13,6 @@ const AddStaff = lazy(() => import('../pages/admin/add-staff/AddStaff'))
 const StaffProfile = lazy(() => import('../pages/admin/staff-profile/StaffProfile'))
 const StaffSettings = lazy(() => import('../pages/admin/staff-settings/StaffSettings'))
 const Designations = lazy(() => import('../pages/admin/designations/Designations'))
-const Settings = lazy(() => import('../pages/admin/settings/Settings'))
 const MonthlyReports = lazy(() => import('../pages/admin/work-report/WorkReport'))
 const WorkAnalyze = lazy(() => import('../pages/admin/staff-works/WorkAnalyze'))
 const QrGenerator = lazy(() => import('../pages/admin/qr-generator/QrGenerator'))
@@ -83,9 +82,6 @@ function Admin() {
           {/* Designation */}
           {user?.allowed_origins?.some(access => ['ttcr_pro_read', 'ttcr_pro_write'].includes(access)) &&
             <Route path='/designation-list' element={<PrivateRoute element={<Designations setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />}
-
-          {/* Settings */}
-          <Route path='/settings' element={<PrivateRoute element={<Settings setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
 
           {/* 404 Route */}
           <Route path='/*' element={<PrivateRoute element={<NotFound setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
