@@ -15,6 +15,7 @@ import { useDispatch } from 'react-redux'
 import { toast } from '../../../redux/features/user/systemSlice'
 import { useNavigate } from 'react-router-dom'
 import { YYYYMMDDFormat } from '../../../assets/javascript/date-helper'
+import { prospectCUValidation } from '../../../assets/javascript/validation-functions'
 
 const ProspectCU = ({ setPageHead }) => {
 
@@ -71,6 +72,14 @@ const ProspectCU = ({ setPageHead }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        // validation
+        const validate = prospectCUValidation(form)
+        if (!validate?.[0]) {
+            dispatch(toast.push.error({ message: validate?.[1] }))
+            return;
+        }
+
         setLoading('submit')
 
         slUv1Axios.post('/prospect/register', { ...form, reg_by_type: 'Staff', reg_platform: 2 }).then(() => {

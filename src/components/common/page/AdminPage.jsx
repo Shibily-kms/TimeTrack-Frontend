@@ -15,6 +15,7 @@ import { setAdminActivePage } from '../../../redux/features/user/systemSlice'
 import { getUserProfileImagePath } from '../../../assets/javascript/find-helpers'
 import { ui_version } from '../../../assets/javascript/const-data'
 import { TbLayoutSidebarLeftCollapseFilled, TbLayoutSidebarLeftExpandFilled } from 'react-icons/tb'
+import { IoMdLogOut } from 'react-icons/io'
 
 
 function AdminPage({ pageHead, children }) {
@@ -127,10 +128,9 @@ function AdminPage({ pageHead, children }) {
                                 </div>}
 
                             {/* Settings */}
-                            <div className={adminActivePage === 'settings' ? "menu-item active-menu" : "menu-item"}
-                                onClick={() => clickMenuItem('/admin/settings', 'settings')}>
-                                {adminActivePage === 'settings' ? <RiSettingsFill /> : <RiSettingsLine />}
-                                <span>Settings</span>
+                            <div className={"menu-item exit-item"} onClick={() => navigate('/?page=home')}>
+                                {adminActivePage === 'settings' ? <IoMdLogOut /> : <IoMdLogOut />}
+                                <span>Exit</span>
                             </div>
                         </div>
                         <div className="software-info">

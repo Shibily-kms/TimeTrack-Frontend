@@ -109,6 +109,15 @@
                         color: var(--text-tertiary);
                     }
 
+                    .exit-item {
+                        color: var(--color-error);
+
+                        &:hover,
+                        &:focus {
+                            background-color: #{color.adjust($aws-color-light-theme-red-50, $alpha : -0.9)};
+                        }
+                    }
+
                 }
 
                 .software-info {
@@ -303,6 +312,7 @@
             width: 80px;
             left: 0px;
         }
+
         .admin-body-section {
             margin-left: 80px;
         }

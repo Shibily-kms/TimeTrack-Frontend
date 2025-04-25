@@ -47,6 +47,14 @@ const SearchAssociate = ({ setModal, setFormData, type }) => {
         setModal({ status: false, title: null, content: null })
     }
 
+    const handleClearText = () => {
+        setFormData((state) => ({
+            ...state,
+            [type]: '',
+        }))
+        setModal({ status: false, title: null, content: null })
+    }
+
     return (
         <div className="search-customer-comp-div">
             {data?.[0] ? <div className="result-div">
@@ -68,6 +76,7 @@ const SearchAssociate = ({ setModal, setFormData, type }) => {
                         value={text} type='text' minLength={3} step={1} />
                     <SingleButton type={readySearch ? 'submit' : 'button'} classNames={readySearch ? 'icon-only search-button' : 'icon-only search-button hide-button'}
                         stIcon={<IoSendSharp />} loading={loading} />
+                    <p className='clear-text' onClick={handleClearText}>Clear Associate ID</p>
                 </div>
             </form>
         </div >
