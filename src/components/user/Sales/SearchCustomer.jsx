@@ -79,7 +79,14 @@ const SearchCustomer = ({ setModal, setFormData, setPinCodeList }) => {
         } else {
             setReadySearch(false)
         }
+    }
 
+    const handleClearText = () => {
+        setFormData((state) => ({
+            ...state,
+            cid: ''
+        }))
+        setModal({ status: false, title: null, content: null })
     }
 
     return (
@@ -100,6 +107,7 @@ const SearchCustomer = ({ setModal, setFormData, setPinCodeList }) => {
                         value={text} type='number' minLength={3} step={1} />
                     <SingleButton type={readySearch ? 'submit' : 'button'} classNames={readySearch ? 'icon-only search-button' : 'icon-only search-button hide-button'}
                         stIcon={<IoSendSharp />} loading={loading} />
+                    <p className='clear-text' onClick={handleClearText}>Clear Customer ID</p>
                 </div>
             </form>
         </div>
