@@ -70,7 +70,9 @@ const SearchAssociate = ({ setModal, setFormData, type }) => {
             </div>
                 : doSearch && !loading && <SpinWithMessage icon={<TbPlugConnectedX />} message='No matching associates found.' />}
             <form action="" onSubmit={handleSubmit}>
-                <p className='smallTD2' style={{ marginBottom: '10px' }}>To find a associate by its name, title, address, place or contacts, please enter at least 3 characters for search.</p>
+                <p className='smallTD2' style={{ marginBottom: '10px' }}>To find a associate by its name, title, address, place, cid or contacts,
+                    <br></br>
+                    please enter at least 3 characters for search.</p>
                 <div className="search-input-div">
                     <NormalInput ref={inputRef} label='Search' autoFocus style={{ width: '100%' }} onChangeFun={handleChange}
                         value={text} type='text' minLength={3} step={1} />
