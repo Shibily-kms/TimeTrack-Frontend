@@ -15,11 +15,14 @@ import { GrEdit } from "react-icons/gr";
 import { getTimeFromSecond } from '../../../assets/javascript/date-helper';
 import Badge from '../../common/badge/Badge';
 import { MdArrowForward, MdOutlineAlternateEmail, MdOutlineNumbers } from "react-icons/md";
+import { PiDropBold } from "react-icons/pi";
 import { BsWhatsapp } from "react-icons/bs";
 import Modal from '../../common/modal/Modal';
 import EditProfile from '../my-account-sub/EditProfile';
 import SingleContact from '../my-account-sub/SingleContact';
 import { useNavigate } from 'react-router-dom';
+import ProfileStatusSemi from '../profile-status/ProfileStatusSemi';
+import { convertAmount } from '../../../assets/javascript/formate-helper';
 
 const Profile = () => {
     const [loading, setLoading] = useState('fetch')
@@ -53,8 +56,12 @@ const Profile = () => {
             {loading === 'fetch'
                 ? <SpinWithMessage load fullView />
                 : <div className="sub-account-div profile-comp-div">
+                    {user?.profile_status !== 100 &&
+                        <div style={{ marginBottom: '20px' }}>
+                            <ProfileStatusSemi />
+                        </div>}
                     {/* Basic Info */}
-                    <div className="listCard2-div">
+                    <div className="listCard2-div" id='basic_info'>
                         <div className="listCard2-head-div">
                             <div className="title-section">
                                 <h3>Basic Info</h3>
@@ -92,11 +99,24 @@ const Profile = () => {
                                     </div>
                                 </div>
                             </div>
+                            <div className="listCard2-listing">
+                                <div className="listing-icon">
+                                    <PiDropBold />
+                                </div>
+                                <div className="listing-item">
+                                    <div className="listing-label">
+                                        <p>Blood Group</p>
+                                    </div>
+                                    <div className="listing-value">
+                                        <p>{userData?.blood_group ? `${userData?.blood_group}ve` : 'Nill'}</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     {/* Profession Info */}
-                    <div className="listCard2-div">
+                    <div className="listCard2-div" id='profession_info'>
                         <div className="listCard2-head-div">
                             <div className="title-section">
                                 <h3>Profession Info</h3>
@@ -172,7 +192,7 @@ const Profile = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="listCard2-listing">
+                            {userData?.current_salary ? <div className="listCard2-listing">
                                 <div className="listing-icon">
                                     <TbCash />
                                 </div>
@@ -182,15 +202,15 @@ const Profile = () => {
                                     </div>
                                     <div className="listing-value">
                                         <p>{userData?.current_salary || 'No Salary'} INR</p>
-                                        {/* <span className='link'>Last 6 Month Report</span> */}
+                                        {userData?.current_salary && <span className='link'>{convertAmount(Number(userData?.current_salary) * '12')} / Annual</span>}
                                     </div>
                                 </div>
-                            </div>
+                            </div> : ''}
                         </div>
                     </div>
 
                     {/* Contact Info */}
-                    <div className="listCard2-div">
+                    <div className="listCard2-div" id='contact_info'>
                         <div className="listCard2-head-div">
                             <div className="title-section">
                                 <h3>Contact Info</h3>
@@ -310,7 +330,7 @@ const Profile = () => {
                     </div>
 
                     {/* Address */}
-                    <div className="listCard2-div">
+                    <div className="listCard2-div" id='your_address'>
                         <div className="listCard2-head-div">
                             <div className="title-section">
                                 <h3>Your Address</h3>

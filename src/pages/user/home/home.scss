@@ -3,6 +3,8 @@
 @import '../../../assets/scss/model.scss';
 
 .home-page {
+    position: relative;
+
     .profile-section {
         margin-bottom: 15px;
 
@@ -12,51 +14,10 @@
         }
     }
 
-    .section-one-div {
-        .section-content {
-            display: flex;
-            gap: 15px;
-
-            .big-button {
-                background-color: #{color.adjust($aws-color-light-theme-green-40,$alpha : -0.3)};
-                padding: 20px 10px;
-                border-radius: 8px;
-                -webkit-border-radius: 8px;
-                -moz-border-radius: 8px;
-                -ms-border-radius: 8px;
-                -o-border-radius: 8px;
-                text-align: center;
-                cursor: pointer;
-                width: 100%;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                gap: 5px;
-
-                svg {
-                    font-size: 32px;
-                }
-
-                p {
-                    font-size: 14px;
-                    font-weight: 500;
-                }
-
-
-                &:last-child {
-                    background-color: #{color.adjust($aws-color-light-theme-blue-40,$alpha : -0.3)};
-                }
-            }
-
-            .scanner {
-                background-color: #{color.adjust($aws-color-light-theme-yellow-40,$alpha : -0.3)};
-            }
-
-            .software {
-                background-color: #{color.adjust($aws-color-light-theme-green-40,$alpha : -0.3)};
-            }
-        }
+    .work-section {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
     }
 
     .section-two-div {
@@ -84,21 +45,20 @@
                 .icon-div {
                     width: 50px;
                     height: 50px;
-                    background-color: var(--background-primary);
+                    background-color: var(--background-c2);
                     display: grid;
                     place-content: center;
                     color: #{$aws-color-white};
                     cursor: pointer;
-
-                    svg {
-                        font-size: 35px;
-                    }
-
+                    overflow: hidden;
                     border-radius: 15px;
-                    -webkit-border-radius: 15px;
-                    -moz-border-radius: 15px;
-                    -ms-border-radius: 15px;
-                    -o-border-radius: 15px;
+                    font-size: 35px;
+
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
                 }
 
                 p {
@@ -110,6 +70,16 @@
             }
         }
 
+    }
+
+    .celebration-div {
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100vh;
+        width: 100%;
+        background-color: var(--background-opt-primary-8);
+        backdrop-filter: blur(3px);
     }
 }
 

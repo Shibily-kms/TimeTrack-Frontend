@@ -8,7 +8,7 @@ import NormalInput from '../../common/inputs/NormalInput'
 import SelectInput from '../../common/inputs/SelectInput'
 import SingleButton from '../../common/buttons/SingleButton'
 import { useDispatch } from 'react-redux'
-import { work_modes, e_types } from '../../../assets/javascript/const-data';
+import { work_modes, e_types, blood_groups } from '../../../assets/javascript/const-data';
 
 function EditStaff({ data, setModal, setData }) {
     const dispatch = useDispatch()
@@ -18,6 +18,7 @@ function EditStaff({ data, setModal, setData }) {
     const [workMode, setWorkMode] = useState([])
     const [eType, setETypes] = useState([])
     const [genderList, setGenderList] = useState([])
+    const [bloodGroups, setBloodGroups] = useState([])
     const months = ['Jun', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
     const handleChange = (e) => {
@@ -29,7 +30,7 @@ function EditStaff({ data, setModal, setData }) {
 
     const handleDesignationChange = (e) => {
         let desi = designations.filter((obj) => obj.value === e.target.value)
-        
+
         setFrom({
             ...form,
             designation_id: e.target.value,
@@ -73,7 +74,8 @@ function EditStaff({ data, setModal, setData }) {
                 current_working_time: timeSplit,
                 join_date: form.join_date,
                 work_mode: form.work_mode,
-                e_type: form.e_type
+                e_type: form.e_type,
+                blood_group: form?.blood_group
             }))
             setLoading('')
             setModal({ status: false })
@@ -104,7 +106,8 @@ function EditStaff({ data, setModal, setData }) {
             current_working_time: secondsToHHMM(data?.current_working_time || 0),
             join_date: data?.join_date,
             work_mode: data?.work_mode,
-            e_type: data?.e_type
+            e_type: data?.e_type,
+            blood_group: data?.blood_group
         })
 
         setGenderList([
@@ -116,6 +119,7 @@ function EditStaff({ data, setModal, setData }) {
 
         setWorkMode(work_modes.map((a) => ({ option: a, value: a, selected: a === data?.work_mode })) || [])
         setETypes(e_types.map((a) => ({ option: a, value: a, selected: a === data?.e_type })) || [])
+        setBloodGroups(blood_groups.map((a) => ({ option: `${a}ve`, value: a, selected: a === data?.blood_group })))
 
         adminAxios.get('/designations').then((result) => {
             setDesignations(result.data?.map((item) => ({ option: item?.designation, value: item?._id, selected: item?._id === data?.designation_id })) || [])
@@ -145,6 +149,8 @@ function EditStaff({ data, setModal, setData }) {
                             <NormalInput label='Pin code' name='pin_code' type='number' id={'pin_code'} value={form?.pin_code} onChangeFun={handleChange} isRequired={false} />
                             <NormalInput label='District' name='district' id={'district'} value={form?.district} onChangeFun={handleChange} isRequired={false} />
                             <NormalInput label='State' name='state' id={'state'} value={form?.state} onChangeFun={handleChange} isRequired={false} />
+                            <SelectInput name='blood_group' id={'blood_group'} values={bloodGroups}
+                                onChangeFun={handleChange} label='Blood Group' firstOption={{ option: 'Select...', value: '' }} isRequired={false} />
                         </div>
                         <h3>Profession details</h3>
                         <div className="sections">

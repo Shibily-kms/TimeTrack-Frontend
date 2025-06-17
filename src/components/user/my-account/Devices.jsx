@@ -8,9 +8,10 @@ import SpinWithMessage from '../../common/spinners/SpinWithMessage';
 import Badge from '../../common/badge/Badge';
 import { MdArrowForward } from "react-icons/md";
 import Modal from '../../common/modal/Modal';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { TbDeviceLaptop, TbDeviceMobile, TbDeviceTablet, TbDevices } from "react-icons/tb";
 import DeviceView from '../my-account-sub/DeviceView';
+import SingleButton from '../../common/buttons/SingleButton';
 
 
 const Devices = () => {
@@ -21,6 +22,7 @@ const Devices = () => {
     const [modal, setModal] = useState({ status: false })
     const [devices, setDevices] = useState([])
     const dvcId = Cookies.get('DVC_ID');
+    const [searchParams, setSearchParams] = useSearchParams()
 
     const doTerminateDevice = (deviceId, deviceType) => {
         const ask = window.confirm('Are you confirm this is not your device ?')
@@ -56,7 +58,7 @@ const Devices = () => {
         }
     }
 
-    useEffect(() => {
+    const fetchDevices = () => {
         setLoading('fetch')
         ttSv2Axios.get(`/worker/${user?.acc_id}/device`).then((response) => {
             setDevices(response.data)
@@ -66,12 +68,31 @@ const Devices = () => {
             navigate('/?page=home')
             setLoading('')
         })
+    }
+
+    useEffect(() => {
+        fetchDevices()
 
         // eslint-disable-next-line
     }, [])
 
     const openModal = (title, content) => {
         setModal({ status: true, title, content })
+    }
+
+    const handleTerminateAll = () => {
+        const ask = window.confirm('Are you terminate all inactive sessions ?')
+        if (ask) {
+            setLoading('terminate')
+            ttSv2Axios.delete(`/worker/${user?.acc_id}/device/inactive/terminate?currentDvcId=${searchParams.get('dvcId')}`).then(() => {
+                setSearchParams("", "")
+                fetchDevices();
+                setLoading("");
+            }).catch((error) => {
+                dispatch(toast.push.error({ message: error?.message }))
+                setLoading('')
+            })
+        }
     }
 
     return (
@@ -123,7 +144,30 @@ const Devices = () => {
                         </div>
                     })}
 
+                    {(searchParams.get("dvcId") === dvcId && searchParams.get('session_terminate') === 'profile_status') && <>
+                        <div className="listCard2-div" >
+                            <div className="listCard2-head-div">
+                                <div className="title-section">
+                                    <h3>Terminate Inactive Sessions</h3>
+                                    <p className='desc'>Terminate inactive device sessions</p>
+                                </div>
+                                <div className="right-section">
 
+                                </div>
+                            </div>
+                            <div className="clear-alert-div">
+                                <div className="text-div">
+                                    <p>Your software allows a maximum of 4 authenticated devices for optimal security.
+                                        Additional sign-ins may compromise your account's safety. Please terminate
+                                        unwanted or inactive devices.</p>
+                                    <p>The "Terminate inactive sessions" button will automatically log out all inactive devices and any
+                                        devices exceeding the 4-device limit if all are active.</p>
+                                </div>
+                                <SingleButton name={'Terminate inactive sessions'} style={{ width: '100%' }} loading={loading === 'terminate'}
+                                    classNames={'btn-danger'} onClick={handleTerminateAll} />
+                            </div>
+                        </div>
+                    </>}
 
                 </div >}
         </>

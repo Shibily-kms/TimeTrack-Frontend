@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './single-page.scss'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -8,18 +8,52 @@ import { TbCheckbox, TbReport } from "react-icons/tb";
 import { RiMoreFill, RiHome6Line } from "react-icons/ri";
 import { HiStatusOffline, HiStatusOnline } from "react-icons/hi";
 import { toast } from '../../../redux/features/user/systemSlice'
+import { ttSv2Axios } from '../../../config/axios'
+import SingleContact from '../../user/my-account-sub/SingleContact'
+import Modal from '../modal/Modal'
 
 
 function SinglePage({ pageHead, children }) {
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const { user } = useSelector((state) => state.userAuth)
     const { internet } = useSelector((state) => state.systemInfo)
+    const [userData, setUserData] = useState({})
     const lastScrollTop = useRef(0);
     const navbarRef = useRef(null);
-    // eslint-disable-next-line
     const [searchParams, setSearchParams] = useSearchParams()
+    const [verifyContacts, setVerifyContact] = useState({})
+    const [modal, setModal] = useState({ status: false })
+    // eslint-disable-next-line
+
+
+    const handlePopupModalClose = (obj) => {
+        if (!verifyContacts?.primary_number?.verified || !verifyContacts?.whatsapp_number?.verified) {
+            dispatch(toast.push.error({ message: 'You need to be verified first to proceed.' }))
+            return
+        }
+       
+        setModal(obj)
+    }
+
+    const primaryNumberVerify = (primary_number) => {
+        setModal({
+            status: true, title: 'Verify Primary number', content: <SingleContact label={'primary_number'} type={'mobile'}
+                contact={primary_number} setModal={setModal} setUserData={setUserData} />
+        })
+    }
+
+    const whatsappNumberVerify = (whatsapp_number) => {
+        setModal({
+            status: true, title: 'Verify Whatsapp number', content: <SingleContact label={'whatsapp_number'} type={'whatsapp'}
+                contact={whatsapp_number} setModal={setModal} setUserData={setUserData} />
+        })
+    }
+
 
     useEffect(() => {
+
+        // handle Scroll
         const onScroll = () => {
             let currentScrollPos = window.pageYOffset || document.documentElement.scrollTop;
 
@@ -36,12 +70,35 @@ function SinglePage({ pageHead, children }) {
 
         window.addEventListener("scroll", onScroll);
 
-        return () => window.removeEventListener("scroll", onScroll);
+        // Handle Contacts
+        let contacts = {}
+        ttSv2Axios.get(`/worker/account/${user?.acc_id}?initial=Yes`).then((response) => {
+            setUserData(response?.data)
+            contacts.primary_number = response?.data?.primary_number
+            contacts.whatsapp_number = response?.data?.whatsapp_number
+            setVerifyContact(contacts)
+        })
+
+       
+        return () => {
+            window.removeEventListener("scroll", onScroll);
+        }
     }, []);
+
+    useEffect(() => {
+        if (verifyContacts?.primary_number && !verifyContacts?.primary_number?.verified) {
+            primaryNumberVerify(verifyContacts?.primary_number)
+        } else if (verifyContacts?.whatsapp_number && !verifyContacts?.whatsapp_number?.verified) {
+            whatsappNumberVerify(verifyContacts?.whatsapp_number)
+        }
+    }, [verifyContacts])
+
+
 
     return (
 
         <div className="single-page-body">
+            <Modal modal={modal} setModal={handlePopupModalClose} />
             <div className="single-page-header-div" ref={navbarRef}>
                 <div className="border">
                     <div className="left" onClick={() => (!searchParams.get('page') || searchParams.get('page') !== 'home') && navigate(-1)}>

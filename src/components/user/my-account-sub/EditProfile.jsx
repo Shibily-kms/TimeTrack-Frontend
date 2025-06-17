@@ -6,6 +6,7 @@ import { toast } from '../../../redux/features/user/systemSlice'
 import NormalInput from '../../common/inputs/NormalInput'
 import SelectInput from '../../common/inputs/SelectInput'
 import SingleButton from '../../common/buttons/SingleButton'
+import { blood_groups } from '../../../assets/javascript/const-data'
 
 const EditProfile = ({ userData, setUserData, setModal }) => {
     const dispatch = useDispatch()
@@ -13,11 +14,13 @@ const EditProfile = ({ userData, setUserData, setModal }) => {
     const [loading, setLoading] = useState('')
     const [form, setForm] = useState({})
     const [genderList, setGenderList] = useState([])
+    const [bloodGroups, setBloodGroups] = useState([])
 
     useEffect(() => {
 
         setForm({
             gender: userData?.gender,
+            blood_group: userData?.blood_group,
             address: userData?.address?.address,
             place: userData?.address?.place,
             post: userData?.address?.post,
@@ -33,6 +36,7 @@ const EditProfile = ({ userData, setUserData, setModal }) => {
             { option: 'Female', value: "Female", selected: userData?.gender === 'Female' },
             { option: 'Other', value: "Other", selected: userData?.gender === 'Other' },
         ])
+        setBloodGroups(blood_groups.map((a) => ({ option: `${a}ve`, value: a, selected: a === userData?.blood_group })))
 
         // eslint-disable-next-line
     }, [userData])
@@ -51,6 +55,7 @@ const EditProfile = ({ userData, setUserData, setModal }) => {
             setUserData((state) => ({
                 ...state,
                 gender: form.gender || null,
+                blood_group: form.blood_group || null,
                 address: {
                     address: form.address || null,
                     place: form.place || null,
@@ -76,6 +81,8 @@ const EditProfile = ({ userData, setUserData, setModal }) => {
             <form action="" onSubmit={handleSubmit}>
                 <div className="input-section">
                     <SelectInput label='Gender' name='gender' values={genderList} onChangeFun={handleChange} />
+                    <SelectInput name='blood_group' id={'blood_group'} values={bloodGroups}
+                        onChangeFun={handleChange} label='Blood Group' firstOption={{ option: 'Select...', value: '' }} isRequired={false} />
                     <NormalInput label='Address' name='address' value={form?.address} onChangeFun={handleChange} isRequired={false} />
                     <NormalInput label='Place' name='place' value={form?.place} onChangeFun={handleChange} />
                     <NormalInput label='Post Office' name='post' value={form?.post} onChangeFun={handleChange} />

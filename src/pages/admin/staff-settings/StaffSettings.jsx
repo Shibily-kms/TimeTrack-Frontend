@@ -8,17 +8,22 @@ import SingleButton from '../../../components/common/buttons/SingleButton'
 import { FiSave } from "react-icons/fi";
 import D2StaffSettings from '../../../components/admin/dropdown/D2StaffSettings'
 import { origins_head_list } from '../../../assets/javascript/const-data'
+import NullApp from '../../../assets/images/app-icons/Null.jpg'
+import Modal from '../../../components/common/modal/Modal'
+import AlertBox from '../../../components/common/alert/AlertBox'
+
 
 const StaffSettings = ({ setPageHead }) => {
     const [data, setData] = useState({})
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const { staff_id } = useParams()
-    const [activeDrop, setActiveDrop] = useState('')
     const [doSave, setDoSave] = useState(false)
     const { user } = useSelector((state) => state.userAuth)
     const punch_types = ['software', 'scanner', 'firstInScanner']
-
+    const [modal, setModal] = useState({ status: false })
+    const [devAccount, setDevAccount] = useState(false)
+    const [proAccount, setProAccount] = useState(false)
 
 
     const handleChange = (e) => {
@@ -29,11 +34,13 @@ const StaffSettings = ({ setPageHead }) => {
         })
     }
 
-    const doActiveDrop = (dropId) => {
-        if (dropId === activeDrop) {
-            setActiveDrop('')
-        } else {
-            setActiveDrop(dropId)
+    const openOriginModal = (originHead) => {
+        if (!devAccount && !proAccount) {
+            setModal({
+                status: true, title: `${originHead?.title} : Accesses`, width: '700px',
+                content: <D2StaffSettings originList={originHead?.sections} userOrigins={data?.allowed_origins}
+                    setDoSave={setDoSave} setData={setData} />
+            })
         }
     }
 
@@ -70,6 +77,15 @@ const StaffSettings = ({ setPageHead }) => {
             })
             setPageHead({ title: `${response.data.first_name} ${response.data.last_name} / Settings` })
 
+
+            if (response?.data?.allowed_origins?.includes('dvur_backup_read') && response?.data?.acc_id !== user?.acc_id) {
+                setDevAccount(true)
+            }
+
+            if (response?.data?.pro_account?.[0] && response?.data?.acc_id !== user?.acc_id) {
+                setProAccount(true)
+            }
+
         }).catch((error) => {
             dispatch(toast.push.error({ message: error?.message }))
             navigate('/admin/staff-list')
@@ -79,6 +95,7 @@ const StaffSettings = ({ setPageHead }) => {
 
     return (
         <div className="staff-settings-page-div">
+            <Modal modal={modal} setModal={setModal} />
             <div className="boarder">
                 {/* Section one */}
                 <div className="section-div">
@@ -110,29 +127,66 @@ const StaffSettings = ({ setPageHead }) => {
                     </div>
                 </div>
 
+
                 {/* Section two */}
-                {(!data?.allowed_origins?.includes('dvur_backup_read') ||
-                    (data?.allowed_origins?.includes('dvur_backup_read') && data?.acc_id === user.acc_id))
-                    && <div className="section-div">
-                        <div className="section-head">
-                            <h3>Software origin permissions</h3>
+                <div className="section-div" style={{ marginBottom: "50px" }}>
+                    <div className="section-head">
+                        <h3>Software origin permissions</h3>
+                    </div>
+
+                    {devAccount && <AlertBox classNames={'alt-warning'} messages={'This is developer account, You cannot change the origin accesses'}
+                        styles={{ marginBottom: '15px', fontSize: '15px' }} />}
+
+                    {!devAccount && proAccount && <AlertBox classNames={'alt-warning'} messages={'This is Pro account, You cannot change the origin accesses'}
+                        styles={{ marginBottom: '15px', fontSize: '15px' }} />}
+
+                    <div className="section-content">
+                        <div className="box-header">
+                            {origins_head_list?.map((oh) => {
+                                return <div className="box" onClick={() => openOriginModal(oh)}>
+                                    <div className="icon-div">
+                                        <img alt='icon' src={oh.icon || NullApp} />
+                                    </div>
+                                    <div className="content">
+                                        <h3>{oh?.title}</h3>
+                                        <p>{oh?.description || 'Click to view'}</p>
+                                    </div>
+                                    {data?.allowed_origins?.filter((access) => access?.slice(0, oh?.id?.length) === oh?.id).length > 0 &&
+                                        <div className="label-div">
+                                            <p>{data?.allowed_origins?.filter((access) => access?.slice(0, oh?.id?.length) === oh?.id).length} Access</p>
+                                        </div>}
+                                </div>
+                            })}
+
+                            {data?.allowed_origins?.includes('dvur_backup_read') &&
+                                <div className="box">
+                                    <div className="icon-div">
+                                        <img alt='icon' src={NullApp} />
+                                    </div>
+                                    <div className="content">
+                                        <h3>{'Developer App'}</h3>
+                                        <p>{'Access the developer mode'}</p>
+                                    </div>
+                                    <div className="label-div">
+                                        <p>Access</p>
+                                    </div>
+                                </div>}
+
+
                         </div>
-                        <div className="section-content">
-                            <div className="dropdowns">
-                                {origins_head_list?.map((oh) => {
-                                    return <D2StaffSettings key={oh?.id} doActiveDrop={doActiveDrop} activeDrop={activeDrop} data={oh}
-                                        list={data?.allowed_origins} setData={setData} setDoSave={setDoSave} />
-                                })}
-                            </div>
-                        </div>
-                    </div>}
-                {/* Fixed content */}
-                <div className="fixed-div">
-                    {doSave && <div className="fixed-border">
-                        <p className='smallTD1'>Only take your changes after save</p>
-                        <SingleButton stIcon={<FiSave />} name={'Save Changes'} onClick={handleSave} />
-                    </div>}
+
+                    </div>
                 </div>
+
+
+
+                {/* Fixed content */}
+                {doSave && <div className="fixed-div">
+                    <div className="fixed-border">
+                        <p className='smallTD1'>Only take your changes after save</p>
+                        <SingleButton classNames={'lg'} stIcon={<FiSave />} name={'Save Changes'} onClick={handleSave} />
+                    </div>
+                </div>}
             </div>
         </div>
     )
