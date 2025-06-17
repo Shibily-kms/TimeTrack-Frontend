@@ -5,6 +5,7 @@ import SpinWithMessage from '../../../components/common/spinners/SpinWithMessage
 import { ttCv2Axios } from '../../../config/axios'
 import { getTimeFromSecond } from '../../../assets/javascript/date-helper'
 import { setAdminActivePage, toast } from '../../../redux/features/user/systemSlice'
+import { RiShieldStarLine } from "react-icons/ri";
 import { useDispatch, useSelector } from 'react-redux'
 import Modal from '../../../components/common/modal/Modal'
 import SingleButton from '../../../components/common/buttons/SingleButton'
@@ -13,6 +14,8 @@ import { FaCheck, FaPlus, FaUsers } from "react-icons/fa6";
 import Badge from '../../../components/common/badge/Badge'
 import { IoMdSettings } from 'react-icons/io'
 import CommonUpdate from '../../../components/admin/common-update/CommonUpdate'
+import AlertBox from '../../../components/common/alert/AlertBox'
+import { joinStringsFromArray } from '../../../assets/javascript/find-helpers'
 
 
 function AllStaffs({ setPageHead }) {
@@ -23,6 +26,8 @@ function AllStaffs({ setPageHead }) {
     const [modal, setModal] = useState({ status: false })
     const [allStaff, setAllStaff] = useState(false)
     const { user } = useSelector((state) => state.userAuth)
+    const [birthList, setBirthList] = useState([])
+    const [joinList, setJoinList] = useState('')
 
 
     const getActiveStaffList = () => {
@@ -62,6 +67,33 @@ function AllStaffs({ setPageHead }) {
         // eslint-disable-next-line
     }, [user])
 
+    useEffect(() => {
+        const todayDate = new Date().getDate()
+        const todayMonth = new Date().getMonth()
+        const birthNames = []
+        const joinNames = []
+
+        if (data?.[0]) {
+            data?.map((staff) => {
+                if (new Date(staff?.dob).getDate() === todayDate && new Date(staff?.dob).getMonth() === todayMonth) {
+                    birthNames.push(staff?.full_name)
+                }
+
+                if (new Date(staff?.join_date).getDate() === todayDate && new Date(staff?.join_date).getMonth() === todayMonth) {
+                    const years = new Date().getFullYear() - new Date(staff?.join_date).getFullYear()
+                    if (years > 0) {
+                        joinNames.push(`${staff?.full_name} has completed ${years} year(s)`)
+                    }
+                }
+
+                return staff
+            })
+        }
+
+        setBirthList(birthNames)
+        setJoinList(joinNames)
+    }, [data])
+
     const handleAllButton = () => {
         setLoading('listing')
         setAllStaff(!allStaff)
@@ -77,6 +109,10 @@ function AllStaffs({ setPageHead }) {
     return (
         <div className='staff-list-page-div'>
             <Modal modal={modal} setModal={setModal} />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', margin: '10px 0 0 0' }}>
+                {birthList?.length > 0 ? <AlertBox title={'Birth Day Alert!'} messages={<span>Today is the birthday of {joinStringsFromArray(birthList)}</span>} /> : ""}
+                {joinList?.length > 0 ? <AlertBox title={'Work Anniversary Alert!'} messages={<span>{joinStringsFromArray(joinList)} with our company.</span>} /> : ''}
+            </div>
             <div className="table-div">
                 {data?.[0] ? <>
                     <TableFilter srlNo={true} topRight={<div className='button-div'>
@@ -100,7 +136,8 @@ function AllStaffs({ setPageHead }) {
                                     return <tr key={value._id} className={value?.delete ? 'deleted-item' : ""}>
 
                                         <td style={{ cursor: "pointer" }} title='Click for show profile details' onClick={() => navigate(`/admin/staff-list/${value._id}/profile`)}>
-                                            {value?.full_name}<br></br><small>{value?.sid}</small>
+                                            {value?.full_name} {value?.pro_account && <span className='pro-icon' title='Pro account badge'><RiShieldStarLine /></span>}
+                                            <br></br> <small>{value?.sid}</small>
                                         </td>
                                         <td style={{ cursor: "pointer" }} onClick={() => navigate(`/admin/staff-list/${value._id}/profile`)}>
                                             {value.designation.designation}<br></br>

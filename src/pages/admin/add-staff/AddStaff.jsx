@@ -10,7 +10,7 @@ import MobileInput from '../../../components/common/inputs/MobileInput';
 import { createStaffFormValidation } from '../../../assets/javascript/validation-functions';
 import { useDispatch } from 'react-redux';
 import { PiDotFill } from "react-icons/pi";
-import { work_modes, e_types } from '../../../assets/javascript/const-data';
+import { work_modes, e_types, blood_groups } from '../../../assets/javascript/const-data';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -117,6 +117,8 @@ const AddStaff = ({ setPageHead }) => {
                             label='Whatsapp number' onlyCountries={['in']} isRequired={false} />
                         <NormalInput name='email_id' id={'email_id'} type='email' value={form?.email_id} onChangeFun={handleChange} label='Email Address'
                             isRequired={false} />
+                        <SelectInput name='blood_group' id={'blood_group'} values={blood_groups?.map((bg) => ({ option: `${bg}ve`, value: bg }))}
+                            onChangeFun={handleChange} label='Blood Group' firstOption={{ option: 'Select...', value: '' }} isRequired={false} />
                     </div>
 
                     <div className="section-title-div">

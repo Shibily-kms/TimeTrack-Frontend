@@ -1,0 +1,78 @@
+.pro-accounts-page-div {
+    .accounts {
+        margin-top: 25px;
+
+
+        .box-div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: var(--background-c1);
+            border: 2px solid var(--text-c3);
+            width: 270px;
+            padding: 40px 10px;
+            border-radius: 25px;
+            position: relative;
+            cursor: pointer;
+
+            .icon-div {
+                width: 100px;
+                height: 100px;
+                border-radius: 100%;
+                overflow: hidden;
+                border: 1px solid var(--border-c1);
+                margin-bottom: 15px;
+
+                img {
+                    width: 100%;
+                }
+            }
+
+            p {
+                font-size: 14px;
+                margin-top: 5px;
+            }
+
+            .origins {
+                margin-top: 10px;
+            }
+
+            .button-div {
+                position: absolute;
+                right: 15px;
+                top: 15px;
+            }
+        }
+
+        .add-div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--background-c1);
+            border: 2px solid var(--text-c3);
+            width: 270px;
+            padding: 40px 10px;
+            border-radius: 25px;
+            cursor: pointer;
+
+            .icon-div {
+                svg {
+                    font-size: 45px;
+                }
+            }
+
+            h3 {
+                font-size: 18px;
+                margin-top: 15px;
+                font-weight: 500;
+            }
+
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+        }
+    }
+}

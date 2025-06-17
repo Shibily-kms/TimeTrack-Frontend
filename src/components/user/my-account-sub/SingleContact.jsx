@@ -82,7 +82,7 @@ const SingleContact = ({ type, label, contact, setModal, setUserData }) => {
 
     const verifyOtp = (newOtp) => {
         const enteredOtp = (newOtp || otp).join('');
-     
+
         setLoading(true)
         ttSv2Axios.post('/auth/otp-v/verify', {
             acc_id: user?.acc_id,
@@ -107,10 +107,15 @@ const SingleContact = ({ type, label, contact, setModal, setUserData }) => {
             setOtp([...newOtp, ...new Array(OtpLength - newOtp.length).fill("")]);
 
             // Focus the last filled input
-            const inputs = document.querySelectorAll(".otp-input");
+            const inputs = document.querySelectorAll(".otp-field");
             setTimeout(() => {
                 inputs[Math.min(newOtp.length, OtpLength - 1)]?.focus();
             }, 0);
+
+            // Check if all inputs are filled, then submit
+            if (newOtp.length === OtpLength && newOtp.every((digit) => digit !== "")) {
+                verifyOtp(newOtp)
+            }
         }
     };
 

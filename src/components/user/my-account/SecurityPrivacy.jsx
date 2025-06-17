@@ -12,6 +12,7 @@ import { MdOutlinePassword } from "react-icons/md";
 import { IoMdWarning } from "react-icons/io";
 import ChangePassword from '../my-account-sub/ChangePassword';
 import { RiLockPasswordFill } from 'react-icons/ri';
+import ProfileStatusSemi from '../profile-status/ProfileStatusSemi';
 
 const SecurityPrivacy = () => {
     const [loading, setLoading] = useState('fetch')
@@ -93,7 +94,13 @@ const SecurityPrivacy = () => {
                                 </div> */}
                             </div>
                         </div>
+
                     </div>
+
+                    {user?.profile_status < 50 &&
+                        <div style={{ marginBottom: '20px' }}>
+                            <ProfileStatusSemi />
+                        </div>}
                 </div>}
         </>
     )

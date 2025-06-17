@@ -11,11 +11,7 @@
         background-color: #{color.adjust($aws-color-light-theme-primary-60,$alpha : -0.8)};
         color: var(--text-primary);
         padding: 15px;
-        border-radius: 8px;
-        -webkit-border-radius: 8px;
-        -moz-border-radius: 8px;
-        -ms-border-radius: 8px;
-        -o-border-radius: 8px;
+        border-radius: 20px;
         font-size: 13px;
         font-weight: 600;
 

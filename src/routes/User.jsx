@@ -20,6 +20,7 @@ const Devices = lazy(() => import('../components/user/my-account/Devices'))
 const SecurityPrivacy = lazy(() => import('../components/user/my-account/SecurityPrivacy'))
 const MyProspects = lazy(() => import('../pages/user/my-prospects/MyProspects'))
 const ProspectCU = lazy(() => import('../pages/user/my-prospects/ProspectCU'))
+const ProfileComplete = lazy(() => import('../pages/user/profile-complete/ProfileComplete'))
 
 
 function User({ }) {
@@ -49,7 +50,6 @@ function User({ }) {
 
   return (
     <SinglePage pageHead={pageHead}>
-
       <Suspense fallback={<PageLoading />}>
         <Routes>
           {/* Home */}
@@ -70,13 +70,15 @@ function User({ }) {
             <Route path='security-privacy' element={<SecurityPrivacy />} />
             <Route path='origin-access' element={<Profile />} />
           </Route>
+
+          {/* profile status complete */}
+          <Route path='/my-account/profile/complete-info' element={<PrivateRoute element={<ProfileComplete setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+
           {/* Leave App */}
           <Route path='/leave-app' element={<PrivateRoute element={<LeaveApp setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
           {/* My prospects */}
           <Route path='/my-prospects' element={<PrivateRoute element={<MyProspects setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
           <Route path='/my-prospects/register' element={<PrivateRoute element={<ProspectCU setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
-
-
 
           {/* 404 Route */}
           <Route path='/*' element={<PrivateRoute element={<NotFound setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />

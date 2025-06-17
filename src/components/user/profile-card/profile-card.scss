@@ -3,18 +3,14 @@
 @import '../../../assets/scss/model.scss';
 
 .profile-card-div {
-    border-radius: 15px;
-    -webkit-border-radius: 15px;
-    -moz-border-radius: 15px;
-    -ms-border-radius: 15px;
-    -o-border-radius: 15px;
+    border-radius: 20px;
     background: #{$aws-color-light-theme-blue-40};
     background: linear-gradient(320deg, #{$aws-color-light-theme-blue-50} 18%, #{$aws-color-light-theme-blue-80} 73%);
     border: var(--border-secondary) 1px solid;
     padding: 10px 10px 5px 10px;
     user-select: none;
     overflow: hidden;
-    
+
 
     .top-section-div {
         display: flex;

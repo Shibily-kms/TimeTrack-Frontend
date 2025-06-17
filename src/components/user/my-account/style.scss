@@ -66,7 +66,7 @@
                         gap: 15px;
 
                         .link {
-                            color: var(--color-info);
+                            color: var(--text-c2);
                             font-size: 13px;
                             margin-left: 15px;
                             cursor: pointer;
@@ -176,6 +176,25 @@
                         }
                     }
 
+                }
+            }
+        }
+    }
+
+    .clear-alert-div {
+        .text-div {
+            margin-bottom: 15px;
+
+            p {
+                &:first-child {
+                    font-size: 14px;
+                    text-align: justify;
+                }
+
+                &:last-child {
+                    font-size: 13px;
+                    text-align: justify;
+                    color: var(--text-c2);
                 }
             }
         }

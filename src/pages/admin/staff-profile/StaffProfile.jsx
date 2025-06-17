@@ -17,8 +17,11 @@ import Badge from '../../../components/common/badge/Badge'
 import { FaCheckCircle } from "react-icons/fa";
 import { findAgeFromDate } from '../../../assets/javascript/find-helpers'
 import { BiSolidErrorCircle } from 'react-icons/bi'
-import { RiVerifiedBadgeFill } from 'react-icons/ri'
+import { RiShieldStarLine, RiVerifiedBadgeFill } from 'react-icons/ri'
 import EditStaff from '../../../components/admin/edit-staff/EditStaff'
+import { GrEdit } from 'react-icons/gr'
+import { FiSettings } from "react-icons/fi";
+import { GoTrash } from 'react-icons/go'
 
 const StaffProfile = ({ setPageHead }) => {
   const dispatch = useDispatch()
@@ -78,7 +81,9 @@ const StaffProfile = ({ setPageHead }) => {
             : <>
               <div className="list-item-div">
                 <span><p>Full name</p></span>
-                <span><p>: {data?.first_name} {data?.last_name}</p></span>
+                <span><p>: {data?.first_name} {data?.last_name}</p>
+                  {data?.pro_account?.[0] && <span className='pro-icon' title='Pro account badge'><RiShieldStarLine /></span>}
+                </span>
               </div>
               <div className="list-item-div">
                 <span><p>Date of Birth</p></span>
@@ -107,6 +112,10 @@ const StaffProfile = ({ setPageHead }) => {
               <div className="list-item-div">
                 <span><p>Email ID</p></span>
                 <span><p>: {data?.email_address?.mail}</p></span>
+              </div>
+              <div className="list-item-div">
+                <span><p>Blood Group</p></span>
+                <span><p>: {data?.blood_group ? `${data?.blood_group}ve` : 'Nill'}</p></span>
               </div>
             </>}
         </div>
@@ -251,22 +260,37 @@ const StaffProfile = ({ setPageHead }) => {
             </ul>
           </div>
           {loading !== 'fetch' && user?.allowed_origins?.includes('ttcr_stfAcc_write') &&
-            <div className="sub-section-two">
-              <SingleButton name={'Update details'} classNames={'btn-tertiary'} style={{ width: '100%' }} onClick={() => setModal({
-                status: true,
-                title: 'Update details',
-                content: <EditStaff data={data} setData={setData} setModal={setModal} />,
-                width: '600px'
-              })} />
-              {!data?.delete && <SingleButton name={'Add ToDo'} classNames={'btn-tertiary'} style={{ width: '100%' }
-              } onClick={() => openWorkModal()} />}
-              {!data?.delete && <SingleButton name={'Settings'} classNames={'btn-tertiary'} style={{ width: '100%' }}
-                onClick={() => navigate(`/admin/staff-list/${staff_id}/settings`)} />}
-              {!data?.delete && <SingleButton name={'Delete profile'} classNames={'btn-danger'} style={{ width: '100%' }}
-                onClick={() => setModal({
-                  status: true, title: 'Delete Profile', content: <DeleteStaff deleteId={data?._id} setData={setData} setModal={setModal} />
-                })} />}
-            </div>
+            <>
+              <div className="sub-section-two small">
+                <SingleButton stIcon={<GrEdit />} classNames={'btn-tertiary icon-only'} style={{ width: '100%' }} onClick={() => setModal({
+                  status: true,
+                  title: 'Update details',
+                  content: <EditStaff data={data} setData={setData} setModal={setModal} />,
+                  width: '600px'
+                })} />
+                {!data?.delete && <SingleButton stIcon={<FiSettings />} classNames={'btn-tertiary icon-only'} style={{ width: '100%' }}
+                  onClick={() => navigate(`/admin/staff-list/${staff_id}/settings`)} />}
+                {!data?.delete && <SingleButton stIcon={<GoTrash />} classNames={'btn-danger icon-only'} style={{ width: '100%' }}
+                  onClick={() => setModal({
+                    status: true, title: 'Delete Profile', content: <DeleteStaff deleteId={data?._id} setData={setData} setModal={setModal} />
+                  })} />}
+              </div>
+
+              <div className="sub-section-two big">
+                <SingleButton name={'Update profile'} classNames={'btn-tertiary'} style={{ width: '100%' }} onClick={() => setModal({
+                  status: true,
+                  title: 'Update details',
+                  content: <EditStaff data={data} setData={setData} setModal={setModal} />,
+                  width: '600px'
+                })} />
+                {!data?.delete && <SingleButton name={'Settings'} classNames={'btn-tertiary'} style={{ width: '100%' }}
+                  onClick={() => navigate(`/admin/staff-list/${staff_id}/settings`)} />}
+                {!data?.delete && <SingleButton name={'Leave staff'} classNames={'btn-danger'} style={{ width: '100%' }}
+                  onClick={() => setModal({
+                    status: true, title: 'Delete Profile', content: <DeleteStaff deleteId={data?._id} setData={setData} setModal={setModal} />
+                  })} />}
+              </div>
+            </>
           }
         </div>
       </div>
