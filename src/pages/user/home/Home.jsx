@@ -73,7 +73,7 @@ function Home({ setPageHead }) {
           </div>)}
 
           {(user?.allowed_origins?.includes('Accountant')) && <div className="app-item">
-            <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001?id=${user?.acc_id}`}>
+            <div className="icon-div" onClick={() => window.location.href = `https://accounting.alliancewatersolutions.com?id=${user?.acc_id}`}>
               <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
               <img alt='app-icon' src={Finance} draggable={false} />
             </div>
@@ -82,7 +82,7 @@ function Home({ setPageHead }) {
 
           {(user?.allowed_origins?.includes('ControlNex') || user?.allowed_origins?.includes('Customer_Info')) &&
             <div className="app-item">
-              <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001?id=${user?.acc_id}`}>
+              <div className="icon-div" onClick={() => window.location.href = `https://controlnex.alliancewatersolutions.com?id=${user?.acc_id}`}>
                 <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
                 <img alt='app-icon' src={ControlNex} draggable={false} />
               </div>
@@ -92,7 +92,7 @@ function Home({ setPageHead }) {
           {(user?.allowed_origins?.includes('Sales') || user?.allowed_origins?.includes('SalesPro')
             || user?.allowed_origins?.includes('Installation')) && <div className="app-item">
               <div className="icon-div" style={{ backgroundColor: "#0c1663" }}
-                onClick={() => window.location.href = `http://sales.alliancewatersolutions.com?id=${user?.acc_id}`}>
+                onClick={() => window.location.href = `https://sales.alliancewatersolutions.com?id=${user?.acc_id}`}>
                 <FaStore />
               </div>
               <p>Sales App</p>
@@ -100,7 +100,7 @@ function Home({ setPageHead }) {
 
 
           {(user?.allowed_origins?.includes('PR_Service')) && <div className="app-item">
-            <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001?id=${user?.acc_id}`}>
+            <div className="icon-div" onClick={() => window.location.href = `https://purifier.alliancewatersolutions.com?id=${user?.acc_id}`}>
               <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
               <img alt='app-icon' src={PRService} draggable={false} />
             </div>
@@ -108,7 +108,7 @@ function Home({ setPageHead }) {
           </div>}
 
           {(user?.allowed_origins?.includes('PR_Admin')) && <div className="app-item">
-            <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001?id=${user?.acc_id}`}>
+            <div className="icon-div" onClick={() => window.location.href = `https://purifier.alliancewatersolutions.com/admin?id=${user?.acc_id}`}>
               <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
               <img alt='app-icon' src={PRAdmin} draggable={false} />
             </div>
@@ -116,7 +116,7 @@ function Home({ setPageHead }) {
           </div>}
 
           {(user?.allowed_origins?.includes('WH_Service')) && <div className="app-item">
-            <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001?id=${user?.acc_id}`}>
+            <div className="icon-div" onClick={() => window.location.href = `https://wholehouse.alliancewatersolutions.com?id=${user?.acc_id}`}>
               <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
               <img alt='app-icon' src={Vessel} draggable={false} />
             </div>
@@ -124,7 +124,7 @@ function Home({ setPageHead }) {
           </div>}
 
           {(user?.allowed_origins?.includes('WH_Admin')) && <div className="app-item">
-            <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001?id=${user?.acc_id}`}>
+            <div className="icon-div" onClick={() => window.location.href = `https://wholehouse.alliancewatersolutions.com/admin?id=${user?.acc_id}`}>
               <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
               <img alt='app-icon' src={VesselAdmin} draggable={false} />
             </div>
@@ -132,7 +132,7 @@ function Home({ setPageHead }) {
           </div>}
 
           {user?.allowed_origins?.some((access) => access?.slice(0, 9) === 'slur_lead') && <div className="app-item">
-            <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001/lead?page=home`}>
+            <div className="icon-div" onClick={() => window.location.href = `https://salesV1.alliancewatersolutions.com/lead?page=home`}>
               <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
               <img alt='app-icon' src={Lead} draggable={false} />
             </div>
@@ -140,7 +140,7 @@ function Home({ setPageHead }) {
           </div>}
 
           {user?.allowed_origins?.some((access) => access?.slice(0, 8) === 'slur_eqr') && <div className="app-item">
-            <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001/enquiry?page=home`}>
+            <div className="icon-div" onClick={() => window.location.href = `https://salesV1.alliancewatersolutions.com/enquiry?page=home`}>
               <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
               <img alt='app-icon' src={Enquiry} draggable={false} />
             </div>
@@ -148,7 +148,7 @@ function Home({ setPageHead }) {
           </div>}
 
           {user?.allowed_origins?.some((access) => access?.slice(0, 12) === 'slur_install') && <div className="app-item">
-            <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001/installation?page=home`}>
+            <div className="icon-div" onClick={() => window.location.href = `https://salesV1.alliancewatersolutions.com/installation?page=home`}>
               <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
               <img alt='app-icon' src={Install} draggable={false} />
             </div>
@@ -156,7 +156,7 @@ function Home({ setPageHead }) {
           </div>}
 
           {user?.allowed_origins?.some((access) => access?.slice(0, 9) === 'slur_gdwn') && <div className="app-item">
-            <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001/warehouse?page=pending`}>
+            <div className="icon-div" onClick={() => window.location.href = `https://salesV1.alliancewatersolutions.com/warehouse?page=pending`}>
               <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
               <img alt='app-icon' src={Warehouse} draggable={false} />
             </div>
@@ -164,7 +164,7 @@ function Home({ setPageHead }) {
           </div>}
 
           {user?.allowed_origins?.some((access) => access?.slice(0, 4) === 'slcr') && <div className="app-item">
-            <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001/controller`}>
+            <div className="icon-div" onClick={() => window.location.href = `https://salesV1.alliancewatersolutions.com/controller`}>
               <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
               <img alt='app-icon' src={SLController} draggable={false} />
             </div>
