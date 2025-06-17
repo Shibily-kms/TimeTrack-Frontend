@@ -23,12 +23,14 @@
 
         .nav-sub-div {
             height: 100vh;
-            padding: 15px 12px 15px 12px;
+            // padding: 15px 12px 15px 12px;
             display: grid;
-            grid-template-rows: 80px auto 60px;
+            grid-template-rows: 80px auto 70px;
             width: 220px;
 
             .title-section {
+                padding: 15px 0px 15px 12px;
+
                 .logo-section {
                     display: flex;
                     align-items: center;
@@ -66,6 +68,7 @@
             .content-div {
                 overflow: auto;
                 @include scrollBar();
+                padding: 0px 12px 0px 12px;
 
                 .menu-item-list {
                     display: flex;
@@ -132,7 +135,7 @@
                 display: flex;
                 flex-direction: column;
                 border-top: 1px solid var(--border-primary);
-                padding: 15px 0 0 0;
+                padding: 15px 12px 15px 12px;
 
                 .profile-div {
                     display: flex;
@@ -189,6 +192,7 @@
             .title-section {
                 display: flex;
                 justify-content: space-between;
+                gap: 0;
 
                 .left {
 
@@ -230,11 +234,12 @@
                 width: 80px;
 
                 .title-section {
-
+                    padding-left:20px ;
                     .logo-section {
                         display: flex;
                         align-items: center;
-                        justify-content: center;
+                        width: 100%;
+                        // justify-content: center;
                         gap: 0px;
 
                         h3 {

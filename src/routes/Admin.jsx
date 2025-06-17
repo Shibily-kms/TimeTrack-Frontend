@@ -17,7 +17,9 @@ const MonthlyReports = lazy(() => import('../pages/admin/work-report/WorkReport'
 const WorkAnalyze = lazy(() => import('../pages/admin/staff-works/WorkAnalyze'))
 const QrGenerator = lazy(() => import('../pages/admin/qr-generator/QrGenerator'))
 const LeaveApp = lazy(() => import('../pages/admin/leave-app/LeaveApp'))
-
+const ProAccounts = lazy(() => import("../pages/admin/pro-accounts/ProAccounts"))
+const SoftwareOrigins = lazy(() => import('../pages/admin/software-origins/SoftwareOrigins'))
+const SingleOriginList = lazy(() => import('../pages/admin/software-origins/SingleOriginList'))
 
 function Admin() {
 
@@ -82,6 +84,19 @@ function Admin() {
           {/* Designation */}
           {user?.allowed_origins?.some(access => ['ttcr_pro_read', 'ttcr_pro_write'].includes(access)) &&
             <Route path='/designation-list' element={<PrivateRoute element={<Designations setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />}
+
+          {/* Software Origins */}
+          {/* {user?.allowed_origins?.includes('ttcr_stfAcc_write') && <>
+            <Route path='/software-origins' element={<PrivateRoute element={<SoftwareOrigins setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+            <Route path='/software-origins/:origin_id' element={<PrivateRoute element={<SingleOriginList setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+          </>} */}
+
+          {/* Pro Accounts */}
+          {user?.allowed_origins?.includes('dvur_backup_read') &&
+            <Route path='/pro-accounts' element={<PrivateRoute element={<ProAccounts setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />}
+
+
+
 
           {/* 404 Route */}
           <Route path='/*' element={<PrivateRoute element={<NotFound setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />

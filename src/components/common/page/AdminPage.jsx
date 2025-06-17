@@ -4,17 +4,17 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import AllianceLogo from '../../../assets/images/alliance-logo.png'
 import {
-    MdOutlineSpaceDashboard, MdSpaceDashboard, MdOutlineWorkHistory, MdWorkHistory
+    MdOutlineSpaceDashboard, MdSpaceDashboard, MdOutlineWorkHistory, MdWorkHistory,
 } from "react-icons/md";
 import { LuIndianRupee, LuQrCode } from "react-icons/lu";
 import { FaIndianRupeeSign } from "react-icons/fa6";
 import { PiUserListBold, PiUserListFill } from "react-icons/pi";
-import { RiFileList3Line, RiFileList3Fill, RiSettingsLine, RiSettingsFill } from "react-icons/ri";
+import { RiFileList3Line, RiFileList3Fill, RiShieldStarLine, RiShieldStarFill } from "react-icons/ri";
 import { IoPricetagsSharp, IoPricetagsOutline } from 'react-icons/io5'
 import { setAdminActivePage } from '../../../redux/features/user/systemSlice'
 import { getUserProfileImagePath } from '../../../assets/javascript/find-helpers'
 import { ui_version } from '../../../assets/javascript/const-data'
-import { TbLayoutSidebarLeftCollapseFilled, TbLayoutSidebarLeftExpandFilled } from 'react-icons/tb'
+import { TbLayoutSidebarLeftCollapseFilled, TbLayoutSidebarLeftExpandFilled, TbRouteAltLeft, TbRouteAltRight } from 'react-icons/tb'
 import { IoMdLogOut } from 'react-icons/io'
 
 
@@ -125,6 +125,22 @@ function AdminPage({ pageHead, children }) {
                                     onClick={() => clickMenuItem('/admin/designation-list', 'designation-list')}>
                                     {adminActivePage === 'designation-list' ? <IoPricetagsSharp /> : <IoPricetagsOutline />}
                                     <span>Designation List</span>
+                                </div>}
+
+                            {/* Software Origins */}
+                            {/* {user?.allowed_origins?.some(access => ['ttcr_pro_read', 'ttcr_pro_write'].includes(access)) &&
+                                <div className={adminActivePage === 'software-origins' ? "menu-item active-menu" : "menu-item"}
+                                    onClick={() => clickMenuItem('/admin/software-origins', 'software-origins')}>
+                                    {adminActivePage === 'software-origins' ? <TbRouteAltLeft /> : <TbRouteAltRight />}
+                                    <span>Software Origins</span>
+                                </div>} */}
+
+                            {/* Pro Accounts */}
+                            {user?.allowed_origins?.includes('dvur_backup_read') &&
+                                <div className={adminActivePage === 'pro-accounts' ? "menu-item active-menu" : "menu-item"}
+                                    onClick={() => clickMenuItem('/admin/pro-accounts', 'pro-accounts')}>
+                                    {adminActivePage === 'pro-accounts' ? <RiShieldStarFill /> : <RiShieldStarLine />}
+                                    <span>Pro Accounts</span>
                                 </div>}
 
                             {/* Settings */}

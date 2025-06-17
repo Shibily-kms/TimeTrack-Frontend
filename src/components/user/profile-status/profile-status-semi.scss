@@ -1,0 +1,172 @@
+.profile-status-semi-comp-div {
+    .border {
+        background-color: #d32f2f2c;
+        border-radius: 20px;
+        padding: 15px 20px;
+        border: 1px dashed #D32F2F;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 25px;
+
+        .rounded-div {
+            width: 70px;
+            min-width: 70px;
+
+            .circular-chart {
+                display: block;
+                max-height: 250px;
+            }
+
+            .circle-bg {
+                fill: none;
+                stroke: #d32f2f3f;
+                stroke-width: 3.8;
+            }
+
+            .circle {
+                fill: none;
+                stroke-width: 2.8;
+                stroke-linecap: round;
+                animation: progress 1s ease-out forwards;
+            }
+
+            @keyframes progress {
+                0% {
+                    stroke-dasharray: 0 100;
+                }
+            }
+
+            .circular-chart .circle {
+                stroke: #D32F2F;
+            }
+
+            .percentage {
+                fill: #d32f2fad;
+                font-size: 0.5em;
+                text-anchor: middle;
+            }
+        }
+
+        .text-div {
+            width: 100%;
+
+            h3 {
+                font-weight: 600;
+                color: #D32F2F;
+                font-size: 16px;
+                margin-bottom: 5px;
+            }
+
+            h4 {
+                font-weight: 500;
+                font-size: 14px;
+                color: var(--text-c2);
+            }
+        }
+    }
+
+    .Poor {
+        background-color: #FF57222c;
+        border: 1px dashed #FF5722;
+
+        .rounded-div {
+            .circle-bg {
+                stroke: #FF57223f;
+            }
+
+            .circular-chart .circle {
+                stroke: #FF5722;
+            }
+
+            .percentage {
+                fill: #FF5722ad;
+            }
+        }
+
+        .text-div {
+            h3 {
+                color: #FF5722;
+            }
+        }
+
+    }
+
+    .Fair {
+        background-color: #FFCA282c;
+        border: 1px dashed #FFCA28;
+
+        .rounded-div {
+            .circle-bg {
+                stroke: #FFCA283f;
+            }
+
+            .circular-chart .circle {
+                stroke: #FFCA28;
+            }
+
+            .percentage {
+                fill: #FFCA28ad;
+            }
+        }
+
+        .text-div {
+            h3 {
+                color: #FFCA28;
+            }
+        }
+
+    }
+
+    .Good {
+        background-color: #2196F32c;
+        border: 1px dashed #2196F3;
+
+        .rounded-div {
+            .circle-bg {
+                stroke: #2196F33f;
+            }
+
+            .circular-chart .circle {
+                stroke: #2196F3;
+            }
+
+            .percentage {
+                fill: #2196F3ad;
+            }
+        }
+
+        .text-div {
+            h3 {
+                color: #2196F3;
+            }
+        }
+
+    }
+
+    .Excellent {
+        background-color: #4CAF502c;
+        border: 1px dashed #4CAF50;
+
+        .rounded-div {
+            .circle-bg {
+                stroke: #4CAF503f;
+            }
+
+            .circular-chart .circle {
+                stroke: #4CAF50;
+            }
+
+            .percentage {
+                fill: #4CAF50ad;
+            }
+        }
+
+        .text-div {
+            h3 {
+                color: #4CAF50;
+            }
+        }
+
+    }
+}

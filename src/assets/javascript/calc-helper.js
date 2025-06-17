@@ -15,3 +15,5 @@ export const findTotalSalaryAmt = (data) => {
     return totalSalary
 }
 
+
+

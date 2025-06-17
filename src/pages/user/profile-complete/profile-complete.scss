@@ -1,0 +1,52 @@
+.profile-complete-page-div {
+    .item-list-div {
+        margin-top: 20px;
+
+        .item-div {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px 5px;
+            border-bottom: 1px dashed var(--border-c1);
+
+            .icon-div {
+                .icon-box {
+                    background-color: var(--color-warning);
+                    width: 28px;
+                    height: 28px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border-radius: 100%;
+
+                    svg {
+                        font-size: 18px;
+                        color: white;
+                    }
+                }
+
+                .success {
+                    background-color: var(--color-success);
+                }
+            }
+
+            .head-div {
+                width: 100%;
+
+                h3 {
+                    font-weight: 500;
+                    font-size: 16px;
+                }
+
+                p {
+                    font-size: 13px;
+                    color: var(--text-c2);
+                }
+            }
+
+            &:last-child {
+                border: none;
+            }
+        }
+    }
+}

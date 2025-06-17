@@ -2,17 +2,23 @@ import React, { useEffect } from 'react'
 import './home.scss'
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { IoLogoAppleAr } from "react-icons/io5";
-import { MdOutlineMiscellaneousServices, MdAdminPanelSettings } from "react-icons/md";
-import { FaIndianRupeeSign } from "react-icons/fa6";
 import { FaStore } from "react-icons/fa";
-import { HiUserGroup } from "react-icons/hi2";
 import ProfileCard from '../../../components/user/profile-card/ProfileCard';
 import { YYYYMMDDFormat } from '../../../assets/javascript/date-helper';
 import WorkDetails from '../../../components/user/semi-work-details/WorkDetails';
-import { PiGraphFill } from 'react-icons/pi';
-import { TbBuildingWarehouse, TbDropletSearch } from 'react-icons/tb';
-import { GrInstall } from 'react-icons/gr';
+import TTController from '../../../assets/images/app-icons/TT Controller.jpg'
+import Finance from '../../../assets/images/app-icons/Finance.jpg'
+import ControlNex from '../../../assets/images/app-icons/ControlNex.jpg'
+import PRService from '../../../assets/images/app-icons/Purifier Service.jpg'
+import PRAdmin from '../../../assets/images/app-icons/Purifier Admin.jpg'
+import Vessel from '../../../assets/images/app-icons/Vessel.jpg'
+import VesselAdmin from '../../../assets/images/app-icons/Vessel Admin.jpg'
+import Lead from '../../../assets/images/app-icons/SL Lead.jpg'
+import Enquiry from '../../../assets/images/app-icons/SL Enquiry.jpg'
+import Install from '../../../assets/images/app-icons/SL Install.jpg'
+import SLController from '../../../assets/images/app-icons/SL Controller.jpg'
+import Warehouse from '../../../assets/images/app-icons/Warehouse.jpg'
+import ProfileStatusSemi from '../../../components/user/profile-status/ProfileStatusSemi';
 
 
 function Home({ setPageHead }) {
@@ -29,6 +35,9 @@ function Home({ setPageHead }) {
     // eslint-disable-next-line
   }, [])
 
+
+
+
   return (
     <div className='home-page'>
       <div className="profile-section">
@@ -44,6 +53,7 @@ function Home({ setPageHead }) {
         </div>}
       </div>
       <div className="work-section">
+        {user?.profile_status !== 100 && <ProfileStatusSemi />}
         <WorkDetails />
       </div>
 
@@ -54,20 +64,26 @@ function Home({ setPageHead }) {
         <div className="section-content">
           {/* Staff Admin */}
           {user?.allowed_origins?.some((access) => access?.slice(0, 4) === 'ttcr') && (<div className="app-item">
-            <div className="icon-div" style={{ backgroundColor: "#4c0c87" }}
-              onClick={() => navigate('/admin')}>
-              <MdAdminPanelSettings />
+            <div className="icon-div" onClick={() => navigate('/admin')}>
+              <img alt='app-icon' src={TTController} draggable={false} />
             </div>
             <p>TT Controller</p>
           </div>)}
 
           {(user?.allowed_origins?.includes('Accountant')) && <div className="app-item">
-            <div className="icon-div" style={{ backgroundColor: "#521f08" }}
-              onClick={() => window.location.href = `http://accounting.alliancewatersolutions.com?id=${user?.acc_id}`}>
-              <FaIndianRupeeSign />
+            <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001?id=${user?.acc_id}`}>
+              <img alt='app-icon' src={Finance} draggable={false} />
             </div>
-            <p>Accounting <br></br> App</p>
+            <p>Finance</p>
           </div>}
+
+          {(user?.allowed_origins?.includes('ControlNex') || user?.allowed_origins?.includes('Customer_Info')) &&
+            <div className="app-item">
+              <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001?id=${user?.acc_id}`}>
+                <img alt='app-icon' src={ControlNex} draggable={false} />
+              </div>
+              <p>ControlNex</p>
+            </div>}
 
           {(user?.allowed_origins?.includes('Sales') || user?.allowed_origins?.includes('SalesPro')
             || user?.allowed_origins?.includes('Installation')) && <div className="app-item">
@@ -78,90 +94,73 @@ function Home({ setPageHead }) {
               <p>Sales App</p>
             </div>}
 
+
           {(user?.allowed_origins?.includes('PR_Service')) && <div className="app-item">
-            <div className="icon-div" style={{ backgroundColor: "#52082f" }}
-              onClick={() => window.location.href = `http://purifier.alliancewatersolutions.com?id=${user?.acc_id}`}>
-              <MdOutlineMiscellaneousServices />
+            <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001?id=${user?.acc_id}`}>
+              <img alt='app-icon' src={PRService} draggable={false} />
             </div>
-            <p>Purifier Service</p>
+            <p>PR Service</p>
           </div>}
 
           {(user?.allowed_origins?.includes('PR_Admin')) && <div className="app-item">
-            <div className="icon-div" style={{ backgroundColor: "#085212" }}
-              onClick={() => window.location.href = `http://purifier.alliancewatersolutions.com/admin?id=${user?.acc_id}`}>
-              <IoLogoAppleAr />
+            <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001?id=${user?.acc_id}`}>
+              <img alt='app-icon' src={PRAdmin} draggable={false} />
             </div>
-            <p>Purifier Admin</p>
+            <p>PR Controller</p>
           </div>}
 
-          {(user?.allowed_origins?.includes('ControlNex') || user?.allowed_origins?.includes('Customer_Info')) &&
-            <div className="app-item">
-              <div className="icon-div" style={{ backgroundColor: "#046b5f" }}
-                onClick={() => window.location.href = `http://controlnex.alliancewatersolutions.com?id=${user?.acc_id}`}>
-                <HiUserGroup />
-              </div>
-              <p>ControlNex <br></br> App</p>
-            </div>}
-
           {(user?.allowed_origins?.includes('WH_Service')) && <div className="app-item">
-            <div className="icon-div" style={{ backgroundColor: "#4c046b" }}
-              onClick={() => window.location.href = `http://wholehouse.alliancewatersolutions.com?id=${user?.acc_id}`}>
-              <MdOutlineMiscellaneousServices />
+            <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001?id=${user?.acc_id}`}>
+              <img alt='app-icon' src={Vessel} draggable={false} />
             </div>
-            <p>Whole house <br></br> Service</p>
+            <p>VS Service</p>
           </div>}
 
           {(user?.allowed_origins?.includes('WH_Admin')) && <div className="app-item">
-            <div className="icon-div" style={{ backgroundColor: "#336b04" }}
-              onClick={() => window.location.href = `http://wholehouse.alliancewatersolutions.com/admin?id=${user?.acc_id}`}>
-              <IoLogoAppleAr />
+            <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001?id=${user?.acc_id}`}>
+              <img alt='app-icon' src={VesselAdmin} draggable={false} />
             </div>
-            <p>Whole house <br></br> Admin</p>
+            <p>VS Controller</p>
           </div>}
 
           {user?.allowed_origins?.some((access) => access?.slice(0, 9) === 'slur_lead') && <div className="app-item">
-            <div className="icon-div" style={{ backgroundColor: "#960c84" }}
-              onClick={() => window.location.href = `https://salesV1.alliancewatersolutions.com/lead?page=home`}>
-              <PiGraphFill />
+            <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001/lead?page=home`}>
+              <img alt='app-icon' src={Lead} draggable={false} />
             </div>
             <p>SL Lead</p>
           </div>}
 
           {user?.allowed_origins?.some((access) => access?.slice(0, 8) === 'slur_eqr') && <div className="app-item">
-            <div className="icon-div" style={{ backgroundColor: "#2b6dd6" }}
-              onClick={() => window.location.href = `https://salesV1.alliancewatersolutions.com/enquiry?page=home`}>
-              <TbDropletSearch />
+            <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001/enquiry?page=home`}>
+              <img alt='app-icon' src={Enquiry} draggable={false} />
             </div>
             <p>SL Enquiry</p>
           </div>}
 
           {user?.allowed_origins?.some((access) => access?.slice(0, 12) === 'slur_install') && <div className="app-item">
-            <div className="icon-div" style={{ backgroundColor: "#154c79" }}
-              onClick={() => window.location.href = `https://salesV1.alliancewatersolutions.com/installation?page=home`}>
-              <GrInstall />
+            <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001/installation?page=home`}>
+              <img alt='app-icon' src={Install} draggable={false} />
             </div>
             <p>SL Install</p>
           </div>}
 
           {user?.allowed_origins?.some((access) => access?.slice(0, 9) === 'slur_gdwn') && <div className="app-item">
-            <div className="icon-div" style={{ backgroundColor: "#a6001e" }}
-              onClick={() => window.location.href = `https://salesV1.alliancewatersolutions.com/warehouse?page=pending`}>
-              <TbBuildingWarehouse />
+            <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001/warehouse?page=pending`}>
+              <img alt='app-icon' src={Warehouse} draggable={false} />
             </div>
             <p>SL Warehouse</p>
           </div>}
 
           {user?.allowed_origins?.some((access) => access?.slice(0, 4) === 'slcr') && <div className="app-item">
-            <div className="icon-div" style={{ backgroundColor: "#fc9700" }}
-              onClick={() => window.location.href = `https://salesV1.alliancewatersolutions.com/controller`}>
-              <IoLogoAppleAr />
+            <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001/controller`}>
+              <img alt='app-icon' src={SLController} draggable={false} />
             </div>
             <p>SL Controller</p>
           </div>}
 
-
         </div>
       </div>
+
     </div >
   )
 }

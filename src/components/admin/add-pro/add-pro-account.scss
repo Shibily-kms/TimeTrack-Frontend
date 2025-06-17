@@ -1,0 +1,29 @@
+.add-pro-accounts-div {
+    .listing {
+        .item-div {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            justify-content: space-between;
+
+            p {
+                font-size: 14px;
+            }
+
+            svg {
+                color: var(--color-info);
+                font-size: 20px;
+            }
+
+            span {
+                color: var(--text-c2);
+                font-size: 14px;
+            }
+        }
+    }
+
+    .error-text {
+        color: var(--color-error);
+        text-align: center;
+    }
+}

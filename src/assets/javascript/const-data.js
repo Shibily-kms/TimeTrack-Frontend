@@ -1,11 +1,23 @@
-export const ui_version = '2.1.1'
+import TTController from '../images/app-icons/TT Controller.jpg'
+import Finance from '../images/app-icons/Finance.jpg'
+import ControlNex from '../images/app-icons/ControlNex.jpg'
+import PRService from '../images/app-icons/Purifier Service.jpg'
+import Vessel from '../images/app-icons/Vessel.jpg'
+import Enquiry from '../images/app-icons/SL Enquiry.jpg'
+import SLController from '../images/app-icons/SL Controller.jpg'
+
+
+
+
+export const ui_version = '2.3.0'
 export const work_modes = ['On-site', 'Remote', 'Hybrid ']
 export const e_types = ['Part time', 'Full time']
 export const prospect_type = ['Lead', 'Enquiry', 'Installation']
 export const prospect_status = ['Completed', 'Cancelled']
 export const prospect_urgency = ['Hot', 'Warm', 'Cool']
+export const blood_groups = ['A+', 'A-', 'B+', 'B-', 'AB+', "AB-", "O+", "O-"]
 
-
+export const pro_account_area = ['ttcr']
 
 
 
@@ -14,6 +26,7 @@ export const origins_head_list = [
         id: 'ttcr',
         title: 'Time Track Controller',
         description: 'Control workers attendance reports',
+        icon: TTController,
         sections: [
             {
                 id: 'ttcr_stfAcc',
@@ -107,6 +120,7 @@ export const origins_head_list = [
         id: 'slur',
         title: 'Sales App v1.1',
         description: 'Manage Lead, Enquiry and Installation',
+        icon: Enquiry,
         sections: [
             {
                 id: 'slur_lead',
@@ -158,6 +172,7 @@ export const origins_head_list = [
         id: 'slcr',
         title: 'Sales Controller v1.1',
         description: 'Manage Lead, Enquiry and Installation Sections',
+        icon: SLController,
         sections: [
             {
                 id: 'slcr_stfLst',
@@ -236,6 +251,7 @@ export const origins_head_list = [
         id: 'PR',
         title: 'Purifier',
         description: 'Manage purifier services',
+        icon: PRService,
         sections: [
             {
                 id: 'PR_Service',
@@ -265,6 +281,7 @@ export const origins_head_list = [
         id: 'WH',
         title: 'Whole house',
         description: 'Manage Whole house services',
+        icon: Vessel,
         sections: [
             {
                 id: 'WH_Service',
@@ -294,6 +311,7 @@ export const origins_head_list = [
         id: 'Sales',
         title: 'Sales application',
         description: 'Manage sales application',
+        icon: null,
         sections: [
             {
                 id: 'Sales',
@@ -323,6 +341,7 @@ export const origins_head_list = [
         id: 'Installation',
         title: 'Installation',
         description: 'Manage Installation application',
+        icon: null,
         sections: [
             {
                 id: 'Installation',
@@ -341,6 +360,7 @@ export const origins_head_list = [
         id: 'ControlNex',
         title: 'ControlNex',
         description: 'Manage ControlNex application',
+        icon: ControlNex,
         sections: [
             {
                 id: 'ControlNex',
@@ -359,6 +379,7 @@ export const origins_head_list = [
         id: 'Customer',
         title: 'Customer Info',
         description: 'Manage ControlNex mini application',
+        icon: null,
         sections: [
             {
                 id: 'Customer_Info',
@@ -377,6 +398,7 @@ export const origins_head_list = [
         id: 'Accountant',
         title: 'Accountant App',
         description: 'Manage alliance finance',
+        icon: Finance,
         sections: [
             {
                 id: 'Accountant',
@@ -395,6 +417,7 @@ export const origins_head_list = [
         id: 'accr',
         title: 'Accountant App v1.1',
         description: 'Manage alliance finance',
+        icon: null,
         sections: [
             {
                 id: 'accr_slprd',
