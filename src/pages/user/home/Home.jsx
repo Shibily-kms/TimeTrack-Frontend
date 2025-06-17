@@ -19,6 +19,7 @@ import Install from '../../../assets/images/app-icons/SL Install.jpg'
 import SLController from '../../../assets/images/app-icons/SL Controller.jpg'
 import Warehouse from '../../../assets/images/app-icons/Warehouse.jpg'
 import ProfileStatusSemi from '../../../components/user/profile-status/ProfileStatusSemi';
+import Alliance from '../../../components/common/icon/Alliance';
 
 
 function Home({ setPageHead }) {
@@ -65,6 +66,7 @@ function Home({ setPageHead }) {
           {/* Staff Admin */}
           {user?.allowed_origins?.some((access) => access?.slice(0, 4) === 'ttcr') && (<div className="app-item">
             <div className="icon-div" onClick={() => navigate('/admin')}>
+              <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
               <img alt='app-icon' src={TTController} draggable={false} />
             </div>
             <p>TT Controller</p>
@@ -72,6 +74,7 @@ function Home({ setPageHead }) {
 
           {(user?.allowed_origins?.includes('Accountant')) && <div className="app-item">
             <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001?id=${user?.acc_id}`}>
+              <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
               <img alt='app-icon' src={Finance} draggable={false} />
             </div>
             <p>Finance</p>
@@ -80,6 +83,7 @@ function Home({ setPageHead }) {
           {(user?.allowed_origins?.includes('ControlNex') || user?.allowed_origins?.includes('Customer_Info')) &&
             <div className="app-item">
               <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001?id=${user?.acc_id}`}>
+                <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
                 <img alt='app-icon' src={ControlNex} draggable={false} />
               </div>
               <p>ControlNex</p>
@@ -97,6 +101,7 @@ function Home({ setPageHead }) {
 
           {(user?.allowed_origins?.includes('PR_Service')) && <div className="app-item">
             <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001?id=${user?.acc_id}`}>
+              <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
               <img alt='app-icon' src={PRService} draggable={false} />
             </div>
             <p>PR Service</p>
@@ -104,6 +109,7 @@ function Home({ setPageHead }) {
 
           {(user?.allowed_origins?.includes('PR_Admin')) && <div className="app-item">
             <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001?id=${user?.acc_id}`}>
+              <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
               <img alt='app-icon' src={PRAdmin} draggable={false} />
             </div>
             <p>PR Controller</p>
@@ -111,6 +117,7 @@ function Home({ setPageHead }) {
 
           {(user?.allowed_origins?.includes('WH_Service')) && <div className="app-item">
             <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001?id=${user?.acc_id}`}>
+              <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
               <img alt='app-icon' src={Vessel} draggable={false} />
             </div>
             <p>VS Service</p>
@@ -118,6 +125,7 @@ function Home({ setPageHead }) {
 
           {(user?.allowed_origins?.includes('WH_Admin')) && <div className="app-item">
             <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001?id=${user?.acc_id}`}>
+              <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
               <img alt='app-icon' src={VesselAdmin} draggable={false} />
             </div>
             <p>VS Controller</p>
@@ -125,6 +133,7 @@ function Home({ setPageHead }) {
 
           {user?.allowed_origins?.some((access) => access?.slice(0, 9) === 'slur_lead') && <div className="app-item">
             <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001/lead?page=home`}>
+              <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
               <img alt='app-icon' src={Lead} draggable={false} />
             </div>
             <p>SL Lead</p>
@@ -132,6 +141,7 @@ function Home({ setPageHead }) {
 
           {user?.allowed_origins?.some((access) => access?.slice(0, 8) === 'slur_eqr') && <div className="app-item">
             <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001/enquiry?page=home`}>
+              <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
               <img alt='app-icon' src={Enquiry} draggable={false} />
             </div>
             <p>SL Enquiry</p>
@@ -139,6 +149,7 @@ function Home({ setPageHead }) {
 
           {user?.allowed_origins?.some((access) => access?.slice(0, 12) === 'slur_install') && <div className="app-item">
             <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001/installation?page=home`}>
+              <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
               <img alt='app-icon' src={Install} draggable={false} />
             </div>
             <p>SL Install</p>
@@ -146,6 +157,7 @@ function Home({ setPageHead }) {
 
           {user?.allowed_origins?.some((access) => access?.slice(0, 9) === 'slur_gdwn') && <div className="app-item">
             <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001/warehouse?page=pending`}>
+              <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
               <img alt='app-icon' src={Warehouse} draggable={false} />
             </div>
             <p>SL Warehouse</p>
@@ -153,6 +165,7 @@ function Home({ setPageHead }) {
 
           {user?.allowed_origins?.some((access) => access?.slice(0, 4) === 'slcr') && <div className="app-item">
             <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001/controller`}>
+              <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
               <img alt='app-icon' src={SLController} draggable={false} />
             </div>
             <p>SL Controller</p>
