@@ -3,7 +3,7 @@ import './more.scss'
 import Modal from '../../../components/common/modal/Modal'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { IoArrowForwardOutline, IoPersonCircleOutline } from "react-icons/io5";
-import { LuFileEdit } from "react-icons/lu";
+import { LuArrowUpRight, LuFileEdit } from "react-icons/lu";
 import { IoMdLogOut } from "react-icons/io";
 import { BsQrCodeScan } from "react-icons/bs";
 import { clearWorkData } from '../../../redux/features/user/workdataSlice';
@@ -11,7 +11,7 @@ import { doLogOut } from '../../../redux/features/user/authSlice'
 import { useDispatch, useSelector } from 'react-redux';
 import { ui_version } from '../../../assets/javascript/const-data'
 import { RiSettingsLine } from 'react-icons/ri';
-import { TbFileUpload } from 'react-icons/tb';
+import { TbFileUpload, TbHelpSquareRounded } from 'react-icons/tb';
 import { YYYYMMDDFormat } from '../../../assets/javascript/date-helper';
 import { PiSpinnerBold } from 'react-icons/pi';
 import Cookies from 'js-cookie';
@@ -25,6 +25,10 @@ const MorePage = ({ setPageHead }) => {
     const navigate = useNavigate()
     const [rfsTkn, setRfsTkn] = useState(Cookies.get('_rfs_tkn'));
     const [dvcId, setDvcId] = useState(Cookies.get('DVC_ID'));
+
+    const helpFormNavigate = () => {
+        window.open(`https://docs.google.com/forms/d/e/1FAIpQLSfHzaBzc0SLS9BFJ_yGgtQsX290fiZrjymAK0tAIMDFmnSazw/viewform?usp=pp_url&entry.2086004218=${user?.dvc_id}&entry.1229166839=${user?.acc_id}&entry.319667061=${user?.first_name} ${user?.last_name}&entry.1265184055=Time+Track+(Attendance+Software)`, '_blank')
+    }
 
     useEffect(() => {
         if (!rfsTkn || !dvcId) {
@@ -129,6 +133,15 @@ const MorePage = ({ setPageHead }) => {
                     </div>
                     <div className="right">
                         <IoArrowForwardOutline />
+                    </div>
+                </div>
+                <div className="option-div" onClick={() => helpFormNavigate()}>
+                    <div className="left">
+                        <TbHelpSquareRounded />
+                        <h4>Help center</h4>
+                    </div>
+                    <div className="right">
+                        <LuArrowUpRight />
                     </div>
                 </div>
                 <div className="option-div red-option" onClick={() => handleLogOut()}>
