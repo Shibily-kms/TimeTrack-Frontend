@@ -25,6 +25,8 @@ const ProfileStatusSemi = ({ hideButton = false }) => {
                     <h3>Your profile is {user?.profile_status}% complete!</h3>
                     {user?.profile_status !== 100 && <h4>Finish setting up to unlock more features.</h4>}
                     <h4>Your profile status is {user?.profile_status > 89 ? 'Excellent' : user?.profile_status > 74 ? 'Good' : user?.profile_status > 49 ? 'Fair' : user?.profile_status > 24 ? 'Poor' : 'Bad'}.</h4>
+                    {(user?.profile_status !== 100 && !hideButton) &&
+                        <span> <SingleButton name={'Complete'} style={{ marginTop: '10px' }} classNames={'sm'} onClick={() => navigate('/my-account/profile/complete-info')} /></span>}
                 </div>
 
                 {(user?.profile_status !== 100 && !hideButton) && <div className="button-div">
