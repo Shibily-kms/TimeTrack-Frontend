@@ -24,6 +24,10 @@
             opacity: .8;
         }
 
+        &:disabled {
+            opacity: .5;
+        }
+
         /* HTML: <div class="loader"></div> */
         .loader {
             width: 30px;

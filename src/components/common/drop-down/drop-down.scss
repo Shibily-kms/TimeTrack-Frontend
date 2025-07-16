@@ -1,0 +1,100 @@
+.dropdown-wrapper {
+    position: relative;
+    display: inline-block;
+
+    .dropdown-toggle {
+        padding: 8px 16px;
+        cursor: pointer;
+    }
+
+    .dropdown-menu {
+        position: absolute;
+        max-height: 250px; // ⬅️ set max-height
+        overflow-y: auto; // ⬅️ enable scroll if height exceeds
+        min-width: 180px;
+        padding: 6px 0;
+        background: #fff;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+        z-index: 100;
+
+        // Positioning classes remain the same
+        &.bottom {
+            top: 100%;
+            margin-top: 6px;
+        }
+
+        &.top {
+            bottom: 100%;
+            margin-bottom: 6px;
+        }
+
+        &.left {
+            left: 0;
+        }
+
+        &.center {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        &.right {
+            right: 0;
+        }
+
+
+        .dropdown-section {
+            padding: 6px 0;
+
+            &:not(:first-child) {
+                border-top: 1px solid #f0f0f0;
+                margin-top: 6px;
+            }
+        }
+
+        .dropdown-heading {
+            font-size: 13px;
+            font-weight: 600;
+            padding: 6px 16px 4px;
+            color: #444;
+            background: #f9f9f9;
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background: #e0e0e0;
+            margin: 4px 0;
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+
+            .icon {
+                margin-right: 8px;
+            }
+
+            &.disabled {
+                color: #aaa;
+                cursor: not-allowed;
+                pointer-events: none;
+            }
+
+            &:hover:not(.disabled) {
+                background: #f0f0f0;
+            }
+
+            &.danger {
+                color: #e74c3c;
+            }
+
+            &.primary {
+                color: #007bff;
+            }
+        }
+    }
+}
