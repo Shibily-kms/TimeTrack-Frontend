@@ -11,7 +11,7 @@ import ColumnsList from './ColumnsList';
 
 
 
-function TanStackTable({ columns, data, rowCheckBox = false, topRight, bulkActions, columnVisible }) {
+function TanStackTable({ columns = [], data, rowCheckBox = false, topComponents, bulkActions, columnVisible, columnListing }) {
     // Table latest version : 04 Oct 2024
 
     // Example
@@ -43,11 +43,10 @@ function TanStackTable({ columns, data, rowCheckBox = false, topRight, bulkActio
     // }));
 
     const [globalFilter, setGlobalFilter] = useState('');
-    const [columnVisibility, setColumnVisibility] = useState(columnVisible);
+    const [columnVisibility, setColumnVisibility] = useState({ ...columnVisible, ...columnListing });
     const [rowSelection, setRowSelection] = useState({});
     const [sorting, setSorting] = useState([]);
     const [modal, setModal] = useState({ status: false })
-
 
     const table = useReactTable({
         data,
@@ -56,25 +55,41 @@ function TanStackTable({ columns, data, rowCheckBox = false, topRight, bulkActio
 
                 {
                     id: 'select',
-                    header: ({ table }) => (
-                        <label className="table-checkbox-input">
+                    header: ({ table }) => {
+
+                        // Get all selectable (non-disabled) rows on current page
+                        const selectableRows = table.getRowModel().rows.filter(row => !row.original.disableCheckbox);
+                        const allSelected = selectableRows.every(row => row.getIsSelected());
+                        const someSelected = selectableRows.some(row => row.getIsSelected());
+
+                        const handleSelectAll = () => {
+                            selectableRows.forEach(row => {
+                                row.toggleSelected(!allSelected);
+                            });
+                        };
+
+                        return <label className="table-checkbox-input">
                             <input type="checkbox"
-                                checked={table.getIsAllRowsSelected()}
-                                onChange={table.getToggleAllRowsSelectedHandler()}
+                                checked={allSelected}
+                                onChange={handleSelectAll}
+                                indeterminate={`${!allSelected && someSelected}`}
+                                disabled={table.getRowModel().rows.every(row => row.original.disableCheckbox)}
                             />
                             <span className="checkbox-box"></span>
                         </label>
-                    ),
-                    cell: ({ row }) => (
-                        <label className="table-checkbox-input">
+                    },
+                    cell: ({ row }) => {
+                        const isDisabled = row.original.disableCheckbox;
+                        return <label className="table-checkbox-input">
                             <input type="checkbox"
                                 checked={row.getIsSelected()}
                                 onChange={row.getToggleSelectedHandler()}
                                 onClick={(e) => e.stopPropagation()}
+                                disabled={isDisabled}
                             />
                             <span className="checkbox-box"></span>
                         </label>
-                    ),
+                    },
                     enableSorting: false,
                     enableHiding: false
                 }
@@ -85,7 +100,7 @@ function TanStackTable({ columns, data, rowCheckBox = false, topRight, bulkActio
             globalFilter,
             columnVisibility,
             rowSelection,
-            sorting,
+            sorting
         },
         onGlobalFilterChange: setGlobalFilter,
         onColumnVisibilityChange: setColumnVisibility,
@@ -98,18 +113,18 @@ function TanStackTable({ columns, data, rowCheckBox = false, topRight, bulkActio
         getPaginationRowModel: getPaginationRowModel(),
     });
 
-    const pageIndex = table.getState().pagination.pageIndex;
-    const pageSize = table.getState().pagination.pageSize;
-    const totalRows = table.getFilteredRowModel().rows.length;
+    const pageIndex = table?.getState()?.pagination?.pageIndex || 0;
+    const pageSize = table?.getState()?.pagination?.pageSize || 0;
+    const totalRows = table.getFilteredRowModel()?.rows?.length || 0;
     const startRow = pageIndex * pageSize + 1;
     const endRow = Math.min(startRow + pageSize - 1, totalRows);
 
     const handleColumnHide = () => {
-        console.log(columnVisibility)
+
         setModal({
             status: true,
             title: "Edit Columns",
-            content: <ColumnsList table={table} columnVisibility={columnVisibility} />
+            content: <ColumnsList table={table} columnVisibility={columnVisibility} columnListing={columnListing} />
         })
     }
 
@@ -127,7 +142,7 @@ function TanStackTable({ columns, data, rowCheckBox = false, topRight, bulkActio
                     </div>
                 </div>
                 <div className="table-filter-right">
-                    {topRight}
+                    {topComponents}
                     <SingleButton style={{ marginLeft: '10px' }} stIcon={<TbColumns3 />} classNames={'icon-only'} onClick={handleColumnHide} />
                 </div>
             </div>
@@ -160,7 +175,6 @@ function TanStackTable({ columns, data, rowCheckBox = false, topRight, bulkActio
                         ))}
                     </thead>
                     <tbody>
-
                         {table.getRowModel().rows.map(row => (
                             <tr
                                 key={row.id}

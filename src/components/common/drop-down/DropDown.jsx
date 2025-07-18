@@ -1,13 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import './drop-down.scss'
 import SingleButton from '../buttons/SingleButton';
 
-const DropDown = ({ items = [], mainButton }) => {
+const DropDown = ({ items = [], dropButton }) => {
   const [open, setOpen] = useState(false);
-  const [position, setPosition] = useState({ x: 'left', y: 'bottom' });
-
+  const [position, setPosition] = useState({ x: 0, y: 0 });
   const wrapperRef = useRef();
   const menuRef = useRef();
+
 
   const calculatePosition = () => {
     const button = wrapperRef.current;
@@ -15,27 +16,28 @@ const DropDown = ({ items = [], mainButton }) => {
     if (!button || !menu) return;
 
     const btnRect = button.getBoundingClientRect();
-    const menuHeight = menu.offsetHeight;
-    const menuWidth = menu.offsetWidth;
+    const menuRect = menu.getBoundingClientRect(); // more accurate than offsetWidth
     const screenHeight = window.innerHeight;
     const screenWidth = window.innerWidth;
 
-    const maxHeight = window.innerHeight - btnRect.bottom - 20;
-    menu.style.maxHeight = `${maxHeight}px`;
+    // 🔥 vertical fallback
+    let top = btnRect.bottom;
+    if (btnRect.bottom + menuRect.height > screenHeight) {
+      if (btnRect.top - menuRect.height > 0) {
+        top = btnRect.top - menuRect.height;
+      } else {
+        top = screenHeight - menuRect.height - 10; // fallback bottom space
+      }
+    }
 
-    // Vertical: top or bottom
-    const y = (btnRect.bottom + menuHeight > screenHeight) ? 'top' : 'bottom';
+    // 🔥 horizontal fallback
+    let left = btnRect.left;
+    if (btnRect.left + menuRect.width > screenWidth) {
+      left = screenWidth - menuRect.width - 10;
+    }
+    if (left < 0) left = 10; // fallback left space
 
-    // Horizontal: left / center / right
-    let x = 'left';
-    const spaceRight = screenWidth - btnRect.left;
-    const spaceLeft = btnRect.right;
-
-    if (spaceRight >= menuWidth && spaceLeft >= menuWidth) x = 'center';
-    else if (spaceRight >= menuWidth) x = 'left';
-    else if (spaceLeft >= menuWidth) x = 'right';
-
-    setPosition({ x, y });
+    setPosition({ x: left, y: top });
   };
 
   const toggleDropdown = () => {
@@ -50,10 +52,16 @@ const DropDown = ({ items = [], mainButton }) => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+      if (
+        wrapperRef.current &&
+        !wrapperRef.current.contains(event.target) &&
+        menuRef.current &&
+        !menuRef.current.contains(event.target)
+      ) {
         setOpen(false);
       }
     };
+
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
@@ -64,6 +72,39 @@ const DropDown = ({ items = [], mainButton }) => {
       setOpen(false);
     }
   };
+
+  const dropDownItem = open ? (
+    <div
+      className={`dropdown-menu`}
+      style={{ top: `${position.y}px`, left: `${position.x}px`, position: 'absolute', zIndex: 1000 }}
+      ref={menuRef}
+    >
+      {items.map((section, sectionIndex) => (
+        <div key={sectionIndex} className="dropdown-section">
+          {section.heading && (
+            <>
+              <div className="dropdown-heading">{section.heading}</div>
+            </>
+          )}
+          {section.items.map((item, idx) =>
+            item.type === 'divider' ? (
+              <div key={idx} className="dropdown-divider" />
+            ) : (
+              <div
+                key={idx}
+                title={item.label}
+                className={`dropdown-item ${item.disabled ? 'disabled' : ''} ${item.theme || ''}`}
+                onClick={() => handleItemClick(item)}
+              >
+                {item.icon && <span className="icon">{item.icon}</span>}
+                <span className="label">{item.label}</span>
+              </div>
+            )
+          )}
+        </div>
+      ))}
+    </div>
+  ) : null
 
   //  const items = [
   //         {
@@ -83,43 +124,15 @@ const DropDown = ({ items = [], mainButton }) => {
   //         }
   //     ];
 
+
+
   return (
     <div className="dropdown-wrapper" ref={wrapperRef}>
 
-      <SingleButton name={mainButton?.label} onClick={toggleDropdown} classNames={mainButton?.className}
-        style={mainButton?.style} />
+      <SingleButton name={dropButton?.label} onClick={toggleDropdown} classNames={dropButton?.className}
+        style={dropButton?.style} stIcon={dropButton?.stIcon} />
 
-      {open && (
-        <div
-          className={`dropdown-menu ${position.x} ${position.y}`}
-          ref={menuRef}
-        >
-          {items.map((section, sectionIndex) => (
-            <div key={sectionIndex} className="dropdown-section">
-              {section.heading && (
-                <>
-                  <div className="dropdown-heading">{section.heading}</div>
-                  <div className="dropdown-divider" />
-                </>
-              )}
-              {section.items.map((item, idx) =>
-                item.type === 'divider' ? (
-                  <div key={idx} className="dropdown-divider" />
-                ) : (
-                  <div
-                    key={idx}
-                    className={`dropdown-item ${item.disabled ? 'disabled' : ''} ${item.theme || ''}`}
-                    onClick={() => handleItemClick(item)}
-                  >
-                    {item.icon && <span className="icon">{item.icon}</span>}
-                    <span className="label">{item.label}</span>
-                  </div>
-                )
-              )}
-            </div>
-          ))}
-        </div>
-      )}
+      {open && createPortal(dropDownItem, document.body)}
     </div>
   );
 };

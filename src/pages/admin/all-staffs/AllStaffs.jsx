@@ -29,7 +29,7 @@ function AllStaffs({ setPageHead }) {
     const [joinList, setJoinList] = useState('')
 
     const columns = [
-        { header: 'Index', accessorKey: 'Index', enableHiding: false, enableSorting: false },
+        { header: 'Index', accessorKey: 'Index', enableHiding: false, enableSorting: false, },
         { header: 'Full Name', accessorKey: 'Full Name', enableHiding: false, },
         { header: 'SID', accessorKey: 'SID' },
         { header: 'Designation', accessorKey: 'Designation' },
@@ -167,7 +167,7 @@ function AllStaffs({ setPageHead }) {
                         data={data}
                         rowCheckBox={false}
                         columnVisible={{ 'Work mode': false, 'Employee type': false, 'dob': false, join_date: false }}
-                        topRight={
+                        topComponents={
                             <div className='button-div'>
                                 {user?.allowed_origins?.includes('ttcr_stfAcc_write') && <SingleButton name={'Staff'} stIcon={<FaPlus />}
                                     classNames={'btn-tertiary'} onClick={() => navigate('/admin/staff-list/account/new')} />}

@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from 'react'
+import './style.scss'
 import { adminAxios } from '../../../config/axios'
 import { setAdminActivePage, toast } from '../../../redux/features/user/systemSlice'
 import { useDispatch } from 'react-redux'
-import TableFilter from '../../../components/common/table-filter/TableFilter'
 import CreateQr from '../../../components/admin/create-qr/CreateQr'
 import SingleButton from '../../../components/common/buttons/SingleButton'
 import { FaPlus } from "react-icons/fa6";
 import Modal from '../../../components/common/modal/Modal'
 import { YYYYMMDDFormat } from '../../../assets/javascript/date-helper'
-import './style.scss'
 import { GoTrash } from 'react-icons/go'
 import { IoIosLink } from 'react-icons/io'
+import { HiDotsHorizontal } from "react-icons/hi";
 import Badge from '../../../components/common/badge/Badge'
 import { FaInfoCircle } from 'react-icons/fa'
 import { baseUrl } from '../../../config/axios'
 import SpinWithMessage from '../../../components/common/spinners/SpinWithMessage'
+import TanStackTable from '../../../components/common/table/TanStackTable'
+import DropDown from '../../../components/common/drop-down/DropDown'
 
 
 const QrGenerator = ({ setPageHead }) => {
@@ -22,6 +24,39 @@ const QrGenerator = ({ setPageHead }) => {
     const [qrList, setQrList] = useState([])
     const [modal, setModal] = useState({})
     const [loading, setLoading] = useState(true)
+
+    const columns = [
+        { header: 'QR Id', accessorKey: 'QR Id', enableHiding: false },
+        { header: 'QR Name', accessorKey: 'QR Name', enableHiding: false, },
+        { header: 'Last Used', accessorKey: 'Last Used' },
+        { header: 'Used Count', accessorKey: 'Used Count' },
+        {
+            header: 'Control',
+            cell: ({ row }) => (
+                <div className="button-div">
+                    {(row?.original?.delete || row?.original?.expire_date < YYYYMMDDFormat(new Date()))
+                        ? row?.original?.delete ? <Badge text={'Deleted'} icon={<FaInfoCircle />} /> : <Badge text={'Expired'} icon={<FaInfoCircle />} /> : <>
+                            <DropDown
+                                dropButton={{
+                                    stIcon: <HiDotsHorizontal />,
+                                    className: 'icon-only btn-secondary'
+                                }}
+                                items={[
+                                    {
+                                        items: [
+                                            { label: 'Copy link', icon: <IoIosLink />, onClick: () => handleCopy(row?.original) },
+                                            { label: 'Delete', theme: 'danger', icon: <GoTrash />, onClick: () => handleDelete(row?.original?._id) },
+                                        ],
+                                    }
+                                ]}
+                            />
+                        </>}
+                </div>
+            ),
+            enableSorting: false,
+            enableColumnFilter: false,
+        },
+    ];
 
     const handleDelete = (id) => {
 
@@ -32,7 +67,8 @@ const QrGenerator = ({ setPageHead }) => {
                     if (item._id === id) {
                         return {
                             ...item,
-                            delete: new Date()
+                            delete: new Date(),
+                            _rowStyle: { backgroundColor: '#d3003830', color: "#d30038" }
                         }
                     }
                     return item
@@ -47,7 +83,7 @@ const QrGenerator = ({ setPageHead }) => {
 
     const handleCopy = (qrData) => {
 
-        const qrCodeLink = `${baseUrl}:3000/qr-code/?qrId=${qrData?.qrId}&type=viewOnly`
+        const qrCodeLink = `${baseUrl}:3000/qr-code/?qrId=${qrData?.['QR Id']}&type=viewOnly`
 
         if (qrCodeLink) {
 
@@ -62,10 +98,7 @@ const QrGenerator = ({ setPageHead }) => {
                 .then(() => {
                     dispatch(toast.push.success({ message: 'QR Code link Copied!' }))
                 })
-                .catch(() => dispatch(toast.push.error({ message: 'Try agin!' })));
-
-
-
+                .catch(() => dispatch(toast.push.error({ message: 'Try again!' })));
         }
     }
 
@@ -75,10 +108,20 @@ const QrGenerator = ({ setPageHead }) => {
 
         setLoading(true)
         adminAxios.get('/qr-code/list?type=punch').then((response) => {
-            setQrList(response?.data)
+            setQrList(response?.data?.map((qr, index) => ({
+                _id: qr?._id,
+                'QR Id': qr?.qrId,
+                'QR Name': qr?.name,
+                'Last Used': qr?.last_used ? new Date(qr?.last_used).toDateString() : 'Not used',
+                'Used Count': qr.used_count,
+                delete: qr?.delete,
+                disableCheckbox: (qr?.delete || qr?.expire_date < YYYYMMDDFormat(new Date())) || false,
+                expire_date: qr?.expire_date,
+                _rowStyle: (qr?.delete || qr?.expire_date < YYYYMMDDFormat(new Date())) ? { backgroundColor: '#d3003830', color: "#d30038" } : {}
+            })))
             setLoading(false)
-        }).catch(() => {
-            dispatch(toast.push.error({ message: 'Low Internet connection' }))
+        }).catch((error) => {
+            dispatch(toast.push.error({ message: error?.message }))
             setLoading(false)
         })
 
@@ -90,44 +133,13 @@ const QrGenerator = ({ setPageHead }) => {
             <Modal modal={modal} setModal={setModal} />
             {loading
                 ? <SpinWithMessage load height={'300px'} />
-                : <TableFilter topRight={<SingleButton name={'QR Code'} stIcon={<FaPlus />} classNames={'btn-tertiary'}
-                    onClick={() => setModal({ status: true, title: 'Create QR Code', content: <CreateQr setModal={setModal} setQrList={setQrList} /> })} />}>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>QR Name & Id</th>
-                                <th>Expire Date</th>
-                                <th>Last used</th>
-                                <th>Used Count</th>
-                                <th>Control</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {qrList?.map((qr) => <tr className={(qr?.delete || qr?.expire_date < YYYYMMDDFormat(new Date())) ? 'deleted-item' : ""}>
-                                <td>{qr.name}<br></br>{qr.qrId}</td>
-                                <td style={{ textAlign: 'center' }}>{new Date(qr?.expire_date).toDateString()}
-                                </td>
-                                <td style={{ textAlign: 'center' }}>{qr?.last_used ? new Date(qr?.last_used).toDateString() : 'Not used'} <br></br>
-                                    {qr?.last_used ? new Date(qr?.last_used).toLocaleTimeString() : ''}</td>
-                                <td style={{ textAlign: 'center' }}>{qr.used_count}</td>
-                                <td>
-                                    <div className="button-div">
-                                        {(qr?.delete || qr?.expire_date < YYYYMMDDFormat(new Date()))
-                                            ? qr?.delete ? <Badge text={'Deleted'} icon={<FaInfoCircle />} /> : <Badge text={'Expired'} icon={<FaInfoCircle />} />
-                                            : <>
-                                                <SingleButton title={'Copy Link'} classNames={'icon-only'} stIcon={<IoIosLink />}
-                                                    onClick={() => handleCopy(qr)} />
-                                                <SingleButton title={'Delete'} classNames={'icon-only btn-danger'} stIcon={<GoTrash />}
-                                                    onClick={() => handleDelete(qr?._id)} />
-                                            </>}
-                                    </div>
-                                </td>
-                            </tr>)}
-                        </tbody>
-                    </table>
-                </TableFilter>}
-
-        </div>
+                : <TanStackTable
+                    columns={columns}
+                    data={qrList}
+                    topComponents={<SingleButton name={'QR Code'} stIcon={<FaPlus />} classNames={'btn-tertiary'}
+                        onClick={() => setModal({ status: true, title: 'Create QR Code', content: <CreateQr setModal={setModal} setQrList={setQrList} /> })} />}
+                />}
+        </div >
     )
 }
 

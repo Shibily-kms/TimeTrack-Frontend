@@ -32,7 +32,7 @@
     }
 
     .bulk-actions {
-        background-color: var(--background-c2);
+        background-color: var(--background-c1);
         margin-bottom: 15px;
         margin-top: 14px;
         min-height: 45px;
@@ -40,6 +40,8 @@
         display: flex;
         align-items: center;
         padding: 2px 25px;
+        box-shadow: 0 2px 5px var(--shadow-02);
+        border: 3px solid var(--border-c1);
 
         .section-one {
             height: 25px;
@@ -99,6 +101,13 @@
                         background: var(--text-primary);
                         border-color: var(--text-primary);
                     }
+
+                    &:disabled+.checkbox-box {
+                        background-color: var(--background-c3);
+                        border-color: var(--background-c3);
+                        opacity: .5;
+                    }
+
                 }
 
                 .checkbox-box {
