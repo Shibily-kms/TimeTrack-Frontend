@@ -38,7 +38,7 @@
                 color: var(--text-c3);
 
                 &:before {
-                    box-shadow: none;
+                    box-shadow: inset 0 0 0 0.125em var(--text-c3);
                 }
             }
         }

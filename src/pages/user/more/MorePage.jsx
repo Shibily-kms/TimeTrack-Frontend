@@ -11,7 +11,7 @@ import { doLogOut } from '../../../redux/features/user/authSlice'
 import { useDispatch, useSelector } from 'react-redux';
 import { ui_version } from '../../../assets/javascript/const-data'
 import { RiSettingsLine } from 'react-icons/ri';
-import { TbFileUpload, TbHelpSquareRounded } from 'react-icons/tb';
+import { TbFileUpload, TbHelpSquareRounded, TbUserSearch } from 'react-icons/tb';
 import { YYYYMMDDFormat } from '../../../assets/javascript/date-helper';
 import { PiSpinnerBold } from 'react-icons/pi';
 import Cookies from 'js-cookie';
@@ -113,7 +113,7 @@ const MorePage = ({ setPageHead }) => {
                         <IoArrowForwardOutline />
                     </div>
                 </div>
-                {/* <div className="option-div" onClick={() => navigate('/search-customer')}>
+                <div className="option-div" onClick={() => navigate('/customer/search')}>
                     <div className="left">
                         <TbUserSearch />
                         <h4>Search Customer</h4>
@@ -121,7 +121,7 @@ const MorePage = ({ setPageHead }) => {
                     <div className="right">
                         <IoArrowForwardOutline />
                     </div>
-                </div> */}
+                </div>
                 <div className="option-div" onClick={() => navigate('/settings?page=more')}>
                     <div className="left">
                         <RiSettingsLine />

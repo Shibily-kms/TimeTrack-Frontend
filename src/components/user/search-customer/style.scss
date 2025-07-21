@@ -1,0 +1,53 @@
+.search-customer-comp-div {
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        small {
+            font-size: 13px;
+            text-align: right;
+            color: var(--text-c2);
+        }
+
+        .p-type {
+            margin-top: 10px;
+
+            p {
+                font-size: 16px;
+                font-weight: 600;
+                color: var(--text-c2);
+            }
+
+            >div {
+                display: flex;
+                gap: 5px;
+            }
+        }
+
+        .more-option {
+            margin-top: 10px;
+
+            p {
+                font-size: 16px;
+                font-weight: 600;
+                color: var(--text-c2);
+            }
+
+            >div {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        .reset-text {
+            text-align: end;
+            font-size: 13px;
+            color: var(--text-tertiary);
+            margin-top: 3px;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    }
+}
