@@ -1,21 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import './all-staffs.scss'
-import TableFilter from '../../../components/common/table-filter/TableFilter'
 import SpinWithMessage from '../../../components/common/spinners/SpinWithMessage'
 import { ttCv2Axios } from '../../../config/axios'
 import { getTimeFromSecond } from '../../../assets/javascript/date-helper'
 import { setAdminActivePage, toast } from '../../../redux/features/user/systemSlice'
-import { RiShieldStarLine } from "react-icons/ri";
 import { useDispatch, useSelector } from 'react-redux'
 import Modal from '../../../components/common/modal/Modal'
 import SingleButton from '../../../components/common/buttons/SingleButton'
 import { useNavigate } from 'react-router-dom'
 import { FaCheck, FaPlus, FaUsers } from "react-icons/fa6";
-import Badge from '../../../components/common/badge/Badge'
 import { IoMdSettings } from 'react-icons/io'
 import CommonUpdate from '../../../components/admin/common-update/CommonUpdate'
 import AlertBox from '../../../components/common/alert/AlertBox'
 import { joinStringsFromArray } from '../../../assets/javascript/find-helpers'
+import TanStackTable from '../../../components/common/table/TanStackTable'
+
 
 
 function AllStaffs({ setPageHead }) {
@@ -29,10 +28,40 @@ function AllStaffs({ setPageHead }) {
     const [birthList, setBirthList] = useState([])
     const [joinList, setJoinList] = useState('')
 
+    const columns = [
+        { header: 'Index', accessorKey: 'Index', enableHiding: false, enableSorting: false, },
+        { header: 'Full Name', accessorKey: 'Full Name', enableHiding: false, },
+        { header: 'SID', accessorKey: 'SID' },
+        { header: 'Designation', accessorKey: 'Designation' },
+        { header: 'Mobile No', accessorKey: 'Mobile No', enableHiding: false, },
+        { header: 'Work mode', accessorKey: 'Work mode' },
+        { header: 'Employee type', accessorKey: 'Employee type' },
+        { header: 'DOB', accessorKey: 'dob' },
+        { header: 'Join date', accessorKey: 'join_date' },
+        { header: 'Working Time', accessorKey: 'Working Time' },
+        { header: 'Salary', accessorKey: 'Salary' },
+
+    ];
 
     const getActiveStaffList = () => {
         ttCv2Axios.get('/worker/account/list').then((response) => {
-            setData(response.data)
+            setData(response.data?.map((staff, index) => ({
+                Index: index + 1,
+                _id: staff?._id,
+                'Full Name': `${staff?.full_name} ${staff?.pro_account ? '✪' : ''}` || '-',
+                SID: staff?.sid || '-',
+                Designation: staff?.designation?.designation || '-',
+                'Mobile No': `${staff?.primary_number?.country_code} ${staff?.primary_number?.number}`,
+                'Work mode': staff?.work_mode || '-',
+                'Employee type': staff?.e_type || '-',
+                'Working Time': `${getTimeFromSecond(staff?.current_working_time || 0) || '0m'} x ${staff?.current_working_days}d = ${getTimeFromSecond((staff?.current_working_time || 0) * staff?.current_working_days) || '0m'}`,
+                Salary: `₹ ${staff?.current_salary || 0}`,
+                join_date: staff?.join_date,
+                dob: staff?.dob,
+                pro_account: staff?.pro_account,
+                _rowStyle: { cursor: 'Pointer' },
+                _onClick: () => navigate(`/admin/staff-list/${staff?._id}/profile`),
+            })))
             setLoading('')
         }).catch((error) => {
             setLoading('')
@@ -42,7 +71,24 @@ function AllStaffs({ setPageHead }) {
 
     const getAllStaffList = () => {
         ttCv2Axios.get('/worker/account/list?all=yes').then((response) => {
-            setData(response.data)
+            setData(response.data?.map((staff, index) => ({
+                Index: index + 1,
+                _id: staff?._id,
+                'Full Name': `${staff?.full_name} ${staff?.pro_account ? '✪' : ''}` || '-',
+                SID: staff?.sid || '-',
+                Designation: staff?.designation?.designation || '-',
+                'Mobile No': `${staff?.primary_number?.country_code} ${staff?.primary_number?.number}`,
+                'Work mode': staff?.work_mode || '-',
+                'Employee type': staff?.e_type || '-',
+                'Working Time': `${getTimeFromSecond(staff?.current_working_time || 0) || '0m'} x ${staff?.current_working_days}d = ${getTimeFromSecond((staff?.current_working_time || 0) * staff?.current_working_days) || '0m'}`,
+                Salary: `₹ ${staff?.current_salary || 0}`,
+                join_date: staff?.join_date,
+                dob: staff?.dob,
+                pro_account: staff?.pro_account,
+                _rowClassName: staff?.delete ? 'danger-row' : "",
+                _rowStyle: { cursor: 'Pointer' },
+                _onClick: () => navigate(`/admin/staff-list/${staff?._id}/profile`),
+            })))
             setLoading('')
         }).catch((error) => {
             setLoading('')
@@ -76,13 +122,13 @@ function AllStaffs({ setPageHead }) {
         if (data?.[0]) {
             data?.map((staff) => {
                 if (new Date(staff?.dob).getDate() === todayDate && new Date(staff?.dob).getMonth() === todayMonth) {
-                    birthNames.push(staff?.full_name)
+                    birthNames.push(staff?.['Full Name'])
                 }
 
                 if (new Date(staff?.join_date).getDate() === todayDate && new Date(staff?.join_date).getMonth() === todayMonth) {
                     const years = new Date().getFullYear() - new Date(staff?.join_date).getFullYear()
                     if (years > 0) {
-                        joinNames.push(`${staff?.full_name} has completed ${years} year(s)`)
+                        joinNames.push(`${staff?.['Full Name']} has completed ${years} year(s)`)
                     }
                 }
 
@@ -113,52 +159,23 @@ function AllStaffs({ setPageHead }) {
                 {birthList?.length > 0 ? <AlertBox title={'Birth Day Alert!'} messages={<span>Today is the birthday of {joinStringsFromArray(birthList)}</span>} /> : ""}
                 {joinList?.length > 0 ? <AlertBox title={'Work Anniversary Alert!'} messages={<span>{joinStringsFromArray(joinList)} with our company.</span>} /> : ''}
             </div>
+
             <div className="table-div">
                 {data?.[0] ? <>
-                    <TableFilter srlNo={true} topRight={<div className='button-div'>
-                        {user?.allowed_origins?.includes('ttcr_stfAcc_write') && <SingleButton name={'Staff'} stIcon={<FaPlus />}
-                            classNames={'btn-tertiary'} onClick={() => navigate('/admin/staff-list/account/new')} />}
-                        <SingleButton name={'All Staffs'} stIcon={allStaff && <FaCheck />}
-                            classNames={allStaff ? 'btn-primary' : 'btn-gray'} onClick={handleAllButton} loading={loading === 'listing'} />
-                    </div>}>
-                        <table id="list">
-                            <thead>
-                                <tr>
-                                    <th>Full Name</th>
-                                    <th>Designation</th>
-                                    <th>Mobile No</th>
-                                    <th>Work Details</th>
-                                    <th>Salary</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {data.map((value) => {
-                                    return <tr key={value._id} className={value?.delete ? 'deleted-item' : ""}>
-
-                                        <td style={{ cursor: "pointer" }} title='Click for show profile details' onClick={() => navigate(`/admin/staff-list/${value._id}/profile`)}>
-                                            {value?.full_name} {value?.pro_account && <span className='pro-icon' title='Pro account badge'><RiShieldStarLine /></span>}
-                                            <br></br> <small>{value?.sid}</small>
-                                        </td>
-                                        <td style={{ cursor: "pointer" }} onClick={() => navigate(`/admin/staff-list/${value._id}/profile`)}>
-                                            {value.designation.designation}<br></br>
-                                            <small>{value?.e_type} / {value?.work_mode}</small>
-                                        </td>
-                                        <td style={{ cursor: "pointer" }} onClick={() => navigate(`/admin/staff-list/${value._id}/profile`)}>
-                                            +{value?.primary_number?.country_code} {value?.primary_number?.number}
-                                            <br></br> {!value?.primary_number?.verified && <Badge text={'Unverified'} className={'error-fill'} />}
-                                        </td>
-                                        <td style={{ cursor: "pointer" }} onClick={() => navigate(`/admin/staff-list/${value._id}/profile`)}>
-                                            {getTimeFromSecond(value.current_working_time) || 'Om'} x {value.current_working_days || 0}d
-                                            <br></br><small>{getTimeFromSecond(value.current_working_time * value.current_working_days)}</small>
-                                        </td>
-                                        <td style={{ cursor: "pointer" }} onClick={() => navigate(`/admin/staff-list/${value._id}/profile`)}>₹{value.current_salary || 0}.00</td>
-
-                                        <td style={{ display: 'none' }}>{value?.sid} {value?.e_type} {value?.work_mode}</td>
-                                    </tr>
-                                })}
-                            </tbody>
-                        </table>
-                    </TableFilter>
+                    <TanStackTable
+                        columns={columns}
+                        data={data}
+                        rowCheckBox={false}
+                        columnVisible={{ 'Work mode': false, 'Employee type': false, 'dob': false, join_date: false }}
+                        topComponents={
+                            <div className='button-div'>
+                                {user?.allowed_origins?.includes('ttcr_stfAcc_write') && <SingleButton name={'Staff'} stIcon={<FaPlus />}
+                                    classNames={'btn-tertiary'} onClick={() => navigate('/admin/staff-list/account/new')} />}
+                                <SingleButton name={'All Staffs'} stIcon={allStaff && <FaCheck />}
+                                    classNames={allStaff ? 'btn-primary' : 'btn-gray'} onClick={handleAllButton} loading={loading === 'listing'} />
+                            </div>
+                        }
+                    />
                 </>
                     :
                     <div className='no-data'>
@@ -172,6 +189,7 @@ function AllStaffs({ setPageHead }) {
                     </div>
                 }
             </div>
+
         </div >
     )
 }

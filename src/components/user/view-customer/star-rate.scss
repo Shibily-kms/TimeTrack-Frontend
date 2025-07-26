@@ -1,0 +1,27 @@
+.start-rate-comp-div {
+    padding: 15px 0;
+
+    .main-start {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .star-list {
+        margin-top: 35px;
+
+        .single {
+            display: flex;
+            justify-content: space-between;
+            gap: 5px;
+            align-items: center;
+            margin-bottom: 8px;
+
+            p {
+                font-size: 15px;
+                font-weight: 500;
+            }
+        }
+    }
+}

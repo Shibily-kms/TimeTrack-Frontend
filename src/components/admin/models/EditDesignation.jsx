@@ -8,7 +8,10 @@ import { useDispatch } from 'react-redux'
 function EditDesignation({ setModal, editData, setData }) {
     const dispatch = useDispatch()
     const [loading, setLoading] = useState(false)
-    const [form, setForm] = useState({ ...editData })
+    const [form, setForm] = useState({
+        _id: editData?.designation_id,
+        designation: editData?.Designation
+    })
 
     const handleChange = (e) => {
         setForm({
@@ -23,10 +26,10 @@ function EditDesignation({ setModal, editData, setData }) {
             setLoading(true)
             adminAxios.put('/designation', form).then(() => {
                 setData((prev) => prev.map((obj) => {
-                    if (form._id === obj._id) {
+                    if (form._id === obj.designation_id) {
                         return {
                             ...obj,
-                            designation: form.designation
+                            Designation: form.designation
                         }
                     }
                     return obj

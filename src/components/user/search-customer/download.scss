@@ -1,0 +1,112 @@
+.download-customer-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 10px;
+
+    .download-button {
+
+        .progress-ring {
+            cursor: pointer;
+
+            .progress-ring__background {
+                fill: var(--background-tertiary);
+            }
+
+            .icon-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                height: 100%;
+            }
+
+            .download-icon {
+                font-size: 35px;
+                color: white;
+            }
+        }
+
+
+        &.loading {
+            background: none;
+
+            .progress-ring {
+                transform: rotate(-90deg);
+
+                .progress-ring__background {
+                    fill: none;
+                    stroke: var(--background-opt-tertiary-8);
+                    stroke-width: 2px;
+                }
+
+                .progress-ring__circle {
+                    fill: none;
+                    stroke: var(--background-tertiary); // Purple fill
+                    stroke-width: 6px;
+                    transition: stroke-dashoffset 0.1s linear;
+                    stroke-linecap: round;
+
+                }
+
+
+                svg {
+                    color: var(--background-tertiary);
+                    transform: rotate(90deg);
+                }
+
+            }
+        }
+
+        &.waiting {
+            background: none;
+
+            .progress-ring {
+                transform: rotate(-90deg);
+
+                .progress-ring__background {
+                    fill: none;
+                    stroke: var(--background-opt-tertiary-8);
+                    stroke-width: 2px;
+
+                }
+
+                .progress-ring__circle {
+                    fill: none;
+                    stroke: var(--background-tertiary); // Purple fill
+                    stroke-width: 6px;
+                    stroke-linecap: round;
+                    animation: rotate 1.5s linear infinite;
+                    transform-origin: center;
+
+                }
+
+
+                svg {
+                    color: var(--background-tertiary);
+                    transform: rotate(90deg);
+                }
+
+            }
+        }
+
+        /* Define the rotation animation */
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+    }
+
+    p {
+        font-size: 14px;
+        font-weight: 600;
+        margin-top: 8px;
+    }
+}

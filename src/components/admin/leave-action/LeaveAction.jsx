@@ -80,7 +80,7 @@ const LeaveAction = ({ singleData, setData, setModal }) => {
                             if (item._id === singleData._id) {
                                 return {
                                     ...item,
-                                    leave_status: 'Approved',
+                                    Status: 'Approved',
                                     approved_days: form,
                                     action_date_time: new Date(),
                                     action_by: 'You'
@@ -111,7 +111,7 @@ const LeaveAction = ({ singleData, setData, setModal }) => {
                         if (item._id === singleData._id) {
                             return {
                                 ...item,
-                                leave_status: 'Rejected',
+                                Status: 'Rejected',
                                 action_date_time: new Date(),
                                 action_by: 'You'
                             };
@@ -139,7 +139,7 @@ const LeaveAction = ({ singleData, setData, setModal }) => {
                     if (item._id === singleData._id) {
                         return {
                             ...item,
-                            leave_status: 'Cancelled',
+                            Status: 'Cancelled',
                             action_date_time: new Date(),
                             action_by: 'You'
                         }
@@ -157,7 +157,7 @@ const LeaveAction = ({ singleData, setData, setModal }) => {
     }
 
     useEffect(() => {
-        if (singleData?.leave_status === 'Pending' || singleData?.leave_status === 'Approved') {
+        if (singleData?.['Status'] === 'Pending' || singleData?.['Status'] === 'Approved') {
             ttSv2Axios.get(`/L2/staff/total-leave?staff_id=${singleData?.staff_id}&month=${YYYYMMDDFormat(new Date()).slice(0, 7)}`).then((response) => {
                 setTotalLeave(response?.data?.total_leave || 0)
             })
@@ -168,33 +168,33 @@ const LeaveAction = ({ singleData, setData, setModal }) => {
 
     return (
         <div className="leave-action-div">
-            {(singleData?.leave_status === 'Pending' || singleData?.leave_status === 'Approved') && <div className="list-item bold-text">
+            {(singleData?.['Status'] === 'Pending' || singleData?.['Status'] === 'Approved') && <div className="list-item bold-text">
                 <p>{months[new Date().getMonth()]} Total Leave</p>
                 <p>{totalLeave === null ? '...' : `${totalLeave} Day(s)`}</p>
             </div>}
             <div className="list-item">
                 <p>Reason</p>
-                <p>{singleData?.leave_reason}</p>
+                <p>{singleData?.Reason}</p>
             </div>
             <div className="list-item">
                 <p>Comment</p>
-                <p>{singleData?.comment || 'Nill'}</p>
+                <p>{singleData?.Comment || 'Nill'}</p>
             </div>
             <form action="" onSubmit={handleApprove} >
-                {singleData?.leave_status !== 'Approved' && <div className="section-div">
+                {singleData?.['Status'] !== 'Approved' && <div className="section-div">
                     <h4>Requested days</h4>
                     <div className="list-days">
                         {form?.map((day, index) => {
                             return <div className="list" key={day[0]}>
-                                <input name='date' type='date' value={day[0]} disabled={singleData?.leave_status !== 'Pending'}
+                                <input name='date' type='date' value={day[0]} disabled={singleData?.['Status'] !== 'Pending'}
                                     required onChange={(e) => handleChangeDate(e, index)} />
-                                <select name='type' disabled={singleData?.leave_status !== 'Pending'} onChange={(e) => handleChangeTime(e, index)} required>
+                                <select name='type' disabled={singleData?.['Status'] !== 'Pending'} onChange={(e) => handleChangeTime(e, index)} required>
                                     <option value={''}>Select...</option>
                                     {day[1] === '0.5' && <option value={1} selected={day[1] === '0.5' && day[2] === '09:30'}>Before noon</option>}
                                     {day[1] === '0.5' && <option value={2} selected={day[1] === '0.5' && day[2] === '13:30'}>After noon</option>}
                                     {day[1] === '1' && <option value={3} selected={day[1] === '1'}>Full day</option>}
                                 </select>
-                                {form[1] && singleData?.leave_status === 'Pending' && user?.allowed_origins.includes('ttcr_l2_write') &&
+                                {form[1] && singleData?.['Status'] === 'Pending' && user?.allowed_origins.includes('ttcr_l2_write') &&
                                     <div className="icon reject" onClick={() => handleDayDelete(index)}> <GoTrash /></div>}
                             </div>
                         })}
@@ -203,17 +203,17 @@ const LeaveAction = ({ singleData, setData, setModal }) => {
 
                 {user?.allowed_origins.includes('ttcr_l2_write') &&
                     <div className="button-div">
-                        {singleData?.leave_status === 'Pending' &&
+                        {singleData?.['Status'] === 'Pending' &&
                             < SingleButton type={'button'} name={'Reject'} classNames={'btn-danger'} loading={loading === 'reject'} onClick={handleReject} />}
 
-                        {singleData?.leave_status === 'Pending' &&
+                        {singleData?.['Status'] === 'Pending' &&
                             <SingleButton type={'submit'} name={'Approve'} classNames={'btn-success'} loading={loading === 'approve'} />}
                     </div>
                 }
 
             </form>
 
-            {singleData?.leave_status === 'Approved' && <div className="section-div">
+            {singleData?.['Status'] === 'Approved' && <div className="section-div">
                 <h4>Approved days</h4>
                 <div className="list-days">
                     {singleData?.approved_days?.map((day, index) => {
@@ -230,21 +230,21 @@ const LeaveAction = ({ singleData, setData, setModal }) => {
             </div>}
 
 
-            {singleData?.leave_status !== 'Pending' &&
-                < div className="status-view-bar">
-                    <div className={`icon-status ${singleData?.leave_status} ${singleData.edited && 'Edited'}`}>
-                        {singleData?.leave_status === 'Approved' && <TbCheck />}
-                        {singleData?.leave_status === 'Rejected' && <TbAlertTriangle />}
-                        {singleData?.leave_status === 'Cancelled' && <TbX />}
-                        <h4>{singleData.edited && 'Modified and'}{singleData.self_action && 'Self'} {singleData?.leave_status}</h4>
+            {singleData?.['Status'] !== 'Pending' &&
+                <div className="status-view-bar">
+                    <div className={`icon-status ${singleData?.['Status']} ${singleData.edited && 'Edited'}`}>
+                        {singleData?.['Status'] === 'Approved' && <TbCheck />}
+                        {singleData?.['Status'] === 'Rejected' && <TbAlertTriangle />}
+                        {singleData?.['Status'] === 'Cancelled' && <TbX />}
+                        <h4>{singleData.edited && 'Modified and'}{singleData.self_action && 'Self'} {singleData?.['Status']}</h4>
                     </div>
-                    <p>{singleData.self_action ? 'Self' : singleData?.action_by} {singleData?.leave_status} on {new Date(singleData?.action_date_time).toDateString()}</p>
+                    <p>{singleData.self_action ? 'Self' : singleData?.action_by} {singleData?.['Status']} on {new Date(singleData?.action_date_time).toDateString()}</p>
                 </div>}
 
 
             {user?.allowed_origins.includes('ttcr_l2_write') &&
                 <div className="button-div">
-                    {singleData?.leave_status === 'Approved'
+                    {singleData?.['Status'] === 'Approved'
                         && < SingleButton name={'Cancel'} loading={loading === 'cancel'} onClick={handleCancel} />}
                 </div>}
         </div >

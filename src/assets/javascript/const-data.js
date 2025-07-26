@@ -5,6 +5,7 @@ import PRService from '../images/app-icons/Purifier Service.jpg'
 import Vessel from '../images/app-icons/Vessel.jpg'
 import Enquiry from '../images/app-icons/SL Enquiry.jpg'
 import SLController from '../images/app-icons/SL Controller.jpg'
+import Alliance from '../images/alliance-logo.png'
 
 
 
@@ -22,6 +23,29 @@ export const pro_account_area = ['ttcr']
 
 
 export const origins_head_list = [
+    {
+        id: 'ttur',
+        title: 'Time Track',
+        description: 'Staff application origin control',
+        icon: Alliance,
+        sections: [
+            {
+                id: 'ttur_customer',
+                title: 'All Customer list',
+                description: 'Search and download customer list',
+                origins: [
+                    {
+                        key: 'ttur_customer_read',
+                        name: 'Read'
+                    },
+                    {
+                        key: 'ttur_customer_download',
+                        name: 'Read and Download'
+                    },
+                ]
+            }
+        ]
+    },
     {
         id: 'ttcr',
         title: 'Time Track Controller',

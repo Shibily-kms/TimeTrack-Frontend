@@ -1,0 +1,138 @@
+@import '../../../assets/scss/model.scss';
+
+.search-customer-page-div {
+    .content-div {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        margin-bottom: 200px;
+
+        .customer-card-div {
+            background-color: var(--background-c2);
+            padding: 10px 15px;
+            border-radius: 20px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            overflow: hidden;
+            cursor: pointer;
+
+            .icon-div {
+                font-size: 60px;
+                display: flex;
+            }
+
+            .text-div {
+                .name-div {
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+
+                    h4 {
+                        font-size: 17px;
+                        font-weight: 700;
+                        @include threeDots(1);
+                    }
+                }
+
+
+                .star {
+                    display: inline-flex;
+                    align-items: center;
+                    background-color: var(--color-success);
+                    color: white;
+                    padding: 1px 7px;
+                    border-radius: 50px;
+                    gap: 2px;
+                    width: fit-content;
+
+                    svg {
+                        font-size: 13px;
+                    }
+
+                    p {
+                        font-size: 13px;
+                    }
+                }
+
+                >p {
+
+                    &:nth-child(2) {
+                        color: var(--text-primary);
+                    }
+
+                    font-weight: 500;
+                    font-size: 15px;
+                    margin-top: 3px;
+                    // @include threeDots(1);
+                    color: var(--text-c2);
+
+
+                }
+            }
+        }
+
+        :nth-child(7n+1) {
+            .icon-div {
+                color: #b65200;
+            }
+        }
+
+        :nth-child(7n+2) {
+            .icon-div {
+                color: #08807a;
+            }
+        }
+
+        :nth-child(7n+3) {
+            .icon-div {
+                color: #00719e;
+            }
+        }
+
+        :nth-child(7n+4) {
+            .icon-div {
+                color: #7a5e00;
+            }
+        }
+
+        :nth-child(7n+5) {
+            .icon-div {
+                color: #941148;
+            }
+        }
+
+        :nth-child(7n+6) {
+            .icon-div {
+                color: #057939;
+            }
+        }
+
+        :nth-child(7n+7) {
+            .icon-div {
+                color: #bd0000;
+            }
+        }
+
+    }
+
+    .app-icon-div {
+        position: fixed;
+        width: 100%;
+        bottom: 55px;
+        right: 0px;
+        display: flex;
+        justify-content: center;
+        box-shadow: -1px -18px 55px 30px var(--background-primary);
+        background-color: var(--background-primary);
+
+        .buttons {
+            max-width: 500px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            padding: 15px 15px;
+        }
+    }
+}

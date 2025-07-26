@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import './designations.scss'
 import AddDesignation from '../../../components/admin/models/Add_designation'
 import EditDesignation from '../../../components/admin/models/EditDesignation'
 import SpinWithMessage from '../../../components/common/spinners/SpinWithMessage'
@@ -13,6 +12,9 @@ import { GrEdit } from 'react-icons/gr'
 import { GoTrash } from "react-icons/go";
 import { setAdminActivePage, toast } from '../../../redux/features/user/systemSlice'
 import { useDispatch, useSelector } from 'react-redux'
+import TanStackTable from '../../../components/common/table/TanStackTable'
+import DropDown from '../../../components/common/drop-down/DropDown'
+import { HiDotsHorizontal } from 'react-icons/hi'
 
 function Designations({ setPageHead }) {
     const dispatch = useDispatch()
@@ -28,7 +30,12 @@ function Designations({ setPageHead }) {
         setLoading('fetch')
         adminAxios.get('/designations').then((response) => {
             setLoading('')
-            setData(response?.data || [])
+            setData(response?.data?.map((designation, index) => ({
+                'Idx No': index + 1,
+                Designation: designation?.designation,
+                designation_id: designation?._id,
+                'Staff Count': designation?.name?.length || 0,
+            })) || [])
         }).catch((error) => {
             dispatch(toast.push.error({ message: error.message }))
         })
@@ -46,7 +53,7 @@ function Designations({ setPageHead }) {
             setLoading(id)
             adminAxios.delete(`/designation?id=${id}`).then(() => {
                 setData((state) => {
-                    return state.filter(obj => obj._id !== id)
+                    return state.filter(obj => obj.designation_id !== id)
                 })
                 setLoading('')
             }).catch((error) => {
@@ -56,42 +63,52 @@ function Designations({ setPageHead }) {
         }
     }
 
+    const columns = [
+        { header: 'Idx No', accessorKey: 'Idx No', enableHiding: false, enableSorting: false },
+        { header: 'Designation', accessorKey: 'Designation', enableHiding: false, },
+        { header: 'Staff Count', accessorKey: 'Staff Count' },
+        ...(user?.allowed_origins?.some(access => ['ttcr_pro_write'].includes(access)) ? [{
+            header: 'Control',
+            cell: ({ row }) => (<div className="button-div" style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
+                <DropDown
+                    dropButton={{
+                        stIcon: <HiDotsHorizontal />,
+                        className: 'icon-only btn-secondary'
+                    }}
+                    items={[
+                        {
+                            items: [
+                                {
+                                    label: 'Edit', icon: <GrEdit />,
+                                    onClick: () => openModal('Edit Designation', <EditDesignation setModal={setModal} setData={setData} editData={row.original} />)
+                                },
+                                // ! Edit not setup.  //? Edit not setup
+                                ...(row.original?.['Staff Count'] <= 0
+                                    ? [{ label: 'Delete', theme: 'danger', icon: <GoTrash />, onClick: () => handleDelete(row.original?.designation_id) }]
+                                    : []),
+                            ],
+                        }
+                    ]}
+                />
+            </div>),
+            enableSorting: false,
+            enableColumnFilter: false,
+        }] : []),
+    ];
+
 
     return (
         <div className='designationList-page-div'>
             <Modal modal={modal} setModal={setModal} />
             <div className="table-div">
                 {data?.[0] ?
-                    <TableFilter srlNo={true} topRight={user?.allowed_origins?.some(access => ['ttcr_pro_write'].includes(access)) &&
-                        <SingleButton name={'Designation'} stIcon={<FaPlus />} classNames={'md btn-tertiary'}
-                            onClick={() => openModal('Create Designation', <AddDesignation setData={setData} setModel={setModal} />)} />}>
-                        <table id="list">
-                            <thead>
-                                <tr>
-                                    <th>Designation</th>
-                                    <th>Staffs Count</th>
-                                    {user?.allowed_origins?.some(access => ['ttcr_pro_write'].includes(access)) && <th>Control</th>}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {data.map((value, index) => {
-                                    return <tr key={value._id}>
-                                        <td>{value.designation}</td>
-                                        <td style={{ textAlign: 'center' }}>{value.name.length}</td>
-                                        {user?.allowed_origins?.some(access => ['ttcr_pro_write'].includes(access)) &&
-                                            <td style={{ textAlign: 'center' }}>
-                                                <div className='buttons' >
-                                                    <SingleButton title='Edit' classNames={'icon-only btn-blue'} stIcon={<GrEdit />}
-                                                        onClick={() => openModal('Edit Designation', <EditDesignation setModal={setModal} setData={setData} editData={value} />)} />
-                                                    <SingleButton title='Delete' classNames={'icon-only btn-danger '} stIcon={<GoTrash />} onClick={() => handleDelete(value._id)}
-                                                        loading={loading === value._id} />
-                                                </div>
-                                            </td>}
-                                    </tr>
-                                })}
-                            </tbody>
-                        </table>
-                    </TableFilter>
+                    <TanStackTable
+                        columns={columns}
+                        data={data}
+                        topComponents={user?.allowed_origins?.some(access => ['ttcr_pro_write'].includes(access)) &&
+                            <SingleButton name={'Designation'} stIcon={<FaPlus />} classNames={'md btn-tertiary'}
+                                onClick={() => openModal('Create Designation', <AddDesignation setData={setData} setModel={setModal} />)} />}
+                    />
                     : <SpinWithMessage load={loading === 'fetch'} height={'300px'} fullView
                         icon={<IoTrashBin />} message={'Empty list'} />}
             </div>

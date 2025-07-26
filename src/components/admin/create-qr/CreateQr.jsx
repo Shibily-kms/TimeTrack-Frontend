@@ -13,7 +13,7 @@ const CreateQr = ({ setModal, setQrList }) => {
     // const typeList = [
     //     { option: 'Punch', value: 'punch' }
     // ]
-    
+
     const expireList = [
         { option: 'Today', value: '0' },
         { option: 'Tomorrow', value: '1' },
@@ -33,7 +33,13 @@ const CreateQr = ({ setModal, setQrList }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         adminAxios.post('/qr-code', form).then((response) => {
-            setQrList((state) => [response.data, ...state])
+            setQrList((state) => [{
+                _id: response.data?._id,
+                'QR Id': response.data?.qrId,
+                'QR Name': response.data?.name,
+                'Last Used': 'Not used',
+                'Used Count': 0
+            }, ...state])
             dispatch(toast.push.success({ message: 'New QR Created' }))
             setModal({ status: false })
         }).catch((err) => {
