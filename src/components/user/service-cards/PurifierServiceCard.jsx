@@ -29,7 +29,7 @@ const PurifierServiceCard = ({ data }) => {
       <div className="card-center">
         <div className="center-section">
           {Number(data?.grand_total_receivable) > 0 &&
-            <div className="text-line fill-line" style={{ backgroundColor: 'var(--background-secondary)', borderColor: 'var(--background-secondary)' }}>
+            <div className="text-line fill-line" style={{ backgroundColor: 'var(--background-secondary)', borderColor: 'var(--background-secondary)', color: 'var(--text-secondary)' }}>
               <p>₹ {data?.grand_total_receivable}</p>
             </div>}
           {data?.repeat_work && <div className="text-line fill-line">
