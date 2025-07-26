@@ -1,0 +1,163 @@
+@import '../../../assets/scss/model.scss';
+
+.customer-view-page-div {
+    .product-menu {
+        position: fixed;
+        background-color: var(--background-c2);
+        display: flex;
+        left: 50%;
+        bottom: 80px;
+        transform: translate(-50%, 0%);
+        padding: 5px;
+        border-radius: 100px;
+        box-shadow: var(--shadow-02);
+
+        .item {
+            width: 110px;
+            text-align: center;
+            padding: 13px 5px;
+            border-radius: 100px;
+            cursor: pointer;
+
+            p {
+                font-size: 15px;
+                font-weight: 600;
+            }
+
+            &.active {
+                background-color: var(--background-tertiary);
+                color: white;
+            }
+        }
+    }
+
+    .content {
+        .section {
+            margin-bottom: 25px;
+
+            .title {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 10px;
+                margin-bottom: 10px;
+
+                .text {
+                    p {
+                        font-size: 20px;
+                        font-weight: 600;
+                        color: var(--text-c2);
+                        @include threeDots(1);
+                    }
+                }
+            }
+
+            .text-list {
+                .item {
+                    display: grid;
+                    grid-template-columns: 150px auto;
+                    margin-bottom: 11px;
+
+                    .label {
+                        position: relative;
+
+                        p {
+                            font-size: 14px;
+                            font-weight: 500;
+                        }
+
+                        &::after {
+                            content: ':';
+                            position: absolute;
+                            right: 7px;
+                            top: -2px;
+                        }
+                    }
+
+                    .value {
+                        display: flex;
+                        justify-content: start;
+                        gap: 5px;
+                        align-items: center;
+
+                        p {
+                            font-size: 14px;
+                            font-weight: 500;
+                        }
+                    }
+
+                }
+            }
+
+            .amount-card {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
+
+                .card {
+                    padding: 10px 15px;
+                    border-radius: 15px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    text-align: center;
+
+                    p {
+                        &:first-child {
+                            font-size: 18px;
+                            font-weight: 700;
+                        }
+
+                        &:last-child {
+                            font-size: 13px;
+                            font-weight: 500;
+                        }
+                    }
+                }
+
+                .debit {
+                    background-color: #0085f240;
+                    border: #0085f2 1px solid;
+
+                    p {
+                        color: #0085f2;
+                    }
+
+                }
+
+                .credit {
+                    background-color: #bb113f40;
+                    border: var(--color-error) 1px solid;
+
+                    p {
+                        color: var(--color-error);
+                    }
+
+                }
+            }
+        }
+
+        .section-two {
+            margin-bottom: 180px;
+
+            .section-sub-title {
+                display: flex;
+                gap: 5px;
+
+                >div {
+                    background-color: var(--background-c3);
+                    font-size: 14px;
+                    font-weight: 500;
+                    padding: 5px 15px;
+                    border-radius: 50px;
+                    cursor: pointer;
+                }
+
+                .active {
+                    background-color: var(--background-tertiary);
+                    color: white;
+                }
+            }
+        }
+    }
+}

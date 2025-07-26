@@ -14,7 +14,7 @@ const ResetPassword = lazy(() => import('./pages/user/login/ResetPassword'))
 
 function App() {
   const dispatch = useDispatch()
-  const { theme } = useSelector((state) => state.systemInfo)
+  const { theme } = useSelector((state) => state.systemInfo);
 
   // Theme and Network
   useEffect(() => {

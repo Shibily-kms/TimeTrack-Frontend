@@ -22,7 +22,12 @@ function Add_designation({ setModel, setData }) {
         adminAxios.post('/designation', form).then((response) => {
             dispatch(toast.push.success({ message: response.message }))
             setData((state) => {
-                return [response.data, ...state]
+                return [{
+                    'Idx No': 0,
+                    Designation: response?.data?.designation,
+                    designation_id: response?.data?._id,
+                    'Staff Count': response?.data?.name?.length || 0,
+                }, ...state]
             })
             setModel(null)
             setLoading(false)

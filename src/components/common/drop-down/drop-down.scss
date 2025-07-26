@@ -1,0 +1,91 @@
+@import '../../../assets/scss/model.scss';
+
+.dropdown-wrapper {
+    position: relative;
+    display: inline-block;
+
+    .dropdown-toggle {
+        padding: 8px 16px;
+        cursor: pointer;
+    }
+}
+
+.dropdown-menu {
+    position: absolute;
+    max-height: 250px; // ⬅️ set max-height
+    overflow-y: auto; // ⬅️ enable scroll if height exceeds
+    min-width: 180px;
+    padding: 6px 0;
+    background: var(--background-c1);
+    border: 2px solid var(--border-c1);
+    border-radius: 6px;
+    box-shadow: 0 2px 5px var(--shadow-02);
+    z-index: 1000;
+    @include scrollBar();
+
+
+    .dropdown-section {
+        padding: 6px 0;
+
+        &:not(:first-child) {
+            border-top: 1px solid var(--text-c3);
+            margin-top: 5px;
+        }
+    }
+
+    .dropdown-heading {
+        font-size: 13px;
+        font-weight: 500;
+        padding: 4px 16px 4px;
+        color: var(--text-c3);
+    }
+
+    .dropdown-divider {
+        height: 1px;
+        background: var(--text-c3);
+        margin: 4px 0;
+    }
+
+    .dropdown-item {
+        display: flex;
+        align-items: center;
+        padding: 8px 16px;
+        cursor: pointer;
+        transition: background 0.2s ease;
+
+        .icon {
+            margin-right: 8px;
+            margin-bottom: -5px;
+        }
+
+        .label {
+            font-size: 14px;
+        }
+
+        &.disabled {
+            color: var(--text-c3);
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        &:hover:not(.disabled) {
+            background: var(--background-c2);
+        }
+
+        &.danger {
+            color: var(--color-error);
+
+            &:hover {
+                background-color: #d3003820;
+            }
+        }
+
+        &.primary {
+            color: var(--color-info);
+
+            &:hover {
+                background-color: #0085f220;
+            }
+        }
+    }
+}

@@ -6,17 +6,33 @@
 
     table {
         tbody {
-            .deleted-item {
-                color: var(--color-error);
-                background-color: #{color.adjust($aws-color-light-theme-red, $alpha : -0.8)};
-            }
-
             .button-div {
                 display: flex;
                 justify-content: center;
                 gap: 10px;
             }
+        }
+    }
 
+    .bulkActionSection {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+
+        span {
+            cursor: pointer;
+            padding: 5px 15px;
+            border-radius: 10px;
+            font-weight: 600;
+
+
+            &:hover {
+                background-color: var(--color-error);
+                background-color: #d3003820;
+                color: var(--color-error);
+                // border: 1px solid var(--color-error);
+            }
         }
     }
 }

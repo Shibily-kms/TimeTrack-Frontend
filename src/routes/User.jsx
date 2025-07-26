@@ -21,6 +21,8 @@ const SecurityPrivacy = lazy(() => import('../components/user/my-account/Securit
 const MyProspects = lazy(() => import('../pages/user/my-prospects/MyProspects'))
 const ProspectCU = lazy(() => import('../pages/user/my-prospects/ProspectCU'))
 const ProfileComplete = lazy(() => import('../pages/user/profile-complete/ProfileComplete'))
+const SearchCustomer = lazy(() => import('../pages/user/search-customer/SearchCustomer'))
+const ViewCustomer = lazy(() => import('../pages/user/search-customer/ViewCustomer'))
 
 
 function User({ }) {
@@ -28,6 +30,7 @@ function User({ }) {
   let isAuthenticated = false
   const dispatch = useDispatch()
   const { internet } = useSelector((state) => state.systemInfo)
+  const { user } = useSelector((state) => state.userAuth)
   const [pageHead, setPageHead] = useState({ title: null, desc: null })
   const DVC_ID = Cookies.get('DVC_ID');
   const rfs_tkn = Cookies.get('_rfs_tkn');
@@ -76,9 +79,17 @@ function User({ }) {
 
           {/* Leave App */}
           <Route path='/leave-app' element={<PrivateRoute element={<LeaveApp setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+
           {/* My prospects */}
           <Route path='/my-prospects' element={<PrivateRoute element={<MyProspects setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
           <Route path='/my-prospects/register' element={<PrivateRoute element={<ProspectCU setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+
+          {/* Search customer */}
+          {user?.allowed_origins?.some(access => ['ttur_customer_read', 'ttur_customer_download'].includes(access)) && <>
+            <Route path='/customer/search' element={<PrivateRoute element={<SearchCustomer setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+            <Route path='/customer/:cid/view' element={<PrivateRoute element={<ViewCustomer setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+          </>}
+
 
           {/* 404 Route */}
           <Route path='/*' element={<PrivateRoute element={<NotFound setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />

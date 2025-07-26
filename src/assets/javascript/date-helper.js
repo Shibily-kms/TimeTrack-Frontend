@@ -15,6 +15,7 @@ function stringToLocalTime(time = '', ifSecond = false) {    // 14:15:23  ==> 02
 
 const YYYYMMDDFormat = (ISOdate, symbol = '-') => {
     symbol = symbol ? symbol : ''
+    ISOdate = new Date(ISOdate)
     const year = ISOdate?.getFullYear();
     const month = String(ISOdate.getMonth() + 1).padStart(2, '0');
     const day = String(ISOdate.getDate()).padStart(2, '0');
@@ -80,7 +81,7 @@ function convertIsoToAmPm(isoString) {
 
     // Pad minutes and seconds with leading zeros if needed
     const minutesStr = minutes < 10 ? '0' + minutes : minutes;
-  
+
 
     // Combine parts
     return `${hours}:${minutesStr} ${ampm}`;
@@ -120,6 +121,22 @@ const formateDateToDayText = (isoDate) => {
     } else {
         return `In ${formattedDate}`;
     }
+}
+
+export const thisMonthLastDay = (ISODate) => {
+    const today = new Date(ISODate || new Date()); // This gets the current date and time
+    const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+
+    const lastDayISO = new Date(lastDayOfMonth.setHours(23, 59, 59, 999)).toISOString();
+    return lastDayISO
+}
+
+export const thisMonthFirstDay = (ISODate) => {
+    const today = new Date(ISODate || new Date()); // This gets the current date and time
+    const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+
+    const lastDayISO = new Date(lastDayOfMonth.setHours(0, 0, 0, 0)).toISOString();
+    return lastDayISO
 }
 
 

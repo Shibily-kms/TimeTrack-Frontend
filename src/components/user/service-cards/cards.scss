@@ -1,0 +1,261 @@
+@use "sass:color";
+@use '../../../assets/scss/ui/var-color' as *;
+@import '../../../assets/scss/model.scss';
+
+.card-boarder {
+    border-radius: 25px;
+    overflow: hidden;
+    max-width: 500px;
+    width: 100%;
+
+    p {
+        @include threeDots(1);
+    }
+
+    .card-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: var(--background-opt-tertiary-7);
+
+        .top-left {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            background-color: var(--background-tertiary);
+            padding: 5px 40px 5px 20px;
+            color: white;
+            border-bottom-right-radius: 50px;
+
+            svg {
+                font-size: 15px;
+            }
+        }
+
+        p {
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .top-right {
+            padding: 5px 20px;
+
+            p {
+                text-align: end;
+            }
+        }
+
+
+    }
+
+    .card-center {
+        background-color: var(--background-opt-secondary-9);
+        padding: 7px 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .center-section {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+
+
+            .text-line {
+                font-size: 12px;
+                font-weight: 500;
+                display: flex;
+                align-items: center;
+                border-radius: 25px;
+
+                p {
+                    padding: 2px 10px;
+                    max-width: 110px;
+                }
+            }
+
+            .fill-line {
+                background-color: var(--color-error);
+                color: white;
+                border: var(--color-error) 2px solid;
+            }
+
+            .border-line {
+                background-color: var(--background-opt-tertiary-8);
+                border: var(--background-tertiary) 2px solid;
+
+                p {
+                    &:nth-child(2) {
+                        border-left: 2px solid var(--background-tertiary);
+                    }
+                }
+            }
+
+            .primary-line {
+                background-color: #ffbd8b40;
+                border-color: #ffbd8b;
+
+                p {
+                    &:nth-child(2) {
+                        border-color: #ffbd8b;
+                    }
+                }
+            }
+
+            .secondary-line {
+                background-color: #9799ff40;
+                border-color: #9799ff;
+
+                p {
+                    &:nth-child(2) {
+                        border-color: #9799ff;
+                    }
+                }
+            }
+
+            .special-line {
+                background-color: #17c9ba40;
+                border-color: #17c9ba;
+
+                p {
+                    &:nth-child(2) {
+                        border-color: #17c9ba;
+                    }
+                }
+            }
+        }
+    }
+
+    .card-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: var(--background-opt-secondary-9);
+        border-top: 2px solid var(--background-opt-tertiary-8);
+        gap: 5px;
+
+        .bottom-left {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 5px 0px 5px 20px;
+
+            svg {
+                font-size: 15px;
+            }
+        }
+
+        p {
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .bottom-right {
+            padding: 5px 20px 5px 0px;
+
+            p {
+                text-align: end;
+            }
+        }
+    }
+}
+
+.amc-card {
+    .card-top {
+        background-color: #{color.adjust($aws-color-light-theme-green-60, $alpha : -0.7)};
+
+        .top-left {
+            background-color: var(--color-success);
+        }
+    }
+
+    .card-bottom {
+        border-color: #{color.adjust($aws-color-light-theme-green-60, $alpha : -0.7)};
+    }
+}
+
+.ssp-card {
+    .card-top {
+        background-color: #{color.adjust($aws-color-light-theme-primary-60, $alpha : -0.7)};
+
+        .top-left {
+            background-color: $aws-color-light-theme-primary-60;
+        }
+    }
+
+    .card-bottom {
+        border-color: #{color.adjust($aws-color-light-theme-primary-60, $alpha : -0.7)};
+    }
+}
+
+.iw-card {
+    .card-top {
+        background-color: #{color.adjust($aws-color-light-theme-blue-60, $alpha : -0.7)};
+
+        .top-left {
+            background-color: $aws-color-light-theme-blue-60;
+        }
+    }
+
+    .card-bottom {
+        border-color: #{color.adjust($aws-color-light-theme-blue-60, $alpha : -0.7)};
+    }
+}
+
+.ow-card {
+    .card-top {
+        background-color: #{color.adjust($aws-color-light-theme-yellow-60, $alpha : -0.7)};
+
+        .top-left {
+            background-color: $aws-color-light-theme-yellow-60;
+        }
+    }
+
+    .card-bottom {
+        border-color: #{color.adjust($aws-color-light-theme-yellow-60, $alpha : -0.7)};
+    }
+}
+
+.oc-card {
+    .card-top {
+        background-color: var(--background-opt-secondary-8);
+
+        .top-left {
+            background-color: var(--background-secondary);
+            color: var(--text-secondary);
+        }
+    }
+
+    .card-bottom {
+        border-color: var(--background-opt-secondary-8);
+    }
+}
+
+.installation-card {
+    border: 1px dashed var(--color-warning);
+
+    .card-top {
+        background-color: #{color.adjust($aws-color-light-theme-yellow-60, $alpha : -0.7)};
+
+        .top-left {
+            background-color: var(--color-warning);
+        }
+    }
+
+    .card-center {
+        background-color: #{color.adjust($aws-color-light-theme-yellow-60, $alpha : -0.8)};
+        ;
+
+        .text-line {
+            p {
+                max-width: 250px !important;
+            }
+        }
+    }
+
+    .card-bottom {
+        border-color: #{color.adjust($aws-color-light-theme-yellow-60, $alpha : -0.7)};
+        background-color: #{color.adjust($aws-color-light-theme-yellow-60, $alpha : -0.8)};
+    }
+
+}
