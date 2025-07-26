@@ -17,7 +17,7 @@ const InstallationCard = ({ data, rework }) => {
             <div className="card-center">
                 <div className="center-section">
                     {Number(data?.received_amount) ? <div className="text-line fill-line"
-                        style={{ backgroundColor: 'var(--background-secondary)', borderColor: 'var(--background-secondary)' }}>
+                        style={{ backgroundColor: 'var(--background-secondary)', borderColor: 'var(--background-secondary)', color: 'var(--text-secondary)' }}>
                         <p>₹ {Number(data?.received_amount)}</p>
                     </div> : ""}
                 </div>
