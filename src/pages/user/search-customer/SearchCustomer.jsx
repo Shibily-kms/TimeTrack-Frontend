@@ -6,7 +6,7 @@ import { TbNotificationOff } from 'react-icons/tb'
 import { FiDownload } from 'react-icons/fi'
 import { cnPv2Axios } from '../../../config/axios'
 import { thisMonthFirstDay, thisMonthLastDay, YYYYMMDDFormat } from '../../../assets/javascript/date-helper'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { toast } from '../../../redux/features/user/systemSlice'
 import { FaCircleUser } from 'react-icons/fa6'
 import { FaStar } from 'react-icons/fa'
@@ -21,6 +21,7 @@ import DownloadAllCustomer from '../../../components/user/search-customer/Downlo
 const SearchCustomer = ({ setPageHead }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { user } = useSelector((state) => state.userAuth)
     const [data, setData] = useState([])
     const [doSearch, setDoSearch] = useState(false)
     const [loading, setLoading] = useState('')
@@ -139,15 +140,16 @@ const SearchCustomer = ({ setPageHead }) => {
                         : ''}
 
             {data?.length ? <div className="app-icon-div">
-                <div className="buttons" style={{ gridTemplateColumns: '1fr 1fr' }}>
-                    <SingleButton name={'Download'} stIcon={<FiDownload />} classNames={'lg'}
-                        onClick={handleOpenSomeCustomer} style={{ width: '100%' }} />
+                <div className="buttons" style={user?.allowed_origins?.includes('ttur_customer_download') ? { gridTemplateColumns: '1fr 1fr' } : { gridTemplateColumns: '1fr' }}>
+                    {user?.allowed_origins?.includes('ttur_customer_download') &&
+                        <SingleButton name={'Download'} stIcon={<FiDownload />} classNames={'lg'}
+                            onClick={handleOpenSomeCustomer} style={{ width: '100%' }} />}
                     <SingleButton name={'Search'} stIcon={<IoSearch />} classNames={'lg btn-tertiary'}
                         onClick={handleOpenSearch} style={{ width: '100%' }} />
                 </div>
             </div> : ""}
 
-            {(!data?.length && !doSearch) ? <div className="app-icon-div">
+            {(!data?.length && !doSearch && user?.allowed_origins?.includes('ttur_customer_download')) ? <div className="app-icon-div">
                 <div className="buttons">
                     <SingleButton name={'Download Customer List'} stIcon={<FiDownload />} classNames={'lg'}
                         onClick={handleOpenAllCustomer} style={{ width: '100%' }} />

@@ -136,7 +136,6 @@ const SearchCustomer = ({ searchInputs, cityList, setSearchInputs, filtrationTyp
                 {(form?.products === 'purifier' || form?.products === 'whole_house') && <>
                     <div className="p-type">
                         <p>Customer status</p>
-                        {console.log(!form?.products.includes('purifier'))}
                         <div>
                             <CheckboxInput label={'O/C'} name={'customer_status'} value={'O/C'} isRequired={false} onChangeFun={handleCustomerStatusChange}
                                 checked={form?.customer_status?.includes('O/C')} />

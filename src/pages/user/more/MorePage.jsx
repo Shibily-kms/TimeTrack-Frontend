@@ -113,15 +113,16 @@ const MorePage = ({ setPageHead }) => {
                         <IoArrowForwardOutline />
                     </div>
                 </div>
-                <div className="option-div" onClick={() => navigate('/customer/search')}>
-                    <div className="left">
-                        <TbUserSearch />
-                        <h4>Search Customer</h4>
-                    </div>
-                    <div className="right">
-                        <IoArrowForwardOutline />
-                    </div>
-                </div>
+                {user?.allowed_origins?.some(access => ['ttur_customer_read', 'ttur_customer_download'].includes(access)) &&
+                    <div className="option-div" onClick={() => navigate('/customer/search')}>
+                        <div className="left">
+                            <TbUserSearch />
+                            <h4>Search Customer</h4>
+                        </div>
+                        <div className="right">
+                            <IoArrowForwardOutline />
+                        </div>
+                    </div>}
                 <div className="option-div" onClick={() => navigate('/settings?page=more')}>
                     <div className="left">
                         <RiSettingsLine />
@@ -155,7 +156,7 @@ const MorePage = ({ setPageHead }) => {
                 <p>©Alliance water solutions®</p>
                 <p>version {ui_version}</p>
             </div>
-        </div>
+        </div >
     )
 }
 
