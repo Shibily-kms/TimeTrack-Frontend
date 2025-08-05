@@ -120,7 +120,7 @@ const SearchCustomer = ({ setPageHead }) => {
                                 </div>}
                             </div>
                             <p>CID : {customer?.cid} {customer?.purifier_customer_status && `| Purifier : ${customer?.purifier_customer_status} `} {customer?.wh_customer_status && `| Vessel : ${customer?.wh_customer_status}`}</p>
-                            <p>{customer?.address?.address}, {customer?.address?.place}, {customer?.address?.city_name} City - {customer?.address?.pin_code}</p>
+                            <p>{customer?.address?.address}, {customer?.address?.place}, P.O {customer?.address?.post}, {customer?.address?.city_name} City - {customer?.address?.pin_code}</p>
                             <p>PN : {customer?.primary_number?.number}  | SN : {customer?.secondary_number?.number} | WN : {customer?.whatsapp_number?.number}</p>
                         </div>
                     </div>
