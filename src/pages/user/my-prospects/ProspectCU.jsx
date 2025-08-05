@@ -24,6 +24,7 @@ const ProspectCU = ({ setPageHead }) => {
     const [form, setForm] = useState({})
     const [modal, setModal] = useState({ state: false })
     const [pinCodeList, setPinCodeList] = useState([])
+    const [postOfficeList, setPostOfficeList] = useState([])
     const [productTypes, setProductTypes] = useState([])
     const [loading, setLoading] = useState('')
     const dispatch = useDispatch()
@@ -32,14 +33,14 @@ const ProspectCU = ({ setPageHead }) => {
     const handleOpenCidSearch = () => {
         setModal({
             status: true, title: 'Search customer', content: <SearchCustomer setModal={setModal} setFormData={setForm}
-                setPinCodeList={setPinCodeList} />
+                setPinCodeList={setPinCodeList} setPostOfficeList={setPostOfficeList} />
         })
     }
 
     const handleOpenCitySearch = () => {
         setModal({
             status: true, title: 'Search city', content: <SearchCity setModal={setModal} setFormData={setForm}
-                setPinCodeList={setPinCodeList} />
+                setPinCodeList={setPinCodeList} setPostOfficeList={setPostOfficeList} />
         })
     }
 
@@ -117,6 +118,8 @@ const ProspectCU = ({ setPageHead }) => {
                     <NormalInput label='Place' value={form?.place} name='place' isRequired={false} onChangeFun={handleChange} />
                     <NormalInput label='City' value={form?.city} name='city'
                         isRequired={false} rightIcon={<TbSearch />} onFocus={handleOpenCitySearch} />
+                    <SelectInput label='Post Office' value='' name='post' isRequired={false} onChangeFun={handleChange}
+                        firstOption={{ option: 'Select...', value: '' }} values={postOfficeList} />
                     <SelectInput label='Pin code' value='' name='pin_code' isRequired={false} onChangeFun={handleChange}
                         firstOption={{ option: 'Select...', value: '' }} values={pinCodeList} />
                     <NormalInput label='Land mark' value={form?.land_mark} name='land_mark' isRequired={false} onChangeFun={handleChange} />
