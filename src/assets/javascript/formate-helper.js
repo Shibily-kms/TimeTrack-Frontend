@@ -1,5 +1,5 @@
 export function convertAmount(amount) {
-   
+
     if (!Number(amount) && Number(amount) !== 0) {
         return 'Error'
     }
@@ -15,4 +15,19 @@ export function convertAmount(amount) {
     } else {
         return (amount / 10000000).toFixed(2) + "Cr"; // Convert to Crores (Cr)
     }
+}
+
+export const toStandardTextFormate = (text) => {
+    if (!text) {
+        return;
+    }
+
+    const formatted = text
+        .toLowerCase()
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ')
+        .trim();
+
+    return formatted
 }

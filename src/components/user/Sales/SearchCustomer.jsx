@@ -6,8 +6,9 @@ import { IoSendSharp } from 'react-icons/io5'
 import { cnPv2Axios } from '../../../config/axios'
 import SpinWithMessage from '../../common/spinners/SpinWithMessage'
 import { TbUserX } from 'react-icons/tb'
+import { toStandardTextFormate } from '../../../assets/javascript/formate-helper'
 
-const SearchCustomer = ({ setModal, setFormData, setPinCodeList }) => {
+const SearchCustomer = ({ setModal, setFormData, setPinCodeList, setPostOfficeList }) => {
     const inputRef = useRef()
     const [data, setData] = useState([])
     const [text, setText] = useState('')
@@ -27,7 +28,21 @@ const SearchCustomer = ({ setModal, setFormData, setPinCodeList }) => {
         }
     }
 
-    const chooseCustomer = (data) => {
+    const chooseCustomer = async (data) => {
+        let city_id = '', city_name = '', postList = [], pinList = []
+
+        if (data?.address?.city_id) {
+            setLoading(true)
+            await cnPv2Axios.get(`/l/location/city/search?key=${data?.address?.city_name}`).then((response) => {
+                const customerCity = response?.data?.filter((city) => city.city_id === data?.address?.city_id)?.[0] || {}
+                city_id = customerCity?.city_id
+                city_name = customerCity?.city_name
+                pinList = customerCity?.pin_codes
+                postList = customerCity?.post_offices
+            })
+            setLoading(true)
+        }
+
         setFormData((state) => ({
             ...state,
             cid: data?.cid,
@@ -35,9 +50,9 @@ const SearchCustomer = ({ setModal, setFormData, setPinCodeList }) => {
             last_name: data?.last_name || '',
             address: data?.address?.address || '',
             place: data?.address?.place || '',
-            post: data?.address?.post || '',
-            city: data?.address?.city_name || '',
-            city_id: data?.address?.city_id || '',
+            post: data?.address?.post ? toStandardTextFormate(data?.address?.post) : '',
+            city: city_name || '',
+            city_id: city_id || '',
             state: data?.address?.state || '',
             country: data?.address?.country || '',
             pin_code: data?.address?.pin_code || '',
@@ -61,13 +76,8 @@ const SearchCustomer = ({ setModal, setFormData, setPinCodeList }) => {
         }))
         setModal({ status: false, title: null, content: null })
 
-        if (data?.address?.city_id) {
-            setPinCodeList([{
-                option: data?.address?.pin_code,
-                value: data?.address?.pin_code,
-                selected: true
-            }])
-        }
+        setPinCodeList(pinList?.map((pin) => ({ option: pin, value: pin, selected: pin === data?.address?.pin_code })))
+        setPostOfficeList(postList?.map((post) => ({ option: post, value: post, selected: post === toStandardTextFormate(data?.address?.post) })))
     }
 
     const handleChange = (e) => {

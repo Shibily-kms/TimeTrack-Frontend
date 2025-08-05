@@ -9,14 +9,29 @@ import { useDispatch } from 'react-redux'
 import { toast } from '../../../redux/features/user/systemSlice'
 import RadioInput from '../../common/inputs/RadioInput'
 
-const SearchCustomer = ({ searchInputs, cityList, setSearchInputs, filtrationTypes, setFiltrationTypes, setDoSearch }) => {
+const SearchCustomer = ({ searchInputs, cityList, setSearchInputs, filtrationTypes, setFiltrationTypes, setDoSearch, postList, setPostList }) => {
     const dispatch = useDispatch();
     const [form, setForm] = useState(searchInputs)
     const [moreOptions, setMoreOptions] = useState(filtrationTypes)
     const [readyToSubmit, setReadyToSubmit] = useState(false)
-
+    const [posts, setPosts] = useState(postList || [])
 
     const handleChange = (e) => {
+
+        if (e.target.name === 'city_id') {
+            setForm({
+                ...form,
+                [e.target.name]: e.target.value
+            })
+
+            const theCity = cityList?.filter((a) => a.value === e.target.value)?.[0]
+
+            setPosts(theCity?.posts?.map((a) => ({ option: a, value: a })) || [])
+            setPostList(theCity?.posts?.map((a) => ({ option: a, value: a })) || [])
+
+            return;
+        }
+
         setForm({
             ...form,
             [e.target.name]: e.target.value
@@ -94,12 +109,16 @@ const SearchCustomer = ({ searchInputs, cityList, setSearchInputs, filtrationTyp
         setForm({
             search: '',
             products: '',
+            post: '',
             city_id: '',
             customer_status: [],
             flt_type: '',
             flt_from: YYYYMMDDFormat(thisMonthFirstDay(new Date())),
             flt_to: YYYYMMDDFormat(thisMonthLastDay(new Date()))
         })
+
+        setPosts([])
+        setPostList([])
     }
 
     useEffect(() => {
@@ -120,6 +139,8 @@ const SearchCustomer = ({ searchInputs, cityList, setSearchInputs, filtrationTyp
                 </div>
                 <SelectInput label='City' name='city_id' values={cityList?.map((a) => ({ ...a, selected: a.value === form?.city_id }))} onChangeFun={handleChange} isRequired={false}
                     firstOption={{ option: 'Select...', value: '' }} />
+                {posts?.[0] && <SelectInput label='Post Offices' name='post' values={posts?.map((a) => ({ ...a, selected: a.value === form?.post }))} onChangeFun={handleChange} isRequired={false}
+                    firstOption={{ option: 'Select...', value: '' }} />}
                 <div className="p-type">
                     <p>Product type</p>
                     <div>
