@@ -125,8 +125,12 @@ const ViewCustomer = ({ setPageHead }) => {
                             <div className="value"><p>{personalData?.address?.address}, {personalData?.address?.place}</p></div>
                         </div>
                         <div className="item">
-                            <div className="label"> <p>City, Pin code</p></div>
-                            <div className="value"><p>{personalData?.address?.city_name} - {personalData?.address?.pin_code}</p></div>
+                            <div className="label"> <p>Post, Pin code</p></div>
+                            <div className="value"><p>P.O {personalData?.address?.post} - {personalData?.address?.pin_code}</p></div>
+                        </div>
+                        <div className="item">
+                            <div className="label"> <p>City</p></div>
+                            <div className="value"><p>{personalData?.address?.city_name} City</p></div>
                         </div>
                         <div className="item">
                             <div className="label"> <p>Lank mark</p></div>
