@@ -7,7 +7,7 @@ import { cnPv2Axios } from '../../../config/axios'
 import SpinWithMessage from '../../common/spinners/SpinWithMessage'
 import { TbLocationX } from 'react-icons/tb'
 
-const SearchCity = ({ setModal, setFormData, setPinCodeList }) => {
+const SearchCity = ({ setModal, setFormData, setPinCodeList, setPostOfficeList }) => {
     const inputRef = useRef()
     const [data, setData] = useState([])
     const [text, setText] = useState('')
@@ -49,9 +49,11 @@ const SearchCity = ({ setModal, setFormData, setPinCodeList }) => {
             city_id: data?.city_id || '',
             state: data?.state_name || '',
             country: data?.country_name || '',
-            pin_code: isPinCode ? text : ''
+            pin_code: isPinCode ? text : '',
+            post: ''
         }))
-        setPinCodeList(data?.pin_codes?.map((pin) => ({ option: pin, value: pin, selected: text === pin })))
+        setPinCodeList(data?.pin_codes?.sort((a, b) => a - b)?.map((pin) => ({ option: pin, value: pin, selected: text === pin })))
+        setPostOfficeList(data?.post_offices?.sort((a, b) => a.localeCompare(b))?.map((post) => ({ option: post, value: post })))
         setModal({ status: false, title: null, content: null })
     }
 
@@ -62,9 +64,11 @@ const SearchCity = ({ setModal, setFormData, setPinCodeList }) => {
             city_id: '',
             state: '',
             country: '',
-            pin_code: ''
+            pin_code: '',
+            post: ''
         }))
         setPinCodeList([])
+        setPostOfficeList([])
         setModal({ status: false, title: null, content: null })
     }
 
@@ -80,7 +84,7 @@ const SearchCity = ({ setModal, setFormData, setPinCodeList }) => {
             </div>
                 : doSearch && !loading && <SpinWithMessage icon={<TbLocationX />} message='No matching city name or postal code found in our installation area.' />}
             <form action="" onSubmit={handleSubmit}>
-                <p className='smallTD2' style={{ marginBottom: '10px' }}>To find a city by its name or postal code, please enter at least 3 characters for the city name or a 6-digit postal code.</p>
+                <p className='smallTD2' style={{ marginBottom: '10px' }}>To find a city by its name or postal code and post office, please enter at least 3 characters for the city name or a 6-digit postal code.</p>
                 <div className="search-input-div">
                     <NormalInput ref={inputRef} label='Search' autoFocus style={{ width: '100%' }} onChangeFun={handleChange}
                         value={text} type='text' minLength={3} step={1} />

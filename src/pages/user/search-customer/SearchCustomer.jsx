@@ -28,6 +28,7 @@ const SearchCustomer = ({ setPageHead }) => {
     const [modal, setModal] = useState({ status: false, content: null })
     const [searchInputs, setSearchInputs] = useState({
         search: '',
+        post: '',
         city_id: '',
         products: '',
         customer_status: [],
@@ -36,6 +37,7 @@ const SearchCustomer = ({ setPageHead }) => {
         flt_to: YYYYMMDDFormat(thisMonthLastDay(new Date()))
     })
     const [cityList, setCityList] = useState([])
+    const [postList, setPostList] = useState([])
     const [filtrationTypes, setFiltrationTypes] = useState([])
 
     const handleOpenSearch = () => {
@@ -43,7 +45,8 @@ const SearchCustomer = ({ setPageHead }) => {
             status: true,
             title: "Search Options",
             content: <SearchCustomerComp searchInputs={searchInputs} setSearchInputs={setSearchInputs} cityList={cityList}
-                filtrationTypes={filtrationTypes} setFiltrationTypes={setFiltrationTypes} setDoSearch={setDoSearch} />
+                filtrationTypes={filtrationTypes} setFiltrationTypes={setFiltrationTypes} setDoSearch={setDoSearch}
+                postList={postList} setPostList={setPostList} />
         })
     }
 
@@ -62,7 +65,7 @@ const SearchCustomer = ({ setPageHead }) => {
         // fetch
         setLoading('fetch')
         cnPv2Axios.get('/l/location/city/search?area_type=service').then((response) => {
-            const cities = response?.data?.map((s) => ({ option: s?.city_name, value: s?.city_id, pins: s?.pin_codes }))
+            const cities = response?.data?.map((s) => ({ option: s?.city_name, value: s?.city_id, pins: s?.pin_codes, posts: s?.post_offices }))
             setCityList([{ option: 'No City Customer', value: 'unknown' }, ...cities])
             setLoading('')
         }).catch((error) => {
@@ -82,7 +85,7 @@ const SearchCustomer = ({ setPageHead }) => {
 
             //    search
             setLoading('fetch')
-            cnPv2Axios.get(`/customer/filter?key=${searchInputs?.key || ''}&products=${searchInputs.products}&customer_status=${searchInputs.customer_status}&flt_type=${searchInputs.flt_type}&flt_from=${searchInputs.flt_from}&flt_to=${searchInputs.flt_to}&city_id=${searchInputs?.city_id}`)
+            cnPv2Axios.get(`/customer/filter?key=${searchInputs?.key || ''}&products=${searchInputs.products || ''}&customer_status=${searchInputs.customer_status || ''}&flt_type=${searchInputs.flt_type || ''}&flt_from=${searchInputs.flt_from || ''}&flt_to=${searchInputs.flt_to || ''}&city_id=${searchInputs?.city_id || ''}&post=${searchInputs?.post || ''}`)
                 .then((response) => {
                     setData(response?.data)
                 }).catch((error) => {
