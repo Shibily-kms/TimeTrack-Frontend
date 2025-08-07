@@ -62,15 +62,15 @@ const SearchCustomer = ({ setModal, setFormData, setPinCodeList, setPostOfficeLi
                 number: data?.primary_number?.number
             } : {},
             secondary_number: data?.secondary_number?.number?.length > 3 ? {
-                country_code: data?.secondary_number?.country_code.startsWith("+")
+                country_code: data?.secondary_number?.country_code?.startsWith("+")
                     ? data?.secondary_number?.country_code.substring(1)
-                    : data?.secondary_number?.country_code,
+                    : (data?.secondary_number?.country_code || '91'),
                 number: data?.secondary_number?.number
             } : {},
             whatsapp_number: data?.whatsapp_number?.number?.length > 3 ? {
-                country_code: data?.whatsapp_number?.country_code.startsWith("+")
-                    ? data?.whatsapp_number?.country_code.substring(1)
-                    : data?.whatsapp_number?.country_code,
+                country_code: data?.whatsapp_number?.country_code?.startsWith("+")
+                    ? data?.whatsapp_number?.country_code?.substring(1)
+                    : (data?.whatsapp_number?.country_code || '91'),
                 number: data?.whatsapp_number?.number
             } : {},
         }))
