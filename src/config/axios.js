@@ -1,19 +1,19 @@
 import axios from 'axios'
 import Cookies from 'js-cookie';
-export const baseUrl = 'http://192.168.56.1'
+export const baseUrl = 'https://staff.api.alliancedev.in'
 const apiHeaders = { 'Content-Type': 'application/json' }
 
 //* Base Setup
 const baseSetup = {
-    userAxios: axios.create({ baseURL: `${baseUrl}:8000/`, headers: apiHeaders }),
-    adminAxios: axios.create({ baseURL: `${baseUrl}:8000/admin/`, headers: apiHeaders }),
+    userAxios: axios.create({ baseURL: `${baseUrl}/`, headers: apiHeaders }),
+    adminAxios: axios.create({ baseURL: `${baseUrl}/admin/`, headers: apiHeaders }),
 
 
     //? v2.1
-    ttSv2Axios: axios.create({ baseURL: `${baseUrl}:8000/s/v2/`, headers: apiHeaders }),
-    ttCv2Axios: axios.create({ baseURL: `${baseUrl}:8000/c/v2/`, headers: apiHeaders }),
-    cnPv2Axios: axios.create({ baseURL: `${baseUrl}:8004/p/v2/`, headers: apiHeaders }),
-    slUv1Axios: axios.create({ baseURL: `${baseUrl}:8008/u/v1/`, headers: apiHeaders })
+    ttSv2Axios: axios.create({ baseURL: `${baseUrl}/s/v2/`, headers: apiHeaders }),
+    ttCv2Axios: axios.create({ baseURL: `${baseUrl}/c/v2/`, headers: apiHeaders }),
+    cnPv2Axios: axios.create({ baseURL: `https://controlnex.api.alliancedev.in/p/v2/`, headers: apiHeaders }),
+    slUv1Axios: axios.create({ baseURL: `https://salesv1.api.alliancedev.in/u/v1/`, headers: apiHeaders })
 }
 
 //*  Response and Request Config Functions
@@ -39,7 +39,7 @@ const handleTokenError = async (originalRequest) => {
     // Call the refresh token API to get a new access token
     try {
         const refreshToken = Cookies.get('_rfs_tkn'); // Retrieve the refresh token
-        const { data } = await axios.post(`${baseUrl}:8000/s/v2/auth/rotate-token`, { refresh_token: refreshToken }, {
+        const { data } = await axios.post(`${baseUrl}/s/v2/auth/rotate-token`, { refresh_token: refreshToken }, {
             headers: {
                 'Content-Type': 'application/json'
             }

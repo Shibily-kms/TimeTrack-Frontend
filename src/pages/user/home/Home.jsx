@@ -73,7 +73,7 @@ function Home({ setPageHead }) {
           </div>)}
 
           {(user?.allowed_origins?.includes('Accountant')) && <div className="app-item">
-            <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001?id=${user?.acc_id}`}>
+            <div className="icon-div" onClick={() => window.location.href = `https://accounting.alliancedev.in?id=${user?.acc_id}`}>
               <img alt='app-icon' src={Finance} draggable={false} />
               <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
             </div>
@@ -82,7 +82,7 @@ function Home({ setPageHead }) {
 
           {(user?.allowed_origins?.includes('ControlNex') || user?.allowed_origins?.includes('Customer_Info')) &&
             <div className="app-item">
-              <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001?id=${user?.acc_id}`}>
+              <div className="icon-div" onClick={() => window.location.href = `https://controlnex.alliancedev.in?id=${user?.acc_id}`}>
                 <img alt='app-icon' src={ControlNex} draggable={false} />
                 <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
               </div>
@@ -92,7 +92,7 @@ function Home({ setPageHead }) {
           {(user?.allowed_origins?.includes('Sales') || user?.allowed_origins?.includes('SalesPro')
             || user?.allowed_origins?.includes('Installation')) && <div className="app-item">
               <div className="icon-div" style={{ backgroundColor: "#0c1663" }}
-                onClick={() => window.location.href = `http://localhost:3001?id=${user?.acc_id}`}>
+                onClick={() => window.location.href = `https://sales.alliancedev.in?id=${user?.acc_id}`}>
                 <FaStore />
               </div>
               <p>Sales App</p>
@@ -100,7 +100,7 @@ function Home({ setPageHead }) {
 
 
           {(user?.allowed_origins?.includes('PR_Service')) && <div className="app-item">
-            <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001?id=${user?.acc_id}`}>
+            <div className="icon-div" onClick={() => window.location.href = `https://purifier.alliancedev.in?id=${user?.acc_id}`}>
               <img alt='app-icon' src={PRService} draggable={false} />
               <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
             </div>
@@ -108,7 +108,7 @@ function Home({ setPageHead }) {
           </div>}
 
           {(user?.allowed_origins?.includes('PR_Admin')) && <div className="app-item">
-            <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001?id=${user?.acc_id}`}>
+            <div className="icon-div" onClick={() => window.location.href = `https://purifier.alliancedev.in/admin?id=${user?.acc_id}`}>
               <img alt='app-icon' src={PRAdmin} draggable={false} />
               <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
             </div>
@@ -116,7 +116,7 @@ function Home({ setPageHead }) {
           </div>}
 
           {(user?.allowed_origins?.includes('WH_Service')) && <div className="app-item">
-            <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001?id=${user?.acc_id}`}>
+            <div className="icon-div" onClick={() => window.location.href = `https://wholehouse.alliancedev.in?id=${user?.acc_id}`}>
               <img alt='app-icon' src={Vessel} draggable={false} />
               <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
             </div>
@@ -124,7 +124,7 @@ function Home({ setPageHead }) {
           </div>}
 
           {(user?.allowed_origins?.includes('WH_Admin')) && <div className="app-item">
-            <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001?id=${user?.acc_id}`}>
+            <div className="icon-div" onClick={() => window.location.href = `https://wholehouse.alliancedev.in/admin?id=${user?.acc_id}`}>
               <img alt='app-icon' src={VesselAdmin} draggable={false} />
               <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
             </div>
@@ -132,7 +132,7 @@ function Home({ setPageHead }) {
           </div>}
 
           {user?.allowed_origins?.some((access) => access?.slice(0, 9) === 'slur_lead') && <div className="app-item">
-            <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001/lead?page=home`}>
+            <div className="icon-div" onClick={() => window.location.href = `https://salesV1.alliancedev.in/lead?page=home`}>
               <img alt='app-icon' src={Lead} draggable={false} />
               <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
             </div>
@@ -140,7 +140,7 @@ function Home({ setPageHead }) {
           </div>}
 
           {user?.allowed_origins?.some((access) => access?.slice(0, 8) === 'slur_eqr') && <div className="app-item">
-            <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001/enquiry?page=home`}>
+            <div className="icon-div" onClick={() => window.location.href = `https://salesV1.alliancedev.in/enquiry?page=home`}>
               <img alt='app-icon' src={Enquiry} draggable={false} />
               <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
             </div>
@@ -148,7 +148,7 @@ function Home({ setPageHead }) {
           </div>}
 
           {user?.allowed_origins?.some((access) => access?.slice(0, 12) === 'slur_install') && <div className="app-item">
-            <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001/installation?page=home`}>
+            <div className="icon-div" onClick={() => window.location.href = `https://salesV1.alliancedev.in/installation?page=home`}>
               <img alt='app-icon' src={Install} draggable={false} />
               <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
             </div>
@@ -156,7 +156,7 @@ function Home({ setPageHead }) {
           </div>}
 
           {user?.allowed_origins?.some((access) => access?.slice(0, 9) === 'slur_gdwn') && <div className="app-item">
-            <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001/warehouse?page=pending`}>
+            <div className="icon-div" onClick={() => window.location.href = `https://salesV1.alliancedev.in/warehouse?page=pending`}>
               <img alt='app-icon' src={Warehouse} draggable={false} />
               <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
             </div>
@@ -164,7 +164,7 @@ function Home({ setPageHead }) {
           </div>}
 
           {user?.allowed_origins?.some((access) => access?.slice(0, 4) === 'slcr') && <div className="app-item">
-            <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001/controller`}>
+            <div className="icon-div" onClick={() => window.location.href = `https://salesV1.alliancedev.in/controller`}>
               <img alt='app-icon' src={SLController} draggable={false} />
               <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
             </div>
