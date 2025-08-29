@@ -25,12 +25,11 @@ export const systemSlice = createSlice({
             state.theme = action?.payload
 
             const cookieOptions = {
-                secure: true, // Ensure secure transmission (Use HTTPS)
-                sameSite: 'none', // Allows cross-site cookies (important for subdomains)
-                path: '/', // Makes the cookie accessible to all routes
-                domain: '.alliancedev.in', // Allows sharing between subdomains
-                httpOnly: true, // Prevents JavaScript access for security (optional)
-                expires: new Date(Date.now() + 180 * 24 * 60 * 60 * 1000) // Set expiration correctly
+                secure: true,
+                sameSite: 'None',
+                path: '/',
+                domain: '.alliancedev.in',
+                expires: new Date(new Date().setMonth(new Date().getMonth() + 6))
             };
             Cookies.set('color_mode', action?.payload, cookieOptions)
         },
