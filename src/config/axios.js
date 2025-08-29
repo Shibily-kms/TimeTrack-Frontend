@@ -1,6 +1,6 @@
 import axios from 'axios'
 import Cookies from 'js-cookie';
-export const baseUrl = 'https://staff.api.alliancedev.in'
+export const baseUrl = 'https://worker.api.alliancedev.in'
 const apiHeaders = { 'Content-Type': 'application/json' }
 
 //* Base Setup
