@@ -13,7 +13,7 @@ const baseSetup = {
     ttSv2Axios: axios.create({ baseURL: `${baseUrl}/s/v2/`, headers: apiHeaders }),
     ttCv2Axios: axios.create({ baseURL: `${baseUrl}/c/v2/`, headers: apiHeaders }),
     cnPv2Axios: axios.create({ baseURL: `https://controlnex.api.alliancedev.in/p/v2/`, headers: apiHeaders }),
-    slUv1Axios: axios.create({ baseURL: `https://salesv1.api.alliancedev.in/u/v1/`, headers: apiHeaders })
+    slUv1Axios: axios.create({ baseURL: `https://sales.api.alliancedev.in/u/v1/`, headers: apiHeaders })
 }
 
 //*  Response and Request Config Functions
