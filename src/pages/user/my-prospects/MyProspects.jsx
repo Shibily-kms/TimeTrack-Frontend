@@ -11,7 +11,7 @@ import { slUv1Axios } from '../../../config/axios'
 import { useDispatch } from 'react-redux'
 import { toast } from '../../../redux/features/user/systemSlice'
 import Badge from '../../../components/common/badge/Badge'
-import { FiArrowRight } from 'react-icons/fi'
+import AlertBox from '../../../components/common/alert/AlertBox'
 
 
 const MyProspects = ({ setPageHead }) => {
@@ -22,6 +22,7 @@ const MyProspects = ({ setPageHead }) => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [searchParams, setSearchParams] = useSearchParams()
+    const [asotId, setAsotId] = useState(null)
 
     const newProspectAction = () => {
         navigate('/my-prospects/register')
@@ -30,7 +31,8 @@ const MyProspects = ({ setPageHead }) => {
     const fetchData = () => {
         setLoading('fetch')
         slUv1Axios.get(`/prospect/list/monthly?month=${searchParams.get('month')}`).then((response) => {
-            setProspects(response.data)
+            setProspects(response?.data?.prospects)
+            setAsotId(response?.data?.asot_id || null)
             setLoading('')
         }).catch((error) => {
             dispatch(toast.push.error({ message: error.message }))
@@ -71,6 +73,9 @@ const MyProspects = ({ setPageHead }) => {
                 {loading === 'fetch'
                     ? <SpinWithMessage load height={'100px'} />
                     : <>
+                        {asotId
+                            ? <AlertBox messages={<p style={{ fontSize: "14px", fontWeight: '500' }}>Your asot Id : {asotId}</p>} classNames='alt-info' />
+                            : <AlertBox messages={<p style={{ fontSize: "14px" }}>Your worker account not connect to associations, Connect account to show your own prospects</p>} classNames='alt-info' />}
                         {prospects?.[0] && <div className="list-div">
                             {prospects.map((prospect) => {
                                 return <div className="item-div">
@@ -87,7 +92,9 @@ const MyProspects = ({ setPageHead }) => {
                                     </div>
                                     <div className="right-div">
                                         <div className='icon'>
-                                            {prospect?.duplicate && <Badge text={'Duplicate entry'} className={'warning-fill '} />}
+                                            {prospect?.duplicate && <Badge text={'Duplicate entry'} className={'warning-fill'} />}
+                                            {prospect?.care_of === asotId && <Badge text={'C/O'} className={'success-fill'} />}
+                                            {prospect?.source_from === asotId && <Badge text={'Source'} className={'success-fill'} />}
                                             {/* <FiArrowRight /> */}
                                         </div>
                                         <div className={`status-div ${prospect?.prospect_status_text}`}>

@@ -65,6 +65,7 @@ const MorePage = ({ setPageHead }) => {
                 domain: '.alliancewatersolutions.com',
                 sameSite: 'None',
                 path: '/',
+                domain: '.alliancedev.in',
                 expires: new Date(new Date().setMonth(new Date().getMonth() + 6))
             });
 
