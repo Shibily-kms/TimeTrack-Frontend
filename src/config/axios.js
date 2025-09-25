@@ -41,7 +41,6 @@ const handleTokenError = async (originalRequest) => {
     try {
         const refreshToken = Cookies.get('_rfs_tkn'); // Retrieve the refresh token
         const { data } = await axios.post(`${baseUrl}/s/v2/auth/rotate-token`, { refresh_token: refreshToken }, {
-        const { data } = await axios.post(`${baseUrl}/s/v2/auth/rotate-token`, { refresh_token: refreshToken }, {
             headers: {
                 'Content-Type': 'application/json'
             }
