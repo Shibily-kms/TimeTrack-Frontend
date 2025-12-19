@@ -98,9 +98,12 @@ const MyProspects = ({ setPageHead }) => {
                                             {/* <FiArrowRight /> */}
                                         </div>
                                         <div className={`status-div ${prospect?.prospect_status_text}`}>
-                                            {[4, 5].includes(prospect?.prospect_status) && <p>{prospect?.prospect_status_text}</p>}
-                                            {[1, 2, 3].includes(prospect?.prospect_status) &&
-                                                <p>{prospect?.prospect_status_text} / {prospect?.lead_status_text || prospect?.enquiry_status_text}</p>}
+                                            {prospect?.prospect_status === 1 &&
+                                                <p>{prospect?.prospect_status_text} / {prospect?.lead_status_text}</p>}
+                                            {prospect?.prospect_status === 2 &&
+                                                <p>{prospect?.prospect_status_text} / {prospect?.enquiry_status_text}</p>}
+                                            {prospect?.prospect_status === 3 &&
+                                                <p>{prospect?.prospect_status_text} / {prospect?.installation_status_text}</p>}
                                         </div>
                                         <h4>{new Date(prospect?.reg_date).toDateString()}</h4>
                                     </div>
