@@ -1,4 +1,4 @@
-function stringToLocalTime(time = '', ifSecond = false) {    // 14:15:23  ==> 02:15 PM
+function stringToLocalTime(time = '', ifSecond = false, zeroSeconds = false) {    // 14:15:23  ==> 02:15 PM
     if (!time) {
         return
     }
@@ -9,6 +9,8 @@ function stringToLocalTime(time = '', ifSecond = false) {    // 14:15:23  ==> 02
 
     if (seconds && ifSecond) {
         return `${hours12Format}:${minutes}:${seconds} ${suffix}`;
+    }else if(zeroSeconds){
+        return `${hours12Format}:${minutes}:00 ${suffix}`;
     }
     return `${hours12Format}:${minutes} ${suffix}`;
 }
