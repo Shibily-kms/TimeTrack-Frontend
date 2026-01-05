@@ -1,6 +1,6 @@
 import React from 'react'
 import * as XLSX from 'xlsx';
-import { getTimeFromSecond, stringToLocalTime } from '../../../assets/javascript/date-helper'
+import { getTimeFromSecond, stringToLocalTime, YYYYMMDDFormat } from '../../../assets/javascript/date-helper'
 import SingleButton from '../../common/buttons/SingleButton';
 import { SiMicrosoftexcel } from "react-icons/si";
 
@@ -12,13 +12,13 @@ function DownloadButton({ fullData, selectDay, staff }) {
         const data = fullData.filter((day) => new Date(day.date).getDate() === new Date(selectDay).getDate())?.[0]
 
         const workbook = XLSX.utils.book_new();
-        const sheetName = new Date(data.date).toDateString()
+        const sheetName = YYYYMMDDFormat(new Date(data.date))
         const sheetData = data?.staff_list?.map((staff) => {
             return {
                 'FULL NAME': staff?.full_name,
                 'LEAVE STATUS': staff?.leave_type,
-                'FIRST PUNCH IN': staff?.punch_list?.[0] ? stringToLocalTime(staff?.punch_list?.[0]?.in) : '',
-                'LAST PUNCH OUT': staff?.punch_list?.[0] ? stringToLocalTime(staff?.punch_list?.[staff?.punch_list?.length - 1]?.out) : '',
+                'FIRST PUNCH IN': staff?.punch_list?.[0] ? stringToLocalTime(staff?.punch_list?.[0]?.in, false, true) : '',
+                'LAST PUNCH OUT': staff?.punch_list?.[0] ? stringToLocalTime(staff?.punch_list?.[staff?.punch_list?.length - 1]?.out, false, true) : '',
                 'BREAK COUNT': staff?.punch_list?.length - 1 || 0,
                 'T DURATION': getTimeFromSecond(staff?.total_working_time || 0)
             }
@@ -34,13 +34,13 @@ function DownloadButton({ fullData, selectDay, staff }) {
         const workbook = XLSX.utils.book_new();
 
         fullData.forEach((day, index) => {
-            const sheetName = new Date(day.date).toDateString()
+            const sheetName = YYYYMMDDFormat(new Date(day.date))
             const sheetData = day?.staff_list?.map((staff) => {
                 return {
                     'FULL NAME': staff?.full_name,
                     'LEAVE STATUS': staff?.leave_type,
-                    'FIRST PUNCH IN': staff?.punch_list?.[0] ? stringToLocalTime(staff?.punch_list?.[0]?.in) : '',
-                    'LAST PUNCH OUT': staff?.punch_list?.[0] ? stringToLocalTime(staff?.punch_list?.[staff?.punch_list?.length - 1]?.out) : '',
+                    'FIRST PUNCH IN': staff?.punch_list?.[0] ? stringToLocalTime(staff?.punch_list?.[0]?.in, false, true) : '',
+                    'LAST PUNCH OUT': staff?.punch_list?.[0] ? stringToLocalTime(staff?.punch_list?.[staff?.punch_list?.length - 1]?.out, false, true) : '',
                     'BREAK COUNT': staff?.punch_list?.length - 1 || 0,
                     'T DURATION': getTimeFromSecond(staff?.total_working_time || 0)
                 }
@@ -61,8 +61,8 @@ function DownloadButton({ fullData, selectDay, staff }) {
             return {
                 'DATE': new Date(day?.date),
                 'LEAVE STATUS': day?.leave_type,
-                'FIRST PUNCH IN': day?.punch_list?.[0] ? stringToLocalTime(day?.punch_list?.[0]?.in) : '',
-                'LAST PUNCH OUT': day?.punch_list?.[0] ? stringToLocalTime(day?.punch_list?.[day?.punch_list?.length - 1]?.out) : '',
+                'FIRST PUNCH IN': day?.punch_list?.[0] ? stringToLocalTime(day?.punch_list?.[0]?.in, false, true) : '',
+                'LAST PUNCH OUT': day?.punch_list?.[0] ? stringToLocalTime(day?.punch_list?.[day?.punch_list?.length - 1]?.out, false, true) : '',
                 'BREAK COUNT': day?.punch_list?.length - 1 || 0,
                 'T DURATION': getTimeFromSecond(day?.total_working_time || 0)
             }
