@@ -17,8 +17,8 @@ function DownloadButton({ fullData, selectDay, staff }) {
             return {
                 'FULL NAME': staff?.full_name,
                 'LEAVE STATUS': staff?.leave_type,
-                'FIRST PUNCH IN': staff?.punch_list?.[0] ? stringToLocalTime(staff?.punch_list?.[0]?.in, false, true) : '',
-                'LAST PUNCH OUT': staff?.punch_list?.[0] ? stringToLocalTime(staff?.punch_list?.[staff?.punch_list?.length - 1]?.out, false, true) : '',
+                'FIRST PUNCH IN': staff?.punch_list?.[0] ? staff?.punch_list?.[0]?.in : '',
+                'LAST PUNCH OUT': staff?.punch_list?.[0] ? staff?.punch_list?.[staff?.punch_list?.length - 1]?.out : '',
                 'BREAK COUNT': staff?.punch_list?.length - 1 || 0,
                 'T DURATION': getTimeFromSecond(staff?.total_working_time || 0)
             }
@@ -39,8 +39,8 @@ function DownloadButton({ fullData, selectDay, staff }) {
                 return {
                     'FULL NAME': staff?.full_name,
                     'LEAVE STATUS': staff?.leave_type,
-                    'FIRST PUNCH IN': staff?.punch_list?.[0] ? stringToLocalTime(staff?.punch_list?.[0]?.in, false, true) : '',
-                    'LAST PUNCH OUT': staff?.punch_list?.[0] ? stringToLocalTime(staff?.punch_list?.[staff?.punch_list?.length - 1]?.out, false, true) : '',
+                    'FIRST PUNCH IN': staff?.punch_list?.[0] ? staff?.punch_list?.[0]?.in : '',
+                    'LAST PUNCH OUT': staff?.punch_list?.[0] ? staff?.punch_list?.[staff?.punch_list?.length - 1]?.out : '',
                     'BREAK COUNT': staff?.punch_list?.length - 1 || 0,
                     'T DURATION': getTimeFromSecond(staff?.total_working_time || 0)
                 }
@@ -58,11 +58,12 @@ function DownloadButton({ fullData, selectDay, staff }) {
         const workbook = XLSX.utils.book_new();
         const sheetName = `Monthly works`
         const sheetData = fullData?.day_list?.map((day) => {
+
             return {
                 'DATE': new Date(day?.date),
                 'LEAVE STATUS': day?.leave_type,
-                'FIRST PUNCH IN': day?.punch_list?.[0] ? stringToLocalTime(day?.punch_list?.[0]?.in, false, true) : '',
-                'LAST PUNCH OUT': day?.punch_list?.[0] ? stringToLocalTime(day?.punch_list?.[day?.punch_list?.length - 1]?.out, false, true) : '',
+                'FIRST PUNCH IN': day?.punch_list?.[0] ? day?.punch_list?.[0]?.in : '',
+                'LAST PUNCH OUT': day?.punch_list?.[0] ? day?.punch_list?.[day?.punch_list?.length - 1]?.out : '',
                 'BREAK COUNT': day?.punch_list?.length - 1 || 0,
                 'T DURATION': getTimeFromSecond(day?.total_working_time || 0)
             }
