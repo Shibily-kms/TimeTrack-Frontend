@@ -1,6 +1,6 @@
 import axios from 'axios'
 import Cookies from 'js-cookie';
-export const baseUrl = 'http://192.168.56.1'
+export const baseUrl = 'http://localhost'
 const apiHeaders = { 'Content-Type': 'application/json' }
 
 //* Base Setup
