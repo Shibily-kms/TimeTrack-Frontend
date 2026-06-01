@@ -34,7 +34,7 @@ function DownloadButton({ fullData, selectDay, staff }) {
         const workbook = XLSX.utils.book_new();
 
         fullData.forEach((day, index) => {
-            const sheetName = YYYYMMDDFormat(new Date(day.date))
+            const sheetName = YYYYMMDDFormat(new Date(day.date)).slice(8)
             const sheetData = day?.staff_list?.map((staff) => {
                 return {
                     'FULL NAME': staff?.full_name,
