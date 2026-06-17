@@ -172,7 +172,6 @@ const StaffSettings = ({ setPageHead }) => {
                                     </div>
                                 </div>}
 
-
                         </div>
 
                     </div>
