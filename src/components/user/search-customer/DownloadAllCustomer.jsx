@@ -47,6 +47,7 @@ const DownloadAllCustomer = ({ data, setModal }) => {
             downloadFile(workbook, `Search Result`)
         } else {
             cnPv2Axios.get('customer/list/full', {
+                timeout: 60000,
                 onDownloadProgress: (progressEvent) => {
                     const percentage = Math.round((progressEvent.loaded * 100) / progressEvent.total);
                     setProgress(percentage);
@@ -68,8 +69,10 @@ const DownloadAllCustomer = ({ data, setModal }) => {
             if (completed)
                 setModal({ status: false })
         }, 2000);
-
+        // eslint-disable-next-line
         return () => clearTimeout(timerId);
+
+        // eslint-disable-next-line
     }, [completed]);
 
     const circumference = 2 * Math.PI * 40
