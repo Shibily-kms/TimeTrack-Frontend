@@ -2,7 +2,7 @@ import TTController from '../images/app-icons/TT Controller.jpg'
 import Finance from '../images/app-icons/Finance.jpg'
 import ControlNex from '../images/app-icons/ControlNex.jpg'
 import PRService from '../images/app-icons/Purifier Service.jpg'
-import Vessel from '../images/app-icons/Vessel.jpg'
+import VesselUser from '../images/app-icons/Vessel.jpg'
 import Enquiry from '../images/app-icons/SL Enquiry.jpg'
 import SLController from '../images/app-icons/SL Controller.jpg'
 import Alliance from '../images/alliance-logo.png'
@@ -138,6 +138,82 @@ export const origins_head_list = [
                     },
                 ]
             },
+        ]
+    },
+    {
+        id: 'Customer',
+        title: 'Customer Info',
+        description: 'Manage ControlNex mini application',
+        icon: null,
+        sections: [
+            {
+                id: 'Customer_Info',
+                title: 'Customer mini app',
+                description: 'Read customer accounts and details',
+                origins: [
+                    {
+                        key: 'Customer_Info',
+                        name: 'Read'
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        id: 'ControlNex',
+        title: 'ControlNex',
+        description: 'Manage ControlNex application',
+        icon: ControlNex,
+        sections: [
+            {
+                id: 'ControlNex',
+                title: 'ControlNex',
+                description: 'Customer account managing access',
+                origins: [
+                    {
+                        key: 'ControlNex',
+                        name: 'Read and Write'
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        id: 'accr',
+        title: 'Accountant App v1.1',
+        description: 'Manage alliance finance',
+        icon: null,
+        sections: [
+            {
+                id: 'accr_slprd',
+                title: 'Sales',
+                description: 'Handle product bill and warranty',
+                origins: [
+                    {
+                        key: 'accr_slprd_write',
+                        name: 'Read and Write'
+                    }
+                ]
+            },
+        ]
+    },
+    {
+        id: 'Accountant',
+        title: 'Accountant App',
+        description: 'Manage alliance finance',
+        icon: Finance,
+        sections: [
+            {
+                id: 'Accountant',
+                title: 'Finance CRUD',
+                description: 'Control alliance finance credit and debit',
+                origins: [
+                    {
+                        key: 'Accountant',
+                        name: 'Read and Write'
+                    }
+                ]
+            }
         ]
     },
     {
@@ -302,14 +378,52 @@ export const origins_head_list = [
         ]
     },
     {
+        id: 'vessel',
+        title: 'Vessel App',
+        description: 'Manage vessel service software access',
+        icon: VesselUser,
+        sections: [
+            {
+                id: 'vessel_t',
+                title: 'Service Worker Access',
+                description: 'Vessel service worker default access',
+                origins: [
+                    {
+                        key: 'vessel_t_worker',
+                        name: 'Full control'
+                    }
+                ]
+            },
+            {
+                id: 'vessel_c',
+                title: 'Controller Section Access',
+                description: 'Software admin section full access',
+                origins: [
+                    {
+                        key: 'vessel_c_reader',
+                        name: 'Read Only'
+                    },
+                    {
+                        key: 'vessel_c_writer',
+                        name: 'Read + Limited write'
+                    },
+                    {
+                        key: 'vessel_c_admin',
+                        name: 'Read + Full write control'
+                    }
+                ]
+            }
+        ]
+    },
+    {
         id: 'WH',
-        title: 'Whole house',
-        description: 'Manage Whole house services',
-        icon: Vessel,
+        title: 'Whole house v1',
+        description: 'Manage Whole house version 1 software',
+        icon: null,
         sections: [
             {
                 id: 'WH_Service',
-                title: 'Whole house Service',
+                title: 'VS Service Card Portal',
                 description: 'Whole house service technician default access',
                 origins: [
                     {
@@ -380,80 +494,5 @@ export const origins_head_list = [
             }
         ]
     },
-    {
-        id: 'ControlNex',
-        title: 'ControlNex',
-        description: 'Manage ControlNex application',
-        icon: ControlNex,
-        sections: [
-            {
-                id: 'ControlNex',
-                title: 'ControlNex',
-                description: 'Customer account managing access',
-                origins: [
-                    {
-                        key: 'ControlNex',
-                        name: 'Read and Write'
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        id: 'Customer',
-        title: 'Customer Info',
-        description: 'Manage ControlNex mini application',
-        icon: null,
-        sections: [
-            {
-                id: 'Customer_Info',
-                title: 'Customer mini app',
-                description: 'Read customer accounts and details',
-                origins: [
-                    {
-                        key: 'Customer_Info',
-                        name: 'Read'
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        id: 'Accountant',
-        title: 'Accountant App',
-        description: 'Manage alliance finance',
-        icon: Finance,
-        sections: [
-            {
-                id: 'Accountant',
-                title: 'Finance CRUD',
-                description: 'Control alliance finance credit and debit',
-                origins: [
-                    {
-                        key: 'Accountant',
-                        name: 'Read and Write'
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        id: 'accr',
-        title: 'Accountant App v1.1',
-        description: 'Manage alliance finance',
-        icon: null,
-        sections: [
-            {
-                id: 'accr_slprd',
-                title: 'Sales',
-                description: 'Handle product bill and warranty',
-                origins: [
-                    {
-                        key: 'accr_slprd_write',
-                        name: 'Read and Write'
-                    }
-                ]
-            },
-        ]
-    }
+
 ]

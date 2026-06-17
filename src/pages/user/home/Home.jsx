@@ -3,6 +3,7 @@ import './home.scss'
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { FaStore } from "react-icons/fa";
+import { TbCarouselHorizontal, TbCheck } from 'react-icons/tb'
 import ProfileCard from '../../../components/user/profile-card/ProfileCard';
 import { YYYYMMDDFormat } from '../../../assets/javascript/date-helper';
 import WorkDetails from '../../../components/user/semi-work-details/WorkDetails';
@@ -116,15 +117,31 @@ function Home({ setPageHead }) {
           </div>}
 
           {(user?.allowed_origins?.includes('WH_Service')) && <div className="app-item">
-            <div className="icon-div" onClick={() => window.location.href = `https://wholehouse.alliancewatersolutions.com?id=${user?.acc_id}`}>
+            <div className="icon-div" style={{ backgroundColor: "#5f5f5f" }}
+              onClick={() => window.location.href = `https://wholehouse.alliancedev.in?id=${user?.acc_id}`}>
+              <TbCarouselHorizontal />
+            </div>
+            <p>VF Card Portal</p>
+          </div>}
+
+          {(user?.allowed_origins?.includes('WH_Service')) && <div className="app-item">
+            <div className="icon-div" style={{ backgroundColor: "#7d8f1a" }}
+              onClick={() => window.location.href = `https://wholehouse.alliancedev.in/admin?id=${user?.acc_id}`}>
+              <TbCheck />
+            </div>
+            <p>VF Admin</p>
+          </div>}
+
+          {(user?.allowed_origins?.includes('vessel_t_worker')) && <div className="app-item">
+            <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001/tech`}>
               <img alt='app-icon' src={Vessel} draggable={false} />
               <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
             </div>
             <p>VF Service</p>
           </div>}
 
-          {(user?.allowed_origins?.includes('WH_Admin')) && <div className="app-item">
-            <div className="icon-div" onClick={() => window.location.href = `https://wholehouse.alliancewatersolutions.com/admin?id=${user?.acc_id}`}>
+          {user?.allowed_origins?.some((access) => access?.slice(0, 8) === 'vessel_c') && <div className="app-item">
+            <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001/controller`}>
               <img alt='app-icon' src={VesselAdmin} draggable={false} />
               <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
             </div>
