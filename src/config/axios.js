@@ -12,8 +12,8 @@ const baseSetup = {
     //? v2.1
     ttSv2Axios: axios.create({ baseURL: `${baseUrl}:8000/s/v2/`, headers: apiHeaders }),
     ttCv2Axios: axios.create({ baseURL: `${baseUrl}:8000/c/v2/`, headers: apiHeaders }),
-    cnPv2Axios: axios.create({ baseURL: `${baseUrl}:8004/p/v2/`, headers: apiHeaders, timeout: 60000, }),
-    slUv1Axios: axios.create({ baseURL: `${baseUrl}:8008/u/v1/`, headers: apiHeaders })
+    cnPv2Axios: axios.create({ baseURL: `https://controlnex.api.alliancedev.in/p/v2/`, headers: apiHeaders, timeout: 60000, }),
+    slUv1Axios: axios.create({ baseURL: `https://sales.api.alliancedev.in/u/v1/`, headers: apiHeaders })
 }
 
 //*  Response and Request Config Functions

@@ -118,7 +118,7 @@ function Home({ setPageHead }) {
 
           {(user?.allowed_origins?.includes('WH_Service')) && <div className="app-item">
             <div className="icon-div" style={{ backgroundColor: "#5f5f5f" }}
-              onClick={() => window.location.href = `http://localhost:3001?id=${user?.acc_id}`}>
+              onClick={() => window.location.href = `https://wholehouse.alliancedev.in?id=${user?.acc_id}`}>
               <TbCarouselHorizontal />
             </div>
             <p>VF Card Portal</p>
@@ -126,7 +126,7 @@ function Home({ setPageHead }) {
 
           {(user?.allowed_origins?.includes('WH_Service')) && <div className="app-item">
             <div className="icon-div" style={{ backgroundColor: "#7d8f1a" }}
-              onClick={() => window.location.href = `http://localhost:3001/admin?id=${user?.acc_id}`}>
+              onClick={() => window.location.href = `https://wholehouse.alliancedev.in/admin?id=${user?.acc_id}`}>
               <TbCheck />
             </div>
             <p>VF Admin</p>
