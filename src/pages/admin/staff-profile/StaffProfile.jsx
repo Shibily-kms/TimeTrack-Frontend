@@ -283,8 +283,8 @@ const StaffProfile = ({ setPageHead }) => {
                   content: <EditStaff data={data} setData={setData} setModal={setModal} />,
                   width: '600px'
                 })} />
-                {!data?.delete && <SingleButton name={'Settings'} classNames={'btn-tertiary'} style={{ width: '100%' }}
-                  onClick={() => navigate(`/admin/staff-list/${staff_id}/settings`)} />}
+                <SingleButton name={'Settings'} classNames={'btn-tertiary'} style={{ width: '100%' }}
+                  onClick={() => navigate(`/admin/staff-list/${staff_id}/settings`)} />
                 {!data?.delete && <SingleButton name={'Leave staff'} classNames={'btn-danger'} style={{ width: '100%' }}
                   onClick={() => setModal({
                     status: true, title: 'Delete Profile', content: <DeleteStaff deleteId={data?._id} setData={setData} setModal={setModal} />

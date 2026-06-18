@@ -26,6 +26,7 @@ const RotateToken = () => {
             Cookies.set('DVC_ID', DVC_ID, { ...cookieOptions, expires: expirationDate })
             Cookies.set('_rfs_tkn', rfs_tkn, { ...cookieOptions, expires: expirationDate })
         }
+        // eslint-disable-next-line
     }, [])
 
     useEffect(() => {
@@ -47,6 +48,7 @@ const RotateToken = () => {
         }, 1000 * 60 * 30); // 1 second interval
 
         return () => clearInterval(interval); // Cleanup interval on unmount
+        // eslint-disable-next-line
     }, [])
 
     return (

@@ -270,7 +270,7 @@ export const origins_head_list = [
     },
     {
         id: 'slcr',
-        title: 'Sales Controller v1.1',
+        title: 'Sales Controller',
         description: 'Manage Lead, Enquiry and Installation Sections',
         icon: SLController,
         sections: [
@@ -416,38 +416,8 @@ export const origins_head_list = [
         ]
     },
     {
-        id: 'WH',
-        title: 'Whole house v1',
-        description: 'Manage Whole house version 1 software',
-        icon: null,
-        sections: [
-            {
-                id: 'WH_Service',
-                title: 'VS Service Card Portal',
-                description: 'Whole house service technician default access',
-                origins: [
-                    {
-                        key: 'WH_Service',
-                        name: 'Read and Write'
-                    }
-                ]
-            },
-            {
-                id: 'WH_Admin',
-                title: 'Whole house Controller',
-                description: 'Whole house service controller default access',
-                origins: [
-                    {
-                        key: 'WH_Admin',
-                        name: 'Read and Write'
-                    }
-                ]
-            }
-        ]
-    },
-    {
         id: 'Sales',
-        title: 'Sales application',
+        title: 'Sales V1',
         description: 'Manage sales application',
         icon: null,
         sections: [
@@ -475,24 +445,6 @@ export const origins_head_list = [
             }
         ]
     },
-    {
-        id: 'Installation',
-        title: 'Installation',
-        description: 'Manage Installation application',
-        icon: null,
-        sections: [
-            {
-                id: 'Installation',
-                title: 'Installation',
-                description: 'Installation default access',
-                origins: [
-                    {
-                        key: 'Installation',
-                        name: 'Read and Write'
-                    }
-                ]
-            }
-        ]
-    },
+  
 
 ]

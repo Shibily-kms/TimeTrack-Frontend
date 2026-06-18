@@ -34,6 +34,7 @@ const MorePage = ({ setPageHead }) => {
         if (!rfsTkn || !dvcId) {
             navigate('/auth/sign-in')
         }
+        // eslint-disable-next-line
     }, [rfsTkn, dvcId])
 
     useEffect(() => {
