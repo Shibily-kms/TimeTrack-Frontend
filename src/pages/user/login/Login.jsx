@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './style.scss'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import Cookies from 'js-cookie';
 import { RxEyeClosed, RxEyeOpen } from 'react-icons/rx';
