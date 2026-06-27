@@ -116,7 +116,7 @@ function Home({ setPageHead }) {
           </div>}
 
           {(user?.allowed_origins?.includes('vessel_t_worker')) && <div className="app-item">
-            <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001/tech`}>
+            <div className="icon-div" onClick={() => window.location.href = `https://vessel.alliancedev.in/tech`}>
               <img alt='app-icon' src={Vessel} draggable={false} />
               <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
             </div>
@@ -124,7 +124,7 @@ function Home({ setPageHead }) {
           </div>}
 
           {user?.allowed_origins?.some((access) => access?.slice(0, 8) === 'vessel_c') && <div className="app-item">
-            <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001/controller`}>
+            <div className="icon-div" onClick={() => window.location.href = `https://vessel.alliancedev.in/controller`}>
               <img alt='app-icon' src={VesselAdmin} draggable={false} />
               <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
             </div>
