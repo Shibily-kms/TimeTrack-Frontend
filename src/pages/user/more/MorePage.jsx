@@ -47,11 +47,11 @@ const MorePage = ({ setPageHead }) => {
     }, [])
 
     const cookieOptions = {
-        secure: false,
-        // domain: '.domain.com', 
-        sameSite: 'lax',
+        secure: true,
+        sameSite: 'None',
         path: '/',
-        expires: 40
+        domain: '.alliancedev.in',
+        expires: new Date(new Date().setMonth(new Date().getMonth() + 6))
     };
 
     const handleLogOut = () => {
