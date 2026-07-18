@@ -46,6 +46,14 @@ const MorePage = ({ setPageHead }) => {
         // eslint-disable-next-line
     }, [])
 
+    const cookieOptions = {
+        secure: false,
+        // domain: '.domain.com', 
+        sameSite: 'lax',
+        path: '/',
+        expires: 40
+    };
+
     const handleLogOut = () => {
         const ask = window.confirm('Are you ready for logOut ?')
         if (ask) {
@@ -55,15 +63,9 @@ const MorePage = ({ setPageHead }) => {
             dispatch(doLogOut())
 
             // clear cookie
-            Cookies.remove('_acc_tkn');
-            Cookies.remove('_rfs_tkn');
-            Cookies.set('logged_in', 'no', {
-                secure: false,
-                // domain: '.domain.com', 
-                sameSite: 'lax',
-                path: '/',
-                expires: 40
-            });
+            Cookies.remove('_acc_tkn', cookieOptions);
+            Cookies.remove('_rfs_tkn', cookieOptions);
+            Cookies.set('logged_in', 'no', cookieOptions);
 
 
             setRfsTkn(null);
