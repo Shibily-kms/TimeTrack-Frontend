@@ -46,6 +46,14 @@ const MorePage = ({ setPageHead }) => {
         // eslint-disable-next-line
     }, [])
 
+    const cookieOptions = {
+        secure: true,
+        sameSite: 'None',
+        path: '/',
+        domain: '.alliancedev.in',
+        expires: new Date(new Date().setMonth(new Date().getMonth() + 6))
+    };
+
     const handleLogOut = () => {
         const ask = window.confirm('Are you ready for logOut ?')
         if (ask) {
@@ -55,20 +63,9 @@ const MorePage = ({ setPageHead }) => {
             dispatch(doLogOut())
 
             // clear cookie
-            console.log('Cookies before logout:', Cookies.get());
-            ['_acc_tkn', '_rfs_tkn'].forEach(cookie =>
-                Cookies.remove(cookie, { path: '/', domain: '.alliancewatersolutions.com', secure: true, sameSite: 'None' })
-            );
-            console.log('Cookies after logout:', Cookies.get());
-
-            Cookies.set('logged_in', 'no', {
-                secure: true,
-                domain: '.alliancewatersolutions.com',
-                sameSite: 'None',
-                path: '/',
-                domain: '.alliancedev.in',
-                expires: new Date(new Date().setMonth(new Date().getMonth() + 6))
-            });
+            Cookies.remove('_acc_tkn', cookieOptions);
+            Cookies.remove('_rfs_tkn', cookieOptions);
+            Cookies.set('logged_in', 'no', cookieOptions);
 
 
             setRfsTkn(null);
