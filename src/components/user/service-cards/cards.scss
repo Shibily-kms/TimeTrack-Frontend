@@ -8,15 +8,17 @@
     max-width: 500px;
     width: 100%;
 
-    p {
-        @include threeDots(1);
-    }
 
     .card-top {
         display: flex;
         justify-content: space-between;
         align-items: center;
         background-color: var(--background-opt-tertiary-7);
+
+        p {
+            @include threeDots(1);
+        }
+
 
         .top-left {
             display: flex;
@@ -62,15 +64,15 @@
 
 
             .text-line {
-                font-size: 12px;
-                font-weight: 500;
+                font-size: 11px;
+                font-weight: 400;
                 display: flex;
                 align-items: center;
                 border-radius: 25px;
 
                 p {
                     padding: 2px 10px;
-                    max-width: 110px;
+                    // max-width: 110px;
                 }
             }
 
@@ -82,7 +84,7 @@
 
             .border-line {
                 background-color: var(--background-opt-tertiary-8);
-                border: var(--background-tertiary) 2px solid;
+                border: var(--background-tertiary) 1px solid;
 
                 p {
                     &:nth-child(2) {
@@ -133,6 +135,11 @@
         background-color: var(--background-opt-secondary-9);
         border-top: 2px solid var(--background-opt-tertiary-8);
         gap: 5px;
+
+        p {
+            @include threeDots(1);
+        }
+
 
         .bottom-left {
             display: flex;
@@ -244,13 +251,7 @@
 
     .card-center {
         background-color: #{color.adjust($aws-color-light-theme-yellow-60, $alpha : -0.8)};
-        ;
 
-        .text-line {
-            p {
-                max-width: 250px !important;
-            }
-        }
     }
 
     .card-bottom {
