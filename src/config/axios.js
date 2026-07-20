@@ -7,8 +7,6 @@ const apiHeaders = { 'Content-Type': 'application/json' }
 const baseSetup = {
     userAxios: axios.create({ baseURL: `${baseUrl}/`, headers: apiHeaders }),
     adminAxios: axios.create({ baseURL: `${baseUrl}/admin/`, headers: apiHeaders }),
-    userAxios: axios.create({ baseURL: `${baseUrl}/`, headers: apiHeaders }),
-    adminAxios: axios.create({ baseURL: `${baseUrl}/admin/`, headers: apiHeaders }),
 
 
     //? v2.1
