@@ -11,7 +11,7 @@ const AllStaffModal = ({ setModal }) => {
 
   useEffect(() => {
     adminAxios.get('/report/staff-current-status').then((response) => {
-      setData(response?.data)
+      setData(response?.data?.toSorted((a, b) => a.status.localeCompare(b.status)))
       setLoading(false)
     }).catch(() => {
       setLoading(false)
