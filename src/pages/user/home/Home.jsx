@@ -192,7 +192,7 @@ function Home({ setPageHead }) {
           </div>}
 
           {(user?.allowed_origins?.includes('service_t_write')) && <div className="app-item">
-            <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001/tech`}>
+            <div className="icon-div" onClick={() => window.location.href = `https://service.alliancewatersolutions.com/tech`}>
               <img alt='app-icon' src={Service} draggable={false} />
               <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
             </div>
@@ -200,7 +200,7 @@ function Home({ setPageHead }) {
           </div>}
 
           {user?.allowed_origins?.some((access) => access?.slice(0, 9) === 'service_c') && <div className="app-item">
-            <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001/controller/home`}>
+            <div className="icon-div" onClick={() => window.location.href = `https://service.alliancewatersolutions.com/controller/home`}>
               <img alt='app-icon' src={ServiceAdmin} draggable={false} />
               <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
             </div>
