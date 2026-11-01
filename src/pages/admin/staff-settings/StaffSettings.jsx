@@ -23,7 +23,6 @@ const StaffSettings = ({ setPageHead }) => {
     const punch_types = ['software', 'scanner', 'firstInScanner']
     const [modal, setModal] = useState({ status: false })
     const [devAccount, setDevAccount] = useState(false)
-    const [proAccount, setProAccount] = useState(false)
 
 
     const handleChange = (e) => {
@@ -35,7 +34,7 @@ const StaffSettings = ({ setPageHead }) => {
     }
 
     const openOriginModal = (originHead) => {
-        if (!devAccount && !proAccount) {
+        if (!devAccount) {
             setModal({
                 status: true, title: `${originHead?.title} : Accesses`, width: '700px',
                 content: <D2StaffSettings originList={originHead?.sections} userOrigins={data?.allowed_origins}
@@ -80,10 +79,6 @@ const StaffSettings = ({ setPageHead }) => {
 
             if (response?.data?.allowed_origins?.includes('dvur_backup_read') && response?.data?.acc_id !== user?.acc_id) {
                 setDevAccount(true)
-            }
-
-            if (response?.data?.pro_account?.[0] && response?.data?.acc_id !== user?.acc_id) {
-                setProAccount(true)
             }
 
         }).catch((error) => {
@@ -135,9 +130,6 @@ const StaffSettings = ({ setPageHead }) => {
                     </div>
 
                     {devAccount && <AlertBox classNames={'alt-warning'} messages={'This is developer account, You cannot change the origin accesses'}
-                        styles={{ marginBottom: '15px', fontSize: '15px' }} />}
-
-                    {!devAccount && proAccount && <AlertBox classNames={'alt-warning'} messages={'This is Pro account, You cannot change the origin accesses'}
                         styles={{ marginBottom: '15px', fontSize: '15px' }} />}
 
                     <div className="section-content">
