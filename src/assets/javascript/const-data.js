@@ -3,6 +3,7 @@ import Finance from '../images/app-icons/Finance.jpg'
 import ControlNex from '../images/app-icons/ControlNex.jpg'
 import PRService from '../images/app-icons/Purifier Service.jpg'
 import VesselUser from '../images/app-icons/Vessel.jpg'
+import ServiceUser from '../images/app-icons/Service.jpg'
 import Enquiry from '../images/app-icons/SL Enquiry.jpg'
 import SLController from '../images/app-icons/SL Controller.jpg'
 import Alliance from '../images/alliance-logo.png'
@@ -345,6 +346,44 @@ export const origins_head_list = [
                     }
                 ]
             },
+        ]
+    },
+    {
+        id: 'service',
+        title: 'Service App',
+        description: 'Manage service software access',
+        icon: ServiceUser,
+        sections: [
+            {
+                id: 'service_t',
+                title: 'Service Worker Access',
+                description: 'Service worker default access',
+                origins: [
+                    {
+                        key: 'service_t_write',
+                        name: 'Full control'
+                    }
+                ]
+            },
+            {
+                id: 'service_c',
+                title: 'Controller Section Access',
+                description: 'Software admin section full access',
+                origins: [
+                    {
+                        key: 'service_c_reader',
+                        name: 'Read Only'
+                    },
+                    {
+                        key: 'service_c_writer',
+                        name: 'Read + Limited write'
+                    },
+                    {
+                        key: 'service_c_admin',
+                        name: 'Read + Full write control'
+                    }
+                ]
+            }
         ]
     },
     {

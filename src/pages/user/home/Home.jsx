@@ -13,6 +13,8 @@ import PRService from '../../../assets/images/app-icons/Purifier Service.jpg'
 import PRAdmin from '../../../assets/images/app-icons/Purifier Admin.jpg'
 import Vessel from '../../../assets/images/app-icons/Vessel.jpg'
 import VesselAdmin from '../../../assets/images/app-icons/Vessel Admin.jpg'
+import Service from '../../../assets/images/app-icons/Service.jpg'
+import ServiceAdmin from '../../../assets/images/app-icons/Service Admin.jpg'
 import Lead from '../../../assets/images/app-icons/SL Lead.jpg'
 import Enquiry from '../../../assets/images/app-icons/SL Enquiry.jpg'
 import Install from '../../../assets/images/app-icons/SL Install.jpg'
@@ -145,7 +147,7 @@ function Home({ setPageHead }) {
               onClick={() => window.location.href = `https://wholehouse.alliancewatersolutions.com/admin?id=${user?.acc_id}`}>
               <TbCheck />
             </div>
-            <p>VF Admin</p>
+            <p>VF OLD Admin</p>
           </div>}
 
 
@@ -187,6 +189,22 @@ function Home({ setPageHead }) {
               <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
             </div>
             <p>SL Controller</p>
+          </div>}
+
+          {(user?.allowed_origins?.includes('service_t_write')) && <div className="app-item">
+            <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001/tech`}>
+              <img alt='app-icon' src={Service} draggable={false} />
+              <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
+            </div>
+            <p>Service App</p>
+          </div>}
+
+          {user?.allowed_origins?.some((access) => access?.slice(0, 9) === 'service_c') && <div className="app-item">
+            <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001/controller/home`}>
+              <img alt='app-icon' src={ServiceAdmin} draggable={false} />
+              <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
+            </div>
+            <p>Service <br></br> Controller</p>
           </div>}
 
         </div>
