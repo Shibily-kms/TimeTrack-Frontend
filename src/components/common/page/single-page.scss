@@ -26,9 +26,9 @@
             align-items: center;
             height: 55px;
             padding: 0px 5%;
-            background-color: var(--background-tertiary);
+            background-color: var(--background-primary);
             box-shadow: var(--shadow-01);
-            color: #{$aws-color-neutral-light-70};
+            color: var(--text-primary);
 
             .left {
                 display: flex;
@@ -52,6 +52,7 @@
                     font-size: 25px;
                     cursor: pointer;
                     font-weight: 600;
+                    color: var(--text-primary);
                 }
             }
 
@@ -66,7 +67,7 @@
                 .round-icon-button {
                     width: 32px;
                     height: 32px;
-                    background-color: var(--background-opt-primary-6);
+                    background-color: var(--background-opt-secondary-9);
                     display: flex;
                     justify-content: center;
                     align-items: center;
@@ -109,7 +110,7 @@
 
             }
 
-            .page-content-div{
+            .page-content-div {
                 margin-bottom: 80px;
             }
         }

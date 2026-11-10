@@ -12,7 +12,7 @@ import { ttSv2Axios } from '../../../config/axios';
 import { setUser } from '../../../redux/features/user/authSlice';
 import { getPunchDetails } from '../../../redux/features/user/workdataSlice';
 import { toast } from '../../../redux/features/user/systemSlice';
-import { TbDevices } from 'react-icons/tb';
+import { TbDevices, TbFileText } from 'react-icons/tb';
 import { RiLockPasswordLine } from 'react-icons/ri';
 
 const Settings = ({ setPageHead }) => {
@@ -52,6 +52,20 @@ const Settings = ({ setPageHead }) => {
         }
     }
 
+
+    const Item = ({ icon, label, onClick }) => {
+        return (
+            <div className="option-div" onClick={onClick}>
+                <div className="left">
+                    {icon}
+                    <h4>{label}</h4>
+                </div>
+                <div className="right">
+                    <IoArrowForwardOutline />
+                </div>
+            </div>
+        )
+    }
 
     return (
         <div className="settings-page-div">
@@ -96,6 +110,9 @@ const Settings = ({ setPageHead }) => {
                         <IoArrowForwardOutline />
                     </div>
                 </div>
+
+                {Item({ icon: <TbFileText />, label: 'Privacy Policy', onClick: () => window.open('https://awsllp.gitbook.io/workers/privacy-policy', '_blank') })}
+                {Item({ icon: <TbFileText />, label: 'Terms and Conditions', onClick: () => window.open('https://awsllp.gitbook.io/workers/terms-of-service', '_blank') })}
             </div>
         </div>
     )
