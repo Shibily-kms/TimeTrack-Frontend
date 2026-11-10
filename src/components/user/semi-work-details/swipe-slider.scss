@@ -1,0 +1,241 @@
+@use '../../../assets/scss/ui/var-color' as *;
+
+// =============================================
+// REUSABLE DARK THEME MIXIN FOR SLIDER
+// =============================================
+@mixin slider-dark-theme {
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
+
+    &.in {
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(5, 150, 105, 0.18) 100%);
+        border-color: rgba(16, 185, 129, 0.35);
+
+        .swipe-track-text {
+            color: #6ee7b7;
+
+            .shimmer-arrows {
+                color: #a7f3d0;
+            }
+        }
+
+        .swipe-track-fill {
+            background: linear-gradient(90deg, rgba(16, 185, 129, 0.35) 0%, rgba(5, 150, 105, 0.55) 100%);
+        }
+
+        .swipe-thumb {
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 16px rgba(16, 185, 129, 0.45);
+        }
+    }
+
+    &.out {
+        background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(220, 38, 38, 0.18) 100%);
+        border-color: rgba(239, 68, 68, 0.35);
+
+        .swipe-track-text {
+            color: #fca5a5;
+
+            .shimmer-arrows {
+                color: #fecaca;
+            }
+        }
+
+        .swipe-track-fill {
+            background: linear-gradient(90deg, rgba(239, 68, 68, 0.35) 0%, rgba(220, 38, 38, 0.55) 100%);
+        }
+
+        .swipe-thumb {
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 16px rgba(239, 68, 68, 0.45);
+        }
+    }
+}
+
+.swipe-slider-component {
+    position: relative;
+    width: 100%;
+    height: 56px;
+    border-radius: 28px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+    box-sizing: border-box;
+    touch-action: pan-y;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.04);
+    transition: background-color 0.25s ease, border-color 0.25s ease;
+
+    /* Text on Track */
+    .swipe-track-text {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 0.3px;
+        pointer-events: none;
+        z-index: 2;
+
+        .shimmer-arrows {
+            display: inline-flex;
+            align-items: center;
+            font-size: 18px;
+            animation: shimmerSwipe 1.6s ease-in-out infinite;
+        }
+    }
+
+    /* Fill behind the thumb */
+    .swipe-track-fill {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        border-radius: 28px;
+        pointer-events: none;
+        z-index: 1;
+        opacity: 0.85;
+    }
+
+    /* Thumb handle */
+    .swipe-thumb {
+        position: absolute;
+        left: 4px;
+        top: 4px;
+        bottom: 4px;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: grab;
+        z-index: 3;
+        color: #ffffff;
+        font-size: 22px;
+        touch-action: none;
+
+        &:active {
+            cursor: grabbing;
+        }
+
+        .thumb-spinner {
+            animation: spinSlider 0.9s linear infinite;
+            font-size: 24px;
+        }
+    }
+
+    /* Dragging state */
+    &.is-dragging {
+        .swipe-thumb {
+            cursor: grabbing;
+            transform-origin: center;
+        }
+    }
+
+    /* Loading state */
+    &.is-loading {
+        pointer-events: none;
+        opacity: 0.85;
+
+        .swipe-thumb {
+            cursor: default;
+        }
+    }
+
+    /* Disabled state */
+    &.is-disabled {
+        opacity: 0.45;
+        pointer-events: none;
+    }
+
+    /* =========================================
+       LIGHT THEME (Default)
+       ========================================= */
+    &.in {
+        background-color: #ecfdf5;
+        border: 1.5px solid #a7f3d0;
+
+        .swipe-track-text {
+            color: #047857;
+
+            .shimmer-arrows {
+                color: #059669;
+            }
+        }
+
+        .swipe-track-fill {
+            background: linear-gradient(90deg, rgba(16, 185, 129, 0.3) 0%, rgba(5, 150, 105, 0.5) 100%);
+        }
+
+        .swipe-thumb {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border: 2px solid #ffffff;
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
+        }
+    }
+
+    &.out {
+        background-color: #fef2f2;
+        border: 1.5px solid #fecaca;
+
+        .swipe-track-text {
+            color: #b91c1c;
+
+            .shimmer-arrows {
+                color: #dc2626;
+            }
+        }
+
+        .swipe-track-fill {
+            background: linear-gradient(90deg, rgba(239, 68, 68, 0.3) 0%, rgba(220, 38, 38, 0.5) 100%);
+        }
+
+        .swipe-thumb {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            border: 2px solid #ffffff;
+            box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4);
+        }
+    }
+
+    /* =========================================
+       DARK THEME OVERRIDES (Class based)
+       ========================================= */
+    :root.dark &,
+    html.dark &,
+    .dark & {
+        @include slider-dark-theme;
+    }
+}
+
+// Media Query for System Dark Theme (when os-default or not explicitly light)
+@media (prefers-color-scheme: dark) {
+    :root:not(.light) .swipe-slider-component,
+    html:not(.light) .swipe-slider-component,
+    html.os-default .swipe-slider-component {
+        @include slider-dark-theme;
+    }
+}
+
+@keyframes shimmerSwipe {
+    0%, 100% {
+        transform: translateX(0);
+        opacity: 0.6;
+    }
+    50% {
+        transform: translateX(6px);
+        opacity: 1;
+    }
+}
+
+@keyframes spinSlider {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
