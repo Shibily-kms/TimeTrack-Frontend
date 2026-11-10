@@ -22,6 +22,9 @@ const ProfileCard = () => {
     const lastPunchData = punchList.length > 0 ? punchList[punchList.length - 1] : null;
     const inWork = Boolean(lastPunchData?.in && !lastPunchData?.out);
 
+    // Birthday Check
+    const isBirthday = Boolean(user?.dob && user?.dob?.slice(5) === YYYYMMDDFormat(new Date())?.slice(5));
+
     // Contextual Greeting Icon
     const GreetingIcon = useMemo(() => {
         const hour = new Date().getHours();
@@ -128,16 +131,25 @@ const ProfileCard = () => {
                 </div>
             </div>
 
-            {/* Bottom Section: Live Work Status Pill & Version */}
+            {/* Bottom Section: Live Work Status Pill & Version (Replaced on Birthday) */}
             <div className="starter-status-strip">
-                <div className={`status-pill ${inWork ? 'is-active' : 'is-inactive'}`}>
-                    <span className="pulse-dot" />
-                    <span className="status-label">{inWork ? 'Clocked In' : 'Clocked Out'}</span>
-                </div>
+                {isBirthday ? (
+                    <div className="birthday-pill">
+                        <span className="birthday-icon">🎉</span>
+                        <span className="birthday-text">Happy Birthday, {user?.first_name || 'you'}! 🎂</span>
+                    </div>
+                ) : (
+                    <>
+                        <div className={`status-pill ${inWork ? 'is-active' : 'is-inactive'}`}>
+                            <span className="pulse-dot" />
+                            <span className="status-label">{inWork ? 'Clocked In' : 'Clocked Out'}</span>
+                        </div>
 
-                <div className="summary-quick-stat">
-                    <span className="version-tag">v{ui_version}</span>
-                </div>
+                        <div className="summary-quick-stat">
+                            <span className="version-tag">v{ui_version}</span>
+                        </div>
+                    </>
+                )}
             </div>
         </div>
     );
