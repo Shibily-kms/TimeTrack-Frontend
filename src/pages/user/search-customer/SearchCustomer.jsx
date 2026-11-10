@@ -52,7 +52,7 @@ const SearchCustomer = ({ setPageHead }) => {
     }
 
     useEffect(() => {
-        setPageHead({ title: 'Search a customer', desc: 'Find a customer using filtration steps' })
+        setPageHead({ title: 'Search customer', desc: 'Find a customer using filtration steps' })
 
 
         // fetch

@@ -11,7 +11,7 @@ import Alliance from '../images/alliance-logo.png'
 
 
 
-export const ui_version = '2.3.1'
+export const ui_version = '2.3.2'
 export const work_modes = ['On-site', 'Remote', 'Hybrid ']
 export const e_types = ['Part time', 'Full time']
 export const prospect_type = ['Lead', 'Enquiry', 'Installation']
