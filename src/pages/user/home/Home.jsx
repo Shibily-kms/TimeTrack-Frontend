@@ -4,7 +4,6 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { FaStore } from "react-icons/fa";
 import ProfileCard from '../../../components/user/profile-card/ProfileCard';
-import { YYYYMMDDFormat } from '../../../assets/javascript/date-helper';
 import WorkDetails from '../../../components/user/semi-work-details/WorkDetails';
 import TTController from '../../../assets/images/app-icons/TT Controller.jpg'
 import Finance from '../../../assets/images/app-icons/Finance.jpg'
@@ -46,19 +45,10 @@ function Home({ setPageHead }) {
     <div className='home-page'>
       <div className="profile-section">
         <ProfileCard />
-        {user?.dob?.slice(5) === YYYYMMDDFormat(new Date())?.slice(5) && <div className="birth-box">
-          <picture>
-            <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f389/512.gif" alt="🎉" width="60" height="60" />
-            <source srcset="https://fonts.gstatic.com/s/e/notoemoji/latest/1f389/512.webp" type="image/webp" />
-          </picture>
-          <h4>Happy Birth Day</h4>
-          <h2>{user?.first_name} {user?.last_name}!</h2>
-          <p></p>
-        </div>}
       </div>
       <div className="work-section">
-        {user?.profile_status !== 100 && <ProfileStatusSemi />}
         <WorkDetails />
+        {user?.profile_status !== 100 && <ProfileStatusSemi />}
       </div>
 
       <div className="section-two-div">
