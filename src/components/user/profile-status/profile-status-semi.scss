@@ -1,195 +1,255 @@
-.profile-status-semi-comp-div {
-    .border {
-        background-color: #d32f2f2c;
-        border-radius: 20px;
-        padding: 15px 20px;
-        border: 1px dashed #D32F2F;
+@use '../../../assets/scss/ui/var-color' as *;
+
+// ==========================================================================
+// REUSABLE DARK THEME MIXIN FOR MINIMAL PROFILE STATUS
+// ==========================================================================
+@mixin profile-status-dark {
+    background-color: #1e1e24;
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+
+    &.clickable:active {
+        background-color: #25262e;
+    }
+
+    .status-main-row {
+        .status-left {
+            .status-text {
+                .title {
+                    color: #f8fafc;
+                }
+                .dot {
+                    color: #64748b;
+                }
+                .percent-text {
+                    color: #94a3b8;
+                }
+            }
+        }
+    }
+
+    .status-progress-track {
+        background-color: rgba(255, 255, 255, 0.08);
+    }
+
+    // Tier specific colors in Dark Mode
+    &.excellent {
+        .status-icon-wrapper {
+            background-color: rgba(16, 185, 129, 0.18);
+            .status-icon { color: #34d399; }
+        }
+        .status-action {
+            color: #34d399;
+        }
+    }
+
+    &.good {
+        .status-icon-wrapper {
+            background-color: rgba(59, 130, 246, 0.18);
+            .status-icon { color: #60a5fa; }
+        }
+        .status-action {
+            color: #60a5fa;
+        }
+    }
+
+    &.fair {
+        .status-icon-wrapper {
+            background-color: rgba(245, 158, 11, 0.18);
+            .status-icon { color: #fbbf24; }
+        }
+        .status-action {
+            color: #fbbf24;
+        }
+    }
+
+    &.basic {
+        .status-icon-wrapper {
+            background-color: rgba(168, 85, 247, 0.18);
+            .status-icon { color: #c084fc; }
+        }
+        .status-action {
+            color: #c084fc;
+        }
+    }
+}
+
+// ==========================================================================
+// MINIMAL PROFILE STATUS BASE (Light Theme Default)
+// ==========================================================================
+.profile-status-minimal {
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 10px 14px 10px 12px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+    transition: all 0.2s ease;
+    user-select: none;
+    -webkit-user-select: none;
+
+    &.clickable {
+        cursor: pointer;
+
+        &:active {
+            transform: scale(0.99);
+            background-color: #f8fafc;
+        }
+
+        &:hover .status-action .action-chevron {
+            transform: translateX(2px);
+        }
+    }
+
+    /* 1. Main Row */
+    .status-main-row {
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        gap: 25px;
+        justify-content: space-between;
+        gap: 8px;
+        margin-bottom: 7px;
 
-        .rounded-div {
-            width: 70px;
-            min-width: 70px;
+        .status-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
 
-            .circular-chart {
-                display: block;
-                max-height: 250px;
-            }
+            .status-icon-wrapper {
+                width: 26px;
+                height: 26px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
 
-            .circle-bg {
-                fill: none;
-                stroke: #d32f2f3f;
-                stroke-width: 3.8;
-            }
-
-            .circle {
-                fill: none;
-                stroke-width: 2.8;
-                stroke-linecap: round;
-                animation: progress 1s ease-out forwards;
-            }
-
-            @keyframes progress {
-                0% {
-                    stroke-dasharray: 0 100;
+                .status-icon {
+                    font-size: 15px;
                 }
             }
 
-            .circular-chart .circle {
-                stroke: #D32F2F;
-            }
+            .status-text {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                line-height: 1;
 
-            .percentage {
-                fill: #d32f2fad;
-                font-size: 0.5em;
-                text-anchor: middle;
+                .title {
+                    font-size: 13px;
+                    font-weight: 700;
+                    color: #0f172a;
+                }
+
+                .dot {
+                    font-size: 10px;
+                    color: #94a3b8;
+                }
+
+                .percent-text {
+                    font-size: 12px;
+                    font-weight: 600;
+                    color: #64748b;
+                }
             }
         }
 
-        .text-div {
-            width: 100%;
+        .status-action {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            font-size: 12px;
+            font-weight: 700;
+            white-space: nowrap;
 
-            h3 {
-                font-weight: 600;
-                color: #D32F2F;
-                font-size: 16px;
-                margin-bottom: 5px;
-            }
-
-            h4 {
-                font-weight: 500;
+            .action-chevron {
                 font-size: 14px;
-                color: var(--text-c2);
+                transition: transform 0.15s ease;
             }
-
-            span {
-                display: none;
-            }
-        }
-
-        .button-div {
-            display: block;
         }
     }
 
-    .Poor {
-        background-color: #FF57222c;
-        border: 1px dashed #FF5722;
+    /* 2. Slim 3px Progress Line */
+    .status-progress-track {
+        width: 100%;
+        height: 3px;
+        background-color: #f1f5f9;
+        border-radius: 2px;
+        overflow: hidden;
 
-        .rounded-div {
-            .circle-bg {
-                stroke: #FF57223f;
-            }
-
-            .circular-chart .circle {
-                stroke: #FF5722;
-            }
-
-            .percentage {
-                fill: #FF5722ad;
-            }
+        .status-progress-bar {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 0.4s ease;
         }
-
-        .text-div {
-            h3 {
-                color: #FF5722;
-            }
-        }
-
     }
 
-    .Fair {
-        background-color: #FFCA282c;
-        border: 1px dashed #FFCA28;
-
-        .rounded-div {
-            .circle-bg {
-                stroke: #FFCA283f;
-            }
-
-            .circular-chart .circle {
-                stroke: #FFCA28;
-            }
-
-            .percentage {
-                fill: #FFCA28ad;
-            }
+    /* Tier Variations (Light Mode) */
+    &.excellent {
+        .status-icon-wrapper {
+            background-color: #ecfdf5;
+            .status-icon { color: #059669; }
         }
-
-        .text-div {
-            h3 {
-                color: #FFCA28;
-            }
+        .status-action {
+            color: #059669;
         }
-
+        .status-progress-bar {
+            background: linear-gradient(90deg, #10b981, #059669);
+        }
     }
 
-    .Good {
-        background-color: #2196F32c;
-        border: 1px dashed #2196F3;
-
-        .rounded-div {
-            .circle-bg {
-                stroke: #2196F33f;
-            }
-
-            .circular-chart .circle {
-                stroke: #2196F3;
-            }
-
-            .percentage {
-                fill: #2196F3ad;
-            }
+    &.good {
+        .status-icon-wrapper {
+            background-color: #eff6ff;
+            .status-icon { color: #2563eb; }
         }
-
-        .text-div {
-            h3 {
-                color: #2196F3;
-            }
+        .status-action {
+            color: #2563eb;
         }
-
+        .status-progress-bar {
+            background: linear-gradient(90deg, #3b82f6, #2563eb);
+        }
     }
 
-    .Excellent {
-        background-color: #4CAF502c;
-        border: 1px dashed #4CAF50;
-
-        .rounded-div {
-            .circle-bg {
-                stroke: #4CAF503f;
-            }
-
-            .circular-chart .circle {
-                stroke: #4CAF50;
-            }
-
-            .percentage {
-                fill: #4CAF50ad;
-            }
+    &.fair {
+        .status-icon-wrapper {
+            background-color: #fffbeb;
+            .status-icon { color: #d97706; }
         }
-
-        .text-div {
-            h3 {
-                color: #4CAF50;
-            }
+        .status-action {
+            color: #d97706;
         }
-
+        .status-progress-bar {
+            background: linear-gradient(90deg, #f59e0b, #d97706);
+        }
     }
 
-
-    @media screen and (max-width:'500px') {
-        .border {
-            .text-div {
-                span {
-                    display: block;
-                }
-            }
-
-            .button-div {
-                display: none;
-            }
+    &.basic {
+        .status-icon-wrapper {
+            background-color: #faf5ff;
+            .status-icon { color: #9333ea; }
         }
+        .status-action {
+            color: #9333ea;
+        }
+        .status-progress-bar {
+            background: linear-gradient(90deg, #a855f7, #7e22ce);
+        }
+    }
+
+    // Explicit dark theme class selectors
+    :root.dark &,
+    html.dark &,
+    .dark & {
+        @include profile-status-dark;
+    }
+}
+
+// Media Query for System Dark Theme (when os-default or not explicitly light)
+@media (prefers-color-scheme: dark) {
+    :root:not(.light) .profile-status-minimal,
+    html:not(.light) .profile-status-minimal,
+    html.os-default .profile-status-minimal {
+        @include profile-status-dark;
     }
 }
