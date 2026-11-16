@@ -45,7 +45,7 @@ const SearchCustomer = ({ setModal, setFormData, setPinCodeList, setPostOfficeLi
 
         setFormData((state) => ({
             ...state,
-            cid: data?.cid,
+            cid: data?.customer_id,
             first_name: data?.first_name || '',
             last_name: data?.last_name || '',
             address: data?.address?.address || '',
@@ -104,8 +104,8 @@ const SearchCustomer = ({ setModal, setFormData, setPinCodeList, setPostOfficeLi
             {data?.[0] && !loading ? <div className="result-div">
                 {data?.map((customer) => {
                     return <div className="item-div" onClick={() => chooseCustomer(customer)}>
-                        <p>CID : {customer?.cid} | {customer?.full_name}</p>
-                        <p>{customer?.primary_number?.country_code} {customer?.primary_number?.number} | {customer?.address?.place || customer?.address?.post}</p>
+                        <p>CID : {customer?.customer_id} | {customer?.customer_name}</p>
+                        <p>{customer?.primary_number?.country_code} {customer?.primary_number?.number} | {customer?.address?.place}, {customer?.address?.post}</p>
                     </div>
                 })}
             </div>
