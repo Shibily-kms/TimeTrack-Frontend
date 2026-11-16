@@ -21,7 +21,7 @@ const SearchCustomer = ({ setModal, setFormData, setPinCodeList, setPostOfficeLi
         setDoSearch(true)
         setLoading(true)
         if (Number(text) !== NaN) {
-            cnPv2Axios.get(`/customer/filter?search_key=${text}`).then((response) => {
+            cnPv2Axios.get(`/customer/auto-fill?search_key=${text}`).then((response) => {
                 setData(response.data || [])
                 setLoading(false)
             })
