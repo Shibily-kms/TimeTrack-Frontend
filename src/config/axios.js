@@ -12,9 +12,9 @@ const baseSetup = {
     //? v2.1
     ttSv2Axios: axios.create({ baseURL: `${baseUrl}/s/v2/`, headers: apiHeaders }),
     ttCv2Axios: axios.create({ baseURL: `${baseUrl}/c/v2/`, headers: apiHeaders }),
-    cnPv2Axios: axios.create({ baseURL: `${baseUrl}/p/v2/`, headers: apiHeaders, timeout: 60000, }),
-    slUv1Axios: axios.create({ baseURL: `${baseUrl}/u/v1/`, headers: apiHeaders }),
-    vfPv1Axios: axios.create({ baseURL: `${baseUrl}/p/v1/`, headers: apiHeaders })
+    cnPv2Axios: axios.create({ baseURL: `https://api.controlnex.alliancewatersolutions.com/p/v2/`, headers: apiHeaders, timeout: 60000, }),
+    slUv1Axios: axios.create({ baseURL: `https://api.salesV1.alliancewatersolutions.com/u/v1/`, headers: apiHeaders }),
+    vfPv1Axios: axios.create({ baseURL: `https://api.service.alliancewatersolutions.com/p/v1/`, headers: apiHeaders })
 }
 
 //*  Response and Request Config Functions
