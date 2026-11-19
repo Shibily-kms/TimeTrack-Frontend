@@ -4,6 +4,7 @@ import createIdbStorage from "@piotr-cz/redux-persist-idb-storage";
 import userAuthSlice from '../features/user/authSlice'
 import systemSlice from '../features/user/systemSlice'
 import workdataSlice from '../features/user/workdataSlice';
+import searchCustomerSlice from '../features/user/searchCustomerSlice';
 
 
 // Create IndexedDB storage
@@ -17,6 +18,7 @@ const persistConfig = {
     storage,
     serialize: false,
     deserialize: false,
+    blacklist: ['searchCustomer'], // keep search result only for the current session (in memory)
 };
 
 const rootReducer = combineReducers({
@@ -24,7 +26,8 @@ const rootReducer = combineReducers({
     // user
     userAuth: userAuthSlice,
     systemInfo: systemSlice,
-    workData: workdataSlice
+    workData: workdataSlice,
+    searchCustomer: searchCustomerSlice
 });
 
 

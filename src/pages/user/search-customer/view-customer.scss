@@ -1,162 +1,234 @@
 @import '../../../assets/scss/model.scss';
 
 .customer-view-page-div {
-    .product-menu {
-        position: fixed;
-        background-color: var(--background-c2);
+    padding-bottom: 100px;
+
+    .mobile-content {
         display: flex;
-        left: 50%;
-        bottom: 80px;
-        transform: translate(-50%, 0%);
-        padding: 5px;
-        border-radius: 100px;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .profile-card {
+        background-color: var(--background-c1);
+        border: 1px solid var(--border-c1);
         box-shadow: var(--shadow-02);
+        border-radius: 16px;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
 
-        .item {
-            width: 110px;
-            text-align: center;
-            padding: 13px 5px;
-            border-radius: 100px;
-            cursor: pointer;
+        .profile-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 10px;
 
-            p {
-                font-size: 15px;
-                font-weight: 600;
+            .customer-name {
+                font-size: 18px;
+                font-weight: 700;
+                color: var(--text-primary);
+                line-height: 1.3;
+                word-break: break-word;
             }
 
-            &.active {
-                background-color: var(--background-tertiary);
-                color: white;
+            .cid-badge {
+                flex-shrink: 0;
+                font-size: 12px;
+                font-weight: 600;
+                padding: 4px 10px;
+                border-radius: 50px;
+                background-color: var(--background-primary);
+                color: var(--text-c2);
+                border: 1px solid var(--border-c1);
+            }
+        }
+
+        .address-block {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+
+            .address-icon {
+                flex-shrink: 0;
+                font-size: 16px;
+                margin-top: 2px;
+                color: var(--text-c2);
+            }
+
+            .address-lines {
+                display: flex;
+                flex-direction: column;
+                gap: 2px;
+
+                p {
+                    font-size: 13px;
+                    font-weight: 500;
+                    line-height: 1.45;
+                    color: var(--text-c1);
+                }
+            }
+        }
+
+        .amount-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding-top: 8px;
+            border-top: 1px solid var(--border-c1);
+
+            .amount-item {
+                font-size: 13px;
+                font-weight: 600;
+
+                &.debit {
+                    color: var(--color-info);
+                }
+
+                &.credit {
+                    color: var(--color-error);
+                }
             }
         }
     }
 
-    .content {
-        .section {
-            margin-bottom: 25px;
+    .products-section {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
 
-            .title {
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2px;
+
+            h4 {
+                font-size: 16px;
+                font-weight: 700;
+                color: var(--text-primary);
+            }
+
+            .count-pill {
+                font-size: 12px;
+                font-weight: 600;
+                padding: 2px 9px;
+                border-radius: 50px;
+                background-color: var(--background-c1);
+                color: var(--text-c2);
+                border: 1px solid var(--border-c1);
+            }
+        }
+
+        .products-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+
+            .product-card {
+                background-color: var(--background-c1);
+                border: 1px solid var(--border-c1);
+                box-shadow: var(--shadow-02);
+                border-radius: 14px;
+                padding: 14px;
                 display: flex;
-                justify-content: space-between;
-                align-items: center;
+                flex-direction: column;
                 gap: 10px;
-                margin-bottom: 10px;
+                cursor: pointer;
+                transition: transform 0.15s ease;
 
-                .text {
-                    p {
-                        font-size: 20px;
-                        font-weight: 600;
-                        color: var(--text-c2);
-                        @include threeDots(1);
-                    }
+                &:active {
+                    transform: scale(0.985);
                 }
-            }
 
-            .text-list {
-                .item {
-                    display: grid;
-                    grid-template-columns: 150px auto;
-                    margin-bottom: 11px;
-
-                    .label {
-                        position: relative;
-
-                        p {
-                            font-size: 14px;
-                            font-weight: 500;
-                        }
-
-                        &::after {
-                            content: ':';
-                            position: absolute;
-                            right: 7px;
-                            top: -2px;
-                        }
-                    }
-
-                    .value {
-                        display: flex;
-                        justify-content: flex-start;
-                        gap: 5px;
-                        align-items: center;
-
-                        p {
-                            font-size: 14px;
-                            font-weight: 500;
-                        }
-                    }
-
-                }
-            }
-
-            .amount-card {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 15px;
-
-                .card {
-                    padding: 10px 15px;
-                    border-radius: 15px;
+                .product-card-top {
                     display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    text-align: center;
+                    align-items: center;
+                    justify-content: space-between;
+                    gap: 10px;
 
-                    p {
-                        &:first-child {
-                            font-size: 18px;
+                    .product-title-group {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 2px;
+                        min-width: 0;
+
+                        .product-name {
+                            font-size: 15px;
                             font-weight: 700;
+                            color: var(--text-primary);
+                            @include threeDots(1);
                         }
 
-                        &:last-child {
-                            font-size: 13px;
+                        .product-type {
+                            font-size: 12px;
                             font-weight: 500;
+                            color: var(--text-c2);
+                            text-transform: capitalize;
                         }
                     }
+
+                    .nav-arrow {
+                        flex-shrink: 0;
+                        font-size: 18px;
+                        color: var(--text-c2);
+                    }
                 }
 
-                .debit {
-                    background-color: #0085f240;
-                    border: #0085f2 1px solid;
+                .product-meta {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 6px;
 
-                    p {
-                        color: #0085f2;
+                    .meta-pill {
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 5px;
+                        font-size: 11.5px;
+                        font-weight: 600;
+                        padding: 4px 9px;
+                        border-radius: 50px;
+                        border: 1px solid var(--border-c1);
+                        background-color: var(--background-primary);
+                        color: var(--text-c1);
+
+                        svg {
+                            font-size: 13px;
+                            flex-shrink: 0;
+                        }
+
+                        &.warranty-pill.active {
+                            background-color: #009a461f;
+                            border-color: #009a4666;
+                            color: var(--color-success);
+                        }
+
+                        &.warranty-pill.expired {
+                            background-color: #d300381f;
+                            border-color: #d3003866;
+                            color: var(--color-error);
+                        }
+
+                        &.warranty-pill.none {
+                            color: var(--text-c2);
+                        }
                     }
-
-                }
-
-                .credit {
-                    background-color: #bb113f40;
-                    border: var(--color-error) 1px solid;
-
-                    p {
-                        color: var(--color-error);
-                    }
-
                 }
             }
         }
 
-        .section-two {
-            margin-bottom: 180px;
+        .empty-products {
+            background-color: var(--background-c1);
+            border: 1px solid var(--border-c1);
+            border-radius: 14px;
+            padding: 20px;
+            text-align: center;
 
-            .section-sub-title {
-                display: flex;
-                gap: 5px;
-
-                >div {
-                    background-color: var(--background-c3);
-                    font-size: 14px;
-                    font-weight: 500;
-                    padding: 5px 15px;
-                    border-radius: 50px;
-                    cursor: pointer;
-                }
-
-                .active {
-                    background-color: var(--background-tertiary);
-                    color: white;
-                }
+            p {
+                font-size: 13px;
+                font-weight: 500;
+                color: var(--text-c2);
             }
         }
     }

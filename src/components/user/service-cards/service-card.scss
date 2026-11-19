@@ -1,0 +1,292 @@
+@import '../../../assets/scss/model.scss';
+
+// Minimal card. Colors come from the theme palette (dark/light aware);
+// package color (data) is only used as accent.
+.service-card-item-container {
+    --color-primary: var(--background-tertiary);
+    --background: var(--background-c1);
+    --surface-1: var(--background-primary);
+    --border-default: var(--border-c1);
+    --border-light: var(--border-c1);
+    --text-secondary: var(--text-c1);
+    --text-tertiary: var(--text-c2);
+    --color-danger: var(--color-error);
+    --color-danger-text: var(--color-error);
+    --color-danger-bg: #d3003818;
+    --color-danger-border: #d3003855;
+    --color-success-bg: #009a4618;
+    --color-neutral: var(--text-c2);
+
+    --pkg-color: var(--color-primary);
+    max-width: 100%;
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 16px;
+    background-color: var(--background);
+    border: 1px solid color-mix(in srgb, var(--pkg-color) 28%, var(--border-default));
+    color: var(--text-primary);
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: border-color .2s ease, box-shadow .2s ease;
+
+    &:hover {
+        border-color: var(--pkg-color);
+        box-shadow: 0 4px 14px color-mix(in srgb, var(--pkg-color) 22%, transparent);
+    }
+
+    // Installation card variant: light green theme background
+    &.installation {
+        --pkg-color: var(--color-success);
+        background-color: var(--color-success-bg);
+        border-color: color-mix(in srgb, var(--color-success) 35%, transparent);
+    }
+
+    // Cancellation card variant: light red theme background
+    &.cancellation {
+        --pkg-color: var(--color-danger);
+        background-color: var(--color-danger-bg);
+        border-color: color-mix(in srgb, var(--color-danger) 35%, transparent);
+    }
+
+    .top-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 6px;
+            min-width: 0;
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: .3px;
+            text-transform: uppercase;
+            padding: 3px 10px;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+
+        .pkg-pill {
+            color: color-mix(in srgb, var(--pkg-color) 75%, var(--text-primary));
+            background: color-mix(in srgb, var(--pkg-color) 20%, transparent);
+            border: 1px solid color-mix(in srgb, var(--pkg-color) 35%, transparent);
+
+            .dot {
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                background: currentColor;
+            }
+        }
+
+        .mode-pill {
+            color: var(--text-secondary);
+            background: var(--surface-1);
+            border: 1px solid var(--border-light);
+        }
+
+        .repeat-pill {
+            color: var(--color-danger-text);
+            background: var(--color-danger-bg);
+            border: 1px solid var(--color-danger-border);
+        }
+
+        .amount {
+            flex-shrink: 0;
+            font-size: 20px;
+            font-weight: 700;
+            color: color-mix(in srgb, var(--pkg-color) 70%, var(--text-primary));
+
+            &.no-package {
+                color: var(--text-primary);
+            }
+        }
+    }
+
+    .title {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--text-primary);
+        @include threeDots();
+    }
+
+    .bottom-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+
+        .date {
+            flex-shrink: 0;
+            font-size: 12px;
+            color: var(--text-tertiary);
+        }
+    }
+
+    .worker {
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--text-secondary);
+    }
+
+    // Collapsible details (smooth grid-row animation)
+    .details-wrapper {
+        display: grid;
+        grid-template-rows: 0fr;
+        margin-top: -8px; // cancel the flex gap while collapsed
+        transition: grid-template-rows .3s ease, margin-top .3s ease;
+
+        &.open {
+            grid-template-rows: 1fr;
+            margin-top: 0;
+        }
+
+        .details-inner {
+            overflow: hidden;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        &.open .details-inner {
+            padding-top: 10px;
+            border-top: 1px dashed var(--border-default);
+        }
+    }
+
+    .details-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .srl-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .srl {
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 20px;
+            color: var(--text-secondary);
+            background: var(--surface-1);
+            border: 1px solid var(--border-light);
+        }
+
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 1px solid color-mix(in srgb, var(--pkg-color) 40%, transparent);
+            background: color-mix(in srgb, var(--pkg-color) 18%, transparent);
+            color: color-mix(in srgb, var(--pkg-color) 75%, var(--text-primary));
+            cursor: pointer;
+            transition: background .2s ease;
+
+            svg {
+                font-size: 17px;
+            }
+
+            &:hover {
+                background: color-mix(in srgb, var(--pkg-color) 32%, transparent);
+            }
+        }
+    }
+
+    .detail-block {
+        h5 {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            margin-bottom: 6px;
+            color: var(--text-tertiary);
+
+            svg {
+                font-size: 14px;
+            }
+        }
+
+        .text {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-primary);
+            white-space: pre-wrap;
+        }
+    }
+
+    // wrapped, color-coded list
+    .item-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+
+        .item {
+            --item-color: var(--color-neutral);
+            --item-bg: var(--surface-1);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            max-width: 100%;
+            font-size: 12px;
+            font-weight: 500;
+            padding: 3px 10px;
+            border-radius: 20px;
+            color: var(--item-color);
+            background: var(--item-bg);
+            border: 1px solid var(--item-color);
+
+            &.renewal {
+                --item-color: #7c3aed;
+                --item-bg: #7c3aed2a;
+            }
+
+            &.package {
+                --item-color: #2563eb;
+                --item-bg: #2564eb2a;
+            }
+
+            &.additional {
+                --item-color: #d97706;
+                --item-bg: #d977062a;
+            }
+
+            .name {
+                min-width: 0;
+                overflow-wrap: anywhere;
+            }
+
+            .qty {
+                font-weight: 700;
+                padding-left: 6px;
+                border-left: 1px solid var(--item-color);
+            }
+        }
+    }
+}
