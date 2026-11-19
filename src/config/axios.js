@@ -10,10 +10,11 @@ const baseSetup = {
 
 
     //? v2.1
-    ttSv2Axios: axios.create({ baseURL: `${baseUrl}/s/v2/`, headers: apiHeaders }),
-    ttCv2Axios: axios.create({ baseURL: `${baseUrl}/c/v2/`, headers: apiHeaders }),
-    cnPv2Axios: axios.create({ baseURL: `https://api.controlnex.alliancewatersolutions.com/p/v2/`, headers: apiHeaders, timeout: 60000, }),
-    slUv1Axios: axios.create({ baseURL: `https://api.salesV1.alliancewatersolutions.com/u/v1/`, headers: apiHeaders })
+    ttSv2Axios: axios.create({ baseURL: `${baseUrl}:8000/s/v2/`, headers: apiHeaders }),
+    ttCv2Axios: axios.create({ baseURL: `${baseUrl}:8000/c/v2/`, headers: apiHeaders }),
+    cnPv2Axios: axios.create({ baseURL: `${baseUrl}:8004/p/v2/`, headers: apiHeaders, timeout: 60000, }),
+    slUv1Axios: axios.create({ baseURL: `${baseUrl}:8008/u/v1/`, headers: apiHeaders }),
+    vfPv1Axios: axios.create({ baseURL: `${baseUrl}:8009/p/v1/`, headers: apiHeaders })
 }
 
 //*  Response and Request Config Functions
@@ -142,7 +143,11 @@ baseSetup.cnPv2Axios.interceptors.response.use(responseConfigFunction, responseE
 baseSetup.slUv1Axios.interceptors.request.use(requestConfigFunction, requestErrorFunction)
 baseSetup.slUv1Axios.interceptors.response.use(responseConfigFunction, responseErrorFunction);
 
+//? verifyFlow v1 all
+baseSetup.vfPv1Axios.interceptors.request.use(requestConfigFunction, requestErrorFunction)
+baseSetup.vfPv1Axios.interceptors.response.use(responseConfigFunction, responseErrorFunction);
 
-export const { userAxios, adminAxios, ttSv2Axios, ttCv2Axios, cnPv2Axios, slUv1Axios } = baseSetup
+
+export const { userAxios, adminAxios, ttSv2Axios, ttCv2Axios, cnPv2Axios, slUv1Axios, vfPv1Axios } = baseSetup
 
 

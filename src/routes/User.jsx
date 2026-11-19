@@ -23,6 +23,7 @@ const ProspectCU = lazy(() => import('../pages/user/my-prospects/ProspectCU'))
 const ProfileComplete = lazy(() => import('../pages/user/profile-complete/ProfileComplete'))
 const SearchCustomer = lazy(() => import('../pages/user/search-customer/SearchCustomer'))
 const ViewCustomer = lazy(() => import('../pages/user/search-customer/ViewCustomer'))
+const ViewCustomerProduct = lazy(() => import('../pages/user/search-customer/ViewCustomerProduct'))
 
 
 function User({ }) {
@@ -88,6 +89,7 @@ function User({ }) {
           {user?.allowed_origins?.some(access => ['ttur_customer_read', 'ttur_customer_download'].includes(access)) && <>
             <Route path='/customer/search' element={<PrivateRoute element={<SearchCustomer setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
             <Route path='/customer/:cid/view' element={<PrivateRoute element={<ViewCustomer setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
+            <Route path='/customer/:customer_id/product/:product_id/view' element={<PrivateRoute element={<ViewCustomerProduct setPageHead={setPageHead} />} isAuthenticated={isAuthenticated} />} />
           </>}
 
 
