@@ -25,9 +25,11 @@ export const systemSlice = createSlice({
             state.theme = action?.payload
 
             const cookieOptions = {
-                secure: false,
-                sameSite: 'lax',
-                path: '/'
+                secure: true,
+                sameSite: 'None',
+                path: '/',
+                domain: '.alliancedev.in',
+                expires: new Date(new Date().setMonth(new Date().getMonth() + 6))
             };
             Cookies.set('color_mode', action?.payload, cookieOptions)
         },

@@ -83,7 +83,7 @@ const QrGenerator = ({ setPageHead }) => {
 
     const handleCopy = (qrData) => {
 
-        const qrCodeLink = `${baseUrl}:3000/qr-code/?qrId=${qrData?.['QR Id']}&type=viewOnly`
+        const qrCodeLink = `${baseUrl}/qr-code/?qrId=${qrData?.['QR Id']}&type=viewOnly`
 
         if (qrCodeLink) {
 

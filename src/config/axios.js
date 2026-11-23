@@ -1,12 +1,12 @@
 import axios from 'axios'
 import Cookies from 'js-cookie';
-export const baseUrl = 'http://localhost'
+export const baseUrl = 'https://worker.api.alliancedev.in'
 const apiHeaders = { 'Content-Type': 'application/json' }
 
 //* Base Setup
 const baseSetup = {
-    userAxios: axios.create({ baseURL: `${baseUrl}:8000/`, headers: apiHeaders }),
-    adminAxios: axios.create({ baseURL: `${baseUrl}:8000/admin/`, headers: apiHeaders }),
+    userAxios: axios.create({ baseURL: `${baseUrl}/`, headers: apiHeaders }),
+    adminAxios: axios.create({ baseURL: `${baseUrl}/admin/`, headers: apiHeaders }),
 
 
     //? v2.1
@@ -20,10 +20,11 @@ const baseSetup = {
 //*  Response and Request Config Functions
 const doSignOut = async () => {
     const cookieOptions = {
-        secure: false,
-        sameSite: 'lax',
+        secure: true,
+        sameSite: 'None',
         path: '/',
-        expires: 40
+        domain: '.alliancedev.in',
+        expires: new Date(new Date().setMonth(new Date().getMonth() + 6))
     };
 
     Cookies.remove('_rfs_tkn')
@@ -38,17 +39,18 @@ const handleTokenError = async (originalRequest) => {
     // Call the refresh token API to get a new access token
     try {
         const refreshToken = Cookies.get('_rfs_tkn'); // Retrieve the refresh token
-        const { data } = await axios.post(`${baseUrl}:8000/s/v2/auth/rotate-token`, { refresh_token: refreshToken }, {
+        const { data } = await axios.post(`${baseUrl}/s/v2/auth/rotate-token`, { refresh_token: refreshToken }, {
             headers: {
                 'Content-Type': 'application/json'
             }
         });
 
         const cookieOptions = {
-            secure: false,
-            sameSite: 'lax',
+            secure: true, // Set to `true` in production (for HTTPS)
+            domain: '.alliancedev.in', // Allows cookie sharing across subdomains
+            sameSite: 'None', // Helps prevent CSRF attacks , use 'strict' on host,
             path: '/',
-            expires: 40
+            expires: new Date(Date.now() + 60 * 60 * 1000)
         };
 
         if (data?.data?.access_token && data?.data?.access_token?.length > 30) {

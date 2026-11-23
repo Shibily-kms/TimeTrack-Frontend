@@ -33,9 +33,11 @@ function App() {
     window.addEventListener('offline', handleOffline);
 
     const cookieOptions = {
-      secure: false,
-      sameSite: 'lax',
-      path: '/'
+      secure: true, 
+      sameSite: 'None',
+      path: '/',
+      domain: '.alliancedev.in', 
+      expires: new Date(new Date().setMonth(new Date().getMonth() + 6))
     };
 
     // Initial Theme Setup
