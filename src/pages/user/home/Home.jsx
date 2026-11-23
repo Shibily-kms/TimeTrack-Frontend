@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import './home.scss'
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { FaStore } from "react-icons/fa";
+import { IoInformationCircleOutline, IoWarningOutline } from 'react-icons/io5';
 import ProfileCard from '../../../components/user/profile-card/ProfileCard';
 import WorkDetails from '../../../components/user/semi-work-details/WorkDetails';
 import TTController from '../../../assets/images/app-icons/TT Controller.jpg'
@@ -41,6 +42,41 @@ function Home({ setPageHead }) {
 
 
 
+  const autoPunchNotice = useMemo(() => {
+    const now = new Date();
+    const todayNum = now.getFullYear() * 10000 + (now.getMonth() + 1) * 100 + now.getDate();
+
+    if (todayNum < 20261125) {
+      return {
+        variant: 'warning',
+        title: 'Auto Punch-Out Notice',
+        message: 'The auto punch-out feature will work only up to 26 Nov.',
+      };
+    }
+
+    if (todayNum === 20261125) {
+      return {
+        variant: 'warning',
+        title: 'Auto Punch-Out Ending Tomorrow',
+        message: 'The auto punch-out feature ends tomorrow (26 Nov).',
+      };
+    }
+
+    if (todayNum === 20261126) {
+      return {
+        variant: 'warning',
+        title: 'Auto Punch-Out Ends Today',
+        message: 'The auto punch-out feature ends today (26 Nov). From tomorrow, you will need to punch out manually.',
+      };
+    }
+
+    return {
+      variant: 'info',
+      title: 'Manual Punch-Out Required',
+      message: 'You must punch out today. If you do not close your work, your working time cannot be added to your report.',
+    };
+  }, []);
+
   return (
     <div className='home-page'>
       <div className="profile-section">
@@ -48,6 +84,16 @@ function Home({ setPageHead }) {
       </div>
       <div className="work-section">
         <WorkDetails />
+        <div className={`auto-punch-notice ${autoPunchNotice.variant}`} role="status">
+          <span className="notice-icon">
+            {autoPunchNotice.variant === 'warning' ? <IoWarningOutline /> : <IoInformationCircleOutline />}
+          </span>
+          <div className="notice-content">
+            <span className="notice-title">{autoPunchNotice.title}</span>
+            <p className="notice-message">{autoPunchNotice.message}</p>
+          </div>
+        </div>
+        
         {user?.profile_status !== 100 && <ProfileStatusSemi />}
       </div>
 
