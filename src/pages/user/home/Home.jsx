@@ -46,27 +46,27 @@ function Home({ setPageHead }) {
     const now = new Date();
     const todayNum = now.getFullYear() * 10000 + (now.getMonth() + 1) * 100 + now.getDate();
 
-    if (todayNum < 20261125) {
+    if (todayNum < 20261129) {
       return {
         variant: 'warning',
         title: 'Auto Punch-Out Notice',
-        message: 'The auto punch-out feature will work only up to 26 Nov.',
+        message: 'The auto punch-out feature will work only up to 30 Nov.',
       };
     }
 
-    if (todayNum === 20261125) {
+    if (todayNum === 20261129) {
       return {
         variant: 'warning',
         title: 'Auto Punch-Out Ending Tomorrow',
-        message: 'The auto punch-out feature ends tomorrow (26 Nov).',
+        message: 'The auto punch-out feature ends tomorrow (30 Nov).',
       };
     }
 
-    if (todayNum === 20261126) {
+    if (todayNum === 20261130) {
       return {
         variant: 'warning',
         title: 'Auto Punch-Out Ends Today',
-        message: 'The auto punch-out feature ends today (26 Nov). From tomorrow, you will need to punch out manually.',
+        message: 'The auto punch-out feature ends today (30 Nov). From tomorrow, you will need to punch out manually.',
       };
     }
 
