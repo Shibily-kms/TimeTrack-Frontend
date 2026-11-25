@@ -137,15 +137,6 @@ function Home({ setPageHead }) {
               <p>Sales App</p>
             </div>}
 
-
-          {(user?.allowed_origins?.includes('PR_Service')) && <div className="app-item">
-            <div className="icon-div" onClick={() => window.location.href = `https://purifier.alliancedev.in?id=${user?.acc_id}`}>
-              <img alt='app-icon' src={PRService} draggable={false} />
-              <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
-            </div>
-            <p>PR Service</p>
-          </div>}
-
           {(user?.allowed_origins?.includes('PR_Admin')) && <div className="app-item">
             <div className="icon-div" onClick={() => window.location.href = `https://purifier.alliancedev.in/admin?id=${user?.acc_id}`}>
               <img alt='app-icon' src={PRAdmin} draggable={false} />
