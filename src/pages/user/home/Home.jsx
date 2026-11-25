@@ -145,38 +145,6 @@ function Home({ setPageHead }) {
             <p>PR Controller</p>
           </div>}
 
-          {(user?.allowed_origins?.includes('vessel_t_worker')) && <div className="app-item">
-            <div className="icon-div" onClick={() => window.location.href = `https://vessel.alliancewatersolutions.com/tech`}>
-              <img alt='app-icon' src={Vessel} draggable={false} />
-              <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
-            </div>
-            <p>VF Service</p>
-          </div>}
-
-          {user?.allowed_origins?.some((access) => access?.slice(0, 8) === 'vessel_c') && <div className="app-item">
-            <div className="icon-div" onClick={() => window.location.href = `https://vessel.alliancewatersolutions.com/controller`}>
-              <img alt='app-icon' src={VesselAdmin} draggable={false} />
-              <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
-            </div>
-            <p>VF Controller</p>
-          </div>}
-
-          {(user?.allowed_origins?.includes('WH_Service')) && <div className="app-item">
-            <div className="icon-div" style={{ backgroundColor: "#5f5f5f" }}
-              onClick={() => window.location.href = `https://wholehouse.alliancewatersolutions.com?id=${user?.acc_id}`}>
-              <TbCarouselHorizontal />
-            </div>
-            <p>VF Card Portal</p>
-          </div>}
-
-          {(user?.allowed_origins?.includes('WH_Admin')) && <div className="app-item">
-            <div className="icon-div" style={{ backgroundColor: "#7d8f1a" }}
-              onClick={() => window.location.href = `https://wholehouse.alliancewatersolutions.com/admin?id=${user?.acc_id}`}>
-              <TbCheck />
-            </div>
-            <p>VF OLD Admin</p>
-          </div>}
-
 
           {user?.allowed_origins?.some((access) => access?.slice(0, 9) === 'slur_lead') && <div className="app-item">
             <div className="icon-div" onClick={() => window.location.href = `https://salesV1.alliancewatersolutions.com/lead?page=home`}>
