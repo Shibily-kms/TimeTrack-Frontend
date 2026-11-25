@@ -142,25 +142,6 @@ export const origins_head_list = [
         ]
     },
     {
-        id: 'Customer',
-        title: 'Customer Info',
-        description: 'Manage ControlNex mini application',
-        icon: null,
-        sections: [
-            {
-                id: 'Customer_Info',
-                title: 'Customer mini app',
-                description: 'Read customer accounts and details',
-                origins: [
-                    {
-                        key: 'Customer_Info',
-                        name: 'Read'
-                    }
-                ]
-            }
-        ]
-    },
-    {
         id: 'ControlNex',
         title: 'ControlNex',
         description: 'Manage ControlNex application',
@@ -392,17 +373,17 @@ export const origins_head_list = [
         description: 'Manage purifier services',
         icon: PRService,
         sections: [
-            {
-                id: 'PR_Service',
-                title: 'Purifier Service',
-                description: 'Purifier service technician default access',
-                origins: [
-                    {
-                        key: 'PR_Service',
-                        name: 'Read and Write'
-                    }
-                ]
-            },
+            // {
+            //     id: 'PR_Service',
+            //     title: 'Purifier Service',
+            //     description: 'Purifier service technician default access',
+            //     origins: [
+            //         {
+            //             key: 'PR_Service',
+            //             name: 'Read and Write'
+            //         }
+            //     ]
+            // },
             {
                 id: 'PR_Admin',
                 title: 'Purifier Controller',
@@ -416,74 +397,8 @@ export const origins_head_list = [
             }
         ]
     },
-    {
-        id: 'vessel',
-        title: 'Vessel App',
-        description: 'Manage vessel service software access',
-        icon: VesselUser,
-        sections: [
-            {
-                id: 'vessel_t',
-                title: 'Service Worker Access',
-                description: 'Vessel service worker default access',
-                origins: [
-                    {
-                        key: 'vessel_t_worker',
-                        name: 'Full control'
-                    }
-                ]
-            },
-            {
-                id: 'vessel_c',
-                title: 'Controller Section Access',
-                description: 'Software admin section full access',
-                origins: [
-                    {
-                        key: 'vessel_c_reader',
-                        name: 'Read Only'
-                    },
-                    {
-                        key: 'vessel_c_writer',
-                        name: 'Read + Limited write'
-                    },
-                    {
-                        key: 'vessel_c_admin',
-                        name: 'Read + Full write control'
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        id: 'WH',
-        title: 'Whole house v1',
-        description: 'Manage Whole house version 1 software',
-        icon: null,
-        sections: [
-            {
-                id: 'WH_Service',
-                title: 'VS Service Card Portal',
-                description: 'Whole house service technician default access',
-                origins: [
-                    {
-                        key: 'WH_Service',
-                        name: 'Read and Write'
-                    }
-                ]
-            },
-            {
-                id: 'WH_Admin',
-                title: 'Whole house Controller',
-                description: 'Whole house service controller default access',
-                origins: [
-                    {
-                        key: 'WH_Admin',
-                        name: 'Read and Write'
-                    }
-                ]
-            }
-        ]
-    },
+  
+   
     {
         id: 'Sales',
         title: 'Sales V1',

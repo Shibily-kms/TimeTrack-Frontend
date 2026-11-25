@@ -137,14 +137,14 @@ function Home({ setPageHead }) {
               <p>Sales App</p>
             </div>}
 
-
+{/* 
           {(user?.allowed_origins?.includes('PR_Service')) && <div className="app-item">
             <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001?id=${user?.acc_id}`}>
               <img alt='app-icon' src={PRService} draggable={false} />
               <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
             </div>
             <p>PR Service</p>
-          </div>}
+          </div>} */}
 
           {(user?.allowed_origins?.includes('PR_Admin')) && <div className="app-item">
             <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001?id=${user?.acc_id}`}>
@@ -152,38 +152,6 @@ function Home({ setPageHead }) {
               <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
             </div>
             <p>PR Controller</p>
-          </div>}
-
-          {(user?.allowed_origins?.includes('vessel_t_worker')) && <div className="app-item">
-            <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001/tech`}>
-              <img alt='app-icon' src={Vessel} draggable={false} />
-              <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
-            </div>
-            <p>VF Service</p>
-          </div>}
-
-          {user?.allowed_origins?.some((access) => access?.slice(0, 8) === 'vessel_c') && <div className="app-item">
-            <div className="icon-div" onClick={() => window.location.href = `http://localhost:3001/controller`}>
-              <img alt='app-icon' src={VesselAdmin} draggable={false} />
-              <span >  <Alliance width={'40px'} hight={'40px'} /> </span>
-            </div>
-            <p>VF Controller</p>
-          </div>}
-
-          {(user?.allowed_origins?.includes('WH_Service')) && <div className="app-item">
-            <div className="icon-div" style={{ backgroundColor: "#5f5f5f" }}
-              onClick={() => window.location.href = `http://localhost:3001?id=${user?.acc_id}`}>
-              <TbCarouselHorizontal />
-            </div>
-            <p>VF Card Portal</p>
-          </div>}
-
-          {(user?.allowed_origins?.includes('WH_Admin')) && <div className="app-item">
-            <div className="icon-div" style={{ backgroundColor: "#7d8f1a" }}
-              onClick={() => window.location.href = `http://localhost:3001/admin?id=${user?.acc_id}`}>
-              <TbCheck />
-            </div>
-            <p>VF OLD Admin</p>
           </div>}
 
 
